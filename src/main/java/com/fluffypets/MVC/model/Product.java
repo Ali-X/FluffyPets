@@ -13,7 +13,7 @@ public class Product {
     private String pictureURL;
     private List<Category> category;
 
-    public Product(Integer id, String name, Integer cmSize, String producer, BigDecimal price, String description, String pictureURL, List<Category> category) {
+    public Product(Integer id, String name, String producer, BigDecimal price, String description, String pictureURL, List<Category> category) {
         this.id = id;
         this.name = name;
         this.producer = producer;
