@@ -21,7 +21,7 @@ public class CreateUserController implements Controller {
     String token = userName + System.nanoTime();
 
     service.create(User.from(userName, password, token));
-    return new ViewModel("/profile.jsp")
+    return new ViewModel("index.jsp")
         .addCookie("token", token);
   }
 }

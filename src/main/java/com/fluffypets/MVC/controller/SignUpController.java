@@ -6,6 +6,6 @@ import com.fluffypets.MVC.servlets.Request;
 public class SignUpController implements Controller {
   @Override
   public ViewModel process(Request request) {
-    return new ViewModel("/signup.jsp");
+    return new ViewModel("/sign_up.jsp");
   }
 }

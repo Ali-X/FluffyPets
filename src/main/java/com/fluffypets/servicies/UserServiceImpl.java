@@ -1,13 +1,13 @@
 package com.fluffypets.servicies;
 
-import com.fluffypets.DAO.UserDao;
+import com.fluffypets.DAO.user.UserDAO;
 import com.fluffypets.MVC.model.User;
 
 public class UserServiceImpl implements UserService {
 
-  private final UserDao userDao;
+  private final UserDAO userDao;
 
-  public UserServiceImpl(UserDao userDao) {
+  public UserServiceImpl(UserDAO userDao) {
     this.userDao = userDao;
   }
 

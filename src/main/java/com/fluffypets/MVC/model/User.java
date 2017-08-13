@@ -5,35 +5,83 @@ public class User {
   private String userName;
   private String password;
   private String token;
+  private String email;
+  private String RoleString;
 
-  public User(Integer id, String userName, String password, String token) {
-    this.id = id;
-    this.userName = userName;
-    this.password = password;
-    this.token = token;
-  }
+    public User(Integer id, String userName, String password, String token, String email, String roleString) {
+        this.id = id;
+        this.userName = userName;
+        this.password = password;
+        this.token = token;
+        this.email = email;
+        RoleString = roleString;
+    }
 
-  public static User from(String userName, String password, String token) {
-    return new User(null, userName, password, null);
-  }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
 
-  public Integer getId() {
-    return id;
-  }
+        User user = (User) o;
 
-  public String getUserName() {
-    return userName;
-  }
+        if (!getUserName().equals(user.getUserName())) return false;
+        if (!getPassword().equals(user.getPassword())) return false;
+        return getEmail().equals(user.getEmail());
+    }
 
-  public String getPassword() {
-    return password;
-  }
+    @Override
+    public int hashCode() {
+        int result = getUserName().hashCode();
+        result = 31 * result + getPassword().hashCode();
+        result = 31 * result + getEmail().hashCode();
+        return result;
+    }
 
-  public String getToken() {
-    return token;
-  }
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-  public static User from(int id, String username) {
-    return new User(id, username, null, null);
-  }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setRoleString(String roleString) {
+        RoleString = roleString;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getRoleString() {
+        return RoleString;
+    }
+
+    public static User from(String userName, String password, String token) {
+        return null;
+    }
 }

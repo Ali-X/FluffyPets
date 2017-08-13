@@ -1,58 +1,54 @@
 package com.fluffypets.factory;
 
-import com.fluffypets.DAO.CategoryDao;
-import com.fluffypets.DAO.CategoryDaoImpl;
-import com.fluffypets.DAO.UserDao;
-import com.fluffypets.DAO.UserDaoImpl;
+import com.fluffypets.DAO.DAOException;
+import com.fluffypets.DAO.user.UserDAO;
+import com.fluffypets.DAO.user.UserDAOImpl;
 import com.fluffypets.MVC.controller.Controller;
 import com.fluffypets.MVC.controller.CreateUserController;
-import com.fluffypets.servicies.CategoryService;
-import com.fluffypets.servicies.CategoryServiceImpl;
 import com.fluffypets.servicies.UserService;
 import com.fluffypets.servicies.UserServiceImpl;
 
-import java.lang.reflect.Constructor;
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Factory {
-    protected static CategoryDao getCategoryDao() {
-        return new CategoryDaoImpl();
-    }
 
-    protected static CategoryService getCategoryService(CategoryDao dao) {
-        return new CategoryServiceImpl(dao);
-    }
-
-    public static Controller createCategoryController(Class<? extends Controller> clazz) {
-        Controller controller = null;
+    private static Connection getConnectionH2() {
+        Connection connection = null;
         try {
-            Constructor<? extends Controller> constructor = clazz.getConstructor(CategoryService.class);
-            CategoryService service = getCategoryService(getCategoryDao());
-            controller = constructor.newInstance(service);
-        } catch (Throwable t) {
-            throw new RuntimeException(t);
+            Class.forName("org.h2.Driver");
+            connection = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/test", "sa", "");
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new DAOException("problem with JDBC H2 driver");
         }
-
-        return controller;
+        return connection;
     }
 
-    public static Controller createUserController(Class<CreateUserController> clazz) {
-        Controller controller = null;
+    private static Connection getConnectionMySQL() {
+        Connection connection = null;
         try {
-            Constructor<? extends Controller> constructor = clazz.getConstructor(UserService.class);
-            UserService service = getUserService(getUserDao());
-            controller = constructor.newInstance(service);
-        } catch (Throwable t) {
-            throw new RuntimeException(t);
+            Class.forName("com.mysql.jdbc.Driver");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Pets",
+                    "root", "nicolas");
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new DAOException("problem with JDBC MySQL driver");
         }
-
-        return controller;
+        return connection;
     }
 
-    private static UserService getUserService(UserDao userDao) {
+    private static UserService getUserService(UserDAO userDao) {
         return new UserServiceImpl(userDao);
     }
 
-    private static UserDao getUserDao() {
-        return new UserDaoImpl();
+    public static UserDAO getUserDao() {
+        return new UserDAOImpl(Factory.getConnectionMySQL());
+    }
+
+    public static Controller createUserController(Class<CreateUserController> createUserControllerClass) {
+        return null;
     }
 }

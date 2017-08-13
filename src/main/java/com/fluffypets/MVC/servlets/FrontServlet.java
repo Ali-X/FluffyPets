@@ -22,14 +22,9 @@ public class FrontServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init();
 
-        Controller getAllCategoriesCtrl =Factory.createCategoryController(GetAllCategoriesController.class);
-        Controller createCategoryCtrl =Factory.createCategoryController(GetAllCategoriesController.class);
         Controller createUserCtrl =Factory.createUserController(CreateUserController.class);
 
-        controllerMap.put(Request.create("GET", "/servlet/categories"), getAllCategoriesCtrl);
-        controllerMap.put(Request.create("GET", "/servlet/"), getAllCategoriesCtrl);
-        controllerMap.put(Request.create("POST", "/servlet/categories"), createCategoryCtrl);
-        controllerMap.put(Request.create("GET", "/servlet/signup"), new SignUpController());
+        controllerMap.put(Request.create("GET", "/servlet/signin"), new SignUpController());
         controllerMap.put(Request.create("POST", "/servlet/signup"), createUserCtrl);
     }
 

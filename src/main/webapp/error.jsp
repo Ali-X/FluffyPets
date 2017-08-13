@@ -3,10 +3,9 @@
 <html>
 <head>
   <title>Error</title>
-  <link rel="stylesheet" href="css/BasicRed.css">
+  <link rel="stylesheet" href="<c:url value="/css/BasicRed.css"/>">
 </head>
 <body>
-<%@include file="head.jsp"%>
 <div class="container">
   <div class="panel panel-danger">
     <div class="panel-heading">Error</div>
