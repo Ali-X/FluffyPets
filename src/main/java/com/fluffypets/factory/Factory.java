@@ -1,6 +1,8 @@
 package com.fluffypets.factory;
 
 import com.fluffypets.DAO.DAOException;
+import com.fluffypets.DAO.category.CategoryDAO;
+import com.fluffypets.DAO.category.CategoryDAOImpl;
 import com.fluffypets.DAO.user.UserDAO;
 import com.fluffypets.DAO.user.UserDAOImpl;
 import com.fluffypets.MVC.controller.Controller;
@@ -9,7 +11,6 @@ import com.fluffypets.servicies.UserService;
 import com.fluffypets.servicies.UserServiceImpl;
 
 import java.sql.Connection;
-import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -46,6 +47,10 @@ public class Factory {
 
     public static UserDAO getUserDao() {
         return new UserDAOImpl(Factory.getConnectionMySQL());
+    }
+
+    public static CategoryDAO getCategoryDao() {
+        return new CategoryDAOImpl(Factory.getConnectionMySQL());
     }
 
     public static Controller createUserController(Class<CreateUserController> createUserControllerClass) {

@@ -3,18 +3,24 @@ package com.fluffypets.MVC.model;
 public class Category {
     private Integer id;
     private String name;
+    private String categoryDescription;
 
-    public Category(Integer id, String name) {
+    public Category(Integer id, String name, String categoryDescription) {
         this.id = id;
         this.name = name;
+        this.categoryDescription = categoryDescription;
+    }
+
+    public void setCategoryDescription(String categoryDescription) {
+        this.categoryDescription = categoryDescription;
+    }
+
+    public String getCategoryDescription() {
+        return categoryDescription;
     }
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -25,4 +31,21 @@ public class Category {
         this.name = name;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Category)) return false;
+
+        Category category = (Category) o;
+
+        if (!getName().equals(category.getName())) return false;
+        return getCategoryDescription() != null ? getCategoryDescription().equals(category.getCategoryDescription()) : category.getCategoryDescription() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getName().hashCode();
+        result = 31 * result + (getCategoryDescription() != null ? getCategoryDescription().hashCode() : 0);
+        return result;
+    }
 }

@@ -6,7 +6,6 @@ import com.fluffypets.factory.Factory;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertNull;
 
 public class TestUserDAO {
@@ -29,6 +28,5 @@ public class TestUserDAO {
         myUsers.delete(expectedUser);
         expectedUser = myUsers.get(dodik);
         assertNull("User should be absent ", expectedUser);
-        int idOfPrevious = expectedUser.getId();
     }
 }

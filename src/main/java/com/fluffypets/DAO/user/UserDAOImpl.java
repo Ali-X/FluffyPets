@@ -5,7 +5,6 @@ import com.fluffypets.DAO.DAOException;
 import com.fluffypets.MVC.model.User;
 
 import java.sql.*;
-import java.util.StringJoiner;
 
 public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
 
@@ -28,7 +27,7 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
             Statement statement = connection.createStatement();
             statement.execute(initialQuery);
         } catch (SQLException e) {
-            throw new DAOException("Table users table initial creation error");
+            throw new DAOException("Table users creation error");
         }
     }
 
@@ -110,7 +109,7 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
                 user = new User(id, userName, password, token, email, roleString);
             } else user = null;
         } catch (SQLException e) {
-            throw new DAOException("There are problems with new user insertion to DB" + e);
+            throw new DAOException("There are problems with getting user from DB" + e);
         }
         return user;
     }
