@@ -44,16 +44,12 @@ public class Factory {
     private static UserService getUserService(UserDAO userDao) {
         return new UserServiceImpl(userDao);
     }
-
-    public static UserDAO getUserDao() {
-        return new UserDAOImpl(Factory.getConnectionMySQL());
-    }
-
-    public static CategoryDAO getCategoryDao() {
-        return new CategoryDAOImpl(Factory.getConnectionMySQL());
-    }
-
     public static Controller createUserController(Class<CreateUserController> createUserControllerClass) {
         return null;
     }
+
+    public static UserDAO getUserDao() { return new UserDAOImpl(Factory.getConnectionMySQL());}
+
+    public static CategoryDAO getCategoryDao() {return new CategoryDAOImpl(Factory.getConnectionMySQL());}
+
 }

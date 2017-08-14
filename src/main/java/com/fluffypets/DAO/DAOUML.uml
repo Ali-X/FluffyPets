@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="218.00000000000006" y="230.5">com.fluffypets.DAO.AbstractDAO</node>
+    <node x="0.0" y="242.0">com.fluffypets.DAO.category.CategoryDAO</node>
+    <node x="438.10416666666674" y="0.0">com.fluffypets.DAO.GenericDAO</node>
+    <node x="76.5" y="392.0">com.fluffypets.DAO.category.CategoryDAOImpl</node>
+    <node x="510.00000000000006" y="196.0">com.fluffypets.DAO.product.ProductDAO</node>
+    <node x="844.0" y="230.5">com.fluffypets.DAO.user.UserDAO</node>
+    <node x="836.1666666666667" y="392.0">com.fluffypets.DAO.user.UserDAOImpl</node>
+    <node x="1096.0" y="253.5">com.fluffypets.DAO.DAOException</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.fluffypets.DAO.user.UserDAOImpl" target="com.fluffypets.DAO.AbstractDAO">
+      <point x="-77.33333333333331" y="-96.0" />
+      <point x="874.8333333333335" y="367.0" />
+      <point x="422.0" y="367.0" />
+      <point x="67.99999999999997" y="38.5" />
+    </edge>
+    <edge source="com.fluffypets.DAO.category.CategoryDAO" target="com.fluffypets.DAO.GenericDAO">
+      <point x="0.0" y="-27.0" />
+      <point x="99.0" y="166.0" />
+      <point x="460.10416666666674" y="166.0" />
+      <point x="-66.0" y="73.0" />
+    </edge>
+    <edge source="com.fluffypets.DAO.user.UserDAOImpl" target="com.fluffypets.DAO.DAOException">
+      <point x="77.33333333333337" y="-96.0" />
+      <point x="1029.5" y="367.0" />
+      <point x="1161.0" y="367.0" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="com.fluffypets.DAO.category.CategoryDAOImpl" target="com.fluffypets.DAO.AbstractDAO">
+      <point x="58.0" y="-96.0" />
+      <point x="250.5" y="367.0" />
+      <point x="286.00000000000006" y="367.0" />
+      <point x="-68.0" y="38.5" />
+    </edge>
+    <edge source="com.fluffypets.DAO.user.UserDAOImpl" target="com.fluffypets.DAO.user.UserDAO">
+      <point x="0.0" y="-96.0" />
+      <point x="952.1666666666667" y="367.0" />
+      <point x="960.0" y="367.0" />
+      <point x="0.0" y="38.5" />
+    </edge>
+    <edge source="com.fluffypets.DAO.product.ProductDAO" target="com.fluffypets.DAO.GenericDAO">
+      <point x="0.0" y="-73.0" />
+      <point x="667.0" y="176.0" />
+      <point x="548.1041666666667" y="176.0" />
+      <point x="22.0" y="73.0" />
+    </edge>
+    <edge source="com.fluffypets.DAO.category.CategoryDAOImpl" target="com.fluffypets.DAO.category.CategoryDAO">
+      <point x="-58.0" y="-96.0" />
+      <point x="134.5" y="367.0" />
+      <point x="99.0" y="367.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="com.fluffypets.DAO.user.UserDAO" target="com.fluffypets.DAO.GenericDAO">
+      <point x="0.0" y="-38.5" />
+      <point x="960.0" y="166.0" />
+      <point x="592.1041666666667" y="166.0" />
+      <point x="66.0" y="73.0" />
+    </edge>
+    <edge source="com.fluffypets.DAO.AbstractDAO" target="com.fluffypets.DAO.GenericDAO">
+      <point x="-2.8421709430404007E-14" y="-38.5" />
+      <point x="354.0" y="176.0" />
+      <point x="504.10416666666674" y="176.0" />
+      <point x="-22.0" y="73.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="341.0" y="96.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
