@@ -1,7 +1,7 @@
 package com.fluffypets.DAO.product;
 
 import com.fluffypets.DAO.AbstractDAO;
-import com.fluffypets.DAO.DAOException;
+import exeptions.DAOException;
 import com.fluffypets.DAO.category.CategoryDAO;
 import com.fluffypets.MVC.model.Category;
 import com.fluffypets.MVC.model.Product;

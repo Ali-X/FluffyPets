@@ -1,7 +1,7 @@
 package com.fluffypets.DAO.user;
 
 import com.fluffypets.DAO.AbstractDAO;
-import com.fluffypets.DAO.DAOException;
+import exeptions.DAOException;
 import com.fluffypets.MVC.model.User;
 
 import java.sql.*;
@@ -17,7 +17,7 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
     public void createTableIfNotExists() throws DAOException {
         String initialQuery = "CREATE TABLE IF NOT EXISTS `Pets`.`users` (" +
                 "`id` INT NOT NULL AUTO_INCREMENT," +
-                "`userName` VARCHAR(256) NOT NULL," +
+                "`userName` VARCHAR(256) NOT NULL UNIQUE ," +
                 "`password` VARCHAR(256) NOT NULL," +
                 "`token` VARCHAR(256) NOT NULL," +
                 "`email` VARCHAR(256) NOT NULL," +
@@ -93,11 +93,10 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
     public User get(User user) {
         PreparedStatement preparedStatement;
         try {
-            String preparedQuery = "SELECT * FROM Pets.users WHERE userName = ? AND password = ? AND email = ?";
+            String preparedQuery = "SELECT * FROM Pets.users WHERE userName = ? AND password = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setString(1, user.getUserName());
             preparedStatement.setString(2, user.getPassword());
-            preparedStatement.setString(3, user.getEmail());
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 String userName = resultSet.getString("userName");
@@ -107,6 +106,29 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
                 String roleString = resultSet.getString("roleString");
                 int id = resultSet.getInt("id");
                 user = new User(id, userName, password, token, email, roleString);
+            } else user = null;
+        } catch (SQLException e) {
+            throw new DAOException("There are problems with getting user from DB" + e);
+        }
+        return user;
+    }
+
+    @Override
+    public User findByLoginPassword(String login, String password) {
+        PreparedStatement preparedStatement;
+        User user;
+        try {
+            String preparedQuery = "SELECT * FROM Pets.users WHERE userName = ? AND password = ?";
+            preparedStatement = connection.prepareStatement(preparedQuery);
+            preparedStatement.setString(1, login);
+            preparedStatement.setString(2, password);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                String token = resultSet.getString("token");
+                String email = resultSet.getString("email");
+                String roleString = resultSet.getString("roleString");
+                int id = resultSet.getInt("id");
+                user = new User(id, login, password, token, email, roleString);
             } else user = null;
         } catch (SQLException e) {
             throw new DAOException("There are problems with getting user from DB" + e);

@@ -45,7 +45,7 @@ public class FrontServlet extends HttpServlet {
 
             Controller controller = controllerMap.get(request);
             if (controller == null) {
-                throw new RuntimeException("Can not handle " + request);
+                throw new ServletException("Can not handle " + request);
             }
             ViewModel vm = controller.process(request);
 

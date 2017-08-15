@@ -1,7 +1,7 @@
 package com.fluffypets.DAO.category;
 
 import com.fluffypets.DAO.AbstractDAO;
-import com.fluffypets.DAO.DAOException;
+import exeptions.DAOException;
 import com.fluffypets.MVC.model.Category;
 
 import java.sql.*;

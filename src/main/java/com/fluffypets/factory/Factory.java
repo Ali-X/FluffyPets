@@ -1,6 +1,6 @@
 package com.fluffypets.factory;
 
-import com.fluffypets.DAO.DAOException;
+import exeptions.DAOException;
 import com.fluffypets.DAO.category.CategoryDAO;
 import com.fluffypets.DAO.category.CategoryDAOImpl;
 import com.fluffypets.DAO.product.ProductDAO;
