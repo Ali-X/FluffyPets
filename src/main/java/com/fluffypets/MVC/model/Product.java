@@ -11,9 +11,9 @@ public class Product {
     private BigDecimal price;
     private String description;
     private String pictureURL;
-    private List<Category> category;
+    private Category category;
 
-    public Product(Integer id, String name, String producer, BigDecimal price, String description, String pictureURL, List<Category> category) {
+    public Product(Integer id, String name, String producer, BigDecimal price, String description, String pictureURL, Category category) {
         this.id = id;
         this.name = name;
         this.producer = producer;
@@ -23,7 +23,7 @@ public class Product {
         this.category = category;
     }
 
-    public Product(Integer id, String name, BigDecimal price, List<Category> category) {
+    public Product(Integer id, String name, BigDecimal price, Category category) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -50,7 +50,7 @@ public class Product {
         this.pictureURL = pictureURL;
     }
 
-    public void setCategory(List<Category> category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
@@ -78,7 +78,7 @@ public class Product {
         return pictureURL;
     }
 
-    public List<Category> getCategory() {
+    public Category getCategory() {
         return category;
     }
 
@@ -90,21 +90,15 @@ public class Product {
         Product product = (Product) o;
 
         if (!getName().equals(product.getName())) return false;
-        if (getProducer() != null ? !getProducer().equals(product.getProducer()) : product.getProducer() != null)
-            return false;
-        if (!getPrice().equals(product.getPrice())) return false;
-        if (getDescription() != null ? !getDescription().equals(product.getDescription()) : product.getDescription() != null)
-            return false;
-        return getCategory().equals(product.getCategory());
+        if (!getProducer().equals(product.getProducer())) return false;
+        return getPrice().equals(product.getPrice());
     }
 
     @Override
     public int hashCode() {
         int result = getName().hashCode();
-        result = 31 * result + (getProducer() != null ? getProducer().hashCode() : 0);
+        result = 31 * result + getProducer().hashCode();
         result = 31 * result + getPrice().hashCode();
-        result = 31 * result + (getDescription() != null ? getDescription().hashCode() : 0);
-        result = 31 * result + getCategory().hashCode();
         return result;
     }
 }

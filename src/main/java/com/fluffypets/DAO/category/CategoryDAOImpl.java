@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDAO {
+public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDAO,AutoCloseable {
 
     public CategoryDAOImpl(Connection connection) {
         super(connection);
@@ -139,5 +139,10 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
             e.printStackTrace();
         }
         return list;
+    }
+
+    @Override
+    public void close() throws Exception {
+        this.connection.close();
     }
 }

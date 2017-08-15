@@ -3,6 +3,8 @@ package com.fluffypets.factory;
 import com.fluffypets.DAO.DAOException;
 import com.fluffypets.DAO.category.CategoryDAO;
 import com.fluffypets.DAO.category.CategoryDAOImpl;
+import com.fluffypets.DAO.product.ProductDAO;
+import com.fluffypets.DAO.product.ProductDAOImpl;
 import com.fluffypets.DAO.user.UserDAO;
 import com.fluffypets.DAO.user.UserDAOImpl;
 import com.fluffypets.MVC.controller.Controller;
@@ -51,5 +53,9 @@ public class Factory {
     public static UserDAO getUserDao() { return new UserDAOImpl(Factory.getConnectionMySQL());}
 
     public static CategoryDAO getCategoryDao() {return new CategoryDAOImpl(Factory.getConnectionMySQL());}
+
+    public static ProductDAO getProductDao() {return new ProductDAOImpl(Factory.getConnectionMySQL());}
+
+    public static CategoryDAO categoryDaoByConnection(Connection connection) {return new CategoryDAOImpl(connection);}
 
 }

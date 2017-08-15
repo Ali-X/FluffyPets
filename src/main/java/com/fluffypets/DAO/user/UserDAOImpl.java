@@ -6,7 +6,7 @@ import com.fluffypets.MVC.model.User;
 
 import java.sql.*;
 
-public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
+public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoCloseable {
 
     public UserDAOImpl(Connection connection) {
         super(connection);
@@ -161,5 +161,10 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
             throw new DAOException("There are problems with user search by token" + e);
         }
         return null;
+    }
+
+    @Override
+    public void close() throws Exception {
+        this.connection.close();
     }
 }
