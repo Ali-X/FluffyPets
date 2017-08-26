@@ -12,7 +12,28 @@
 
     <servlet-mapping>
         <servlet-name>MainServlet</servlet-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/root/*</url-pattern>
     </servlet-mapping>
+
+
+    <!--<filter>-->
+        <!--<filter-name>AdminFilter</filter-name>-->
+        <!--<filter-class>com.fluffypets.MVC.AdminFilter</filter-class>-->
+    <!--</filter>-->
+
+    <!--<filter-mapping>-->
+        <!--<filter-name>AdminFilter</filter-name>-->
+        <!--<url-pattern>/root/admin/*</url-pattern>-->
+    <!--</filter-mapping>-->
+
+    <!--<filter>-->
+        <!--<filter-name>UserFilter</filter-name>-->
+        <!--<filter-class>com.fluffypets.MVC.UserFilter</filter-class>-->
+    <!--</filter>-->
+
+    <!--<filter-mapping>-->
+        <!--<filter-name>UserFilter</filter-name>-->
+        <!--<url-pattern>/root/profile/*</url-pattern>-->
+    <!--</filter-mapping>-->
 
 </web-app>

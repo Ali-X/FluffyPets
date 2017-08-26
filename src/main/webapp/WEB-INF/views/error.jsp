@@ -3,7 +3,6 @@
 <html>
 <head>
   <title>Error</title>
-  <link rel="stylesheet" href="<c:url value="/css/BasicRed.css"/>">
 </head>
 <body>
 <div class="container">

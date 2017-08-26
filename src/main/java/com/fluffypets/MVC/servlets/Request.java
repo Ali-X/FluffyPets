@@ -7,12 +7,12 @@ public class Request {
 
 
     private final String method;
-    private final String url;
+    private final String uri;
     private final Map<String, String> parameters = new HashMap<>();
 
-    public Request(Map<String, String> parameters, String method, String url) {
+    public Request(Map<String, String> parameters, String method, String uri) {
         this.method = method.toUpperCase();
-        this.url = url;
+        this.uri = uri;
         if (parameters != null) {
             for (String param : parameters.keySet()) {
                 Object value = parameters.get(param);
@@ -22,11 +22,25 @@ public class Request {
                         this.parameters.put(param, (String)value);
                     } else if(value.getClass() == String[].class) {
                         String[] valueArray = (String[]) value;
-                        this.parameters.put(param, valueArray[0]);
+                        for (int i=0;i<valueArray.length;i++)
+                        this.parameters.put(param, valueArray[i]+" "+i);
                     }
                 }
             }
         }
+    }
+
+    public Request(String method, String uri) {
+        this.method = method;
+        this.uri = uri;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public String getUri() {
+        return uri;
     }
 
     public static Request create(String method, String url) {
@@ -45,7 +59,7 @@ public class Request {
         Request request = (Request) o;
 
         if (!method.equals(request.method)) return false;
-        if (!url.equals(request.url)) return false;
+        if (!uri.equals(request.uri)) return false;
 
         return true;
     }
@@ -53,12 +67,12 @@ public class Request {
     @Override
     public int hashCode() {
         int result = method.hashCode();
-        result = 31 * result + url.hashCode();
+        result = 31 * result + uri.hashCode();
         return result;
     }
 
     @Override
     public String toString() {
-        return this.method + " " + this.url;
+        return this.method + " " + this.uri;
     }
 }

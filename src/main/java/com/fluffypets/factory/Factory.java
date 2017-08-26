@@ -1,22 +1,29 @@
 package com.fluffypets.factory;
 
-import exeptions.DAOException;
 import com.fluffypets.DAO.category.CategoryDAO;
 import com.fluffypets.DAO.category.CategoryDAOImpl;
 import com.fluffypets.DAO.product.ProductDAO;
 import com.fluffypets.DAO.product.ProductDAOImpl;
-import com.fluffypets.DAO.user.UserDAO;
 import com.fluffypets.DAO.user.UserDAOImpl;
 import com.fluffypets.MVC.controller.Controller;
-import com.fluffypets.MVC.controller.CreateUserController;
+import com.fluffypets.MVC.controller.users.HomePageController;
+import com.fluffypets.MVC.controller.users.LoginPageController;
+import com.fluffypets.MVC.controller.users.ProfilePageController;
+import com.fluffypets.MVC.controller.users.RegistrationPageController;
+import com.fluffypets.MVC.servlets.ViewModel;
+import com.fluffypets.servicies.CategoryService;
+import com.fluffypets.servicies.CategoryServiceImpl;
 import com.fluffypets.servicies.UserService;
 import com.fluffypets.servicies.UserServiceImpl;
+import exeptions.DAOException;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Factory {
+    private static ViewModel vm = new ViewModel();
+    public static Connection getConnection(){return Factory.getConnectionMySQL();}
 
     private static Connection getConnectionH2() {
         Connection connection = null;
@@ -43,19 +50,56 @@ public class Factory {
         return connection;
     }
 
-    private static UserService getUserService(UserDAO userDao) {
-        return new UserServiceImpl(userDao);
+    public static ViewModel getViewModel() {
+        return vm;
     }
-    public static Controller createUserController(Class<CreateUserController> createUserControllerClass) {
-        return null;
+    //---------------------                 DAO                --------------------------------------------------------
+    public static ProductDAO getProductDao() {
+    return new ProductDAOImpl(Factory.getConnection());
     }
 
-    public static UserDAO getUserDao() { return new UserDAOImpl(Factory.getConnectionMySQL());}
+    public static UserDAOImpl getUserDao() {
+        return new UserDAOImpl(Factory.getConnection());
+    }
 
-    public static CategoryDAO getCategoryDao() {return new CategoryDAOImpl(Factory.getConnectionMySQL());}
+    public static CategoryDAO getCategoryDao() {
+        return new CategoryDAOImpl(Factory.getConnection());
+    }
 
-    public static ProductDAO getProductDao() {return new ProductDAOImpl(Factory.getConnectionMySQL());}
+    public static CategoryDAO categoryDaoByConnection(Connection connection) {
+        return new CategoryDAOImpl(connection);
+    }
 
-    public static CategoryDAO categoryDaoByConnection(Connection connection) {return new CategoryDAOImpl(connection);}
+    public static CategoryDAO getCategoryDAO() {
+        return new CategoryDAOImpl(Factory.getConnection());
+    }
+
+    //---------------------                 Serveries                ----------------------------------------------------
+
+    private static UserService getUserService() {
+        return new UserServiceImpl(Factory.getUserDao());
+    }
+
+    public static CategoryService getCategoriesService() {
+        return new CategoryServiceImpl(Factory.getCategoryDAO());
+    }
+
+    //---------------------                 get pages                ---------------------------------------------------
+
+    public static Controller getHomeController() {
+        return new HomePageController();
+    }
+
+    public static Controller getLoginPageController() {
+        return new LoginPageController();
+    }
+
+    public static Controller getRegistrationPageController() {
+        return new RegistrationPageController();
+    }
+
+    public static Controller getProfilePageController() {
+        return new ProfilePageController();
+    }
 
 }
