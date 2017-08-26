@@ -5,11 +5,11 @@ import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.factory.Factory;
 
-public class RegistrationPageController implements Controller {
+public class ForgotPasswordController implements Controller {
     @Override
     public ViewModel process(Request request) {
         ViewModel vm = Factory.getViewModel();
-        vm.setView("signup");
+        vm.setView("forgot");
         return vm;
     }
 }

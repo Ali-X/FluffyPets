@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Home Page</title>
+    <title>Fluffy Pets</title>
     <meta charset="utf-8">
     <link href="${pageContext.request.contextPath}/resourseces/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resourseces/css/bootstrap-theme.min.css" rel="stylesheet">
@@ -25,7 +25,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="active"><a href="<c:url value="/root/home"/> ">Products</a></li>
                 <li><a href="<c:url value="/root/login"/>">Signin</a></li>
-                <li><a href="<c:url value="/root/registration"/> ">  Signup</a></li>
+                <li><a href="<c:url value="/root/signup"/> ">Signup</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">My cart<b class="caret"></b></a>
                     <ul class="dropdown-menu">

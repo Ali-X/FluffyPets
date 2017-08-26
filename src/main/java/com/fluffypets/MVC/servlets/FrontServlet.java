@@ -22,7 +22,8 @@ public class FrontServlet extends HttpServlet {
         controllerMap.put(new Request("GET", "/root/home"), Factory.getHomeController());
         controllerMap.put(new Request("GET", "/root/login"), Factory.getLoginPageController());
         controllerMap.put(new Request("GET", "/root/profile"), Factory.getProfilePageController());
-        controllerMap.put(new Request("GET", "/root/registration"), Factory.getRegistrationPageController());
+        controllerMap.put(new Request("GET", "/root/signup"), Factory.getRegistrationPageController());
+        controllerMap.put(new Request("GET", "/root/forgot"), Factory.getForgotPassword());
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

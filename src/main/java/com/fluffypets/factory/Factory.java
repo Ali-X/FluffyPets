@@ -6,10 +6,7 @@ import com.fluffypets.DAO.product.ProductDAO;
 import com.fluffypets.DAO.product.ProductDAOImpl;
 import com.fluffypets.DAO.user.UserDAOImpl;
 import com.fluffypets.MVC.controller.Controller;
-import com.fluffypets.MVC.controller.users.HomePageController;
-import com.fluffypets.MVC.controller.users.LoginPageController;
-import com.fluffypets.MVC.controller.users.ProfilePageController;
-import com.fluffypets.MVC.controller.users.RegistrationPageController;
+import com.fluffypets.MVC.controller.users.*;
 import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.servicies.CategoryService;
 import com.fluffypets.servicies.CategoryServiceImpl;
@@ -102,4 +99,5 @@ public class Factory {
         return new ProfilePageController();
     }
 
+    public static Controller getForgotPassword() { return new ForgotPasswordController();  }
 }
