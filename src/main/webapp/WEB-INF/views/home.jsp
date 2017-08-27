@@ -26,6 +26,7 @@
                 <li class="active"><a href="<c:url value="/root/home"/> ">Products</a></li>
                 <li><a href="<c:url value="/root/login"/>">Signin</a></li>
                 <li><a href="<c:url value="/root/signup"/> ">Signup</a></li>
+                <li class="text-warning"><a href="<c:url value="/root/profile"/>">user</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">My cart<b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -91,7 +92,62 @@
                     <button type="submit" class="btn btn-info text-center btn-large">Select</button>
                 </div></form></div>
         <div class="col-xs-6 col-sm-9 col-lg-10">
-            <h4>the product view</h4>
+            <div class="row">
+
+            <div class="col-sm-6 col-md-4">
+                <div class="thumbnail">
+                    <a href="<c:url value="/resourseces/img/redman.jpg"/>" target="_blank">
+                        <img src="<c:url value="/resourseces/img/redman.jpg"/>" alt="Nature" style="width:100%">
+                        <div class="caption">
+                            <p>Lorem ipsum donec id elit non mi porta gravida at eget metus.</p>
+                        </div>
+                    </a>
+                    <div class="container">
+                        <form class="form-horizontal" method="post">
+                            <input type="hidden" name="goods_id" value="1234567">
+                            <button class="btn btn-success btn-md" onclick="<c:url value="/root/addToCart"/>">Add to cart</button>
+                            <button class="btn btn-info btn-md" onclick="<c:url value="/root/productInfo"/>">More details</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+                <div class="col-sm-6 col-md-4">
+                    <div class="thumbnail">
+                        <a href="<c:url value="/resourseces/img/redman.jpg"/>" target="_blank">
+                            <img src="<c:url value="/resourseces/img/redman.jpg"/>" alt="Nature" style="width:100%">
+                            <div class="caption">
+                                <p>Lorem ipsum donec id elit non mi porta gravida at eget metus.</p>
+                            </div>
+                        </a>
+                        <div class="container">
+                            <form class="form-horizontal" method="post">
+                                <input type="hidden" name="goods_id" value="1234567">
+                                <button class="btn btn-success btn-md" onclick="<c:url value="/root/addToCart"/>">Add to cart</button>
+                                <button class="btn btn-info btn-md" onclick="<c:url value="/root/productInfo"/>">More details</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4">
+                    <div class="thumbnail">
+                        <a href="<c:url value="/resourseces/img/redman.jpg"/>" target="_blank">
+                            <img src="<c:url value="/resourseces/img/redman.jpg"/>" alt="Nature" style="width:100%">
+                            <div class="caption">
+                                <p>Lorem ipsum donec id elit non mi porta gravida at eget metus.</p>
+                            </div>
+                        </a>
+                        <div class="container">
+                            <form class="form-horizontal" method="post">
+                                <input type="hidden" name="goods_id" value="1234567">
+                                <button class="btn btn-success btn-md" onclick="<c:url value="/root/addToCart"/>">Add to cart</button>
+                                <button class="btn btn-info btn-md" onclick="<c:url value="/root/productInfo"/>">More details</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

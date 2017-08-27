@@ -27,7 +27,7 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
             Statement statement = connection.createStatement();
             statement.execute(initialQuery);
         } catch (SQLException e) {
-            throw new DAOException("Table users creation error");
+            throw new DAOException("Table pages creation error");
         }
     }
 
