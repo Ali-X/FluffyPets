@@ -11,7 +11,8 @@
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
                 <span class="sr-only">Navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -23,10 +24,12 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="<c:url value="/root/home"/> ">Products</a></li>
-                <li><a href="<c:url value="/root/login"/>">Signin</a></li>
-                <li class="active"><a href="<c:url value="/root/signup"/> "> Signup</a></li>
+                <li><a href="<c:url value="/root/login"/>">
+                    <span class="glyphicon glyphicon-log-in"></span>Signin</a></li>
+                <li class="active"><a href="<c:url value="/root/signup"/> ">Signup</a></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">My cart<b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <span class="glyphicon glyphicon-shopping-cart"></span>My cart<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="#">You are not autorised!</a></li>
                         <li class="divider"></li>
@@ -44,41 +47,41 @@
             <div class="panel-heading">
                 <div class="panel-title">Sign up on Fluffy.pets.com</div>
             </div>
-            <div class="panel-body" >
-                <form id="signupform" class="form-horizontal" role="form" method="post" action="<c:url value="/root/signup"/>">
-
-                    <!-- <div id="signupalert" style="display:none" class="alert alert-danger">
-                        <p>Error:</p>
-                        <span></span>
-                    </div> -->
+            <div class="panel-body">
+                <form id="signupform" class="form-horizontal" method="post"
+                      onsubmit="return validateForm()" action="<c:url value="/root/signup"/>">
 
                     <div class="form-group">
                         <label for="email" class="col-md-3 control-label">Email</label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" id="email" placeholder="Email Address">
+                            <input type="email" required class="form-control"
+                                   id="email" placeholder="Email Address">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="userName" class="col-md-3 control-label">Login</label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" id="userName" placeholder="Enter login">
+                            <input type="text" class="form-control"
+                                   required id="userName" placeholder="Enter login">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="password" class="col-md-3 control-label">Password</label>
                         <div class="col-md-9">
-                            <input type="password" class="form-control" id="password" placeholder="Password">
+                            <input type="password" class="form-control"
+                                   required id="password" placeholder="Password">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <!-- Button -->
                         <div class="col-md-offset-3 col-md-9">
-                            <button id="btn-signup" type="button" class="btn btn-success btn-lg">
+                            <button id="btn-signup" type="submit" class="btn btn-success btn-lg">
                                 <i class="icon-hand-right"></i>
-                                Sign Up</button>
+                                Sign Up
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -91,5 +94,20 @@
 <script src="${pageContext.request.contextPath}/resourseces/js/jquery-3.2.1.min.js"></script>
 <!-- Latest compiled and minified JavaScript -->
 <script src="${pageContext.request.contextPath}/resourseces/js/bootstrap.min.js"></script>
+<script>
+    function validateForm() {
+        var login = document.forms["signupform"]["userName"].value;
+        var password = document.forms["signupform"]["password"].value;
+
+        if (login.length < 5) {
+            alert("Your login should be longer");
+            return false;
+        }
+        if (password.length < 5) {
+            alert("Your password should be longer");
+            return false;
+        }
+    }
+</script>
 </body>
 </html>

@@ -11,7 +11,8 @@
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
                 <span class="sr-only">Navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -44,13 +45,10 @@
             <div class="panel-heading">
                 <div class="panel-title">Let's recover your password</div>
             </div>
-            <div class="panel-body" >
-                <form id="signupform" class="form-horizontal" method="post" action="<c:url value="/root/forgot"/>">
+            <div class="panel-body">
+                <form id="forgotForm" class="form-horizontal" method="post"
+                      onsubmit="return validateForm()" action="<c:url value="/root/forgot"/>">
 
-                    <!-- <div id="signupalert" style="display:none" class="alert alert-danger">
-                        <p>Error:</p>
-                        <span></span>
-                    </div> -->
                     <div class="form-group">
                         <label for="userName" class="col-md-3 control-label">Login</label>
                         <div class="col-md-9">
@@ -61,16 +59,17 @@
                     <div class="form-group">
                         <label for="email" class="col-md-3 control-label">Email</label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" id="email" placeholder="Email Address">
+                            <input type="email" required class="form-control" id="email" placeholder="Email Address">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <!-- Button -->
                         <div class="col-md-offset-3 col-md-9">
-                            <button id="btn-signup" type="button" class="btn btn-info btn-lg">
-                                <i class="icon-hand-right"></i>
-                                Recover</button>
+                            <button id="btn-signup" type="submit" class="btn btn-info btn-lg">
+                                <i class="glyphicon glyphicon-search"></i>
+                                Recover
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -83,5 +82,16 @@
 <script src="${pageContext.request.contextPath}/resourseces/js/jquery-3.2.1.min.js"></script>
 <!-- Latest compiled and minified JavaScript -->
 <script src="${pageContext.request.contextPath}/resourseces/js/bootstrap.min.js"></script>
+
+<script>
+    function validateForm() {
+        var login = document.forms["forgotForm"]["userName"].value;
+
+        if (login.length < 5) {
+            alert("Your login should be longer");
+            return false;
+        }
+    }
+</script>
 </body>
 </html>

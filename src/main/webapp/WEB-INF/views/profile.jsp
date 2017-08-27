@@ -12,7 +12,8 @@
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
                 <span class="sr-only">Navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -23,9 +24,11 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li ><a href="<c:url value="/root/home"/> ">Products</a></li>
-                <li><a href="<c:url value="/root/login"/>"><span class="glyphicon glyphicon-log-in"></span>Signin</a></li>
-                <li class="active"><a href="<c:url value="/root/registration"/> "> <span class="glyphicon glyphicon-user"></span> My profile</a></li>
+                <li><a href="<c:url value="/root/home"/> ">Products</a></li>
+                <li><a href="<c:url value="/root/login"/>"><span class="glyphicon glyphicon-log-in"></span>Signin</a>
+                </li>
+                <li class="active"><a href="<c:url value="/root/registration"/> "> <span
+                        class="glyphicon glyphicon-user"></span> My profile</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <span class="glyphicon glyphicon-shopping-cart"></span> My cart
@@ -44,7 +47,8 @@
 <div class="container">
     <div class="row">
         <div class="col-md-10 ">
-            <form class="form-horizontal" method="get" action="<c:url value="/root/editProfile"/>">
+            <form class="form-horizontal" method="get"
+                  action="<c:url value="/root/editProfile"/>">
 
                 <!-- Form Name -->
                 <legend>Welcome to your profile</legend>
@@ -53,31 +57,36 @@
                     <label class="col-md-4 control-label">Name (Full name)</label>
                     <div class="col-md-4">
                         <label>${requestScope.user.fullName}</label>
-                    </div></div>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label class="col-md-4 control-label">Date Of Birth</label>
                     <div class="col-md-4">
                         <label>${requestScope.user.birthDate}</label>
-                    </div></div>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label class="col-md-4 control-label">Gender:</label>
                     <div class="col-md-4">
                         <label class="col-md-4">${requestScope.user.gender}</label>
-                    </div></div>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label class="col-md-4 control-label">Marital Status:</label>
                     <div class="col-md-4">
                         <label class="col-md-4">${requestScope.user.status}</label>
-                    </div></div>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label class="col-md-4 control-label">Address</label>
                     <div class="col-md-4">
                         <label class="col-md-4">${requestScope.user.address}</label>
-                    </div></div>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label class="col-md-4 control-label">Phone number </label>

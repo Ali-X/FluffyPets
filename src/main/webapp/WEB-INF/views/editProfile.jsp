@@ -11,7 +11,8 @@
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
                 <span class="sr-only">Navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -22,9 +23,11 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li ><a href="<c:url value="/root/home"/> ">Products</a></li>
-                <li><a href="<c:url value="/root/login"/>"><span class="glyphicon glyphicon-log-in"></span>Signout</a></li>
-                <li class="active"><a href="<c:url value="/root/registration"/> "> <span class="glyphicon glyphicon-user"></span> My profile</a></li>
+                <li><a href="<c:url value="/root/home"/> ">Products</a></li>
+                <li><a href="<c:url value="/root/login"/>">
+                    <span class="glyphicon glyphicon-log-in"></span>Signout</a></li>
+                <li class="active"><a href="<c:url value="/root/registration"/> ">
+                    <span class="glyphicon glyphicon-user"></span> My profile</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <span class="glyphicon glyphicon-shopping-cart"></span> My cart
@@ -43,7 +46,8 @@
 <div class="container">
     <div class="row">
         <div class="col-md-10 ">
-            <form class="form-horizontal">
+            <form id="formEditUser" onsubmit="return validateForm()" method="post"
+                  action="<c:url value="/root/editProfile"/>" class="form-horizontal">
 
                 <!-- Form Name -->
                 <legend>Fill your profile</legend>
@@ -56,7 +60,7 @@
                                 <i class="glyphicon glyphicon-user"> </i>
                             </div>
                             <input id="Fullname" name="Fullname" type="text" placeholder="Name (Full name)"
-                                   class="form-control input-md">
+                                   required class="form-control input-md">
                         </div>
                     </div>
                 </div>
@@ -70,7 +74,8 @@
                             <div class="input-group-addon">
                                 <i class="glyphicon glyphicon-calendar"></i>
                             </div>
-                            <input id="DateOfBirth" name="DateOfBirth" type="date" placeholder="Date Of Birth" class="form-control input-md">
+                            <input id="DateOfBirth" name="DateOfBirth" type="date" placeholder="Date Of Birth"
+                                   class="form-control input-md">
                         </div>
                     </div>
                 </div>
@@ -103,21 +108,25 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 control-label col-xs-12" for="Address">Address</label>
+                    <label class="col-md-4 control-label col-xs-12" for="District">Address</label>
                     <div class="col-md-2  col-xs-4">
-                        <input name="District" id="Address" type="text" placeholder="District" class="form-control input-md ">
+                        <input id="District" type="text"
+                               required placeholder="District" class="form-control input-md ">
                     </div>
                     <div class="col-md-2 col-xs-4">
-                        <input name="Area" type="text" placeholder="Area" class="form-control input-md ">
+                        <input id="Area" type="text"
+                               placeholder="Area" class="form-control input-md ">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 invisible col-xs-12" for="Address">Address</label>
+                    <label class="col-md-4 invisible col-xs-12" for="Street">Address</label>
                     <div class="col-md-2  col-xs-4">
-                        <input name="Street" type="text" placeholder="Street" class="form-control input-md ">
+                        <input id="Street" type="text"
+                               required placeholder="Street" class="form-control input-md ">
                     </div>
                     <div class="col-md-2  col-xs-4">
-                        <input name="App" type="text" placeholder="App. №" class="form-control input-md ">
+                        <input id="App" type="text"
+                               required placeholder="App. №" class="form-control input-md ">
                     </div>
                 </div>
 
@@ -129,7 +138,8 @@
                                 <i class="glyphicon glyphicon-earphone"></i>
 
                             </div>
-                            <input id="Phone number " name="Phone number " type="text" placeholder="Primary Phone number " class="form-control input-md">
+                            <input id="Phone number " name="Phone number " type="text"
+                                   required placeholder="Primary Phone number " class="form-control input-md">
 
                         </div>
                         <div class="input-group othertop">
@@ -137,17 +147,22 @@
                                 <i class="glyphicon glyphicon-earphone"></i>
 
                             </div>
-                            <input id="PhoneSecNumber" name="PhoneSecNumber" type="text" placeholder=" Secondary Phone number " class="form-control input-md">
+                            <input id="PhoneSecNumber" name="PhoneSecNumber" type="text"
+                                   placeholder=" Secondary Phone number " class="form-control input-md">
 
                         </div>
 
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 control-label" ></label>
+                    <label class="col-md-4 control-label"></label>
                     <div class="col-md-4">
-                        <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-thumbs-up"></span> Submit</button>
-                        <button type="reset" class="btn btn-danger" value=""><span class="glyphicon glyphicon-remove-sign"></span> Clear</button>
+                        <button type="submit" class="btn btn-success"><span
+                                class="glyphicon glyphicon-thumbs-up"></span> Submit
+                        </button>
+                        <button type="reset" class="btn btn-danger" value=""><span
+                                class="glyphicon glyphicon-remove-sign"></span> Clear
+                        </button>
                     </div>
                 </div>
             </form>
@@ -158,5 +173,15 @@
 <script src="${pageContext.request.contextPath}/resourseces/js/jquery-3.2.1.min.js"></script>
 <!-- Latest compiled and minified JavaScript -->
 <script src="${pageContext.request.contextPath}/resourseces/js/bootstrap.min.js"></script>
+<script>
+    function validateForm() {
+        var name = document.forms["formEditUser"]["Fullname"].value;
+
+        if (name.length < 5) {
+            alert("Your login should be longer");
+            return false;
+        }
+    }
+</script>
 </body>
 </html>
