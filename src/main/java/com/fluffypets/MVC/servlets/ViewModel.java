@@ -8,7 +8,7 @@ public class ViewModel {
 
     private String view;
     private Map<String, Object> attributes = new HashMap<>();
-    private Cookie cookie;
+    private final Map<String, String> cookieS = new HashMap<>();
 
     public Map<String, Object> getAttributes() {
         return attributes;
@@ -31,12 +31,17 @@ public class ViewModel {
         this.view = view;
     }
 
-    public Cookie getCookie() {
-        return cookie;
+    public ViewModel addCookie(String name, String value) {
+        cookieS.put(name, value);
+        return this;
     }
 
-    public void setCookie(Cookie cookie) {
-        this.cookie = cookie;
+    public boolean hasCookie(String theCookie) {
+        return cookieS.containsKey(theCookie);
+    }
+
+    public Map<String, String> getCookie() {
+        return cookieS;
     }
 
     public static ViewModel of() {

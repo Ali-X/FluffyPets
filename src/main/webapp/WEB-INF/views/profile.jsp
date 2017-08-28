@@ -56,42 +56,42 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label">Name (Full name)</label>
                     <div class="col-md-4">
-                        <label>${requestScope.user.fullName}</label>
+                        <label>${requestScope.user.getUserName()}</label>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-md-4 control-label">Date Of Birth</label>
                     <div class="col-md-4">
-                        <label>${requestScope.user.birthDate}</label>
+                        <label>${requestScope.user.getPassword()}</label>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-md-4 control-label">Gender:</label>
                     <div class="col-md-4">
-                        <label class="col-md-4">${requestScope.user.gender}</label>
+                        <label class="col-md-4">${requestScope.user.getToken()}</label>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-md-4 control-label">Marital Status:</label>
                     <div class="col-md-4">
-                        <label class="col-md-4">${requestScope.user.status}</label>
+                        <label class="col-md-4">${requestScope.user.getEmail()}</label>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-md-4 control-label">Address</label>
                     <div class="col-md-4">
-                        <label class="col-md-4">${requestScope.user.address}</label>
+                        <label class="col-md-4">${requestScope.user.getRoleString()}</label>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-md-4 control-label">Phone number </label>
                     <div class="col-md-4">
-                        <label class="col-md-4">${requestScope.user.telephone}</label>
+                        <label class="col-md-4">${requestScope.user.getId()}</label>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-warning btn-lg center-block"> Edit profile</button>

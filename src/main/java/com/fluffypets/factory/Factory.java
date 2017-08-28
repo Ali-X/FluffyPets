@@ -7,6 +7,7 @@ import com.fluffypets.DAO.product.ProductDAOImpl;
 import com.fluffypets.DAO.user.UserDAOImpl;
 import com.fluffypets.MVC.controller.Controller;
 import com.fluffypets.MVC.controller.pages.*;
+import com.fluffypets.MVC.controller.post.*;
 import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.servicies.CategoryService;
 import com.fluffypets.servicies.CategoryServiceImpl;
@@ -104,4 +105,12 @@ public class Factory {
     public static Controller getEditUserProfileController() {return new EditUserProfileController();}
 
     public static Controller getUserProfileController() {return new UserProfileController();}
+    //----------------------               Post handling            --------------------------------------------
+    public static Controller getLoginCheckController() {
+        return new LoginCheckController(Factory.getUserService());
+    }
+
+    public static Controller getSignUpCheckController() {
+        return new SignUpCheckController(Factory.getUserService());
+    }
 }
