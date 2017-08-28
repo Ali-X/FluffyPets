@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +42,8 @@ public class FrontServlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Request request1 = new Request(request.getParameterMap(), request.getMethod(), request.getRequestURI());
+
+        Request request1 = new Request(request.getMethod(), request.getRequestURI(),request.getParameterMap());
         try {
             Controller controller = controllerMap.get(request1);
             if (controller == null) {
@@ -65,8 +67,8 @@ public class FrontServlet extends HttpServlet {
     }
 
     private void forward(HttpServletRequest request, HttpServletResponse resp, ViewModel vm) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher(getView(vm));
         setAttributes(request, vm);
+        RequestDispatcher dispatcher = request.getRequestDispatcher(getView(vm));
         dispatcher.forward(request, resp);
     }
 

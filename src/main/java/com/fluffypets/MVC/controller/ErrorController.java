@@ -14,7 +14,7 @@ public class ErrorController implements Controller {
     public ViewModel process(Request request) {
         ViewModel vm = Factory.getViewModel();
         vm.setView("error");
-        vm.setAttribute("error", request.getParameter("error"));
+        vm.setAttribute("error", request.getAttribute("error"));
         return vm;
     }
 }

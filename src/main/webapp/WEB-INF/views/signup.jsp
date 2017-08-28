@@ -52,33 +52,33 @@
                       onsubmit="return validateForm()" action="<c:url value="/root/signup"/>">
 
                     <div class="form-group">
-                        <label for="email" class="col-md-3 control-label">Email</label>
+                        <label for="form-email" class="col-md-3 control-label">Email</label>
                         <div class="col-md-9">
                             <input type="email" required class="form-control"
-                                   id="email" placeholder="Email Address">
+                                   id="form-email" name="form-email" placeholder="Email Address">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="userName" class="col-md-3 control-label">Login</label>
+                        <label for="form-userName" class="col-md-3 control-label">Login</label>
                         <div class="col-md-9">
                             <input type="text" class="form-control"
-                                   required id="userName" placeholder="Enter login">
+                                   required id="form-userName" name="form-userName"  placeholder="Enter login">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="password" class="col-md-3 control-label">Password</label>
+                        <label for="form-password" class="col-md-3 control-label">Password</label>
                         <div class="col-md-9">
                             <input type="password" class="form-control"
-                                   required id="password" placeholder="Password">
+                                   required id="form-password" name="form-password"  placeholder="Password">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <!-- Button -->
                         <div class="col-md-offset-3 col-md-9">
-                            <button id="btn-signup" type="submit" class="btn btn-success btn-lg">
+                            <button type="submit" class="btn btn-success btn-lg">
                                 Sign Up
                             </button>
                         </div>
@@ -93,10 +93,11 @@
 <script src="${pageContext.request.contextPath}/resourseces/js/jquery-3.2.1.min.js"></script>
 <!-- Latest compiled and minified JavaScript -->
 <script src="${pageContext.request.contextPath}/resourseces/js/bootstrap.min.js"></script>
+
 <script>
     function validateForm() {
-        var login = document.forms["signupform"]["userName"].value;
-        var password = document.forms["signupform"]["password"].value;
+        var login = document.forms["signupform"]["form-userName"].value;
+        var password = document.forms["signupform"]["form-password"].value;
 
         if (login.length < 5) {
             alert("Your login should be longer");
@@ -108,5 +109,6 @@
         }
     }
 </script>
+
 </body>
 </html>

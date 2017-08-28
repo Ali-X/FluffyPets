@@ -7,8 +7,6 @@ import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.factory.Factory;
 import com.fluffypets.servicies.UserService;
 
-import javax.servlet.http.Cookie;
-
 public class SignUpCheckController implements Controller {
     private UserService userService;
 
@@ -19,9 +17,9 @@ public class SignUpCheckController implements Controller {
     @Override
     public ViewModel process(Request request) {
         ViewModel vm = Factory.getViewModel();
-        String userName = (String) vm.getAttribute("userName");
-        String email = (String) vm.getAttribute("email");
-        String password = (String) vm.getAttribute("password");
+        String userName = request.getAttribute("form-userName");
+        String email = request.getAttribute("form-email");
+        String password = request.getAttribute("form-password");
         String token=userName+System.nanoTime();
         String role="user";
         User user = new User(1,userName,password,token,email,role);

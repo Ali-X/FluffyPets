@@ -7,8 +7,6 @@ import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.factory.Factory;
 import com.fluffypets.servicies.UserService;
 
-import javax.servlet.http.Cookie;
-
 public class LoginCheckController implements Controller {
     private UserService userService;
 
@@ -19,8 +17,8 @@ public class LoginCheckController implements Controller {
     @Override
     public ViewModel process(Request request) {
         ViewModel vm = Factory.getViewModel();
-        String userName = (String) vm.getAttribute("userName");
-        String pass = (String) vm.getAttribute("password");
+        String userName = request.getAttribute("userName");
+        String pass = request.getAttribute("password");
         User user = userService.findUser(userName, pass);
         if (user == null) {
             vm.setView("login");
