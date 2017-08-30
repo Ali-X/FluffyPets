@@ -13,29 +13,52 @@
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
+                <span class="glyphicon glyphicon-align-justify"></span>
             </button>
             <a class="navbar-brand" href="<c:url value="/root/home"/> ">FluffyPets.com</a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
+
                 <li><a href="<c:url value="/root/home"/> ">Products</a></li>
-                <li><a href="<c:url value="/root/login"/>">
-                    <span class="glyphicon glyphicon-log-in"></span>Signin</a></li>
-                <li class="active"><a href="<c:url value="/root/signup"/> ">Signup</a></li>
+
+                <c:if test="${empty requestScope.user}">
+                    <li><a href="<c:url value="/root/login"/>">
+                        <span class="glyphicon glyphicon-log-in"></span>
+                        Signin</a></li>
+                    <li class="active"><a href="<c:url value="/root/signup"/>">
+                        <span class="glyphicon glyphicon-ok"></span>
+                        Signup</a></li>
+                </c:if>
+
+                <c:if test="${not empty requestScope.user}">
+                    <li><a href="<c:url value="/root/profile"/>">
+                        <span class="glyphicon glyphicon-user"></span>
+                        My profile</a></li>
+
+                    <li><a href="<c:url value="/root/logout"/>">    <%--todo: make logout--%>
+                        <span class="glyphicon glyphicon-log-out"></span>
+                        Logout</a></li>
+                </c:if>
+
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <span class="glyphicon glyphicon-shopping-cart"></span>My cart<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">You are not autorised!</a></li>
+                        <c:if test="${empty requestScope.user}">
+                            <li><a href="#">You are not autorised!</a></li>
+                        </c:if>
+                        <c:if test="${not empty requestScope.user}">
+                            <li><a href="#">Welcome ${requestScope.user.getUserName()}!</a></li>
+                        </c:if>
                         <li class="divider"></li>
-                        <li><a href="#">your cart is empty</a></li>
+                        <c:if test="${empty requestScope.myCart}">
+                            <li><a href="#">your cart is empty</a></li>
+                        </c:if>
                     </ul>
                 </li>
+
             </ul>
         </div>
     </div>

@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title>Fluffy Pets</title>
@@ -14,30 +14,52 @@
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Навигация</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
+                <span class="glyphicon glyphicon-align-justify"></span>
             </button>
             <a class="navbar-brand" href="<c:url value="/root/home"/> ">FluffyPets.com</a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
+
                 <li class="active"><a href="<c:url value="/root/home"/> ">Products</a></li>
-                <li><a href="<c:url value="/root/login"/>"><span class="glyphicon glyphicon-log-in"></span>Signin</a>
-                </li>
-                <li><a href="<c:url value="/root/signup"/> ">Signup</a></li>
-                <li class="text-warning"><a href="<c:url value="/root/profile"/>">user</a></li>
+
+                <c:if test="${empty requestScope.user}">
+                    <li><a href="<c:url value="/root/login"/>">
+                        <span class="glyphicon glyphicon-log-in"></span>
+                        Signin</a></li>
+                    <li><a href="<c:url value="/root/signup"/>">
+                        <span class="glyphicon glyphicon-ok"></span>
+                        Signup</a></li>
+                </c:if>
+
+                <c:if test="${not empty requestScope.user}">
+                    <li class="text-warning"><a href="<c:url value="/root/profile"/>">
+                        <span class="glyphicon glyphicon-user"></span>
+                        My profile</a></li>
+
+                    <li class="text-warning"><a href="<c:url value="/root/logout"/>">    <%--todo: make logout--%>
+                        <span class="glyphicon glyphicon-log-out"></span>
+                        Logout</a></li>
+                </c:if>
+
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <span class="glyphicon glyphicon-shopping-cart"></span>My cart<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">You are not autorised!</a></li>
+                        <c:if test="${empty requestScope.user}">
+                            <li><a href="#">You are not autorised!</a></li>
+                        </c:if>
+                        <c:if test="${not empty requestScope.user}">
+                            <li><a href="#">Welcome ${requestScope.user.getUserName()}!</a></li>
+                        </c:if>
                         <li class="divider"></li>
-                        <li><a href="#">your cart is empty</a></li>
+                        <c:if test="${empty requestScope.myCart}">
+                            <li><a href="#">your cart is empty</a></li>
+                        </c:if>
                     </ul>
                 </li>
+
             </ul>
         </div>
     </div>
@@ -62,26 +84,26 @@
             <form>
                 <div class="form-group">
                     <div class="checkbox">
-                        <label><input type="checkbox" value="bears" checked="true">Teddy Bears</label>
+                        <label><input type="checkbox" value="bears">Teddy Bears</label>
                     </div>
                     <div class="checkbox">
-                        <label><input type="checkbox" value="catsAndDogs" checked="true">Cats and Dogs</label>
+                        <label><input type="checkbox" value="catsAndDogs">Cats and Dogs</label>
                     </div>
                     <div class="checkbox">
-                        <label><input type="checkbox" value="farm" checked="true">Farm Animalas</label>
+                        <label><input type="checkbox" value="farm">Farm Animalas</label>
                     </div>
                     <div class="checkbox">
-                        <label><input type="checkbox" value="puppets" checked="true">Puppets</label>
+                        <label><input type="checkbox" value="puppets">Puppets</label>
                     </div>
                     <div class="checkbox">
-                        <label><input type="checkbox" value="character" checked="true">Favorite Characters</label>
+                        <label><input type="checkbox" value="character">Favorite Characters</label>
                     </div>
                     <div class="checkbox">
-                        <label><input type="checkbox" value="big" checked="true">Jumbo-Sized</label>
+                        <label><input type="checkbox" value="big">Jumbo-Sized</label>
                     </div>
                     <h4>Select price range</h4>
                     <div class="radio">
-                        <label><input type="radio" name="price" checked="true">less 25$</label>
+                        <label><input type="radio" name="price">less 25$</label>
                     </div>
                     <div class="radio">
                         <label><input type="radio" name="price">25$-50$</label>
@@ -95,7 +117,7 @@
                     <div class="radio">
                         <label><input type="radio" name="price">more than 300$</label>
                     </div>
-                    <button type="submit" class="btn btn-info text-center btn-large">Select</button>
+                    <button class="btn btn-info text-center btn-large">Select</button>
                 </div>
             </form>
         </div>
@@ -104,8 +126,8 @@
 
                 <div class="col-sm-6 col-md-4">
                     <div class="thumbnail">
-                        <a href="<c:url value="/resourseces/img/redman.jpg"/>" target="_blank">
-                            <img src="<c:url value="/resourseces/img/redman.jpg"/>" alt="Nature" style="width:100%">
+                        <a href="<c:url value="/resourseces/img/goods/CatsDogs/id1.jpg"/>" target="_blank">
+                            <img src="<c:url value="/resourseces/img/goods/CatsDogs/id1.jpg"/>" alt="Nature" style="width:100%">
                             <div class="caption">
                                 <p>Lorem ipsum donec id elit non mi porta gravida at eget metus.</p>
                             </div>
@@ -126,19 +148,19 @@
 
                 <div class="col-sm-6 col-md-4">
                     <div class="thumbnail">
-                        <a href="<c:url value="/resourseces/img/redman.jpg"/>" target="_blank">
-                            <img src="<c:url value="/resourseces/img/redman.jpg"/>" alt="Nature" style="width:100%">
+                        <a href="<c:url value="/resourseces/img/goods/CatsDogs/id2.jpg"/>" target="_blank">
+                            <img src="<c:url value="/resourseces/img/goods/CatsDogs/id2.jpg"/>" alt="Nature" style="width:100%">
                             <div class="caption">
                                 <p>Lorem ipsum donec id elit non mi porta gravida at eget metus.</p>
                             </div>
                         </a>
                         <div class="container">
                             <form class="form-horizontal" method="post">
-                                <input type="hidden" name="goods_id" value="1234567">
-                                <button class="btn btn-success btn-md" onclick="<c:url value="/root/addToCart"/>">Add to
+                                <input type="hidden" name="goods_id" value="12534567">
+                                <button class="btn btn-success btn-md" formaction="<c:url value="/root/addToCart"/>">Add to
                                     cart
                                 </button>
-                                <button class="btn btn-info btn-md" onclick="<c:url value="/root/productInfo"/>">More
+                                <button class="btn btn-info btn-md" formaction="<c:url value="/root/productInfo"/>">More
                                     details
                                 </button>
                             </form>
@@ -148,25 +170,26 @@
 
                 <div class="col-sm-6 col-md-4">
                     <div class="thumbnail">
-                        <a href="<c:url value="/resourseces/img/redman.jpg"/>" target="_blank">
-                            <img src="<c:url value="/resourseces/img/redman.jpg"/>" alt="Nature" style="width:100%">
+                        <a href="<c:url value="/resourseces/img/goods/CatsDogs/id4.jpg"/>" target="_blank">
+                            <img src="<c:url value="/resourseces/img/goods/CatsDogs/id4.jpg"/>" alt="Nature" style="width:100%">
                             <div class="caption">
                                 <p>Lorem ipsum donec id elit non mi porta gravida at eget metus.</p>
                             </div>
                         </a>
                         <div class="container">
                             <form class="form-horizontal" method="post">
-                                <input type="hidden" name="goods_id" value="1234567">
-                                <button class="btn btn-success btn-md center-block"
-                                        onclick="<c:url value="/root/addToCart"/>">Add to cart
+                                <input type="hidden" name="goods_id" value="1267">
+                                <button class="btn btn-success btn-md" formaction="<c:url value="/root/addToCart"/>">Add to
+                                    cart
                                 </button>
-                                <button class="btn btn-info btn-md center-block"
-                                        onclick="<c:url value="/root/productInfo"/>">More details
+                                <button class="btn btn-info btn-md" formaction="<c:url value="/root/productInfo"/>">More
+                                    details
                                 </button>
                             </form>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
