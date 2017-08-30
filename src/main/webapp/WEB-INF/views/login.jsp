@@ -38,7 +38,7 @@
                         <span class="glyphicon glyphicon-user"></span>
                         My profile</a></li>
 
-                    <li class="text-warning"><a href="<c:url value="/root/logout"/>">    <%--todo: make logout--%>
+                    <li class="text-warning"><a href="<c:url value="/root/logout"/>">
                         <span class="glyphicon glyphicon-log-out"></span>
                         Logout</a></li>
                 </c:if>
@@ -97,7 +97,7 @@
                                 <input id="login-remember" type="checkbox" name="remember" value="1"> Remember me
                             </label>
                         </div>
-                    </div>
+                    </div>                                                      <%--todo: remember is not used--%>
                     <div class="col-sm-12 controls text-center">
                         <button type="submit" id="btn-login" class="btn btn-success btn-lg ">Login</button>
                     </div>

@@ -92,6 +92,8 @@ public class Factory {
         return new LoginPageController();
     }
 
+    public static Controller getLogoutPageController() { return new LogoutPageController();  }
+
     public static Controller getRegistrationPageController() {
         return new RegistrationPageController();
     }

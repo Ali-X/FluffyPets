@@ -37,7 +37,7 @@
                         <span class="glyphicon glyphicon-user"></span>
                         My profile</a></li>
 
-                    <li><a href="<c:url value="/root/logout"/>">    <%--todo: make logout--%>
+                    <li><a href="<c:url value="/root/logout"/>">
                         <span class="glyphicon glyphicon-log-out"></span>
                         Logout</a></li>
                 </c:if>
@@ -119,11 +119,11 @@
                     <label class="col-md-4 control-label">Marital Status:</label>
                     <div class="col-md-4">
                         <label class="radio-inline" for="radios-0">
-                            <input type="radio" name="radios" id="radios-0" value="Married" checked="checked">
+                            <input type="radio" name="Marital" id="radios-0" value=true checked="checked">
                             Married
                         </label>
                         <label class="radio-inline" for="radios-1">
-                            <input type="radio" name="radios" id="radios-1" value="Unmarried">
+                            <input type="radio" name="Marital" id="radios-1" value=false>
                             Unmarried
                         </label>
                     </div>
@@ -131,22 +131,22 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label col-xs-12" for="District">Address</label>
                     <div class="col-md-2  col-xs-4">
-                        <input id="District" type="text"
+                        <input id="District" type="text" name="District"
                                required placeholder="District" class="form-control input-md ">
                     </div>
                     <div class="col-md-2 col-xs-4">
-                        <input id="Area" type="text"
+                        <input id="Area" type="text" name="Area"
                                placeholder="Area" class="form-control input-md ">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-md-4 invisible col-xs-12" for="Street">Address</label>
                     <div class="col-md-2  col-xs-4">
-                        <input id="Street" type="text"
+                        <input id="Street" type="text" name="Street"
                                required placeholder="Street" class="form-control input-md ">
                     </div>
                     <div class="col-md-2  col-xs-4">
-                        <input id="App" type="text"
+                        <input id="App" type="text" name="App"
                                required placeholder="App. №" class="form-control input-md ">
                     </div>
                 </div>
@@ -184,10 +184,12 @@
                         <button type="reset" class="btn btn-warning"><span
                                 class="glyphicon glyphicon-remove-sign"></span> Clear
                         </button>
-                        <button type="submit" hidden name="whoWillBeAdmin" class="btn btn-danger"
-                                formaction="\rooot\adminEdit" value=">${requestScope.user.getId()}"><span
-                                class="glyphicon glyphicon-remove-sign"></span> make Admin
-                        </button>
+                        <%--<c:if test="${requestScope.user.getRoleString().equals('admin')}">--%>
+                        <%--<button type="submit" hidden name="whoWillBeAdmin" class="btn btn-danger"--%>
+                                <%--formaction="\rooot\adminEdit" value=">${requestScope.user.getId()}"><span--%>
+                                <%--class="glyphicon glyphicon-remove-sign"></span> make Admin--%>
+                        <%--</button>--%>
+                        <%--</c:if>--%>
                     </div>
                 </div>
             </form>

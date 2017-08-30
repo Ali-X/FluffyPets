@@ -23,6 +23,10 @@ public class Request {
         return uri;
     }
 
+    public void removeAtribute(String attribute){
+        attributes.remove(attribute);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

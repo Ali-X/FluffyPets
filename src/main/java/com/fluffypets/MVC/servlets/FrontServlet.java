@@ -22,6 +22,7 @@ public class FrontServlet extends HttpServlet {
 //      pages GET links
         controllerMap.put(new Request("GET", "/root/home"), Factory.getHomeController());
         controllerMap.put(new Request("GET", "/root/login"), Factory.getLoginPageController());
+        controllerMap.put(new Request("GET", "/root/logout"), Factory.getLogoutPageController());
         controllerMap.put(new Request("GET", "/root/profile"), Factory.getProfilePageController());
         controllerMap.put(new Request("GET", "/root/signup"), Factory.getRegistrationPageController());
         controllerMap.put(new Request("GET", "/root/forgot"), Factory.getForgotPassword());

@@ -38,7 +38,7 @@
                         <span class="glyphicon glyphicon-user"></span>
                         My profile</a></li>
 
-                    <li class="text-warning"><a href="<c:url value="/root/logout"/>">    <%--todo: make logout--%>
+                    <li class="text-warning"><a href="<c:url value="/root/logout"/>">
                         <span class="glyphicon glyphicon-log-out"></span>
                         Logout</a></li>
                 </c:if>

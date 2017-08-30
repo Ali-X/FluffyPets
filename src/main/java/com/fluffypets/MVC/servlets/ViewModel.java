@@ -27,6 +27,14 @@ public class ViewModel {
         return view;
     }
 
+    public void removeAttribute(String attribute){
+        attributes.remove(attribute);
+    }
+
+    public void removeCookie(String cookie){
+        cookieS.remove(cookie);
+    }
+
     public void setView(String view) {
         this.view = view;
     }

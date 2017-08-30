@@ -31,6 +31,7 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
         }
     }
 
+    @Override
     public User create(User user) {
         try {
             PreparedStatement preparedStatement;
