@@ -1,7 +1,6 @@
 package com.fluffypets.MVC.model;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class UserData {
     private Long userDataId;

@@ -5,6 +5,7 @@ import com.fluffypets.MVC.model.UserData;
 import exeptions.DAOException;
 
 import java.sql.*;
+import java.time.LocalDate;
 
 public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDAO, AutoCloseable {
 
@@ -84,10 +85,10 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
     public UserData update(UserData userData) {
         PreparedStatement preparedStatement;
         try {
-                    String preparedQuery = "UPDATE Pets.userData SET userId = ?," +
+            String preparedQuery = "UPDATE Pets.userData SET userId = ?," +
                     "fullName = ?, dateOfBirth = ?, gender = ?, maried = ?, " +
-                            "district = ?, area = ?, street = ?, app = ?, primaryPhone=?,secondaryPhone=? " +
-                            "WHERE id =?";
+                    "district = ?, area = ?, street = ?, app = ?, primaryPhone=?,secondaryPhone=? " +
+                    "WHERE id =?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setLong(1, userData.getUserId());
             preparedStatement.setString(2, userData.getFullName());
@@ -109,20 +110,66 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
 
     @Override
     public UserData get(UserData userData) {
-        return null;
+        PreparedStatement preparedStatement;
+        try {
+            String preparedQuery = "SELECT * FROM Pets.userData WHERE userId = ?";
+            preparedStatement = connection.prepareStatement(preparedQuery);
+            preparedStatement.setLong(1, userData.getUserId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Long userDataId = resultSet.getLong("id");
+                Long userId = resultSet.getLong("userId");
+                String fullName = resultSet.getString("fullName");
+                LocalDate dateOfBirth = resultSet.getDate("dateOfBirth").toLocalDate();
+                String gender = resultSet.getString("gender");
+                Boolean married = resultSet.getBoolean("maried");
+                String district = resultSet.getString("district");
+                String area = resultSet.getString("area");
+                String street = resultSet.getString("street");
+                String app = resultSet.getString("app");
+                Long primaryNumber = resultSet.getLong("primaryPhone");
+                Long secondaryNumber = resultSet.getLong("secondaryPhone");
+
+                userData = new UserData(userDataId, userId, fullName, dateOfBirth, gender, married, district, area,
+                        street, app, primaryNumber, secondaryNumber);
+            } else userData = null;
+        } catch (SQLException e) {
+            throw new DAOException("There are problems with getting user from DB" + e);
+        }
+        return userData;
     }
 
     @Override
     public UserData findById(Integer id) {
-        return null;
+        UserData userData=null;
+        PreparedStatement preparedStatement;
+        try {
+            String preparedQuery = "SELECT * FROM Pets.userData WHERE id = ?";
+            preparedStatement = connection.prepareStatement(preparedQuery);
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Long userDataId = resultSet.getLong("id");
+                Long userId = resultSet.getLong("userId");
+                String fullName = resultSet.getString("fullName");
+                LocalDate dateOfBirth = resultSet.getDate("dateOfBirth").toLocalDate();
+                String gender = resultSet.getString("gender");
+                Boolean married = resultSet.getBoolean("maried");
+                String district = resultSet.getString("district");
+                String area = resultSet.getString("area");
+                String street = resultSet.getString("street");
+                String app = resultSet.getString("app");
+                Long primaryNumber = resultSet.getLong("primaryPhone");
+                Long secondaryNumber = resultSet.getLong("secondaryPhone");
+
+                userData = new UserData(userDataId, userId, fullName, dateOfBirth, gender, married, district, area,
+                        street, app, primaryNumber, secondaryNumber);
+            }
+        } catch (SQLException e) {
+            throw new DAOException("There are problems with getting user from DB" + e);
+        }
+        return userData;
     }
-
-    @Override
-    public String printConnectInfo() {
-        return null;
-    }
-
-
 
     @Override
     public void close() throws Exception {
