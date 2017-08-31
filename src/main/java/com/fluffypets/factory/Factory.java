@@ -121,4 +121,8 @@ public class Factory {
     public static Controller getSignUpCheckController() {
         return new SignUpCheckController(Factory.getUserService());
     }
+
+    public static Controller getUserDataController() {
+        return new UserDataController(Factory.getUserDataService());
+    }
 }

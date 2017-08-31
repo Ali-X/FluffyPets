@@ -13,11 +13,11 @@ public class UserData {
     private String area;
     private String street;
     private String app;
-    private Long primaryNumber;
-    private Long secondaryNumber;
+    private String primaryNumber;
+    private String secondaryNumber;
 
     public UserData(Long userDataId, Long userId, String fullName, LocalDate dateOfBirth, String gender, Boolean married,
-                    String district, String area, String street, String app, Long primaryNumber, Long secondaryNumber) {
+                    String district, String area, String street, String app, String primaryNumber, String secondaryNumber) {
         this.userDataId = userDataId;
         this.userId = userId;
         this.fullName = fullName;
@@ -32,7 +32,7 @@ public class UserData {
         this.secondaryNumber = secondaryNumber;
     }
     public UserData(Long userId, String fullName, LocalDate dateOfBirth, String gender, Boolean married,
-                    String district, String area, String street, String app, Long primaryNumber, Long secondaryNumber) {
+                    String district, String area, String street, String app, String primaryNumber, String secondaryNumber) {
         this.userId = userId;
         this.fullName = fullName;
         this.dateOfBirth = dateOfBirth;
@@ -159,19 +159,19 @@ public class UserData {
         this.app = app;
     }
 
-    public Long getPrimaryNumber() {
+    public String getPrimaryNumber() {
         return primaryNumber;
     }
 
-    public void setPrimaryNumber(Long primaryNumber) {
+    public void setPrimaryNumber(String primaryNumber) {
         this.primaryNumber = primaryNumber;
     }
 
-    public Long getSecondaryNumber() {
+    public String getSecondaryNumber() {
         return secondaryNumber;
     }
 
-    public void setSecondaryNumber(Long secondaryNumber) {
+    public void setSecondaryNumber(String secondaryNumber) {
         this.secondaryNumber = secondaryNumber;
     }
 }

@@ -26,8 +26,8 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
                 "`area` VARCHAR(30) NOT NULL," +
                 "`street` VARCHAR(30) NOT NULL," +
                 "`app` VARCHAR(30) NOT NULL," +
-                "`primaryPhone` INT NOT NULL," +
-                "`secondaryPhone` INT," +
+                "`primaryPhone` VARCHAR(20) NOT NULL," +
+                "`secondaryPhone` VARCHAR(20)," +
                 "PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC)," +
                 " CONSTRAINT FOREIGN KEY (userId) REFERENCES users(id))";
         try {
@@ -55,8 +55,8 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
             preparedStatement.setString(7, userData.getArea());
             preparedStatement.setString(8, userData.getStreet());
             preparedStatement.setString(9, userData.getApp());
-            preparedStatement.setLong(10, userData.getPrimaryNumber());
-            preparedStatement.setLong(11, userData.getSecondaryNumber());
+            preparedStatement.setString(10, userData.getPrimaryNumber());
+            preparedStatement.setString(11, userData.getSecondaryNumber());
 
             preparedStatement.execute();
 
@@ -99,8 +99,9 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
             preparedStatement.setString(7, userData.getArea());
             preparedStatement.setString(8, userData.getStreet());
             preparedStatement.setString(9, userData.getApp());
-            preparedStatement.setLong(10, userData.getPrimaryNumber());
-            preparedStatement.setLong(11, userData.getSecondaryNumber());
+            preparedStatement.setString(10, userData.getPrimaryNumber());
+            preparedStatement.setString(11, userData.getSecondaryNumber());
+            preparedStatement.setLong(12, userData.getUserDataId());
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new DAOException("There are problems with userData update in DB" + e);
@@ -127,8 +128,8 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
                 String area = resultSet.getString("area");
                 String street = resultSet.getString("street");
                 String app = resultSet.getString("app");
-                Long primaryNumber = resultSet.getLong("primaryPhone");
-                Long secondaryNumber = resultSet.getLong("secondaryPhone");
+                String primaryNumber = resultSet.getString("primaryPhone");
+                String secondaryNumber = resultSet.getString("secondaryPhone");
 
                 userData = new UserData(userDataId, userId, fullName, dateOfBirth, gender, married, district, area,
                         street, app, primaryNumber, secondaryNumber);
@@ -159,8 +160,8 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
                 String area = resultSet.getString("area");
                 String street = resultSet.getString("street");
                 String app = resultSet.getString("app");
-                Long primaryNumber = resultSet.getLong("primaryPhone");
-                Long secondaryNumber = resultSet.getLong("secondaryPhone");
+                String primaryNumber = resultSet.getString("primaryPhone");
+                String secondaryNumber = resultSet.getString("secondaryPhone");
 
                 userData = new UserData(userDataId, userId, fullName, dateOfBirth, gender, married, district, area,
                         street, app, primaryNumber, secondaryNumber);
@@ -191,8 +192,8 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
                 String area = resultSet.getString("area");
                 String street = resultSet.getString("street");
                 String app = resultSet.getString("app");
-                Long primaryNumber = resultSet.getLong("primaryPhone");
-                Long secondaryNumber = resultSet.getLong("secondaryPhone");
+                String primaryNumber = resultSet.getString("primaryPhone");
+                String secondaryNumber = resultSet.getString("secondaryPhone");
 
                 userData = new UserData(userDataId, userId, fullName, dateOfBirth, gender, married, district, area,
                         street, app, primaryNumber, secondaryNumber);

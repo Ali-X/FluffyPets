@@ -24,12 +24,17 @@ public class TestUserData {
 
         UserData dodikData=new UserData(dodik.getId().longValue(),"dodik's full name", LocalDate.now(),"Male",
                 false,"Poltavska oblast","misto Lubnu","vulitsa Litovska 4",
-                "app. 43", 858453421L,95673421L);
+                "app. 43", "858453421","95673421");
         UserData expectedUserData=myUserData.get(dodikData);
         assertNull("User data should be absent", expectedUserData);
         dodikData=myUserData.create(dodikData);
         expectedUserData=myUserData.get(dodikData);
         assertNotNull("User data should be present", expectedUserData);
+
+        dodikData.setSecondaryNumber("222222");
+        dodikData=myUserData.update(dodikData);
+        assertEquals("222222",dodikData.getSecondaryNumber());
+
         myUserData.delete(dodikData);
         expectedUserData = myUserData.get(dodikData);
         assertNull("User data should be absent", expectedUserData);

@@ -31,6 +31,7 @@ public class FrontServlet extends HttpServlet {
 //      POST methods from pages
         controllerMap.put(new Request("POST", "/root/login"), Factory.getLoginCheckController());
         controllerMap.put(new Request("POST", "/root/signup"), Factory.getSignUpCheckController());
+        controllerMap.put(new Request("POST", "/root/editProfile"), Factory.getUserDataController());
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
