@@ -5,14 +5,12 @@ import com.fluffypets.DAO.category.CategoryDAOImpl;
 import com.fluffypets.DAO.product.ProductDAO;
 import com.fluffypets.DAO.product.ProductDAOImpl;
 import com.fluffypets.DAO.user.UserDAOImpl;
+import com.fluffypets.DAO.userData.UserDataDAOImpl;
 import com.fluffypets.MVC.controller.Controller;
 import com.fluffypets.MVC.controller.pages.*;
 import com.fluffypets.MVC.controller.post.*;
 import com.fluffypets.MVC.servlets.ViewModel;
-import com.fluffypets.servicies.CategoryService;
-import com.fluffypets.servicies.CategoryServiceImpl;
-import com.fluffypets.servicies.UserService;
-import com.fluffypets.servicies.UserServiceImpl;
+import com.fluffypets.servicies.*;
 import exeptions.DAOException;
 
 import java.sql.Connection;
@@ -60,6 +58,10 @@ public class Factory {
         return new UserDAOImpl(Factory.getConnection());
     }
 
+    public static UserDataDAOImpl getUserDataDao() {
+        return new UserDataDAOImpl(Factory.getConnection());
+    }
+
     public static CategoryDAO getCategoryDao() {
         return new CategoryDAOImpl(Factory.getConnection());
     }
@@ -76,6 +78,10 @@ public class Factory {
 
     private static UserService getUserService() {
         return new UserServiceImpl(Factory.getUserDao());
+    }
+
+    private static UserDataService getUserDataService() {
+        return new UserDataServiceImpl(Factory.getUserDataDao());
     }
 
     public static CategoryService getCategoriesService() {
@@ -109,7 +115,7 @@ public class Factory {
     public static Controller getUserProfileController() {return new UserProfileController();}
     //----------------------               Post handling            --------------------------------------------
     public static Controller getLoginCheckController() {
-        return new LoginCheckController(Factory.getUserService());
+        return new LoginCheckController(Factory.getUserService(),Factory.getUserDataService());
     }
 
     public static Controller getSignUpCheckController() {

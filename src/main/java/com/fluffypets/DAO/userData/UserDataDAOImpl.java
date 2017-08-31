@@ -140,6 +140,38 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
     }
 
     @Override
+    public UserData getByUserId(Long id) {
+        UserData userData;
+        PreparedStatement preparedStatement;
+        try {
+            String preparedQuery = "SELECT * FROM Pets.userData WHERE userId = ?";
+            preparedStatement = connection.prepareStatement(preparedQuery);
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Long userDataId = resultSet.getLong("id");
+                Long userId = resultSet.getLong("userId");
+                String fullName = resultSet.getString("fullName");
+                LocalDate dateOfBirth = resultSet.getDate("dateOfBirth").toLocalDate();
+                String gender = resultSet.getString("gender");
+                Boolean married = resultSet.getBoolean("maried");
+                String district = resultSet.getString("district");
+                String area = resultSet.getString("area");
+                String street = resultSet.getString("street");
+                String app = resultSet.getString("app");
+                Long primaryNumber = resultSet.getLong("primaryPhone");
+                Long secondaryNumber = resultSet.getLong("secondaryPhone");
+
+                userData = new UserData(userDataId, userId, fullName, dateOfBirth, gender, married, district, area,
+                        street, app, primaryNumber, secondaryNumber);
+            } else userData = null;
+        } catch (SQLException e) {
+            throw new DAOException("There are problems with getting user from DB" + e);
+        }
+        return userData;
+    }
+
+    @Override
     public UserData findById(Integer id) {
         UserData userData=null;
         PreparedStatement preparedStatement;

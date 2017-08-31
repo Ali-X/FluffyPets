@@ -31,6 +31,20 @@ public class UserData {
         this.primaryNumber = primaryNumber;
         this.secondaryNumber = secondaryNumber;
     }
+    public UserData(Long userId, String fullName, LocalDate dateOfBirth, String gender, Boolean married,
+                    String district, String area, String street, String app, Long primaryNumber, Long secondaryNumber) {
+        this.userId = userId;
+        this.fullName = fullName;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+        this.married = married;
+        this.district = district;
+        this.area = area;
+        this.street = street;
+        this.app = app;
+        this.primaryNumber = primaryNumber;
+        this.secondaryNumber = secondaryNumber;
+    }
 
     @Override
     public boolean equals(Object o) {
