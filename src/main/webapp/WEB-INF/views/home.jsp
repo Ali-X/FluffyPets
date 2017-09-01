@@ -9,6 +9,7 @@
 </head>
 <body>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -23,6 +24,16 @@
             <ul class="nav navbar-nav navbar-right">
 
                 <li class="active"><a href="<c:url value="/root/home"/> ">Products</a></li>
+
+                <c:if test="${not empty requestScope.user}">
+                    <c:if test="${requestScope.user.getRoleString().equals('admin')}">
+                        <li><a href="<c:url value="/root/createProduct"/>">
+                            <span class="glyphicon glyphicon-edit"></span>
+                            Create product</a></li>
+                        <li><a href="<c:url value="/root/admin"/>">
+                            <span class="glyphicon glyphicon-wrench"></span>
+                            Admin page</a></li>
+                    </c:if></c:if>
 
                 <c:if test="${empty requestScope.user}">
                     <li><a href="<c:url value="/root/login"/>">
@@ -64,6 +75,7 @@
         </div>
     </div>
 </nav>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3 col-sm-4 visible-md visible-sm visible-lg"><img

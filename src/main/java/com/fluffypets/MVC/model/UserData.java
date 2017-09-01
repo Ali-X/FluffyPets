@@ -171,6 +171,10 @@ public class UserData {
         return secondaryNumber;
     }
 
+    public void setUserDataId(Long userDataId) {
+        this.userDataId = userDataId;
+    }
+
     public void setSecondaryNumber(String secondaryNumber) {
         this.secondaryNumber = secondaryNumber;
     }

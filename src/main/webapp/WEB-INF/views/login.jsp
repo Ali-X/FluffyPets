@@ -24,6 +24,16 @@
 
                 <li><a href="<c:url value="/root/home"/> ">Products</a></li>
 
+                <c:if test="${not empty requestScope.user}">
+                    <c:if test="${requestScope.user.getRoleString().equals('admin')}">
+                        <li><a href="<c:url value="/root/createProduct"/>">
+                            <span class="glyphicon glyphicon-edit"></span>
+                            Create product</a></li>
+                        <li><a href="<c:url value="/root/admin"/>">
+                            <span class="glyphicon glyphicon-wrench"></span>
+                            Admin page</a></li>
+                    </c:if></c:if>
+
                 <c:if test="${empty requestScope.user}">
                     <li class="active"><a href="<c:url value="/root/login"/>">
                         <span class="glyphicon glyphicon-log-in"></span>

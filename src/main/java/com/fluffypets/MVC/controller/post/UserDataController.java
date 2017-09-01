@@ -44,8 +44,8 @@ public class UserDataController implements Controller {
             if (current == null) {
                 userData = userDataService.create(userData);
             } else {
-                userData.setUserId(current.getUserId());
-                userData = userDataService.update(userData);
+                userData.setUserDataId(current.getUserDataId());
+                userData = userDataService.update(userData);// todo: NPE
             }
             vm.setAttribute("userData", userData);
         }

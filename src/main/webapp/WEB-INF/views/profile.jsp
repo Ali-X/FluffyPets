@@ -24,21 +24,31 @@
 
                 <li><a href="<c:url value="/root/home"/> ">Products</a></li>
 
+                <c:if test="${not empty requestScope.user}">
+                    <c:if test="${requestScope.user.getRoleString().equals('admin')}">
+                        <li><a href="<c:url value="/root/createProduct"/>">
+                            <span class="glyphicon glyphicon-edit"></span>
+                            Create product</a></li>
+                        <li><a href="<c:url value="/root/admin"/>">
+                            <span class="glyphicon glyphicon-wrench"></span>
+                            Admin page</a></li>
+                    </c:if></c:if>
+
                 <c:if test="${empty requestScope.user}">
                     <li><a href="<c:url value="/root/login"/>">
                         <span class="glyphicon glyphicon-log-in"></span>
                         Signin</a></li>
-                    <li><a href="<c:url value="/root/signup"/>">
+                    <li class="active"><a href="<c:url value="/root/signup"/>">
                         <span class="glyphicon glyphicon-ok"></span>
                         Signup</a></li>
                 </c:if>
 
                 <c:if test="${not empty requestScope.user}">
-                    <li class="active"><a href="<c:url value="/root/profile"/>">
+                    <li class="text-warning"><a href="<c:url value="/root/profile"/>">
                         <span class="glyphicon glyphicon-user"></span>
                         My profile</a></li>
 
-                    <li><a href="<c:url value="/root/logout"/>">
+                    <li class="text-warning"><a href="<c:url value="/root/logout"/>">
                         <span class="glyphicon glyphicon-log-out"></span>
                         Logout</a></li>
                 </c:if>
