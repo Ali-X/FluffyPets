@@ -7,6 +7,7 @@ import com.fluffypets.DAO.product.ProductDAOImpl;
 import com.fluffypets.DAO.user.UserDAOImpl;
 import com.fluffypets.DAO.userData.UserDataDAOImpl;
 import com.fluffypets.MVC.controller.Controller;
+import com.fluffypets.MVC.controller.UploadPhotoController;
 import com.fluffypets.MVC.controller.pages.*;
 import com.fluffypets.MVC.controller.post.*;
 import com.fluffypets.MVC.servlets.ViewModel;
@@ -19,7 +20,10 @@ import java.sql.SQLException;
 
 public class Factory {
     private static ViewModel vm = new ViewModel();
-    public static Connection getConnection(){return Factory.getConnectionMySQL();}
+
+    public static Connection getConnection() {
+        return Factory.getConnectionMySQL();
+    }
 
     private static Connection getConnectionH2() {
         Connection connection = null;
@@ -49,9 +53,10 @@ public class Factory {
     public static ViewModel getViewModel() {
         return vm;
     }
+
     //---------------------                 DAO                --------------------------------------------------------
     public static ProductDAO getProductDao() {
-    return new ProductDAOImpl(Factory.getConnection());
+        return new ProductDAOImpl(Factory.getConnection());
     }
 
     public static UserDAOImpl getUserDao() {
@@ -94,28 +99,46 @@ public class Factory {
 
     //---------------------                 get pages                ---------------------------------------------------
 
-    public static Controller getHomeController() {  return new HomePageController(Factory.getProductService(),Factory.getCategoriesService());    }
+    public static Controller getHomeController() {
+        return new HomePageController(Factory.getProductService(), Factory.getCategoriesService());
+    }
 
-    public static Controller getLoginPageController() {     return new LoginPageController();    }
+    public static Controller getLoginPageController() {
+        return new LoginPageController();
+    }
 
-    public static Controller getLogoutPageController() { return new LogoutPageController();  }
+    public static Controller getLogoutPageController() {
+        return new LogoutPageController();
+    }
 
-    public static Controller getRegistrationPageController() { return new RegistrationPageController(); }
+    public static Controller getRegistrationPageController() {
+        return new RegistrationPageController();
+    }
 
-    public static Controller getProfilePageController() { return new ProfilePageController();    }
+    public static Controller getProfilePageController() {
+        return new ProfilePageController();
+    }
 
-    public static Controller getForgotPassword() { return new ForgotPasswordController();  }
+    public static Controller getForgotPassword() {
+        return new ForgotPasswordController();
+    }
 
-    public static Controller getEditUserProfileController() {return new EditUserProfileController();}
+    public static Controller getEditUserProfileController() {
+        return new EditUserProfileController();
+    }
 
-    public static Controller getUserProfileController() {return new UserProfileController();}
+    public static Controller getUserProfileController() {
+        return new UserProfileController();
+    }
 
-    public static Controller getProductController() { return new ProductController(Factory.getCategoriesService());}
+    public static Controller getProductController() {
+        return new ProductController(Factory.getCategoriesService());
+    }
 
     //----------------------               Post handling            --------------------------------------------
 
     public static Controller getLoginCheckController() {
-        return new LoginCheckController(Factory.getUserService(),Factory.getUserDataService());
+        return new LoginCheckController(Factory.getUserService(), Factory.getUserDataService());
     }
 
     public static Controller getSignUpCheckController() {
@@ -131,10 +154,14 @@ public class Factory {
     }
 
     public static Controller getCreateProductController() {
-        return new CreateProductController(Factory.getProductService(),Factory.getCategoriesService());
+        return new CreateProductController(Factory.getProductService(), Factory.getCategoriesService());
     }
 
     public static Controller getSendForgotPassword() {
         return new SendForgotPasword(Factory.getUserDataService());
+    }
+
+    public static Controller getImageUploadController() {
+        return new UploadPhotoController();
     }
 }

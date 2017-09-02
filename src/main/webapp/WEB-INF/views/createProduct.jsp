@@ -80,7 +80,8 @@
         <div class="col-md-4 center-block hidden-sm hidden-xs">
             <div class="thumbnail">
                 <a href="${pageContext.request.contextPath}/resourseces/img/toy-bear.jpg" target="_blank">
-                    <img src="${pageContext.request.contextPath}/resourseces/img/toy-bear.jpg" alt="Nature" style="width:100%">
+                    <img src="${pageContext.request.contextPath}/resourseces/img/toy-bear.jpg" alt="Nature"
+                         style="width:100%">
                 </a>
             </div>
         </div>
@@ -114,58 +115,63 @@
                         <div class="col-md-2"><input id="price" type="text" name="price" placeholder="?"
                                                      class="form-control"></div>
                     </div>
+                    <form action="/root/uploadPhoto" enctype="multipart/form-data" method="post">
+                        <input type="file">
+                    </form>
                     <div class="row">
                         <div class="col-md-3">
                             <button class="btn btn-success btn-md" formaction="/root/createProduct">Create good</button>
                         </div>
-                        <div class="col-md-3">
-                            <button class="btn btn-info btn-md" formaction="/root/uploadPhoto">Upload photo</button>
-                        </div>
                         <c:if test="${not empty requestScope.categories}">
-                        <div class="col-md-3">
-                        <%--<label for="sel1">Select category :</label>--%>
-                        <select class="form-control bg-warning" id="sel1" name="categorySelId">
-                            <c:forEach items="${requestScope.categories}" var="category">
-                                <option value="${category.getId()}"><c:out value="${category.getName()}"/></option>
-                            </c:forEach>
-                        </select>
-                        </div>
+                            <div class="col-md-3">
+                                    <%--<label for="sel1">Select category :</label>--%>
+                                <select class="form-control bg-warning" id="sel1" name="categorySelId">
+                                    <c:forEach items="${requestScope.categories}" var="category">
+                                        <option value="${category.getId()}"><c:out
+                                                value="${category.getName()}"/></option>
+                                    </c:forEach>
+                                </select>
+                            </div>
                         </c:if>
                     </div>
                 </form>
 
-            <div class="row">
+                <div class="row">
 
-                <div class="caption">
-                    <h3>Create product category</h3>
-                </div>
-
-                <div class="col-xs-4 col-md-3 col-lg-2 center-block">
-                    <div class="thumbnail">
-                        <img src="${pageContext.request.contextPath}/resourseces/img/Category.jpg" alt="Nature" style="max-height: 120px">
+                    <div class="caption">
+                        <h3>Create product category</h3>
                     </div>
-                </div>
 
-                <div class="col-xs-8 col-md-9 col-lg-10">
-                    <div class="form-group col-md-9">
-                        <form class="form-horizontal" method="post">
-                            <label>Category name</label><br>
-
-                            <input id="categoryName2" type="text" name="categoryName"
-                                   placeholder="categoryName" class="form-control">
-
-                            <br>
-                            <label for="comment2">Insert category description</label>
-                            <textarea class="form-control" name="categoryDescription" rows="2" id="comment2"></textarea>
-                            <br>
-
-                            <button class="btn btn-success btn-md" formaction="/root/createCategory">Create category</button>
-
-                        </form>
+                    <div class="col-xs-4 col-md-3 col-lg-2 center-block">
+                        <div class="thumbnail">
+                            <img src="${pageContext.request.contextPath}/resourseces/img/Category.jpg" alt="Nature"
+                                 style="max-height: 120px">
+                        </div>
                     </div>
-                </div>
 
-            </div>
+                    <div class="col-xs-8 col-md-9 col-lg-10">
+                        <div class="form-group col-md-9">
+                            <form class="form-horizontal" method="post">
+                                <label>Category name</label><br>
+
+                                <input id="categoryName2" type="text" name="categoryName"
+                                       placeholder="categoryName" class="form-control">
+
+                                <br>
+                                <label for="comment2">Insert category description</label>
+                                <textarea class="form-control" name="categoryDescription" rows="2"
+                                          id="comment2"></textarea>
+                                <br>
+
+                                <button class="btn btn-success btn-md" formaction="/root/createCategory">Create
+                                    category
+                                </button>
+
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>

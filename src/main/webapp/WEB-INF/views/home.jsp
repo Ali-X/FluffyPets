@@ -92,27 +92,14 @@
 <div class="container-fluid">
     <div class="row">
         <div class="bg-info col-xs-6 col-sm-3 col-lg-2">
-            <h4>Select the category </h4>
             <form>
                 <div class="form-group">
+                    <h4>Select categories</h4>
+                    <c:forEach items="${categories}" var="category">
                     <div class="checkbox">
-                        <label><input type="checkbox" value="bears">Teddy Bears</label>
+                        <label><input type="checkbox" value="${category.getId()}">${category.getName()}</label>
                     </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="catsAndDogs">Cats and Dogs</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="farm">Farm Animalas</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="puppets">Puppets</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="character">Favorite Characters</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="big">Jumbo-Sized</label>
-                    </div>
+                    </c:forEach>
                     <h4>Select price range</h4>
                     <div class="radio">
                         <label><input type="radio" name="price">less 25$</label>
@@ -139,11 +126,11 @@
 
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="thumbnail">
-                            <a href="${pageContext.request.contextPath}${product.getPictureURL()}"target="_blank">
+                            <a href="${pageContext.request.contextPath}${product.getPictureURL()}" target="_blank">
                                 <img src="${pageContext.request.contextPath}${product.getPictureURL()}"
                                      alt="Nature" style="height: 320px">
                                 <div class="caption">
-                                    <h3>Lorem ipsum donec id elit non mi porta gravida at eget metus.</h3>
+                                    <h4>${product.getName()}</h4>
                                 </div>
                             </a>
                             <div class="container">
