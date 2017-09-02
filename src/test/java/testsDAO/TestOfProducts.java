@@ -56,7 +56,7 @@ public class TestOfProducts {
 
         List<Product> productList;
 
-        productList=productDAO.getAll(plushBears.getId());
+        productList=productDAO.getAll();
         assertEquals("Should be 2 records only",productList.size(),2);
         assertTrue(productList.contains(plushPanda));
         assertTrue(productList.contains(plushIceBear));

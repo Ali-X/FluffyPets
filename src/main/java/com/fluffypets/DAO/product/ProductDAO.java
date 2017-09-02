@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface ProductDAO extends GenericDAO<Product> {
 
-    List<Product> getAll(Integer c_id);
+    List<Product> getAll();
 
 }

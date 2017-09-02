@@ -20,6 +20,7 @@ public class AdminFilter implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
         userDAO = Factory.getUserDao();
         protectedUrls.add("/root/admin");
+        protectedUrls.add("/root/createProduct");
     }
 
     @Override

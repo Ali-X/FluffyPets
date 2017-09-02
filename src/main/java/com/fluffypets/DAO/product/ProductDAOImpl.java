@@ -158,15 +158,13 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
     }
 
     @Override
-    public List<Product> getAll(Integer c_id) {
+    public List<Product> getAll() {
         PreparedStatement preparedStatement;
         List<Product> product = new ArrayList<>();
         CategoryDAO supportReq = Factory.categoryDaoByConnection(connection);
-        Category thisCategory = supportReq.findById(c_id);
         try {
-            String preparedQuery = "SELECT * FROM Pets.products WHERE categoryId = ?";
+            String preparedQuery = "SELECT * FROM Pets.products LIMIT 30";
             preparedStatement = connection.prepareStatement(preparedQuery);
-            preparedStatement.setInt(1, c_id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 String productName = resultSet.getString("productName");
@@ -176,6 +174,7 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
                 String pictureURL = resultSet.getString("pictureURL");
                 int id = resultSet.getInt("id");
 
+                Category thisCategory = supportReq.findById(id);
 
                 product.add(new Product(id, productName, producer, new BigDecimal(price),
                         description, pictureURL, thisCategory));

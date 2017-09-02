@@ -20,6 +20,7 @@ public class UserFilter implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
         userDao = Factory.getUserDao();
         protectedUrl.add("/root/profile");
+        protectedUrl.add("/root/editProfile");
     }
 
     @Override

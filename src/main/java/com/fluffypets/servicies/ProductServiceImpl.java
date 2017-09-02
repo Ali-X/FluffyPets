@@ -13,8 +13,8 @@ public class ProductServiceImpl implements ProductService {
         this.productDAO = productDAO;
     }
 
-    public List<Product> getAll(Integer c_id) {
-        return productDAO.getAll(c_id);
+    public List<Product> getAll() {
+        return productDAO.getAll();
     }
 
     @Override

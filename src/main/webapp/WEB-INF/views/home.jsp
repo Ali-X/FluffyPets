@@ -135,73 +135,34 @@
         </div>
         <div class="col-xs-6 col-sm-9 col-lg-10">
             <div class="row">
+                <c:forEach items="${requestScope.products}" var="product">
 
-                <div class="col-sm-6 col-md-4">
-                    <div class="thumbnail">
-                        <a href="<c:url value="/resourseces/img/goods/CatsDogs/id1.jpg"/>" target="_blank">
-                            <img src="<c:url value="/resourseces/img/goods/CatsDogs/id1.jpg"/>" alt="Nature" style="width:100%">
-                            <div class="caption">
-                                <p>Lorem ipsum donec id elit non mi porta gravida at eget metus.</p>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                        <div class="thumbnail">
+                            <a href="${pageContext.request.contextPath}${product.getPictureURL()}"target="_blank">
+                                <img src="${pageContext.request.contextPath}${product.getPictureURL()}"
+                                     alt="Nature" style="height: 320px">
+                                <div class="caption">
+                                    <h3>Lorem ipsum donec id elit non mi porta gravida at eget metus.</h3>
+                                </div>
+                            </a>
+                            <div class="container">
+                                <form class="form-horizontal" method="post">
+                                    <input type="hidden" name="productId" value="${product.getId()}">
+                                    <h2><span class="glyphicon glyphicon-usd"></span> ${product.getPrice()} </h2>
+                                    <button class="btn btn-success btn-md"
+                                            formaction="<c:url value="/root/addToCart"/>">Add to
+                                        cart
+                                    </button>
+                                    <button class="btn btn-info btn-md" formaction="<c:url value="/root/productInfo"/>">
+                                        More details
+                                    </button>
+                                </form>
                             </div>
-                        </a>
-                        <div class="container">
-                            <form class="form-horizontal" method="post">
-                                <input type="hidden" name="goods_id" value="1234567">
-                                <button class="btn btn-success btn-md" formaction="<c:url value="/root/addToCart"/>">Add to
-                                    cart
-                                </button>
-                                <button class="btn btn-info btn-md" formaction="<c:url value="/root/productInfo"/>">More
-                                    details
-                                </button>
-                            </form>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-sm-6 col-md-4">
-                    <div class="thumbnail">
-                        <a href="<c:url value="/resourseces/img/goods/CatsDogs/id2.jpg"/>" target="_blank">
-                            <img src="<c:url value="/resourseces/img/goods/CatsDogs/id2.jpg"/>" alt="Nature" style="width:100%">
-                            <div class="caption">
-                                <p>Lorem ipsum donec id elit non mi porta gravida at eget metus.</p>
-                            </div>
-                        </a>
-                        <div class="container">
-                            <form class="form-horizontal" method="post">
-                                <input type="hidden" name="goods_id" value="12534567">
-                                <button class="btn btn-success btn-md" formaction="<c:url value="/root/addToCart"/>">Add to
-                                    cart
-                                </button>
-                                <button class="btn btn-info btn-md" formaction="<c:url value="/root/productInfo"/>">More
-                                    details
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-6 col-md-4">
-                    <div class="thumbnail">
-                        <a href="<c:url value="/resourseces/img/goods/CatsDogs/id4.jpg"/>" target="_blank">
-                            <img src="<c:url value="/resourseces/img/goods/CatsDogs/id4.jpg"/>" alt="Nature" style="width:100%">
-                            <div class="caption">
-                                <p>Lorem ipsum donec id elit non mi porta gravida at eget metus.</p>
-                            </div>
-                        </a>
-                        <div class="container">
-                            <form class="form-horizontal" method="post">
-                                <input type="hidden" name="goods_id" value="1267">
-                                <button class="btn btn-success btn-md" formaction="<c:url value="/root/addToCart"/>">Add to
-                                    cart
-                                </button>
-                                <button class="btn btn-info btn-md" formaction="<c:url value="/root/productInfo"/>">More
-                                    details
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
+                </c:forEach>
             </div>
         </div>
     </div>

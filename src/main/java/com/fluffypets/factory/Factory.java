@@ -94,7 +94,7 @@ public class Factory {
 
     //---------------------                 get pages                ---------------------------------------------------
 
-    public static Controller getHomeController() {  return new HomePageController();    }
+    public static Controller getHomeController() {  return new HomePageController(Factory.getProductService(),Factory.getCategoriesService());    }
 
     public static Controller getLoginPageController() {     return new LoginPageController();    }
 
