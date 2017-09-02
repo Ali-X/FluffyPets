@@ -17,4 +17,16 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> getAll() {
         return categoryDAO.getAll();
     }
+
+    @Override
+    public Category create(Category category) {
+        Category existing=categoryDAO.get(category);
+        if (existing==null) return categoryDAO.create(category);
+        else {return existing;}
+    }
+
+    @Override
+    public Category get(Integer id) {
+        return categoryDAO.findById(id);
+    }
 }

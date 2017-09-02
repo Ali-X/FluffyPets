@@ -30,6 +30,15 @@ public class Product {
         this.category = category;
     }
 
+    public Product(String name, String producer, BigDecimal price, String description, String pictureURL, Category category) {
+        this.name = name;
+        this.producer = producer;
+        this.price = price;
+        this.description = description;
+        this.pictureURL = pictureURL;
+        this.category = category;
+    }
+
     public void setName(String name) {
         this.name = name;
     }

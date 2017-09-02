@@ -9,4 +9,7 @@ public interface CategoryService {
 
     List<Category> getAll();
 
+    Category create(Category category);
+
+    Category get(Integer id);
 }

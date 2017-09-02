@@ -117,16 +117,5 @@
 <script src="${pageContext.request.contextPath}/resourseces/js/jquery-3.2.1.min.js"></script>
 <!-- Latest compiled and minified JavaScript -->
 <script src="${pageContext.request.contextPath}/resourseces/js/bootstrap.min.js"></script>
-
-<script>
-    function validateForm() {
-        var login = document.forms["forgotForm"]["userName"].value;
-
-        if (login.length < 5) {
-            alert("Your login should be longer");
-            return false;
-        }
-    }
-</script>
 </body>
 </html>

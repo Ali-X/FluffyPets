@@ -88,32 +88,32 @@ public class Factory {
         return new CategoryServiceImpl(Factory.getCategoryDAO());
     }
 
+    public static ProductService getProductService() {
+        return new ProductServiceImpl(Factory.getProductDao());
+    }
+
     //---------------------                 get pages                ---------------------------------------------------
 
-    public static Controller getHomeController() {
-        return new HomePageController();
-    }
+    public static Controller getHomeController() {  return new HomePageController();    }
 
-    public static Controller getLoginPageController() {
-        return new LoginPageController();
-    }
+    public static Controller getLoginPageController() {     return new LoginPageController();    }
 
     public static Controller getLogoutPageController() { return new LogoutPageController();  }
 
-    public static Controller getRegistrationPageController() {
-        return new RegistrationPageController();
-    }
+    public static Controller getRegistrationPageController() { return new RegistrationPageController(); }
 
-    public static Controller getProfilePageController() {
-        return new ProfilePageController();
-    }
+    public static Controller getProfilePageController() { return new ProfilePageController();    }
 
     public static Controller getForgotPassword() { return new ForgotPasswordController();  }
 
     public static Controller getEditUserProfileController() {return new EditUserProfileController();}
 
     public static Controller getUserProfileController() {return new UserProfileController();}
+
+    public static Controller getProductController() { return new ProductController(Factory.getCategoriesService());}
+
     //----------------------               Post handling            --------------------------------------------
+
     public static Controller getLoginCheckController() {
         return new LoginCheckController(Factory.getUserService(),Factory.getUserDataService());
     }
@@ -124,5 +124,17 @@ public class Factory {
 
     public static Controller getUserDataController() {
         return new UserDataController(Factory.getUserDataService());
+    }
+
+    public static Controller getCreateCategoryController() {
+        return new CreateCategoryController(Factory.getCategoriesService());
+    }
+
+    public static Controller getCreateProductController() {
+        return new CreateProductController(Factory.getProductService(),Factory.getCategoriesService());
+    }
+
+    public static Controller getSendForgotPassword() {
+        return new SendForgotPasword(Factory.getUserDataService());
     }
 }

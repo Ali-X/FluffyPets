@@ -17,7 +17,6 @@ public class UserDataController implements Controller {
         this.userDataService = userDataService;
     }
 
-    // TODO: 8/31/17 test posibility of user data update
     @Override
     public ViewModel process(Request request) {
         ViewModel vm = Factory.getViewModel();
@@ -45,7 +44,7 @@ public class UserDataController implements Controller {
                 userData = userDataService.create(userData);
             } else {
                 userData.setUserDataId(current.getUserDataId());
-                userData = userDataService.update(userData);// todo: NPE
+                userData = userDataService.update(userData);
             }
             vm.setAttribute("userData", userData);
         }

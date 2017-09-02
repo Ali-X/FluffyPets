@@ -28,10 +28,15 @@ public class FrontServlet extends HttpServlet {
         controllerMap.put(new Request("GET", "/root/forgot"), Factory.getForgotPassword());
         controllerMap.put(new Request("GET", "/root/editProfile"), Factory.getEditUserProfileController());
         controllerMap.put(new Request("GET", "/root/profile"), Factory.getUserProfileController());
+        controllerMap.put(new Request("GET", "/root/createProduct"), Factory.getProductController());
 //      POST methods from pages
         controllerMap.put(new Request("POST", "/root/login"), Factory.getLoginCheckController());
         controllerMap.put(new Request("POST", "/root/signup"), Factory.getSignUpCheckController());
         controllerMap.put(new Request("POST", "/root/editProfile"), Factory.getUserDataController());
+        controllerMap.put(new Request("POST", "/root/createCategory"), Factory.getCreateCategoryController());
+        controllerMap.put(new Request("POST", "/root/createProduct"), Factory.getCreateProductController());
+        controllerMap.put(new Request("POST", "/root/forgot"), Factory.getSendForgotPassword());
+//        controllerMap.put(new Request("POST", "/root/uploadPhoto"), Factory.getUploadPhotoController());  todo: demands implementation
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
