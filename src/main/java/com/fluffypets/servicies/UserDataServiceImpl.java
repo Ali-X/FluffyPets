@@ -1,6 +1,6 @@
 package com.fluffypets.servicies;
 
-import com.fluffypets.DAO.userData.UserDataDAOImpl;
+import com.fluffypets.DAO.user.UserDataDAOImpl;
 import com.fluffypets.MVC.model.UserData;
 
 public class UserDataServiceImpl implements UserDataService {

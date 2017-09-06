@@ -1,6 +1,5 @@
-package testsDAO;
+package com.fluffypets.DAO.user;
 
-import com.fluffypets.DAO.user.UserDAO;
 import com.fluffypets.MVC.model.User;
 import com.fluffypets.factory.Factory;
 import org.junit.Test;

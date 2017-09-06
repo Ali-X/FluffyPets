@@ -1,4 +1,4 @@
-package com.fluffypets.DAO.userData;
+package com.fluffypets.DAO.user;
 
 import com.fluffypets.DAO.AbstractDAO;
 import com.fluffypets.MVC.model.UserData;

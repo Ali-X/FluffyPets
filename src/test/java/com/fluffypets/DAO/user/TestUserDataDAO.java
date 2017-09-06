@@ -1,7 +1,5 @@
-package testsDAO;
+package com.fluffypets.DAO.user;
 
-import com.fluffypets.DAO.user.UserDAO;
-import com.fluffypets.DAO.userData.UserDataDAO;
 import com.fluffypets.MVC.model.User;
 import com.fluffypets.MVC.model.UserData;
 import com.fluffypets.factory.Factory;
@@ -11,7 +9,7 @@ import java.time.LocalDate;
 
 import static junit.framework.TestCase.*;
 
-public class TestUserData {
+public class TestUserDataDAO {
     @Test
     public void testUserDataCRUD(){
         UserDAO myUsers = Factory.getUserDao();

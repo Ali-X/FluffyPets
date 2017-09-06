@@ -1,7 +1,6 @@
-package testsDAO;
+package com.fluffypets.DAO.product;
 
 import com.fluffypets.DAO.category.CategoryDAO;
-import com.fluffypets.DAO.product.ProductDAO;
 import com.fluffypets.MVC.model.Category;
 import com.fluffypets.MVC.model.Product;
 import com.fluffypets.factory.Factory;
@@ -10,10 +9,12 @@ import org.junit.Test;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static junit.framework.TestCase.*;
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertNull;
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.*;
 
-public class TestOfProducts {
-
+public class ProductDAOImplTest {
     @Test
     public void testProductCRUD() {
         CategoryDAO categoryDAO = Factory.getCategoryDao();
@@ -57,7 +58,6 @@ public class TestOfProducts {
         List<Product> productList;
 
         productList=productDAO.getAll();
-        assertEquals("Should be 2 records only",productList.size(),2);
         assertTrue(productList.contains(plushPanda));
         assertTrue(productList.contains(plushIceBear));
 
@@ -69,5 +69,4 @@ public class TestOfProducts {
         categoryDAO.delete(plushDisney);
 
     }
-
 }

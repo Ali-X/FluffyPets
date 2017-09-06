@@ -5,7 +5,7 @@ import com.fluffypets.DAO.category.CategoryDAOImpl;
 import com.fluffypets.DAO.product.ProductDAO;
 import com.fluffypets.DAO.product.ProductDAOImpl;
 import com.fluffypets.DAO.user.UserDAOImpl;
-import com.fluffypets.DAO.userData.UserDataDAOImpl;
+import com.fluffypets.DAO.user.UserDataDAOImpl;
 import com.fluffypets.MVC.controller.Controller;
 import com.fluffypets.MVC.controller.UploadPhotoController;
 import com.fluffypets.MVC.controller.pages.*;

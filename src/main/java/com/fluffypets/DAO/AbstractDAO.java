@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.StringJoiner;
 
+
 public abstract class AbstractDAO<T> implements GenericDAO<T> {
 
     protected final Connection connection;
