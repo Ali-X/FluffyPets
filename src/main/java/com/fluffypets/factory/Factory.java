@@ -2,6 +2,10 @@ package com.fluffypets.factory;
 
 import com.fluffypets.DAO.category.CategoryDAO;
 import com.fluffypets.DAO.category.CategoryDAOImpl;
+import com.fluffypets.DAO.orders.OrderDAO;
+import com.fluffypets.DAO.orders.OrderDAOImpl;
+import com.fluffypets.DAO.orders.OrderItemDAO;
+import com.fluffypets.DAO.orders.OrderItemDAOImpl;
 import com.fluffypets.DAO.product.ProductDAO;
 import com.fluffypets.DAO.product.ProductDAOImpl;
 import com.fluffypets.DAO.user.UserDAOImpl;
@@ -77,6 +81,14 @@ public class Factory {
 
     public static CategoryDAO getCategoryDAO() {
         return new CategoryDAOImpl(Factory.getConnection());
+    }
+
+    public static OrderDAO getOrderDAO() {
+        return new OrderDAOImpl(Factory.getConnection());
+    }
+
+    public static OrderItemDAO getOrderItemDAO() {
+        return new OrderItemDAOImpl(Factory.getConnection());
     }
 
     //---------------------                 Serveries                ----------------------------------------------------

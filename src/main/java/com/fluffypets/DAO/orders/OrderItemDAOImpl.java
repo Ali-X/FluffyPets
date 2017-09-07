@@ -18,15 +18,11 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
 
     @Override
     protected void createTableIfNotExists() throws DAOException {
-        String initialQuery = "CREATE TABLE IF NOT EXISTS `Pets`.`ordersItems` (" +
-                "`id` INT NOT NULL AUTO_INCREMENT," +
-                "`orderId` INT NOT NULL," +
-                "`quantity` INT NOT NULL," +
-                "`productId` INT NOT NULL," +
-                "`price` VARCHAR(128) NOT NULL," +
+        String initialQuery = "CREATE TABLE IF NOT EXISTS `Pets`.`ordersItems` (`id` INT NOT NULL AUTO_INCREMENT," +
+                "`orderId` INT NOT NULL,`productId` INT,`quantity` INT NOT NULL,`price` VARCHAR(128) NOT NULL," +
                 "PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC)," +
-                " CONSTRAINT FOREIGN KEY (orderId) REFERENCES orders(id),"+
-                " CONSTRAINT FOREIGN KEY (productId) REFERENCES products(id))";
+                "CONSTRAINT FOREIGN KEY (orderId) REFERENCES orders(id)," +
+                "CONSTRAINT FOREIGN KEY (productId) REFERENCES products(id))";
         try {
             Statement statement = connection.createStatement();
             statement.execute(initialQuery);

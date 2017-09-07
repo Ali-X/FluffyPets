@@ -21,15 +21,10 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
 
     @Override
     protected void createTableIfNotExists() throws DAOException {
-        String initialQuery = "CREATE TABLE IF NOT EXISTS `Pets`.`orders` (" +
-                "`id` INT NOT NULL AUTO_INCREMENT," +
-                "`userId` INT NOT NULL," +
-                "`dateOfOrder` DATE NOT NULL," +
-                "`orderStatus` VARCHAR(16) NOT NULL," +
-                "`dateOfDelivery` DATE," +
-                "`comment` VARCHAR(128)," +
-                "PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC)," +
-                " CONSTRAINT FOREIGN KEY (userId) REFERENCES users(id))";
+        String initialQuery = "CREATE TABLE IF NOT EXISTS `Pets`.`orders` (  `id` INT NOT NULL AUTO_INCREMENT, " +
+                "`userId` INT NOT NULL,  `dateOfOrder` DATE NOT NULL,  `orderStatus` VARCHAR(16) NOT NULL," +
+                "`dateOfDelivery` DATE,`comment` VARCHAR(128),PRIMARY KEY (`id`), " +
+                "UNIQUE INDEX `id_UNIQUE` (`id` ASC),CONSTRAINT FOREIGN KEY (userId) REFERENCES users(id))";
         try {
             Statement statement = connection.createStatement();
             statement.execute(initialQuery);
