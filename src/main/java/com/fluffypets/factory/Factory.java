@@ -176,4 +176,7 @@ public class Factory {
     public static Controller getImageUploadController() {
         return new UploadPhotoController();
     }
+
+    public static Controller getSelectGoodsController() {return new SelectGoodsController(Factory.getProductService(),Factory.getCategoriesService());
+    }
 }

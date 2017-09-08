@@ -12,14 +12,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNull;
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertNotNull;
 
 public class OrderDAOImplTest {
     @Test
     public void testOrderCRUD() {
         OrderDAO myOrders = Factory.getOrderDAO();
-        OrderItemDAO myOrderItems = Factory.getOrderItemDAO();
         UserDAO myUsers = Factory.getUserDao();
         CategoryDAO myCategories = Factory.getCategoryDao();
         ProductDAO myProducts=Factory.getProductDao();
@@ -41,47 +42,58 @@ public class OrderDAOImplTest {
         plushIceBear = testCreateProduct(myProducts, plushIceBear);
         plushMickyMouse = testCreateProduct(myProducts, plushMickyMouse);
 
-        Order dodiksOrder = new Order(dodik.getId(), LocalDate.now().minusMonths(1), LocalDate.now(),
-                "delivered", null, "deliver at evening");
-
-        dodiksOrder = testCreateOrder(myOrders, dodiksOrder);
-
+        Order dodiksOrder = new Order(dodik.getId(), LocalDate.now().minusMonths(1), LocalDate.now(),"delivered", null, "deliver at evening");
         List<OrderItem> orderItemList = new ArrayList<>();
-
         OrderItem item1=new OrderItem(plushPanda.getId(),dodiksOrder.getUserId(),2,plushPanda.getPrice());
-        item1 = testCreateItem(myOrderItems, item1);
-        orderItemList.add(item1);
-
         OrderItem item2=new OrderItem(plushMickyMouse.getId(),dodiksOrder.getUserId(),3,plushMickyMouse.getPrice());
-        item2 = testCreateItem(myOrderItems, item2);
-        orderItemList.add(item2);
-
         OrderItem item3=new OrderItem(plushIceBear.getId(),dodiksOrder.getUserId(),1,plushIceBear.getPrice());
-        item3 = testCreateItem(myOrderItems, item3);
+        orderItemList.add(item1);
+        orderItemList.add(item2);
         orderItemList.add(item3);
-
         dodiksOrder.setItems(orderItemList);
-        //todo: method not finished, doesnt work
-//        UserData dodikData=new UserData(dodik.getId().longValue(),"dodik's full name", LocalDate.now(),"Male",
-//                false,"Poltavska oblast","misto Lubnu","vulitsa Litovska 4",
-//                "app. 43", "858453421","95673421");
-//        UserData expectedUserData=myUserData.get(dodikData);
-//        assertNull("User data should be absent", expectedUserData);
-//        dodikData=myUserData.create(dodikData);
-//        expectedUserData=myUserData.get(dodikData);
-//        assertNotNull("User data should be present", expectedUserData);
-//
-//        dodikData.setSecondaryNumber("222222");
-//        dodikData=myUserData.update(dodikData);
-//        assertEquals("222222",dodikData.getSecondaryNumber());
-//
-//        myUserData.delete(dodikData);
-//        expectedUserData = myUserData.get(dodikData);
-//        assertNull("User data should be absent", expectedUserData);
-//
+
+        dodiksOrder=testProductCreation(myOrders, dodiksOrder);
+
+        checkOrderContainProduct(dodik, plushPanda, dodiksOrder);
+        checkOrderContainProduct(dodik, plushIceBear, dodiksOrder);
+        checkOrderContainProduct(dodik, plushMickyMouse, dodiksOrder);
+
+        testDeleteOrder(myOrders, dodiksOrder);
+
+        myProducts.delete(plushIceBear);
+        myProducts.delete(plushPanda);
+        myProducts.delete(plushMickyMouse);
+
+        myCategories.delete(plushBears);
+        myCategories.delete(plushDisney);
+
         testDeleteUser(myUsers, dodik);
     }
-//todo: check all messages
+
+    private void testDeleteOrder(OrderDAO myOrders, Order dodiksOrder) {
+        assertNotNull("Dodi's order should exist",dodiksOrder);
+        myOrders.delete(dodiksOrder);
+        Order expectedOrder = myOrders.get(dodiksOrder);
+        assertNull("Order should be absent", expectedOrder);
+    }
+
+    private void checkOrderContainProduct (User dodik, Product plushPanda, Order dodiksOrder) {
+        assertNotNull("There is order", dodiksOrder);
+        assertEquals("Order is make by David",dodik.getId().longValue(), dodiksOrder.getUserId());
+        assertEquals("Order containes 3 positions",3, dodiksOrder.getItems().size());
+        Boolean containedPanda=dodiksOrder.getItems().stream().anyMatch(orderItem -> orderItem.getProductId()==plushPanda.getId());
+        assertTrue("Order containes panda",containedPanda);
+    }
+
+    private Order testProductCreation(OrderDAO myOrders, Order dodiksOrder) {
+        Order expectedOrder=myOrders.get(dodiksOrder);
+        assertNull("Order should be absent", expectedOrder);
+        dodiksOrder=myOrders.create(dodiksOrder);
+        assertNotNull("Order should be absent", dodiksOrder);
+        return dodiksOrder;
+    }
+
+    //todo: check all messages
     private OrderItem testCreateItem(OrderItemDAO myOrderItems, OrderItem item1) {
         OrderItem expectedOrderItem=myOrderItems.get(item1);
         assertNull("User should be absent", expectedOrderItem);

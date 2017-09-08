@@ -3,6 +3,7 @@ package com.fluffypets.MVC.controller.pages;
 import com.fluffypets.MVC.controller.Controller;
 import com.fluffypets.MVC.model.Category;
 import com.fluffypets.MVC.model.Product;
+import com.fluffypets.MVC.model.enumes.Prices;
 import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.factory.Factory;
@@ -27,6 +28,7 @@ public class HomePageController implements Controller {
         ViewModel vm = Factory.getViewModel();
         vm.setAttribute("products",products);
         vm.setAttribute("categories",categories);
+        vm.setAttribute("prices", Prices.values());
         vm.setView("home");
         return vm;
     }

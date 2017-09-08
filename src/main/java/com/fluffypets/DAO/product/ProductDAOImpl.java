@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, AutoCloseable {
     public ProductDAOImpl(Connection connection) {
@@ -163,8 +165,39 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
         List<Product> product = new ArrayList<>();
         CategoryDAO supportReq = Factory.categoryDaoByConnection(connection);
         try {
-            String preparedQuery = "SELECT * FROM Pets.products LIMIT 30";
+            String preparedQuery = "SELECT * FROM Pets.products";
             preparedStatement = connection.prepareStatement(preparedQuery);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String productName = resultSet.getString("productName");
+                String producer = resultSet.getString("producer");
+                String price = resultSet.getString("price");
+                String description = resultSet.getString("description");
+                String pictureURL = resultSet.getString("pictureURL");
+                int id = resultSet.getInt("id");
+
+                Category thisCategory = supportReq.findById(id);
+
+                product.add(new Product(id, productName, producer, new BigDecimal(price),
+                        description, pictureURL, thisCategory));
+            }
+            return product;
+        } catch (SQLException e) {
+            throw new DAOException("There are problems searching product by category id " + e);
+        }
+    }
+
+    @Override
+    public List<Product> selectByCategoryAndPrice(String categoryIds, int min, int max) {
+        PreparedStatement preparedStatement;
+        List<Product> product = new ArrayList<>();
+        CategoryDAO supportReq = Factory.categoryDaoByConnection(connection);
+        try {
+            String preparedQuery = "SELECT * FROM Pets.products WHERE price>=? AND price<=? " +
+                    "AND categoryId IN("+categoryIds+")";
+            preparedStatement = connection.prepareStatement(preparedQuery);
+            preparedStatement.setInt(1,min);
+            preparedStatement.setInt(2,max);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 String productName = resultSet.getString("productName");

@@ -9,6 +9,8 @@ public interface ProductService {
 
     List<Product> getAll();
 
+    List<Product> getAllSelected(String categIds,int min, int max);
+
     Product getProduct(Product product);
 
     Product create(Product product);

@@ -32,6 +32,8 @@ public class Request {
         attributes.remove(attribute);
     }
 
+    public boolean containsAtribute(String attribute){return attributes.containsKey(attribute);}
+
     public List<FileItem> getItemsForUpload() {
         return itemsForUpload;
     }

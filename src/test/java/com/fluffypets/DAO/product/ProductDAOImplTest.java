@@ -7,7 +7,9 @@ import com.fluffypets.factory.Factory;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNull;
@@ -15,6 +17,15 @@ import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.*;
 
 public class ProductDAOImplTest {
+//    @Test
+//    public void selectByCategoryAndPrice() {
+//        ProductDAO productDAO = Factory.getProductDao();
+//        List<Product> products=productDAO.selectByCategoryAndPrice(new ArrayList<>(),0,20);
+//        List<String> productNames=products.stream().map(Product::getName).collect(Collectors.toList());
+//        assertTrue(productNames.contains("yellow Lucky Cat"));
+//        assertTrue(productNames.contains("Chestnut Bear"));
+//    }
+
     @Test
     public void testProductCRUD() {
         CategoryDAO categoryDAO = Factory.getCategoryDao();
@@ -25,7 +36,7 @@ public class ProductDAOImplTest {
         Category expectedCategory = categoryDAO.get(plushBears);
         assertNull("this testing category should be absent", expectedCategory);
         expectedCategory = categoryDAO.get(plushDisney);
-        assertNull("this testing category should be absent", expectedCategory);
+        assertNull("this testing category should be present", expectedCategory);
 
         plushBears = categoryDAO.create(plushBears);
         plushDisney = categoryDAO.create(plushDisney);
@@ -69,4 +80,6 @@ public class ProductDAOImplTest {
         categoryDAO.delete(plushDisney);
 
     }
+
+
 }

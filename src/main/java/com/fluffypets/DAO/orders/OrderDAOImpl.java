@@ -16,7 +16,7 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
 
     public OrderDAOImpl(Connection connection) {
         super(connection);
-        itemDAO=new OrderItemDAOImpl(connection);
+        itemDAO = new OrderItemDAOImpl(connection);
     }
 
     @Override
@@ -43,16 +43,16 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
             PreparedStatement preparedStatement;
             String preparedQuery = "SELECT * FROM Pets.orders WHERE userId=?";
             preparedStatement = connection.prepareStatement(preparedQuery);
-            preparedStatement.setLong(1,userId);
+            preparedStatement.setLong(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Long id = resultSet.getLong("id");
-                LocalDate dateOfOrder= resultSet.getDate("dateOfOrder").toLocalDate();
-                String orderStatus= resultSet.getString("orderStatus");
-                LocalDate dateOfDelivery= resultSet.getDate("dateOfDelivery").toLocalDate();
-                String comment= resultSet.getString("comment");
-                List<OrderItem> items=itemDAO.getAllItems(id);
-                list.add(new Order(id,userId,dateOfOrder,dateOfDelivery,orderStatus,items,comment));
+                LocalDate dateOfOrder = resultSet.getDate("dateOfOrder").toLocalDate();
+                String orderStatus = resultSet.getString("orderStatus");
+                LocalDate dateOfDelivery = resultSet.getDate("dateOfDelivery").toLocalDate();
+                String comment = resultSet.getString("comment");
+                List<OrderItem> items = itemDAO.getAllItems(id);
+                list.add(new Order(id, userId, dateOfOrder, dateOfDelivery, orderStatus, items, comment));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -72,7 +72,13 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
             preparedStatement.setDate(4, Date.valueOf(order.getDeliveryDate()));
             preparedStatement.setString(5, order.getComment());
             preparedStatement.execute();
-            return get(order);
+            Order theOrder = get(order);
+            for (OrderItem item : order.getItems()) {
+                item.setOrderId(theOrder.getOrderId());
+                itemDAO.create(item);
+            }
+            theOrder = get(order);
+            return theOrder;
         } catch (SQLException e) {
             throw new DAOException("There are problems with new order insertion to DB" + e);
         }
@@ -81,6 +87,9 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
     @Override
     public Order delete(Order order) {
         try {
+            for (OrderItem item : order.getItems()) {
+                itemDAO.delete(item);
+            }
             PreparedStatement preparedStatement;
             String preparedQuery = "DELETE FROM Pets.orders  WHERE id = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
@@ -104,6 +113,13 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
             preparedStatement.setDate(4, Date.valueOf(order.getDeliveryDate()));
             preparedStatement.setString(5, order.getComment());
             preparedStatement.execute();
+            for (OrderItem item : order.getItems()) {
+                if (itemDAO.get(item) != null) {
+                    itemDAO.update(item);
+                } else {
+                    itemDAO.create(item);
+                }
+            }
         } catch (SQLException e) {
             throw new DAOException("There are problems with order item update in DB" + e);
         }
@@ -113,7 +129,7 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
     @Override
     public Order get(Order order) {
         PreparedStatement preparedStatement;
-        Order theOrder=null;
+        Order theOrder = null;
         try {
             String preparedQuery = "SELECT * FROM Pets.orders WHERE userId = ? AND dateOfOrder = ? AND orderStatus = ?" +
                     "AND dateOfDelivery = ? AND comment = ?";
@@ -126,9 +142,9 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 Long id = resultSet.getLong("id");
-                List<OrderItem> items=itemDAO.getAllItems(id);
-                theOrder=new Order(id,order.getUserId(),order.getOrderDate(),
-                        order.getDeliveryDate(),order.getStatus(),items,order.getComment());
+                List<OrderItem> items = itemDAO.getAllItems(id);
+                theOrder = new Order(id, order.getUserId(), order.getOrderDate(),
+                        order.getDeliveryDate(), order.getStatus(), items, order.getComment());
 
                 return theOrder;
             }
@@ -141,7 +157,7 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
     @Override
     public Order findById(Integer id) {
         PreparedStatement preparedStatement;
-        Order theOrder=null;
+        Order theOrder = null;
         try {
             String preparedQuery = "SELECT * FROM Pets.orders WHERE id = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
@@ -149,12 +165,12 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 Long userId = resultSet.getLong("userId");
-                LocalDate dateOfOrder= resultSet.getDate("dateOfOrder").toLocalDate();
-                String orderStatus= resultSet.getString("orderStatus");
-                LocalDate dateOfDelivery= resultSet.getDate("dateOfDelivery").toLocalDate();
-                String comment= resultSet.getString("comment");
-                List<OrderItem> items=itemDAO.getAllItems(id.longValue());
-                theOrder=new Order(id,userId,dateOfOrder,dateOfDelivery,orderStatus,items,comment);
+                LocalDate dateOfOrder = resultSet.getDate("dateOfOrder").toLocalDate();
+                String orderStatus = resultSet.getString("orderStatus");
+                LocalDate dateOfDelivery = resultSet.getDate("dateOfDelivery").toLocalDate();
+                String comment = resultSet.getString("comment");
+                List<OrderItem> items = itemDAO.getAllItems(id.longValue());
+                theOrder = new Order(id, userId, dateOfOrder, dateOfDelivery, orderStatus, items, comment);
 
                 return theOrder;
             }

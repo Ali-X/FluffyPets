@@ -92,31 +92,30 @@
 <div class="container-fluid">
     <div class="row">
         <div class="bg-info col-xs-6 col-sm-3 col-lg-2">
-            <form>
+            <form action="/root/selectGoods" method="post">
                 <div class="form-group">
                     <h4>Select categories</h4>
+
                     <c:forEach items="${categories}" var="category">
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="${category.getId()}">${category.getName()}</label>
-                    </div>
+                        <div class="checkbox">
+                            <label><input type="checkbox" checked="checked" name="${category.getName()}"
+                                          value="${category.getId()}">${category.getName()}</label>
+                        </div>
                     </c:forEach>
+
                     <h4>Select price range</h4>
+
                     <div class="radio">
-                        <label><input type="radio" name="price">less 25$</label>
+                        <label><input type="radio" name="selectedPrice" checked="checked" value="all">all</label>
                     </div>
-                    <div class="radio">
-                        <label><input type="radio" name="price">25$-50$</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="price">50$-100$</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="price">100$-300$</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="price">more than 300$</label>
-                    </div>
-                    <button class="btn btn-info text-center btn-large">Select</button>
+
+                    <c:forEach items="${prices}" var="price">
+                        <div class="radio">
+                            <label><input type="radio" name="selectedPrice" value="${price.getLabel()}">${price.getLabel()}</label>
+                        </div>
+                    </c:forEach>
+
+                    <button class="btn btn-info text-center btn-large" type="submit">Select</button>
                 </div>
             </form>
         </div>

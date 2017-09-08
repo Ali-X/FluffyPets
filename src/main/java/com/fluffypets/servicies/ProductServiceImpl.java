@@ -18,6 +18,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> getAllSelected(String categIds, int min, int max) {
+        return productDAO.selectByCategoryAndPrice(categIds,min,max);
+    }
+
+    @Override
     public Product getProduct(Product product) {
         return productDAO.get(product);
     }

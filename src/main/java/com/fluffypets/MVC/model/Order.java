@@ -32,6 +32,8 @@ public class Order {
         this.comment = comment;
     }
 
+
+
     public long getOrderId() {
         return orderId;
     }
