@@ -36,8 +36,10 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
         try {
             Statement statement = connection.createStatement();
             statement.execute(initialQuery);
+            logger.info("createTableIfNotExists UserDataDAO query");
         } catch (SQLException e) {
-            throw new DAOException("Table pages creation error");
+            logger.error("Table UserDataDAO creation error\n"+e);
+            throw new DAOException("Table UserDataDAO creation error");
         }
     }
 
@@ -62,7 +64,7 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
             preparedStatement.setString(11, userData.getSecondaryNumber());
 
             preparedStatement.execute();
-            logger.info("create user query");
+            logger.info("create UserData query");
             return get(userData);
         } catch (SQLException e) {
             logger.error("create user query error\n"+e);
@@ -79,7 +81,7 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setLong(1, userData.getUserId());
             preparedStatement.execute();
-            logger.info("delete user query");
+            logger.info("delete UserData query");
             return get(userData);
         } catch (SQLException e) {
             logger.error("There are problems with userData deleting from DB\n"+e);
@@ -109,7 +111,7 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
             preparedStatement.setString(11, userData.getSecondaryNumber());
             preparedStatement.setLong(12, userData.getUserDataId());
             preparedStatement.execute();
-            logger.info("update user query");
+            logger.info("update UserData query");
         } catch (SQLException e) {
             logger.error("There are problems with userData update in DB\n"+e);
             throw new DAOException("There are problems with userData update in DB" + e);
@@ -142,10 +144,10 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
                 userData = new UserData(userDataId, userId, fullName, dateOfBirth, gender, married, district, area,
                         street, app, primaryNumber, secondaryNumber);
             } else userData = null;
-            logger.info("get user query");
+            logger.info("get UserData query");
         } catch (SQLException e) {
-            logger.error("There are problems with getting user from DB\n"+e);
-            throw new DAOException("There are problems with getting user from DB" + e);
+            logger.error("There are problems with getting UserData from DB\n"+e);
+            throw new DAOException("There are problems with getting UserData from DB" + e);
         }
         return userData;
     }
@@ -175,9 +177,11 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
 
                 userData = new UserData(userDataId, userId, fullName, dateOfBirth, gender, married, district, area,
                         street, app, primaryNumber, secondaryNumber);
+                logger.info("get userData By UserId query");
             } else userData = null;
         } catch (SQLException e) {
-            throw new DAOException("There are problems with getting user from DB" + e);
+            logger.error("There are problems with getting userData by userId from DB\n"+e);
+            throw new DAOException("There are problems with getting userData by userId from DB" + e);
         }
         return userData;
     }
@@ -207,9 +211,11 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
 
                 userData = new UserData(userDataId, userId, fullName, dateOfBirth, gender, married, district, area,
                         street, app, primaryNumber, secondaryNumber);
+                logger.info("UserData findById query");
             }
         } catch (SQLException e) {
-            throw new DAOException("There are problems with getting user from DB" + e);
+            logger.error("There are problems with getting UserData by Id from DB\n"+e);
+            throw new DAOException("There are problems with getting UserData by Id from DB" + e);
         }
         return userData;
     }
@@ -217,5 +223,6 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
     @Override
     public void close() throws Exception {
         this.connection.close();
+        logger.info("connection closed from UserDataDAO");
     }
 }

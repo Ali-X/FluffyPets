@@ -14,6 +14,7 @@ public class EditUserProfileController implements Controller {
     public ViewModel process(Request request) {
         ViewModel vm = Factory.getViewModel();
         vm.setView("editProfile");
+        logger.info("editProfile page selected");
         return vm;
     }
 }

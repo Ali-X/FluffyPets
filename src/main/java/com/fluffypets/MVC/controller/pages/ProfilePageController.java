@@ -14,6 +14,7 @@ public class ProfilePageController implements Controller {
     public ViewModel process(Request request) {
         ViewModel vm = Factory.getViewModel();
         vm.setView("profile");
+        logger.info("profile page selected");
         return vm;
     }
 }

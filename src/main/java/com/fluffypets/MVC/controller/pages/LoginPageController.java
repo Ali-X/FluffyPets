@@ -14,6 +14,7 @@ public class LoginPageController implements Controller {
     public ViewModel process(Request request) {
         ViewModel vm = Factory.getViewModel();
         vm.setView("login");
+        logger.info("login page selected");
         return vm;
     }
 }

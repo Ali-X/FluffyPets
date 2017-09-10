@@ -14,6 +14,7 @@ public class ForgotPasswordController implements Controller {
     public ViewModel process(Request request) {
         ViewModel vm = Factory.getViewModel();
         vm.setView("forgot");
+        logger.info("forgot page selected");
         return vm;
     }
 }

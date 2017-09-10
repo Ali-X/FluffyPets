@@ -34,6 +34,7 @@ public class HomePageController implements Controller {
         vm.setAttribute("categories",categories);
         vm.setAttribute("prices", Prices.values());
         vm.setView("home");
+        logger.info("home page selected");
         return vm;
     }
 }

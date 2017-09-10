@@ -16,6 +16,7 @@ public class LogoutPageController implements Controller {
         vm.removeAttribute("user");
         vm.removeAttribute("token");
         vm.setView("login");
+        logger.info("logout page selected");
         return vm;
     }
 }

@@ -2,8 +2,7 @@ package com.fluffypets.MVC.servlets;
 
 import com.fluffypets.MVC.controller.Controller;
 import com.fluffypets.factory.Factory;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import exeptions.MVCexception;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,7 +12,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -64,7 +62,8 @@ public class FrontServlet extends HttpServlet {
         try {
             Controller controller = controllerMap.get(request1);
             if (controller == null) {
-                throw new RuntimeException("Can't handle " + request1.getUri());
+                logger.error("Can't handle " + request1.getUri());
+                throw new MVCexception("Can't handle " + request1.getUri());
             }
 
 //            if (ServletFileUpload.isMultipartContent(request)) {
@@ -89,28 +88,26 @@ public class FrontServlet extends HttpServlet {
             setAttributes(request, vm);
             forward(request, response, vm);
         } catch (Throwable e) {
-            throw new RuntimeException("The error is " + e);
+            logger.error("Error in request handeling"+e);
+            throw new MVCexception("The error is " + e);
         }
     }
 
-    private void forward(HttpServletRequest request, HttpServletResponse resp, ViewModel vm) throws ServletException, IOException {
+    synchronized private void forward(HttpServletRequest request, HttpServletResponse resp, ViewModel vm) throws ServletException, IOException {
         setAttributes(request, vm);
         RequestDispatcher dispatcher = request.getRequestDispatcher(getView(vm));
         dispatcher.forward(request, resp);
     }
 
-    private void setAttributes(HttpServletRequest request, ViewModel vm) {
+   synchronized private void setAttributes(HttpServletRequest request, ViewModel vm) {
         vm.getAttributes().keySet().forEach(key -> {
             request.setAttribute(key, vm.getAttribute(key));
         });
     }
 
-    private String getView(ViewModel vm) {
-
+   synchronized private String getView(ViewModel vm) {
         String prefix = "/WEB-INF/views/";
         String suffix = ".jsp";
-
         return prefix + vm.getView() + suffix;
-
     }
 }

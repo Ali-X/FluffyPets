@@ -14,6 +14,7 @@ public class RegistrationPageController implements Controller {
     public ViewModel process(Request request) {
         ViewModel vm = Factory.getViewModel();
         vm.setView("signup");
+        logger.info("signup page selected");
         return vm;
     }
 }

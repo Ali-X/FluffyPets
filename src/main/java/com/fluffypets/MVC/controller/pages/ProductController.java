@@ -28,6 +28,7 @@ public class ProductController implements Controller {
         List<Category> categories=categoryService.getAll();
         vm.setAttribute("categories",categories);
         vm.setView("createProduct");
+        logger.info("createProduct page selected");
         return vm;
     }
 }

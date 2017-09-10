@@ -17,6 +17,7 @@ import com.fluffypets.MVC.controller.post.*;
 import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.servicies.*;
 import exeptions.DAOException;
+import exeptions.FactoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -42,14 +43,12 @@ public class Factory {
         try{
             Context ctx = new InitialContext();
             Context initCtx  = (Context) ctx.lookup("java:/comp/env");
-            DataSource ds = (DataSource) initCtx.lookup("jdbc/TestDB")
-                    ;
+            DataSource ds = (DataSource) initCtx.lookup("jdbc/TestDB");
             return ds.getConnection();
         }
             catch (NamingException|SQLException e){
-            e.printStackTrace();
-                System.out.println("! achtung");//todo fix this shit!
-                throw new RuntimeException();
+                logger.error("get connection from TomCat error\n" +e);
+                throw new FactoryException("get connection from TomCat error");
             }
     }
 
@@ -59,8 +58,8 @@ public class Factory {
             Class.forName("org.h2.Driver");
             connection = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/test", "sa", "");
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            throw new DAOException("problem with JDBC H2 driver");
+            logger.error("problem with JDBC H2 error\n" +e);
+            throw new FactoryException("problem with JDBC H2 error");
         }
         return connection;
     }
@@ -72,8 +71,8 @@ public class Factory {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Pets",
                     "root", "nicolas");
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            throw new DAOException("problem with JDBC MySQL driver");
+            logger.error("problem with JDBC MySQL error\n" +e);
+            throw new FactoryException("problem with JDBC MySQL error");
         }
         return connection;
     }
@@ -161,10 +160,6 @@ public class Factory {
 
     public static Controller getEditUserProfileController() {
         return new EditUserProfileController();
-    }
-
-    public static Controller getUserProfileController() {
-        return new UserProfileController();
     }
 
     public static Controller getProductController() {
