@@ -17,16 +17,40 @@ import com.fluffypets.MVC.controller.post.*;
 import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.servicies.*;
 import exeptions.DAOException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Factory {
+    private static final Logger logger = LogManager.getLogger(Factory.class.getName());
+
     private static ViewModel vm = new ViewModel();
 
     public static Connection getConnection() {
         return Factory.getConnectionMySQL();
+//        return getContextConnection();
+    }
+
+    public static Connection getContextConnection() {
+        try{
+            Context ctx = new InitialContext();
+            Context initCtx  = (Context) ctx.lookup("java:/comp/env");
+            DataSource ds = (DataSource) initCtx.lookup("jdbc/TestDB")
+                    ;
+            return ds.getConnection();
+        }
+            catch (NamingException|SQLException e){
+            e.printStackTrace();
+                System.out.println("! achtung");//todo fix this shit!
+                throw new RuntimeException();
+            }
     }
 
     private static Connection getConnectionH2() {

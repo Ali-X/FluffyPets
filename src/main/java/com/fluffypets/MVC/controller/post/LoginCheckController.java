@@ -8,8 +8,12 @@ import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.factory.Factory;
 import com.fluffypets.servicies.UserDataService;
 import com.fluffypets.servicies.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class LoginCheckController implements Controller {
+    private static final Logger logger = LogManager.getLogger(LoginCheckController.class.getName());
+
     private UserService userService;
     private UserDataService userDataService;
 

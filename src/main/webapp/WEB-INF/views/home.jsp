@@ -140,9 +140,9 @@
                                             formaction="<c:url value="/root/addToCart"/>">Add to
                                         cart
                                     </button>
-                                    <button class="btn btn-info btn-md" formaction="<c:url value="/root/productInfo"/>">
-                                        More details
-                                    </button>
+                                    <%--<button class="btn btn-info btn-md" formaction="<c:url value="/root/productInfo"/>">--%>
+                                        <%--More details--%>
+                                    <%--</button>--%>
                                 </form>
                             </div>
                         </div>

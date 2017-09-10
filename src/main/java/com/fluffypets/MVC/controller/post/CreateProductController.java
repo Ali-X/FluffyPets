@@ -10,10 +10,15 @@ import com.fluffypets.factory.Factory;
 import com.fluffypets.servicies.CategoryService;
 import com.fluffypets.servicies.ProductService;
 import com.fluffypets.servicies.UserDataService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 
 public class CreateProductController implements Controller {
+    private static final Logger logger = LogManager.getLogger(CreateProductController.class.getName());
+
+
     private ProductService productService;
     private CategoryService categoryService;
 

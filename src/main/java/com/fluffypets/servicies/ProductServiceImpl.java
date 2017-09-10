@@ -2,10 +2,13 @@ package com.fluffypets.servicies;
 
 import com.fluffypets.DAO.product.ProductDAO;
 import com.fluffypets.MVC.model.Product;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
 public class ProductServiceImpl implements ProductService {
+    private static final Logger logger = LogManager.getLogger(ProductServiceImpl.class.getName());
 
     private final ProductDAO productDAO;
 

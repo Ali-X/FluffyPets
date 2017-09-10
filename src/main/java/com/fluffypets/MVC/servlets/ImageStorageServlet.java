@@ -1,5 +1,8 @@
 package com.fluffypets.MVC.servlets;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -11,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ImageStorageServlet extends HttpServlet {
+    private static final Logger logger = LogManager.getLogger(ImageStorageServlet.class.getName());
+
 
     private String imagePath;
 

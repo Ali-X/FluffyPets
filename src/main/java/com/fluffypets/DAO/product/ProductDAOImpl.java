@@ -1,20 +1,22 @@
 package com.fluffypets.DAO.product;
 
 import com.fluffypets.DAO.AbstractDAO;
-import exeptions.DAOException;
 import com.fluffypets.DAO.category.CategoryDAO;
 import com.fluffypets.MVC.model.Category;
 import com.fluffypets.MVC.model.Product;
 import com.fluffypets.factory.Factory;
+import exeptions.DAOException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringJoiner;
-import java.util.stream.Collectors;
 
 public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, AutoCloseable {
+    private static final Logger logger = LogManager.getLogger(ProductDAOImpl.class.getName());
+
     public ProductDAOImpl(Connection connection) {
         super(connection);
     }
@@ -35,8 +37,9 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
         try {
             Statement statement = connection.createStatement();
             statement.execute(initialQuery);
-
+            logger.info("createTableIfNotExists query from Product Item Dao");
         } catch (SQLException e) {
+            logger.error("Table products creation error\n"+e);
             throw new DAOException("Table products creation error");
         }
     }
@@ -55,8 +58,10 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
             preparedStatement.setString(5, product.getPictureURL());
             preparedStatement.setInt(6, product.getCategory().getId());
             preparedStatement.execute();
+            logger.info("create product query");
             return get(product);
         } catch (SQLException e) {
+            logger.error("There are problems with new product insertion to DB\n"+e);
             throw new DAOException("There are problems with new product insertion to DB" + e);
         }
     }
@@ -72,7 +77,7 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
             preparedStatement.setString(2, item.getProducer());
             preparedStatement.setString(3, item.getPrice().toString());
             preparedStatement.execute();
-
+            logger.info("delete product query");
         } catch (SQLException e) {
             throw new DAOException("There are problems with product deleting from DB" + e);
         }

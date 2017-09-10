@@ -6,8 +6,12 @@ import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.factory.Factory;
 import com.fluffypets.servicies.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class SignUpCheckController implements Controller {
+    private static final Logger logger = LogManager.getLogger(SignUpCheckController.class.getName());
+
     private UserService userService;
 
     public SignUpCheckController(UserService userService) {

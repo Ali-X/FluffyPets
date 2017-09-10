@@ -2,8 +2,12 @@ package com.fluffypets.servicies;
 
 import com.fluffypets.DAO.user.UserDAOImpl;
 import com.fluffypets.MVC.model.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class UserServiceImpl implements UserService {
+    private static final Logger logger = LogManager.getLogger(UserServiceImpl.class.getName());
+
     private UserDAOImpl userDao;
 
     public UserServiceImpl(UserDAOImpl userDao) {

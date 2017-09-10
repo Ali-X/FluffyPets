@@ -4,6 +4,8 @@ import com.fluffypets.MVC.controller.Controller;
 import com.fluffypets.factory.Factory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,6 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FrontServlet extends HttpServlet {
+    private static final Logger logger = LogManager.getLogger(FrontServlet.class.getName());
+
 
     private Map<Request, Controller> controllerMap = new HashMap<>();
     private static final int MAX_MEMORY_SIZE = 1024 * 1024 * 2;

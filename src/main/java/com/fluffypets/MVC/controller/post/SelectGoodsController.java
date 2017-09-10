@@ -9,14 +9,17 @@ import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.factory.Factory;
 import com.fluffypets.servicies.CategoryService;
 import com.fluffypets.servicies.ProductService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.StringJoiner;
-import java.util.stream.Stream;
 
 public class SelectGoodsController implements Controller {
+    private static final Logger logger = LogManager.getLogger(SelectGoodsController.class.getName());
+
     private ProductService productService;
     private CategoryService categoryService;
 

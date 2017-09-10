@@ -2,10 +2,13 @@ package com.fluffypets.servicies;
 
 import com.fluffypets.DAO.category.CategoryDAO;
 import com.fluffypets.MVC.model.Category;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
 public class CategoryServiceImpl implements CategoryService {
+    private static final Logger logger = LogManager.getLogger(CategoryServiceImpl.class.getName());
 
     private final CategoryDAO categoryDAO;
 

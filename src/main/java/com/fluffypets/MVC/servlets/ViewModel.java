@@ -1,10 +1,15 @@
 package com.fluffypets.MVC.servlets;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.servlet.http.Cookie;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ViewModel {
+    private static final Logger logger = LogManager.getLogger(ViewModel.class.getName());
+
 
     private String view;
     private Map<String, Object> attributes = new HashMap<>();

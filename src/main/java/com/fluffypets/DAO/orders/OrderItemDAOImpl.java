@@ -4,6 +4,8 @@ import com.fluffypets.DAO.AbstractDAO;
 import com.fluffypets.MVC.model.Order;
 import com.fluffypets.MVC.model.OrderItem;
 import exeptions.DAOException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderItemDAO, AutoCloseable {
+    private static final Logger logger = LogManager.getLogger(OrderItemDAOImpl.class.getName());
 
     public OrderItemDAOImpl(Connection connection) {
         super(connection);
@@ -26,8 +29,9 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
         try {
             Statement statement = connection.createStatement();
             statement.execute(initialQuery);
-
+            logger.info("createTableIfNotExists query from Order Item Dao");
         } catch (SQLException e) {
+            logger.error("Table orderItem creation error\n"+e);
             throw new DAOException("Table orderItem creation error");
         }
     }
@@ -54,8 +58,10 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
                 orderItem = new OrderItem(id,productId,orderId,quantity,price);
                 list.add(orderItem);
             }
+            logger.info("get All order Items query from Order Item Dao");
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("get All order Items query error\n"+e);
+            throw new DAOException("get All order Items query error");
         }
         return list;
     }
@@ -71,8 +77,10 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
             preparedStatement.setInt(3, orderItem.getQuantity());
             preparedStatement.setString(4, orderItem.getCurrentPrice().toString());
             preparedStatement.execute();
+            logger.info("create Order Item");
             return get(orderItem);
         } catch (SQLException e) {
+            logger.error("There are problems with new order item insertion to DB\n"+e);
             throw new DAOException("There are problems with new order item insertion to DB" + e);
         }
     }
@@ -86,8 +94,9 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
             preparedStatement.setLong(1, orderItem.getOrderId());
             preparedStatement.setLong(2, orderItem.getProductId());
             preparedStatement.execute();
-
+            logger.info("delete Order Item");
         } catch (SQLException e) {
+            logger.error("There are problems with order item deleting from DB \n"+e);
             throw new DAOException("There are problems with order item deleting from DB" + e);
         }
         return orderItem;
@@ -106,7 +115,9 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
             preparedStatement.setString(4, orderItem.getCurrentPrice().toString());
             preparedStatement.setLong(5, orderItem.getItemId());
             preparedStatement.execute();
+            logger.info("update Order Item");
         } catch (SQLException e) {
+            logger.error("There are problems with order item update in DB \n"+e);
             throw new DAOException("There are problems with order item update in DB" + e);
         }
         return orderItem;
@@ -130,7 +141,9 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
                 BigDecimal price = new BigDecimal(resultSet.getString("price"));
              theItem=new OrderItem(id,productId,orderId,quantity,price);
             }
+            logger.info("get Order Item");
         } catch (SQLException e) {
+            logger.error("There are problems with getting order item from DB \n"+e);
             throw new DAOException("There are problems with getting order item from DB" + e);
         }
         return theItem;
@@ -151,9 +164,11 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
                 Integer quantity = resultSet.getInt("quantity");
                 BigDecimal price = new BigDecimal(resultSet.getString("price"));
                 orderItem=new OrderItem(id,productId,orderId,quantity,price);
+                logger.info("find order item by id");
                 return orderItem;
             }
         } catch (SQLException e) {
+            logger.error("There are problems searching order item by id \n"+e);
             throw new DAOException("There are problems searching order item by id " + e);
         }
         return null;
@@ -161,6 +176,7 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
 
     @Override
     public void close() throws Exception {
+        logger.info("close connection from OrderItemDAO");
         connection.close();
     }
 }

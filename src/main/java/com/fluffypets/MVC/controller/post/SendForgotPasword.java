@@ -5,8 +5,12 @@ import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.factory.Factory;
 import com.fluffypets.servicies.UserDataService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class SendForgotPasword implements Controller {               // TODO: 9/2/17 demands implementation
+    private static final Logger logger = LogManager.getLogger(SendForgotPasword.class.getName());
+
     private UserDataService userDataService;
 
     public SendForgotPasword(UserDataService userDataService) {

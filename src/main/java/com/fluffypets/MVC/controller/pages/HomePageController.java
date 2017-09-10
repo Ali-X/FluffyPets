@@ -9,10 +9,14 @@ import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.factory.Factory;
 import com.fluffypets.servicies.CategoryService;
 import com.fluffypets.servicies.ProductService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
 public class HomePageController implements Controller {
+    private static final Logger logger = LogManager.getLogger(HomePageController.class.getName());
+
     private ProductService productService;
     private CategoryService categoryService;
 

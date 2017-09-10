@@ -3,12 +3,15 @@ package com.fluffypets.DAO.category;
 import com.fluffypets.DAO.AbstractDAO;
 import exeptions.DAOException;
 import com.fluffypets.MVC.model.Category;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDAO,AutoCloseable {
+    private static final Logger logger = LogManager.getLogger(CategoryDAOImpl.class.getName());
 
     public CategoryDAOImpl(Connection connection) {
         super(connection);
@@ -25,7 +28,9 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
         try {
             Statement statement = connection.createStatement();
             statement.execute(initialQuery);
+            logger.info("create table Category if not exists query");
         } catch (SQLException e) {
+            logger.error("Table categories creation error\n"+e);
             throw new DAOException("Table categories creation error");
         }
     }
@@ -39,9 +44,11 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
             preparedStatement.setString(1, category.getName());
             preparedStatement.setString(2, category.getCategoryDescription());
             preparedStatement.execute();
+            logger.info("create category query");
 
             return get(category);
         } catch (SQLException e) {
+            logger.error("There are problems with new category insertion to DB\n"+e);
             throw new DAOException("There are problems with new category insertion to DB" + e);
         }
     }
@@ -54,8 +61,11 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setString(1, category.getName());
             preparedStatement.setString(2, category.getCategoryDescription());
-            preparedStatement.execute();
+
+            preparedStatement.execute();//todo: delete all products before to avoid sql exception
+            logger.info("delete category query");
         } catch (SQLException e) {
+            logger.error("There are problems with category deleting from DB\n"+e);
             throw new DAOException("There are problems with category deleting from DB" + e);
         }
         return category;
@@ -72,6 +82,7 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
             preparedStatement.setLong(3, category.getId());
             preparedStatement.execute();
         } catch (SQLException e) {
+            logger.error("There are problems with new category update in DB\n"+e);
             throw new DAOException("There are problems with new category update in DB" + e);
         }
         return category;
@@ -91,7 +102,9 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
                 int id = resultSet.getInt("id");
                 category = new Category(id, categoryName,categoryDescription);
             } else category = null;
+            logger.info("get category query");
         } catch (SQLException e) {
+            logger.error("There are problems with getting category from DB\n"+e);
             throw new DAOException("There are problems with getting category from DB" + e);
         }
         return category;
@@ -112,8 +125,10 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
                 category = new Category(id, categoryName,categoryDescription);
                 return category;
             }
+            logger.info("findById category query");
         } catch (SQLException e) {
-            throw new DAOException("There are problems searching category by id " + e);
+            logger.error("There are problems searching category by id\n"+e);
+            throw new DAOException("There are problems searching category by id" + e);
         }
         return null;
     }
@@ -135,14 +150,18 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
                 category = new Category(id, name,categoryDescription);
                 list.add(category);
             }
+            logger.info("find category By Id query");
+
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("category list query error\n"+e);
+            throw new DAOException("getAll list query error" + e);
         }
         return list;
     }
 
     @Override
     public void close() throws Exception {
+        logger.info("Close connection from category DAO");
         this.connection.close();
     }
 }

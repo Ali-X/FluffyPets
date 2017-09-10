@@ -1,9 +1,12 @@
 package com.fluffypets.DAO.orders;
 
 import com.fluffypets.DAO.AbstractDAO;
+import com.fluffypets.DAO.category.CategoryDAOImpl;
 import com.fluffypets.MVC.model.Order;
 import com.fluffypets.MVC.model.OrderItem;
 import exeptions.DAOException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -11,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCloseable {
+    private static final Logger logger = LogManager.getLogger(OrderDAOImpl.class.getName());
 
     private OrderItemDAO itemDAO;
 
@@ -28,8 +32,9 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
         try {
             Statement statement = connection.createStatement();
             statement.execute(initialQuery);
-
+            logger.info("createTableIfNotExists query from order DAO");
         } catch (SQLException e) {
+            logger.error("Table order creation error\n"+e);
             throw new DAOException("Table order creation error");
         }
     }
@@ -53,9 +58,11 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
                 String comment = resultSet.getString("comment");
                 List<OrderItem> items = itemDAO.getAllItems(id);
                 list.add(new Order(id, userId, dateOfOrder, dateOfDelivery, orderStatus, items, comment));
+                logger.info("getMyOrders query");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("There are problems with getting all orders from DB\n"+e);
+            throw new DAOException("There are problems with getting all orders from DB" + e);
         }
         return list;
     }
@@ -78,8 +85,10 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
                 itemDAO.create(item);
             }
             theOrder = get(order);
+            logger.info("Order create query");
             return theOrder;
         } catch (SQLException e) {
+            logger.error("There are problems with new order insertion to DB\n"+e);
             throw new DAOException("There are problems with new order insertion to DB" + e);
         }
     }
@@ -95,7 +104,9 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setLong(1, order.getOrderId());
             preparedStatement.execute();
+            logger.info("Order delete query");
         } catch (SQLException e) {
+            logger.error("There are problems with order deleting from DB\n"+e);
             throw new DAOException("There are problems with order deleting from DB" + e);
         }
         return order;
@@ -120,7 +131,9 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
                     itemDAO.create(item);
                 }
             }
+            logger.info("Order update query");
         } catch (SQLException e) {
+            logger.error("There are problems with order item update in DB \n"+e );
             throw new DAOException("There are problems with order item update in DB" + e);
         }
         return order;
@@ -145,10 +158,11 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
                 List<OrderItem> items = itemDAO.getAllItems(id);
                 theOrder = new Order(id, order.getUserId(), order.getOrderDate(),
                         order.getDeliveryDate(), order.getStatus(), items, order.getComment());
-
+                logger.info("Order get query");
                 return theOrder;
             }
         } catch (SQLException e) {
+            logger.error("There are problems with getting orders from DB \n"+e );
             throw new DAOException("There are problems with getting orders from DB" + e);
         }
         return null;
@@ -171,17 +185,19 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
                 String comment = resultSet.getString("comment");
                 List<OrderItem> items = itemDAO.getAllItems(id.longValue());
                 theOrder = new Order(id, userId, dateOfOrder, dateOfDelivery, orderStatus, items, comment);
-
+                logger.info("Order findById query");
                 return theOrder;
             }
         } catch (SQLException e) {
-            throw new DAOException("There are problems with getting orders from DB" + e);
+            logger.error("There are problems with getting orders by id from DB \n"+e );
+            throw new DAOException("There are problems with getting orders by id from DB" + e);
         }
         return null;
     }
 
     @Override
     public void close() throws Exception {
+        logger.info("Connection close from product DAO");
         connection.close();
     }
 }

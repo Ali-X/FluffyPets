@@ -8,10 +8,14 @@ import com.fluffypets.factory.Factory;
 import com.fluffypets.servicies.CategoryService;
 import com.fluffypets.servicies.ProductService;
 import com.fluffypets.servicies.UserDataService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
 public class ProductController implements Controller {
+    private static final Logger logger = LogManager.getLogger(ProductController.class.getName());
+
     private CategoryService categoryService;
 
     public ProductController(CategoryService categoryService) {

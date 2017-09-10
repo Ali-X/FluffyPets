@@ -3,6 +3,8 @@ package com.fluffypets.MVC.filtres;
 import com.fluffypets.DAO.user.UserDAOImpl;
 import com.fluffypets.MVC.model.User;
 import com.fluffypets.factory.Factory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
@@ -12,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserFilter implements Filter {
+    private static final Logger logger = LogManager.getLogger(AdminFilter.class.getName());
+
 
     private UserDAOImpl userDao;
     private List<String> protectedUrl = new ArrayList<>();

@@ -28,11 +28,9 @@
 *.iws
 *.ipr
 *.iml
-/target
 ## Plugin-specific files:
 
 # IntelliJ
-/out/
 dataSources
 .ideaDataSources
 # mpeltonen/sbt-idea plugin

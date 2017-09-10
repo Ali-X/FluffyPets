@@ -1,12 +1,15 @@
 package com.fluffypets.DAO.user;
 
 import com.fluffypets.DAO.AbstractDAO;
-import exeptions.DAOException;
 import com.fluffypets.MVC.model.User;
+import exeptions.DAOException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 
 public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoCloseable {
+    private static final Logger logger = LogManager.getLogger(UserDAOImpl.class.getName());
 
     public UserDAOImpl(Connection connection) {
         super(connection);
@@ -26,8 +29,10 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
         try {
             Statement statement = connection.createStatement();
             statement.execute(initialQuery);
+            logger.info("Table users createTableIfNotExists query");
         } catch (SQLException e) {
-            throw new DAOException("Table pages creation error");
+            logger.error("Table users creation error\n"+e);
+            throw new DAOException("Table users creation error");
         }
     }
 
@@ -43,13 +48,13 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
             preparedStatement.setString(4, user.getEmail());
             preparedStatement.setString(5, user.getRoleString());
             preparedStatement.execute();
-
+            logger.info("create user query");
             return get(user);
         } catch (SQLException e) {
+            logger.error("create user query error\n"+e);
             throw new DAOException("There are problems with new user insertion to DB" + e);
         }
     }
-
 
     @Override
     public User delete(User user) {
@@ -64,7 +69,9 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
             preparedStatement.setString(4, user.getEmail());
             preparedStatement.setString(5, user.getRoleString());
             preparedStatement.execute();
+            logger.info("delete user query");
         } catch (SQLException e) {
+            logger.error("There are problems with user deleting from DB\n"+e);
             throw new DAOException("There are problems with user deleting from DB" + e);
         }
         return user;
@@ -84,7 +91,9 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
             preparedStatement.setString(5, user.getRoleString());
             preparedStatement.setLong(6, user.getId());
             preparedStatement.execute();
+            logger.info("update user query");
         } catch (SQLException e) {
+            logger.error("There are problems with new user update in DB\n"+e);
             throw new DAOException("There are problems with new user update in DB" + e);
         }
         return user;
@@ -108,7 +117,9 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
                 int id = resultSet.getInt("id");
                 user = new User(id, userName, password, token, email, roleString);
             } else user = null;
+            logger.info("get user query");
         } catch (SQLException e) {
+            logger.error("There are problems with getting user from DB\n"+e);
             throw new DAOException("There are problems with getting user from DB" + e);
         }
         return user;
@@ -131,7 +142,9 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
                 int id = resultSet.getInt("id");
                 user = new User(id, login, password, token, email, roleString);
             } else user = null;
+            logger.info("findByLoginPassword user query");
         } catch (SQLException e) {
+            logger.error("There are problems with getting user from DB\n"+e);
             throw new DAOException("There are problems with getting user from DB" + e);
         }
         return user;
@@ -155,7 +168,9 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
                 user = new User(id, userName, password, token, email, roleString);
                 return user;
             }
+            logger.info("findById user query");
         } catch (SQLException e) {
+            logger.error("There are problems searching user by id\n"+e);
             throw new DAOException("There are problems searching user by id " + e);
         }
         return null;
@@ -180,7 +195,9 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
                 user = new User(id, userName, password, token, email, roleString);
                 return user;
             }
+            logger.info("findByToken user query");
         } catch (SQLException e) {
+            logger.error("There are problems with user search by token\n"+e);
             throw new DAOException("There are problems with user search by token" + e);
         }
         return null;
@@ -188,6 +205,7 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
 
     @Override
     public void close() throws Exception {
+        logger.info("connection close from UserDAO");
         this.connection.close();
     }
 }

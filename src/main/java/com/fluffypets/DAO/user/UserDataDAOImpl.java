@@ -3,11 +3,14 @@ package com.fluffypets.DAO.user;
 import com.fluffypets.DAO.AbstractDAO;
 import com.fluffypets.MVC.model.UserData;
 import exeptions.DAOException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.time.LocalDate;
 
 public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDAO, AutoCloseable {
+    private static final Logger logger = LogManager.getLogger(UserDataDAOImpl.class.getName());
 
     public UserDataDAOImpl(Connection connection) {
         super(connection);
@@ -59,9 +62,10 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
             preparedStatement.setString(11, userData.getSecondaryNumber());
 
             preparedStatement.execute();
-
+            logger.info("create user query");
             return get(userData);
         } catch (SQLException e) {
+            logger.error("create user query error\n"+e);
             throw new DAOException("There are problems with new userData insertion to DB" + e);
         }
     }
@@ -75,8 +79,10 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setLong(1, userData.getUserId());
             preparedStatement.execute();
+            logger.info("delete user query");
             return get(userData);
         } catch (SQLException e) {
+            logger.error("There are problems with userData deleting from DB\n"+e);
             throw new DAOException("There are problems with userData deleting from DB" + e);
         }
     }
@@ -103,7 +109,9 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
             preparedStatement.setString(11, userData.getSecondaryNumber());
             preparedStatement.setLong(12, userData.getUserDataId());
             preparedStatement.execute();
+            logger.info("update user query");
         } catch (SQLException e) {
+            logger.error("There are problems with userData update in DB\n"+e);
             throw new DAOException("There are problems with userData update in DB" + e);
         }
         return userData;
@@ -134,7 +142,9 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
                 userData = new UserData(userDataId, userId, fullName, dateOfBirth, gender, married, district, area,
                         street, app, primaryNumber, secondaryNumber);
             } else userData = null;
+            logger.info("get user query");
         } catch (SQLException e) {
+            logger.error("There are problems with getting user from DB\n"+e);
             throw new DAOException("There are problems with getting user from DB" + e);
         }
         return userData;

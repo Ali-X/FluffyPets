@@ -1,12 +1,16 @@
 package com.fluffypets.MVC.servlets;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class Request {
+    private static final Logger logger = LogManager.getLogger(Request.class.getName());
+
 
     private final String method;
     private final String uri;
