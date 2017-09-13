@@ -1,39 +1,40 @@
 package com.fluffypets.MVC.controller;
 
-import com.fluffypets.MVC.model.Product;
 import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.factory.Factory;
+import org.apache.commons.fileupload.FileItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.util.List;
+import java.util.UUID;
 
 public class UploadPhotoController implements Controller {
     private static final Logger logger = LogManager.getLogger(UploadPhotoController.class.getName());
+    private static final String UPLOAD_DIRECTORY = "/home/matsishin/FluffyPetsImages";
+
 
     @Override
-    public ViewModel process(Request request) {
+    synchronized public ViewModel process(Request request) {
         ViewModel vm = Factory.getViewModel();
+        String uniqueName=null;
 
-        final String[] productName = {null};
-        request.getItemsForUpload().forEach(item -> {
-            if (item.isFormField()) {
-                productName[0] = item.getString();
-            }
+        List<FileItem> multiparts = request.getItemsForUpload();
+        for (FileItem item : multiparts) {
             if (!item.isFormField()) {
-                String fileName = productName[0] + ".jpg";
-                String filePath = request.getAttribute("file-upload") + fileName;
+                String name = new File(item.getName()).getName();
+                uniqueName= UUID.randomUUID().toString()+name;
                 try {
-                    item.write(new File(filePath));
+                    item.write(new File(UPLOAD_DIRECTORY + File.separator +uniqueName));
                 } catch (Exception e) {
-                    throw new RuntimeException("There was problem with uploading file " + e);
+                    e.printStackTrace();
                 }
             }
-        });
-
-        Product product=(Product) vm.getAttribute("product");
-//        product.setPictureURL();
+        }
+        vm.setAttribute("uploadedFile","/file/"+uniqueName);
+        logger.info(uniqueName+"was uploaded");
         return vm;
     }
 }

@@ -75,4 +75,9 @@ public class Request {
     public String getAttribute(String name){
         return attributes.get(name)[0];
     }
+
+    public String[] getParametersArray(String param) {
+        return attributes.get(param);
+    }
 }
+

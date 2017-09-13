@@ -3,6 +3,10 @@ package com.fluffypets.MVC.servlets;
 import com.fluffypets.MVC.controller.Controller;
 import com.fluffypets.factory.Factory;
 import exeptions.MVCexception;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,17 +16,16 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class FrontServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(FrontServlet.class.getName());
 
-
     private Map<Request, Controller> controllerMap = new HashMap<>();
-    private static final int MAX_MEMORY_SIZE = 1024 * 1024 * 2;
-    private static final int MAX_REQUEST_SIZE = 1024 * 1024;
 
     public void init() {
 //      pages GET links
@@ -42,7 +45,7 @@ public class FrontServlet extends HttpServlet {
         controllerMap.put(new Request("POST", "/root/createCategory"), Factory.getCreateCategoryController());
         controllerMap.put(new Request("POST", "/root/createProduct"), Factory.getCreateProductController());
         controllerMap.put(new Request("POST", "/root/forgot"), Factory.getSendForgotPassword());
-        controllerMap.put(new Request("POST", "/root/createProduct/imageupload"), Factory.getImageUploadController());
+        controllerMap.put(new Request("POST", "/root/upload"), Factory.getImageUploadController());
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -50,45 +53,34 @@ public class FrontServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request, response);
+    protected void doPost(HttpServletRequest httpRequest, HttpServletResponse response) throws ServletException, IOException {
+        processRequest(httpRequest, response);
     }
 
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void processRequest(HttpServletRequest httpRequest, HttpServletResponse response) throws ServletException, IOException {
 
-        Request request1 = new Request(request.getMethod(), request.getRequestURI(),request.getParameterMap());
-//        request1.setAttribute("file-upload", new String[]{getServletContext().getInitParameter("file-upload")});
-
+        Request request = new Request(httpRequest.getMethod(), httpRequest.getRequestURI(), httpRequest.getParameterMap());
         try {
-            Controller controller = controllerMap.get(request1);
+            Controller controller = controllerMap.get(request);
             if (controller == null) {
-                logger.error("Can't handle " + request1.getUri());
-                throw new MVCexception("Can't handle " + request1.getUri());
+                logger.error("Can't handle " + request.getUri());
+                throw new MVCexception("Can't handle " + request.getUri());
             }
 
-//            if (ServletFileUpload.isMultipartContent(request)) {
-//                DiskFileItemFactory factory = new DiskFileItemFactory();
-//                factory.setSizeThreshold(MAX_MEMORY_SIZE);
-//                factory.setRepository(new File(System.getProperty("java.io.tmpdir")));
-//                ServletFileUpload upload = new ServletFileUpload(factory);
-//                upload.setSizeMax(MAX_REQUEST_SIZE);
-//                request1.setItemsForUpload(upload.parseRequest(request));
-//            }
-
-            ViewModel vm = controller.process(request1);
-            if (vm.hasCookie("token")) {
-                Map<String, String> newCookie = vm.getCookie();
-                newCookie.keySet().forEach(c -> {
-                    Cookie cookie = new Cookie(c, newCookie.get(c));
-                    cookie.setMaxAge(3600 * 24 * 30);
-                    cookie.setPath("/");
-                    response.addCookie(cookie);
-                });
+            if (ServletFileUpload.isMultipartContent(httpRequest)) {
+                try {
+                    request.setItemsForUpload(new ServletFileUpload(new DiskFileItemFactory()).parseRequest(httpRequest));
+                } catch (FileUploadException e) {
+                    logger.error("error with getting multipart content" + e);
+                }
             }
-            setAttributes(request, vm);
-            forward(request, response, vm);
+
+            ViewModel vm = controller.process(request);
+
+            setAttributes(httpRequest, vm);
+            forward(httpRequest, response, vm);
         } catch (Throwable e) {
-            logger.error("Error in request handeling"+e);
+            logger.error("Error in request handeling" + e);
             throw new MVCexception("The error is " + e);
         }
     }
@@ -99,13 +91,13 @@ public class FrontServlet extends HttpServlet {
         dispatcher.forward(request, resp);
     }
 
-   synchronized private void setAttributes(HttpServletRequest request, ViewModel vm) {
+    synchronized private void setAttributes(HttpServletRequest request, ViewModel vm) {
         vm.getAttributes().keySet().forEach(key -> {
             request.setAttribute(key, vm.getAttribute(key));
         });
     }
 
-   synchronized private String getView(ViewModel vm) {
+    synchronized private String getView(ViewModel vm) {
         String prefix = "/WEB-INF/views/";
         String suffix = ".jsp";
         return prefix + vm.getView() + suffix;

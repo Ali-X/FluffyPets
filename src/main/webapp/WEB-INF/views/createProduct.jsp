@@ -94,37 +94,35 @@
                     <label for="productName">Product name</label><br>
 
                     <input id="productName" type="text" name="productName"
-                           placeholder="productName" class="form-control">
+                           placeholder="productName" class="form-control" required>
 
                     <label for="producer">Producer</label><br>
 
                     <input id="producer" type="text" name="producer"
-                           placeholder="producer" class="form-control">
+                           placeholder="producer" class="form-control" required>
 
                     <label for="comment">Insert product description</label>
-                    <textarea class="form-control" name="description" rows="3" id="comment"></textarea>
+                    <textarea class="form-control" name="description" rows="3" id="comment" required></textarea>
 
                     <label for="pictureURL">Picture URL (auto set value for uploaded)</label><br>
 
-                    <input id="pictureURL" type="text" name="pictureURL"
-                           placeholder="pictureURL" class="form-control">
+                    <input id="pictureURL" type="text" name="pictureURL" class="form-control" readonly required
+                           placeholder="upload photo using button below"
+                    <c:if test="${not empty requestScope.uploadedFile}"> value="${requestScope.uploadedFile}"</c:if> >
 
                     <label for="price">Picture URL (auto set value for uploaded)</label><br>
                     <div class="form-group">
                         <div class="col-md-1"><span class="glyphicon glyphicon-usd"></span></div>
-                        <div class="col-md-2"><input id="price" type="text" name="price" placeholder="?"
+                        <div class="col-md-2"><input id="price" type="number" name="price" placeholder="?" required
                                                      class="form-control"></div>
                     </div>
-                    <form action="/root/uploadPhoto" enctype="multipart/form-data" method="post">
-                        <input type="file">
-                    </form>
+
                     <div class="row">
                         <div class="col-md-3">
                             <button class="btn btn-success btn-md" formaction="/root/createProduct">Create good</button>
                         </div>
                         <c:if test="${not empty requestScope.categories}">
                             <div class="col-md-3">
-                                    <%--<label for="sel1">Select category :</label>--%>
                                 <select class="form-control bg-warning" id="sel1" name="categorySelId">
                                     <c:forEach items="${requestScope.categories}" var="category">
                                         <option value="${category.getId()}"><c:out
@@ -135,7 +133,17 @@
                         </c:if>
                     </div>
                 </form>
-
+                <br>
+                <div class="row">
+                    <form method="post" action="upload" enctype="multipart/form-data" class="form-group">
+                        <div class="row">
+                            <div class="col-md-4"><input type="file" name="file" class="label-info"/></div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4"><input type="submit" value="upload" class="btn-info"/></div>
+                        </div>
+                    </form>
+                </div>
+                <br>
                 <div class="row">
 
                     <div class="caption">
@@ -154,12 +162,12 @@
                             <form class="form-horizontal" method="post">
                                 <label>Category name</label><br>
 
-                                <input id="categoryName2" type="text" name="categoryName"
+                                <input id="categoryName2" type="text" name="categoryName" required
                                        placeholder="categoryName" class="form-control">
 
                                 <br>
                                 <label for="comment2">Insert category description</label>
-                                <textarea class="form-control" name="categoryDescription" rows="2"
+                                <textarea class="form-control" name="categoryDescription" rows="2" required
                                           id="comment2"></textarea>
                                 <br>
 

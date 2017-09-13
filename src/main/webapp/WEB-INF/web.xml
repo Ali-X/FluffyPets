@@ -10,6 +10,16 @@
         <servlet-class>com.fluffypets.MVC.servlets.FrontServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>FileStoringServlet</servlet-name>
+        <servlet-class>com.fluffypets.MVC.servlets.FileStoringServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>FileStoringServlet</servlet-name>
+        <url-pattern>/file/*</url-pattern>
+    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>MainServlet</servlet-name>
         <url-pattern>/root/*</url-pattern>
@@ -21,6 +31,20 @@
         <res-type>javax.sql.DataSource</res-type>
         <res-auth>Container</res-auth>
     </resource-ref>
+
+    <servlet>
+        <servlet-name>FileUploadHandler</servlet-name>
+        <servlet-class>com.fluffypets.MVC.servlets.FrontServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>FileUploadHandler</servlet-name>
+        <url-pattern>/upload</url-pattern>
+    </servlet-mapping>
+
+    <session-config>
+        <session-timeout> 30 </session-timeout>
+    </session-config>
 
     <filter>
         <filter-name>AdminFilter</filter-name>

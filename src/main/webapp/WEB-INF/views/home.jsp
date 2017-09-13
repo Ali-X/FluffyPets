@@ -124,10 +124,10 @@
                 <c:forEach items="${requestScope.products}" var="product">
 
                     <div class="col-sm-6 col-md-4 col-lg-3">
-                        <div class="thumbnail">
-                            <a href="${pageContext.request.contextPath}${product.getPictureURL()}" target="_blank">
-                                <img src="${pageContext.request.contextPath}${product.getPictureURL()}"
-                                     alt="Nature" style="height: 320px">
+                        <div class="thumbnail" style="height: 520px">
+                            <a href="${initParam.get('localDir')}${product.getPictureURL()}" target="_blank">
+                                <img src="${initParam.get('localDir')}${product.getPictureURL()}"
+                                     style="height: 320px">
                                 <div class="caption">
                                     <h4>${product.getName()}</h4>
                                 </div>
@@ -136,13 +136,9 @@
                                 <form class="form-horizontal" method="post">
                                     <input type="hidden" name="productId" value="${product.getId()}">
                                     <h2><span class="glyphicon glyphicon-usd"></span> ${product.getPrice()} </h2>
-                                    <button class="btn btn-success btn-md"
-                                            formaction="<c:url value="/root/addToCart"/>">Add to
+                                    <button class="btn btn-success btn-md" formaction="<c:url value="/root/addToCart"/>">Add to
                                         cart
                                     </button>
-                                    <%--<button class="btn btn-info btn-md" formaction="<c:url value="/root/productInfo"/>">--%>
-                                        <%--More details--%>
-                                    <%--</button>--%>
                                 </form>
                             </div>
                         </div>

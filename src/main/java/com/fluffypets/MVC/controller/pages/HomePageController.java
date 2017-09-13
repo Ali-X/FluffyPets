@@ -12,6 +12,7 @@ import com.fluffypets.servicies.ProductService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
 import java.util.List;
 
 public class HomePageController implements Controller {
@@ -27,6 +28,8 @@ public class HomePageController implements Controller {
 
     @Override
     public ViewModel process(Request request) {
+        File dir = new File(System.getProperty("catalina.base"), "uploads");
+        System.out.println(dir);
         List<Product> products=productService.getAll();
         List<Category> categories=categoryService.getAll();
         ViewModel vm = Factory.getViewModel();
