@@ -198,4 +198,12 @@ public class Factory {
 
     public static Controller getSelectGoodsController() {return new SelectGoodsController(Factory.getProductService(),Factory.getCategoriesService());
     }
+
+    public static Controller getAdminPage() {
+        return new AdminPageController(Factory.getUserService());
+    }
+
+    public static Controller getEditUserRole() {
+        return new EditUserRoleController(Factory.getUserService());
+    }
 }

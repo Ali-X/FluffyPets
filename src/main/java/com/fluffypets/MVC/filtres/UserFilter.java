@@ -44,7 +44,8 @@ public class UserFilter implements Filter {
                     request.setAttribute("user", user);
                 }
             }
-            if (token == null) {
+            User user= (User) request.getAttribute("user");
+            if (token == null || user.getRoleString().equals("blocked")) {
                 request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
             }
         }

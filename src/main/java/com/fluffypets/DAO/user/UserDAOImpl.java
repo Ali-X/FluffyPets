@@ -7,6 +7,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoCloseable {
     private static final Logger logger = LogManager.getLogger(UserDAOImpl.class.getName());
@@ -203,9 +205,34 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
         return null;
     }
 
+    public List<User> getAllRecords() {
+        PreparedStatement preparedStatement;
+        List<User> users= new ArrayList<>();
+        try {
+            String preparedQuery = "SELECT * FROM Pets.users";
+            preparedStatement = connection.prepareStatement(preparedQuery);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String userName = resultSet.getString("userName");
+                String password = resultSet.getString("password");
+                String email = resultSet.getString("email");
+                String roleString = resultSet.getString("roleString");
+                String token = resultSet.getString("token");
+                users.add( new User(id, userName, password, token, email, roleString));
+            }
+            logger.info("get all users query");
+            return users;
+        } catch (SQLException e) {
+            logger.error("There are problems with user search by token\n"+e);
+            throw new DAOException("There are problems with user search by token" + e);
+        }
+    }
+
     @Override
     public void close() throws Exception {
         logger.info("connection close from UserDAO");
         this.connection.close();
     }
+
 }
