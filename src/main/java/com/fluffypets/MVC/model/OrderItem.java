@@ -42,6 +42,12 @@ public class OrderItem {
         this.currentPrice = currentPrice;
     }
 
+    public OrderItem(long productId, int quantity, BigDecimal currentPrice) {
+        this.productId = productId;
+        this.quantity = quantity;
+        this.currentPrice = currentPrice;
+    }
+
     public long getItemId() {
         return itemId;
     }

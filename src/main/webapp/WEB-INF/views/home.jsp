@@ -59,14 +59,39 @@
                         <span class="glyphicon glyphicon-shopping-cart"></span>My cart<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <c:if test="${empty requestScope.user}">
-                            <li><a href="#">You are not autorised!</a></li>
+                            <li><a href="/root/login">You are not authorised, please login!</a></li>
                         </c:if>
                         <c:if test="${not empty requestScope.user}">
                             <li><a href="#">Welcome ${requestScope.user.getUserName()}!</a></li>
                         </c:if>
-                        <li class="divider"></li>
-                        <c:if test="${empty requestScope.myCart}">
-                            <li><a href="#">your cart is empty</a></li>
+                        <c:if test="${not empty requestScope.cart.getProductInCarts()}">
+                            <li class="divider"></li>
+                            <c:forEach items="${requestScope.cart.getProductInCarts()}" var="cartItem">
+                                <li class="text-center">
+                                    <form method="post">
+                                    <div class="row center-block">
+                                            ${cartItem.getProduct().getName()} :
+                                        <button class="btn-link"  formaction="/root/takeFromCart"
+                                                name="productId"    value="${cartItem.getProduct().getId()}" >
+                                            <span class="glyphicon glyphicon-minus"></span>
+                                        </button>
+                                            ${cartItem.getNumber()}
+                                        <button class="btn-link"  formaction="/root/addToCart"
+                                                name="productId" value="${cartItem.getProduct().getId()}" >
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                        </button>
+                                    </div>
+                                    </form>
+                                </li>
+                            </c:forEach>
+                            <li class="divider"></li>
+                            <li class="text-center">
+                            <form action="root/makeOder" method="post">
+                                <button type="submit"
+                                        <c:if test="${not empty requestScope.user}"> class="btn btn-danger"</c:if>
+                                        <c:if test="${empty requestScope.user}"> class="btn btn-default" disabled="disabled"</c:if>
+                                > Confirm your order</button>
+                            </form></li>
                         </c:if>
                     </ul>
                 </li>
@@ -111,7 +136,8 @@
 
                     <c:forEach items="${prices}" var="price">
                         <div class="radio">
-                            <label><input type="radio" name="selectedPrice" value="${price.getLabel()}">${price.getLabel()}</label>
+                            <label><input type="radio" name="selectedPrice"
+                                          value="${price.getLabel()}">${price.getLabel()}</label>
                         </div>
                     </c:forEach>
 
@@ -134,9 +160,9 @@
                             </a>
                             <div class="container">
                                 <form class="form-horizontal" method="post">
-                                    <input type="hidden" name="productId" value="${product.getId()}">
                                     <h2><span class="glyphicon glyphicon-usd"></span> ${product.getPrice()} </h2>
-                                    <button class="btn btn-success btn-md" formaction="<c:url value="/root/addToCart"/>">Add to
+                                    <button class="btn btn-success btn-md" name="productId" value="${product.getId()}"
+                                            formaction="<c:url value="/root/addToCart"/>">Add to
                                         cart
                                     </button>
                                 </form>

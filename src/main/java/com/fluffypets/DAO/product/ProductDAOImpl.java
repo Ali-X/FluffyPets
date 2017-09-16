@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +54,7 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setString(1, product.getName());
             preparedStatement.setString(2, product.getProducer());
-            preparedStatement.setString(3, product.getPrice().toString());
+            preparedStatement.setString(3, product.getPrice().setScale(2,BigDecimal.ROUND_CEILING).toString());
             preparedStatement.setString(4, product.getDescription());
             preparedStatement.setString(5, product.getPictureURL());
             preparedStatement.setInt(6, product.getCategory().getId());
@@ -93,7 +94,7 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setString(1, product.getName());
             preparedStatement.setString(2, product.getProducer());
-            preparedStatement.setString(3, product.getPrice().toString());
+            preparedStatement.setString(3, product.getPrice().setScale(2,BigDecimal.ROUND_CEILING).toString());
             preparedStatement.setString(4, product.getDescription());
             preparedStatement.setString(5, product.getPictureURL());
             preparedStatement.setLong(6, product.getCategory().getId());
@@ -170,7 +171,7 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
         List<Product> product = new ArrayList<>();
         CategoryDAO supportReq = Factory.categoryDaoByConnection(connection);
         try {
-            String preparedQuery = "SELECT * FROM Pets.products";
+            String preparedQuery = "SELECT * FROM Pets.products ORDER BY LENGTH(price),price";
             preparedStatement = connection.prepareStatement(preparedQuery);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {

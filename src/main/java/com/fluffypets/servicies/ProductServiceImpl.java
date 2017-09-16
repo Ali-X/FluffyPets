@@ -31,6 +31,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Product getProductById(Integer id) {
+        return productDAO.findById(id);
+    }
+
+    @Override
     public Product create(Product product) {
         Product existing=productDAO.get(product);
         if (existing==null) return productDAO.create(product);

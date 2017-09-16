@@ -79,9 +79,10 @@
     <div class="row">
         <div class="col-md-4 center-block hidden-sm hidden-xs">
             <div class="thumbnail">
-                <a href="${pageContext.request.contextPath}/resourseces/img/toy-bear.jpg" target="_blank">
-                    <img src="${pageContext.request.contextPath}/resourseces/img/toy-bear.jpg" alt="Nature"
-                         style="width:100%">
+                <img
+                        <c:if test="${empty requestScope.uploadedFile}">src="${pageContext.request.contextPath}/resourseces/img/toy-bear.jpg"</c:if>
+                        <c:if test="${not empty requestScope.uploadedFile}">src="${requestScope.uploadedFile}"</c:if>
+                        style="width:100%">
                 </a>
             </div>
         </div>
@@ -113,7 +114,7 @@
                     <label for="price">Picture URL (auto set value for uploaded)</label><br>
                     <div class="form-group">
                         <div class="col-md-1"><span class="glyphicon glyphicon-usd"></span></div>
-                        <div class="col-md-2"><input id="price" type="number" name="price" placeholder="?" required
+                        <div class="col-md-2"><input id="price" type="number" step="0.01" min="0" name="price" placeholder="?" required
                                                      class="form-control"></div>
                     </div>
 

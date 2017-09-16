@@ -13,6 +13,8 @@ public interface ProductService {
 
     Product getProduct(Product product);
 
+    Product getProductById(Integer id);
+
     Product create(Product product);
 
     Product delete(Product product);

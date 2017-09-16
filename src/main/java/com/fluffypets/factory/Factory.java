@@ -135,7 +135,7 @@ public class Factory {
     //---------------------                 get pages                ---------------------------------------------------
 
     public static Controller getHomeController() {
-        return new HomePageController(Factory.getProductService(), Factory.getCategoriesService());
+        return new HomePageController(Factory.getProductService(), Factory.getCategoriesService(),Factory.getUserService());
     }
 
     public static Controller getLoginPageController() {
@@ -205,5 +205,13 @@ public class Factory {
 
     public static Controller getEditUserRole() {
         return new EditUserRoleController(Factory.getUserService());
+    }
+
+    public static Controller getAddProductToCartController() {
+        return new AddProductToCartController(Factory.getProductService());
+    }
+
+    public static Controller getTakeProductFromCartController() {
+        return new TakeProductFromCart(Factory.getProductService());
     }
 }

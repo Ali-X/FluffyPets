@@ -46,6 +46,8 @@ public class FrontServlet extends HttpServlet {
         controllerMap.put(new Request("POST", "/root/editProfile"), Factory.getUserDataController());
         controllerMap.put(new Request("POST", "/root/createCategory"), Factory.getCreateCategoryController());
         controllerMap.put(new Request("POST", "/root/createProduct"), Factory.getCreateProductController());
+        controllerMap.put(new Request("POST", "/root/addToCart"), Factory.getAddProductToCartController());
+        controllerMap.put(new Request("POST", "/root/takeFromCart"), Factory.getTakeProductFromCartController());
         controllerMap.put(new Request("POST", "/root/forgot"), Factory.getSendForgotPassword());
         controllerMap.put(new Request("POST", "/root/upload"), Factory.getImageUploadController());
     }
