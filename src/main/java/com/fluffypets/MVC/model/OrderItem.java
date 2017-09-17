@@ -3,10 +3,10 @@ package com.fluffypets.MVC.model;
 import java.math.BigDecimal;
 
 public class OrderItem {
-    private  long itemId;
-    private long productId;
-    private long orderId;
-    private int     quantity;
+    private  Integer itemId;
+    private Integer productId;
+    private Integer orderId;
+    private Integer     quantity;
     private BigDecimal currentPrice;
 
     @Override
@@ -16,8 +16,7 @@ public class OrderItem {
 
         OrderItem orderItem = (OrderItem) o;
 
-        if (getProductId() != orderItem.getProductId()) return false;
-        return getOrderId() == orderItem.getOrderId();
+        return getProductId() == orderItem.getProductId() && getOrderId() == orderItem.getOrderId();
     }
 
     @Override
@@ -27,7 +26,7 @@ public class OrderItem {
         return result;
     }
 
-    public OrderItem(long itemId, long productId, long orderId, int quantity, BigDecimal currentPrice) {
+    public OrderItem(Integer itemId, Integer productId, Integer orderId, Integer quantity, BigDecimal currentPrice) {
         this.itemId = itemId;
         this.productId = productId;
         this.orderId = orderId;
@@ -35,14 +34,14 @@ public class OrderItem {
         this.currentPrice = currentPrice;
     }
 
-    public OrderItem(long productId, long orderId, int quantity, BigDecimal currentPrice) {
+    public OrderItem(Integer productId, Integer orderId, Integer quantity, BigDecimal currentPrice) {
         this.productId = productId;
         this.orderId = orderId;
         this.quantity = quantity;
         this.currentPrice = currentPrice;
     }
 
-    public OrderItem(long productId, int quantity, BigDecimal currentPrice) {
+    public OrderItem(Integer productId, Integer quantity, BigDecimal currentPrice) {
         this.productId = productId;
         this.quantity = quantity;
         this.currentPrice = currentPrice;
@@ -52,7 +51,7 @@ public class OrderItem {
         return itemId;
     }
 
-    public void setItemId(long itemId) {
+    public void setItemId(Integer itemId) {
         this.itemId = itemId;
     }
 
@@ -60,7 +59,7 @@ public class OrderItem {
         return productId;
     }
 
-    public void setProductId(long productId) {
+    public void setProductId(Integer productId) {
         this.productId = productId;
     }
 
@@ -68,7 +67,7 @@ public class OrderItem {
         return orderId;
     }
 
-    public void setOrderId(long orderId) {
+    public void setOrderId(Integer orderId) {
         this.orderId = orderId;
     }
 
@@ -76,7 +75,7 @@ public class OrderItem {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 

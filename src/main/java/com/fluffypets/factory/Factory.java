@@ -53,7 +53,7 @@ public class Factory {
     }
 
     private static Connection getConnectionH2() {
-        Connection connection = null;
+        Connection connection;
         try {
             Class.forName("org.h2.Driver");
             connection = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/test", "sa", "");
@@ -130,6 +130,9 @@ public class Factory {
 
     public static ProductService getProductService() {
         return new ProductServiceImpl(Factory.getProductDao());
+    }
+
+    private static OrderService getOrderService() {return new OrderServiceImpl(Factory.getUserDataDao(),Factory.getOrderDAO());
     }
 
     //---------------------                 get pages                ---------------------------------------------------
@@ -213,5 +216,13 @@ public class Factory {
 
     public static Controller getTakeProductFromCartController() {
         return new TakeProductFromCart(Factory.getProductService());
+    }
+
+    public static Controller getMakeOrderController() {
+        return new MakeOrderController(Factory.getUserDataService());
+    }
+
+    public static Controller getSubmitOrderController() {
+        return new SubmitOrderController(Factory.getOrderService());
     }
 }

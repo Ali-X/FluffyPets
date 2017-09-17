@@ -6,5 +6,5 @@ import com.fluffypets.MVC.model.OrderItem;
 import java.util.List;
 
 public interface OrderItemDAO extends GenericDAO<OrderItem> {
-    List<OrderItem> getAllItems(Long orderId);
+    List<OrderItem> getAllItems(Integer orderId);
 }

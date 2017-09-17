@@ -59,14 +59,39 @@
                         <span class="glyphicon glyphicon-shopping-cart"></span>My cart<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <c:if test="${empty requestScope.user}">
-                            <li><a href="#">You are not autorised!</a></li>
+                            <li><a href="/root/login">You are not authorised, please login!</a></li>
                         </c:if>
                         <c:if test="${not empty requestScope.user}">
                             <li><a href="#">Welcome ${requestScope.user.getUserName()}!</a></li>
                         </c:if>
-                        <li class="divider"></li>
-                        <c:if test="${empty requestScope.myCart}">
-                            <li><a href="#">your cart is empty</a></li>
+                        <c:if test="${not empty requestScope.cart.getProductInCarts()}">
+                            <li class="divider"></li>
+                            <c:forEach items="${requestScope.cart.getProductInCarts()}" var="cartItem">
+                                <li class="text-center">
+                                    <form method="post">
+                                        <div class="row center-block">
+                                                ${cartItem.getProduct().getName()} :
+                                            <button class="btn-link"  formaction="/root/takeFromCart"
+                                                    name="productId"    value="${cartItem.getProduct().getId()}" >
+                                                <span class="glyphicon glyphicon-minus"></span>
+                                            </button>
+                                                ${cartItem.getNumber()}
+                                            <button class="btn-link"  formaction="/root/addToCart"
+                                                    name="productId" value="${cartItem.getProduct().getId()}" >
+                                                <span class="glyphicon glyphicon-plus"></span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </li>
+                            </c:forEach>
+                            <li class="divider"></li>
+                            <li class="text-center">
+                                <form method="post">
+                                    <button type="submit"
+                                            <c:if test="${not empty requestScope.user}"> formaction="/root/makeOder" class="btn btn-danger"</c:if>
+                                            <c:if test="${empty requestScope.user}"> class="btn btn-default" disabled="disabled"</c:if>
+                                    > Confirm your order</button>
+                                </form></li>
                         </c:if>
                     </ul>
                 </li>

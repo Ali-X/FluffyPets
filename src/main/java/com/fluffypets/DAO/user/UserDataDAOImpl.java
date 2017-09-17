@@ -51,7 +51,7 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
                     "userId,fullName,dateOfBirth,gender,maried,district,area,street,app,primaryPhone,secondaryPhone)" +
                     " VALUES(?,?,?,?,?,?,?,?,?,?,?)";
             preparedStatement = connection.prepareStatement(preparedQuery);
-            preparedStatement.setLong(1, userData.getUserId());
+            preparedStatement.setInt(1, userData.getUserId());
             preparedStatement.setString(2, userData.getFullName());
             preparedStatement.setDate(3, java.sql.Date.valueOf(userData.getDateOfBirth()));
             preparedStatement.setString(4, userData.getGender());
@@ -79,7 +79,7 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
             PreparedStatement preparedStatement;
             String preparedQuery = "DELETE FROM Pets.userData WHERE userId = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
-            preparedStatement.setLong(1, userData.getUserId());
+            preparedStatement.setInt(1, userData.getUserId());
             preparedStatement.execute();
             logger.info("delete UserData query");
             return get(userData);
@@ -98,7 +98,7 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
                     "district = ?, area = ?, street = ?, app = ?, primaryPhone=?,secondaryPhone=? " +
                     "WHERE id =?";
             preparedStatement = connection.prepareStatement(preparedQuery);
-            preparedStatement.setLong(1, userData.getUserId());
+            preparedStatement.setInt(1, userData.getUserId());
             preparedStatement.setString(2, userData.getFullName());
             preparedStatement.setDate(3, java.sql.Date.valueOf(userData.getDateOfBirth()));
             preparedStatement.setString(4, userData.getGender());
@@ -109,7 +109,7 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
             preparedStatement.setString(9, userData.getApp());
             preparedStatement.setString(10, userData.getPrimaryNumber());
             preparedStatement.setString(11, userData.getSecondaryNumber());
-            preparedStatement.setLong(12, userData.getUserDataId());
+            preparedStatement.setInt(12, userData.getUserDataId());
             preparedStatement.execute();
             logger.info("update UserData query");
         } catch (SQLException e) {
@@ -125,11 +125,11 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
         try {
             String preparedQuery = "SELECT * FROM Pets.userData WHERE userId = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
-            preparedStatement.setLong(1, userData.getUserId());
+            preparedStatement.setInt(1, userData.getUserId());
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                Long userDataId = resultSet.getLong("id");
-                Long userId = resultSet.getLong("userId");
+                Integer userDataId = resultSet.getInt("id");
+                Integer userId = resultSet.getInt("userId");
                 String fullName = resultSet.getString("fullName");
                 LocalDate dateOfBirth = resultSet.getDate("dateOfBirth").toLocalDate();
                 String gender = resultSet.getString("gender");
@@ -153,17 +153,17 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
     }
 
     @Override
-    public UserData getByUserId(Long id) {
+    public UserData getByUserId(Integer id) {
         UserData userData;
         PreparedStatement preparedStatement;
         try {
             String preparedQuery = "SELECT * FROM Pets.userData WHERE userId = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
-            preparedStatement.setLong(1, id);
+            preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                Long userDataId = resultSet.getLong("id");
-                Long userId = resultSet.getLong("userId");
+                Integer userDataId = resultSet.getInt("id");
+                Integer userId = resultSet.getInt("userId");
                 String fullName = resultSet.getString("fullName");
                 LocalDate dateOfBirth = resultSet.getDate("dateOfBirth").toLocalDate();
                 String gender = resultSet.getString("gender");
@@ -187,17 +187,41 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
     }
 
     @Override
+    public UserData updateAdress(UserData userData) {
+        PreparedStatement preparedStatement;
+        try {
+            String preparedQuery = "UPDATE Pets.userData SET userId = ?," +
+                    "fullName = ?, district = ?, area = ?, street = ?, app = ?, primaryPhone=? WHERE id =?";
+            preparedStatement = connection.prepareStatement(preparedQuery);
+            preparedStatement.setInt(1, userData.getUserId());
+            preparedStatement.setString(2, userData.getFullName());
+            preparedStatement.setString(3, userData.getDistrict());
+            preparedStatement.setString(4, userData.getArea());
+            preparedStatement.setString(5, userData.getStreet());
+            preparedStatement.setString(6, userData.getApp());
+            preparedStatement.setString(7, userData.getPrimaryNumber());
+            preparedStatement.setInt(8, userData.getUserDataId());
+            preparedStatement.execute();
+            logger.info("update UserData query");
+        } catch (SQLException e) {
+            logger.error("There are problems with userData update in DB\n"+e);
+            throw new DAOException("There are problems with userData update in DB" + e);
+        }
+        return userData;
+    }
+
+    @Override
     public UserData findById(Integer id) {
         UserData userData=null;
         PreparedStatement preparedStatement;
         try {
             String preparedQuery = "SELECT * FROM Pets.userData WHERE id = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
-            preparedStatement.setLong(1, id);
+            preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                Long userDataId = resultSet.getLong("id");
-                Long userId = resultSet.getLong("userId");
+                Integer userDataId = resultSet.getInt("id");
+                Integer userId = resultSet.getInt("userId");
                 String fullName = resultSet.getString("fullName");
                 LocalDate dateOfBirth = resultSet.getDate("dateOfBirth").toLocalDate();
                 String gender = resultSet.getString("gender");

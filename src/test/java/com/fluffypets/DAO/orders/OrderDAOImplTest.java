@@ -34,9 +34,9 @@ public class OrderDAOImplTest {
         plushBears = testCreateCategory(myCategories, plushBears);
         plushDisney = testCreateCategory(myCategories, plushDisney);
 
-        Product plushPanda = new Product(1, "plusssssh Panda", "Chingen Panda Corp.", new BigDecimal(99.99), " nice 9 inch toll panda", "someURL", plushBears);
-        Product plushIceBear = new Product(1, "plusssssh ice bear", "Chingen Panda Corp.", new BigDecimal(89.99), " nice 8 inch toll bear", "someURL2", plushBears);
-        Product plushMickyMouse = new Product(1, "plusssssh Micky Mouse", "Canton MakeAll Corp.", new BigDecimal(129.99), " nice 7 inch toll Micky", "someURL2", plushDisney);
+        Product plushPanda = new Product(1, "plusssssh Panda", "Chingen Panda Corp.", new BigDecimal("99.99"), " nice 9 inch toll panda", "someURL", plushBears);
+        Product plushIceBear = new Product(1, "plusssssh ice bear", "Chingen Panda Corp.", new BigDecimal("89.99"), " nice 8 inch toll bear", "someURL2", plushBears);
+        Product plushMickyMouse = new Product(1, "plusssssh Micky Mouse", "Canton MakeAll Corp.", new BigDecimal("129.99"), " nice 7 inch toll Micky", "someURL2", plushDisney);
 
         plushPanda = testCreateProduct(myProducts, plushPanda);
         plushIceBear = testCreateProduct(myProducts, plushIceBear);
@@ -79,7 +79,7 @@ public class OrderDAOImplTest {
 
     private void checkOrderContainProduct (User dodik, Product plushPanda, Order dodiksOrder) {
         assertNotNull("There is order", dodiksOrder);
-        assertEquals("Order is make by David",dodik.getId().longValue(), dodiksOrder.getUserId());
+        assertEquals("Order is make by David",dodik.getId(), dodiksOrder.getUserId());
         assertEquals("Order containes 3 positions",3, dodiksOrder.getItems().size());
         Boolean containedPanda=dodiksOrder.getItems().stream().anyMatch(orderItem -> orderItem.getProductId()==plushPanda.getId());
         assertTrue("Order containes panda",containedPanda);

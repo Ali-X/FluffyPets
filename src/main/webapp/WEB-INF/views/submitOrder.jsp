@@ -57,39 +57,14 @@
                         <span class="glyphicon glyphicon-shopping-cart"></span>My cart<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <c:if test="${empty requestScope.user}">
-                            <li><a href="/root/login">You are not authorised, please login!</a></li>
+                            <li><a href="#">You are not autorised!</a></li>
                         </c:if>
                         <c:if test="${not empty requestScope.user}">
                             <li><a href="#">Welcome ${requestScope.user.getUserName()}!</a></li>
                         </c:if>
-                        <c:if test="${not empty requestScope.cart.getProductInCarts()}">
-                            <li class="divider"></li>
-                            <c:forEach items="${requestScope.cart.getProductInCarts()}" var="cartItem">
-                                <li class="text-center">
-                                    <form method="post">
-                                        <div class="row center-block">
-                                                ${cartItem.getProduct().getName()} :
-                                            <button class="btn-link"  formaction="/root/takeFromCart"
-                                                    name="productId"    value="${cartItem.getProduct().getId()}" >
-                                                <span class="glyphicon glyphicon-minus"></span>
-                                            </button>
-                                                ${cartItem.getNumber()}
-                                            <button class="btn-link"  formaction="/root/addToCart"
-                                                    name="productId" value="${cartItem.getProduct().getId()}" >
-                                                <span class="glyphicon glyphicon-plus"></span>
-                                            </button>
-                                        </div>
-                                    </form>
-                                </li>
-                            </c:forEach>
-                            <li class="divider"></li>
-                            <li class="text-center">
-                                <form method="post">
-                                    <button type="submit"
-                                            <c:if test="${not empty requestScope.user}"> formaction="/root/makeOder" class="btn btn-danger"</c:if>
-                                            <c:if test="${empty requestScope.user}"> class="btn btn-default" disabled="disabled"</c:if>
-                                    > Confirm your order</button>
-                                </form></li>
+                        <li class="divider"></li>
+                        <c:if test="${empty requestScope.myCart}">
+                            <li><a href="#">your cart is empty</a></li>
                         </c:if>
                     </ul>
                 </li>
@@ -102,12 +77,12 @@
 <div class="container">
     <div class="row">
         <div class="col-md-10 ">
-            <form id="formEditUser" onsubmit="return validateForm()" method="post"
-                  action="<c:url value="/root/editProfile"/>" class="form-horizontal">
+            <form onsubmit="return validateForm()" method="post"
+                  action="/root/submitOder" class="form-horizontal">
 
                 <!-- Form Name -->
-                <legend>Fill your profile</legend>
-
+                <legend>Update your address</legend>
+                <br>
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="Fullname">Name (Full name)</label>
                     <div class="col-md-4">
@@ -117,83 +92,40 @@
                             </div>
                             <input id="Fullname" name="Fullname" type="text" placeholder="Name (Full name)"
                                    required class="form-control input-md"
-                                   <c:if test="${not empty requestScope.userData.getFullName()}">
+                            <c:if test="${not empty requestScope.userData.getFullName()}">
                                    value="${requestScope.userData.getFullName()}"</c:if>>
                         </div>
                     </div>
                 </div>
 
-
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="DateOfBirth">Date Of Birth</label>
-                    <div class="col-md-4">
-
-                        <div class="input-group">
-                            <div class="input-group-addon">
-                                <i class="glyphicon glyphicon-calendar"></i>
-                            </div>
-                            <input id="DateOfBirth" name="DateOfBirth" type="date" placeholder="Date Of Birth"
-                                   class="form-control input-md"
-                                   <c:if test="${not empty requestScope.userData.getDateOfBirth()}">
-                                   value="${requestScope.userData.getDateOfBirth()}"</c:if>>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-md-4 control-label">Gender</label>
-                    <div class="col-md-4">
-                        <label class="radio-inline" for="Gender-0">
-                            <input type="radio" name="Gender" id="Gender-0" value="Male" checked="checked">
-                            Male
-                        </label>
-                        <label class="radio-inline" for="Gender-1">
-                            <input type="radio" name="Gender" id="Gender-1" value="Female">
-                            Female
-                        </label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-md-4 control-label">Marital Status:</label>
-                    <div class="col-md-4">
-                        <label class="radio-inline" for="radios-0">
-                            <input type="radio" name="Marital" id="radios-0" value=true checked="checked">
-                            Married
-                        </label>
-                        <label class="radio-inline" for="radios-1">
-                            <input type="radio" name="Marital" id="radios-1" value=false>
-                            Unmarried
-                        </label>
-                    </div>
-                </div>
                 <div class="form-group">
                     <label class="col-md-4 control-label col-xs-12" for="District">Address</label>
                     <div class="col-md-2  col-xs-4">
                         <input id="District" type="text" name="District"
                                required placeholder="District" class="form-control input-md "
-                               <c:if test="${not empty requestScope.userData.getDistrict()}">
+                        <c:if test="${not empty requestScope.userData.getDistrict()}">
                                value="${requestScope.userData.getDistrict()}"</c:if>>
                     </div>
                     <div class="col-md-2 col-xs-4">
                         <input id="Area" type="text" name="Area"
                                placeholder="Area" class="form-control input-md "
-                               <c:if test="${not empty requestScope.userData.getArea()}">
+                        <c:if test="${not empty requestScope.userData.getArea()}">
                                value="${requestScope.userData.getArea()}"</c:if>>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label class="col-md-4 invisible col-xs-12" for="Street">Address</label>
                     <div class="col-md-2  col-xs-4">
                         <input id="Street" type="text" name="Street"
                                required placeholder="Street" class="form-control input-md "
-                               <c:if test="${not empty requestScope.userData.getStreet()}">
+                        <c:if test="${not empty requestScope.userData.getStreet()}">
                                value="${requestScope.userData.getStreet()}"</c:if>>
                     </div>
                     <div class="col-md-2  col-xs-4">
                         <input id="App" type="text" name="App"
                                required placeholder="App. №" class="form-control input-md "
-                               <c:if test="${not empty requestScope.userData.getApp()}">
+                        <c:if test="${not empty requestScope.userData.getApp()}">
                                value="${requestScope.userData.getApp()}"</c:if>>
                     </div>
                 </div>
@@ -206,32 +138,60 @@
                                 <i class="glyphicon glyphicon-earphone"></i>
 
                             </div>
-                            <input id="Phone number " name="Phone number" type="text"
+                            <input id="Phone number " name="PhoneNumber" type="text"
                                    required placeholder="Primary Phone number " class="form-control input-md"
-                                   <c:if test="${not empty requestScope.userData.getPrimaryNumber()}">
+                            <c:if test="${not empty requestScope.userData.getPrimaryNumber()}">
                                    value="${requestScope.userData.getPrimaryNumber()}"</c:if>>
                         </div>
-                        <div class="input-group othertop">
-                            <div class="input-group-addon">
-                                <i class="glyphicon glyphicon-earphone"></i>
-
-                            </div>
-                            <input id="PhoneSecNumber" name="PhoneSecNumber" type="text"
-                                   placeholder=" Secondary Phone number " class="form-control input-md"
-                                   <c:if test="${not empty requestScope.userData.getSecondaryNumber()}">
-                                   value="${requestScope.userData.getSecondaryNumber()}"</c:if>>
-                        </div>
-
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="orderComment">When should we deliver?</label>
+                    <div class="col-md-4">
+                        <textarea id="orderComment" required  name="orderComment"></textarea>
+                    </div>
+                </div>
+
+                <br>
+                <legend>Your order contains products:</legend>
+                <br>
+                <c:if test="${not empty requestScope.cart}">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                        </tr>
+                        <c:forEach items="${requestScope.cart.getProductInCarts()}" var="orderItem">
+                            <tr>
+                                <td>
+                                    <input value="${orderItem.getProduct().getName()}" readonly>
+                                </td>
+                                <td>
+                                    <input value="${orderItem.getNumber()}" readonly>
+                                </td>
+                                <td>
+                                    <input value="${orderItem.getProduct().getPrice()}" readonly>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                    </div>
+                    <br>
+                    <legend> Your order cost ${requestScope.cart.getTotalPrice()}$</legend>
+                </c:if>
+
+
                 <div class="form-group">
                     <label class="col-md-4 control-label"></label>
                     <div class="col-md-4">
                         <button type="submit" class="btn btn-success"><span
-                                class="glyphicon glyphicon-thumbs-up"></span> Submit
+                                class="glyphicon glyphicon-thumbs-up"></span> Buy
                         </button>
                         <button type="reset" class="btn btn-warning"><span
-                                class="glyphicon glyphicon-remove-sign"></span> Clear
+                                class="glyphicon glyphicon-remove-sign"></span> Cancel
                         </button>
                     </div>
                 </div>

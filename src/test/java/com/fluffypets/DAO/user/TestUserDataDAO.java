@@ -20,7 +20,7 @@ public class TestUserDataDAO {
         assertNull("User should be absent", expectedUser);
         dodik=myUsers.create(dodik);    //essential because Dodik Id will change
 
-        UserData dodikData=new UserData(dodik.getId().longValue(),"dodik's full name", LocalDate.now(),"Male",
+        UserData dodikData=new UserData(dodik.getId(),"dodik's full name", LocalDate.now(),"Male",
                 false,"Poltavska oblast","misto Lubnu","vulitsa Litovska 4",
                 "app. 43", "858453421","95673421");
         UserData expectedUserData=myUserData.get(dodikData);

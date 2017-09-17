@@ -5,5 +5,7 @@ import com.fluffypets.MVC.model.UserData;
 
 public interface UserDataDAO extends GenericDAO<UserData> {
 
-    UserData getByUserId(Long id);
+    UserData getByUserId(Integer id);
+
+    UserData updateAdress(UserData userData);
 }

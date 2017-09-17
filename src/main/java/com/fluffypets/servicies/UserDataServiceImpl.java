@@ -15,7 +15,7 @@ public class UserDataServiceImpl implements UserDataService {
     }
 
     @Override
-    public UserData get(Long userId) {
+    public UserData get(Integer userId) {
         return userDataDao.getByUserId(userId);
     }
 

@@ -5,15 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
-    private long orderId;
-    private long userId;
+    private Integer orderId;
+    private Integer userId;
     private LocalDate orderDate;
     private LocalDate deliveryDate;
     private String status;
     private List<OrderItem> items;
     private String comment;
 
-    public Order(long orderId, long userId, LocalDate orderDate, LocalDate deliveryDate, String status, List<OrderItem> items, String comment) {
+    public Order(Integer orderId, Integer userId, LocalDate orderDate, LocalDate deliveryDate, String status, List<OrderItem> items, String comment) {
         this.orderId = orderId;
         this.userId = userId;
         this.orderDate = orderDate;
@@ -23,7 +23,7 @@ public class Order {
         this.comment = comment;
     }
 
-    public Order(long userId, LocalDate orderDate, LocalDate deliveryDate, String status, List<OrderItem> items, String comment) {
+    public Order(Integer userId, LocalDate orderDate, LocalDate deliveryDate, String status, List<OrderItem> items, String comment) {
         this.userId = userId;
         this.orderDate = orderDate;
         this.deliveryDate = deliveryDate;
@@ -34,19 +34,19 @@ public class Order {
 
 
 
-    public long getOrderId() {
+    public Integer getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(long orderId) {
+    public void setOrderId(Integer orderId) {
         this.orderId = orderId;
     }
 
-    public long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

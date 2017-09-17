@@ -3,8 +3,8 @@ package com.fluffypets.MVC.model;
 import java.time.LocalDate;
 
 public class UserData {
-    private Long userDataId;
-    private Long userId;
+    private Integer userDataId;
+    private Integer userId;
     private String fullName;
     private LocalDate dateOfBirth;
     private String gender;
@@ -16,7 +16,7 @@ public class UserData {
     private String primaryNumber;
     private String secondaryNumber;
 
-    public UserData(Long userDataId, Long userId, String fullName, LocalDate dateOfBirth, String gender, Boolean married,
+    public UserData(Integer userDataId, Integer userId, String fullName, LocalDate dateOfBirth, String gender, Boolean married,
                     String district, String area, String street, String app, String primaryNumber, String secondaryNumber) {
         this.userDataId = userDataId;
         this.userId = userId;
@@ -31,7 +31,7 @@ public class UserData {
         this.primaryNumber = primaryNumber;
         this.secondaryNumber = secondaryNumber;
     }
-    public UserData(Long userId, String fullName, LocalDate dateOfBirth, String gender, Boolean married,
+    public UserData(Integer userId, String fullName, LocalDate dateOfBirth, String gender, Boolean married,
                     String district, String area, String street, String app, String primaryNumber, String secondaryNumber) {
         this.userId = userId;
         this.fullName = fullName;
@@ -63,8 +63,7 @@ public class UserData {
         if (!getArea().equals(userData.getArea())) return false;
         if (!getStreet().equals(userData.getStreet())) return false;
         if (!getApp().equals(userData.getApp())) return false;
-        if (!getPrimaryNumber().equals(userData.getPrimaryNumber())) return false;
-        return getSecondaryNumber() != null ? getSecondaryNumber().equals(userData.getSecondaryNumber()) : userData.getSecondaryNumber() == null;
+        return getPrimaryNumber().equals(userData.getPrimaryNumber()) && (getSecondaryNumber() != null ? getSecondaryNumber().equals(userData.getSecondaryNumber()) : userData.getSecondaryNumber() == null);
     }
 
     @Override
@@ -83,15 +82,15 @@ public class UserData {
         return result;
     }
 
-    public Long getUserDataId() {
+    public Integer getUserDataId() {
         return userDataId;
     }
 
-    public Long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -171,7 +170,7 @@ public class UserData {
         return secondaryNumber;
     }
 
-    public void setUserDataId(Long userDataId) {
+    public void setUserDataId(Integer userDataId) {
         this.userDataId = userDataId;
     }
 

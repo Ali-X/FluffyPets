@@ -39,7 +39,7 @@ public class LoginCheckController implements Controller {
             vm.setAttribute("user", user);
             vm.addCookie("token", user.getToken());
 
-            UserData userData = userDataService.get(user.getId().longValue());
+            UserData userData = userDataService.get(user.getId());
             if (userData != null) vm.setAttribute("userData", userData);
             vm.setView("profile");
         }

@@ -40,10 +40,10 @@ public class UserDataController implements Controller {
             String prim = request.getAttribute("Phone number");
             String second = request.getAttribute("PhoneSecNumber");
 
-            UserData userData = new UserData(user.getId().longValue(), fullName, localDate, gender, married, district,
+            UserData userData = new UserData(user.getId(), fullName, localDate, gender, married, district,
                     area, street, app, prim, second);
 
-            UserData current = userDataService.get(user.getId().longValue());
+            UserData current = userDataService.get(user.getId());
             if (current == null) {
                 userData = userDataService.create(userData);
             } else {

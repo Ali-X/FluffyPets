@@ -86,9 +86,9 @@
                             </c:forEach>
                             <li class="divider"></li>
                             <li class="text-center">
-                            <form action="root/makeOder" method="post">
+                            <form method="post">
                                 <button type="submit"
-                                        <c:if test="${not empty requestScope.user}"> class="btn btn-danger"</c:if>
+                                        <c:if test="${not empty requestScope.user}"> formaction="/root/makeOder" class="btn btn-danger"</c:if>
                                         <c:if test="${empty requestScope.user}"> class="btn btn-default" disabled="disabled"</c:if>
                                 > Confirm your order</button>
                             </form></li>

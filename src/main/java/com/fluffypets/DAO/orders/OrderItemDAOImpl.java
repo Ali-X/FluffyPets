@@ -37,11 +37,11 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
     }
 
     @Override
-    public List<OrderItem> getAllItems(Long orderId) {
+    public List<OrderItem> getAllItems(Integer orderId) {
         List<OrderItem> list = new ArrayList<>();
         OrderItem orderItem;
-        Long id;
-        Long productId;
+        Integer id;
+        Integer productId;
         Integer quantity;
         BigDecimal price;
         try {
@@ -51,8 +51,8 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
             preparedStatement.setLong(1,orderId);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                id = rs.getLong("id");
-                productId = rs.getLong("productId");
+                id = rs.getInt("id");
+                productId = rs.getInt("productId");
                 quantity = rs.getInt("quantity");
                 price=new BigDecimal(rs.getString("price"));
                 orderItem = new OrderItem(id,productId,orderId,quantity,price);
@@ -134,9 +134,9 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
             preparedStatement.setLong(2, orderItem.getProductId());
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                Long id = resultSet.getLong("id");
-                Long productId = resultSet.getLong("productId");
-                Long orderId = resultSet.getLong("orderId");
+                Integer id = resultSet.getInt("id");
+                Integer productId = resultSet.getInt("productId");
+                Integer orderId = resultSet.getInt("orderId");
                 Integer quantity = resultSet.getInt("quantity");
                 BigDecimal price = new BigDecimal(resultSet.getString("price"));
              theItem=new OrderItem(id,productId,orderId,quantity,price);
@@ -159,8 +159,8 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                Long productId = resultSet.getLong("productId");
-                Long orderId = resultSet.getLong("orderId");
+                Integer productId = resultSet.getInt("productId");
+                Integer orderId = resultSet.getInt("orderId");
                 Integer quantity = resultSet.getInt("quantity");
                 BigDecimal price = new BigDecimal(resultSet.getString("price"));
                 orderItem=new OrderItem(id,productId,orderId,quantity,price);
