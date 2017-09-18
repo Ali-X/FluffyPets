@@ -1,5 +1,8 @@
 package com.fluffypets.servicies;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -11,11 +14,15 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class SendEmailServiceImpl implements SendEmailService {
+    private static final Logger logger = LogManager.getLogger(SendEmailServiceImpl.class.getName());
 
-    public static void main(String[] args) {
 
-        final String username = "matsishinmykola@gmail.com";
-        final String password = "145gernico";
+    private String myEmail;
+    private Session session;
+
+    public SendEmailServiceImpl(String username, String password) {
+
+        myEmail = username;
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -23,29 +30,33 @@ public class SendEmailServiceImpl implements SendEmailService {
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
 
-        Session session = Session.getInstance(props,
+
+        this.session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
                         return new PasswordAuthentication(username, password);
                     }
                 });
+    }
 
+    @Override
+    public boolean sendEmailTo(String toWho, String subject, String content) {
         try {
-
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("matsishinmykola@gmail.com"));
+            message.setFrom(new InternetAddress(myEmail));
             message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse("matsishinnicolas@gmail.com"));
-            message.setSubject("Testing Subject");
-            message.setText("Dear Mail Crawler,"
-                    + "\n\n No spam to my email, please!");
+                    InternetAddress.parse(toWho));
+            message.setSubject(subject);
+            message.setText(content);
 
             Transport.send(message);
-
-            System.out.println("Done");
-
+            logger.info("letter to " + toWho + " was sent");
+            return true;
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            logger.error("letter to " + toWho + " was NOT sent " + e.getLocalizedMessage());
+            return false;
         }
     }
+
+
 }

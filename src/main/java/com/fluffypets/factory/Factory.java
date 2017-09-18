@@ -30,52 +30,39 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Factory {
+
     private static final Logger logger = LogManager.getLogger(Factory.class.getName());
 
     private static ViewModel vm = new ViewModel();
 
     public static Connection getConnection() {
-//        return Factory.getConnectionMySQL();
         return getContextConnection();
     }
 
-    public static Connection getContextConnection() {
-        try{
+    public static String[] getEmailPassword() {
+        try {
             Context ctx = new InitialContext();
-            Context initCtx  = (Context) ctx.lookup("java:/comp/env");
-            DataSource ds = (DataSource) initCtx.lookup("jdbc/Pets");
-            return ds.getConnection();
+            Context initCtx = (Context) ctx.lookup("java:/comp/env");
+            String userName = (String) initCtx.lookup("userName");
+            String password = (String) initCtx.lookup("password");
+            return new String[]{userName, password};
+        } catch (NamingException e) {
+            logger.error("error in getting email and password from context \n" + e);
+            return null;
         }
-            catch (NamingException|SQLException e){
-                logger.error("get connection from TomCat error\n" +e);
-                throw new FactoryException("get connection from TomCat error");
-            }
     }
 
-//    private static Connection getConnectionH2() {
-//        Connection connection;
-//        try {
-//            Class.forName("org.h2.Driver");
-//            connection = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/test", "sa", "");
-//        } catch (SQLException | ClassNotFoundException e) {
-//            logger.error("problem with JDBC H2 error\n" +e);
-//            throw new FactoryException("problem with JDBC H2 error");
-//        }
-//        return connection;
-//    }
-//
-//    private static Connection getConnectionMySQL() {
-//        Connection connection = null;
-//        try {
-//            Class.forName("com.mysql.jdbc.Driver");
-//            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Pets",
-//                    "root", "nicolas");
-//        } catch (SQLException | ClassNotFoundException e) {
-//            logger.error("problem with JDBC MySQL error\n" +e);
-//            throw new FactoryException("problem with JDBC MySQL error");
-//        }
-//        return connection;
-//    }
+    public static Connection getContextConnection() {
+        try {
+            Context ctx = new InitialContext();
+            Context initCtx = (Context) ctx.lookup("java:/comp/env");
+            DataSource ds = (DataSource) initCtx.lookup("jdbc/Pets");
+            return ds.getConnection();
+        } catch (NamingException | SQLException e) {
+            logger.error("get connection from TomCat error\n" + e);
+            throw new FactoryException("get connection from TomCat error");
+        }
+    }
 
     public static ViewModel getViewModel() {
         return vm;
@@ -97,10 +84,6 @@ public class Factory {
     public static CategoryDAO getCategoryDao() {
         return new CategoryDAOImpl(Factory.getConnection());
     }
-
-//    public static CategoryDAO categoryDaoByConnection(Connection connection) {
-//        return new CategoryDAOImpl(connection);
-//    }
 
     public static CategoryDAO getCategoryDAO() {
         return new CategoryDAOImpl(Factory.getConnection());
@@ -132,7 +115,15 @@ public class Factory {
         return new ProductServiceImpl(Factory.getProductDao());
     }
 
-    private static OrderService getOrderService() {return new OrderServiceImpl(Factory.getUserDataDao(),Factory.getOrderDAO());
+    private static OrderService getOrderService() {
+        return new OrderServiceImpl(Factory.getUserDataDao(), Factory.getOrderDAO());
+    }
+
+    private static SendEmailService getEmailSender(){
+        String[] emeilPassword=Factory.getEmailPassword();
+        if (emeilPassword != null) {
+            return new SendEmailServiceImpl(emeilPassword[0],emeilPassword[1]);
+        }else {throw new SecurityException("falier with JNDI");}
     }
 
     //---------------------                 get pages                ---------------------------------------------------
@@ -199,7 +190,8 @@ public class Factory {
         return new UploadPhotoController();
     }
 
-    public static Controller getSelectGoodsController() {return new SelectGoodsController(Factory.getProductService(),Factory.getCategoriesService());
+    public static Controller getSelectGoodsController() {
+        return new SelectGoodsController(Factory.getProductService(), Factory.getCategoriesService());
     }
 
     public static Controller getAdminPage() {
@@ -223,6 +215,6 @@ public class Factory {
     }
 
     public static Controller getSubmitOrderController() {
-        return new SubmitOrderController(Factory.getOrderService());
+        return new SubmitOrderController(Factory.getOrderService(),Factory.getEmailSender());
     }
 }

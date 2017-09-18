@@ -36,7 +36,7 @@ public class OrderServiceImpl implements OrderService,AutoCloseable {
         List<OrderItem> orderItems=cart.getProductInCarts().stream().
                 map(ProductInCart::toOrderItem).collect(Collectors.toList());
         Order myOrder=new Order(user.getId(),LocalDate.now(),LocalDate.now().plusMonths(1).plusDays(1),"new order",orderItems,comment);
-        orderDAO.create(myOrder);
+        myOrder=orderDAO.create(myOrder);
         return myOrder;
     }
 
