@@ -28,20 +28,23 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
                 "`email` VARCHAR(256) NOT NULL," +
                 "`roleString` VARCHAR(128) NOT NULL," +
                 "PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC))";
+        Statement statement=null;
         try {
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
             statement.execute(initialQuery);
             logger.info("Table users createTableIfNotExists query");
         } catch (SQLException e) {
             logger.error("Table users creation error\n"+e);
             throw new DAOException("Table users creation error");
+        }finally {
+            closeStatement(statement,logger);
         }
     }
 
     @Override
     public User create(User user) {
+            PreparedStatement preparedStatement=null;
         try {
-            PreparedStatement preparedStatement;
             String preparedQuery = "INSERT INTO Pets.users (userName, password, token, email,roleString) VALUES(?,?,?,?,?)";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setString(1, user.getUserName());
@@ -55,13 +58,15 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
         } catch (SQLException e) {
             logger.error("create user query error\n"+e);
             throw new DAOException("There are problems with new user insertion to DB" + e);
+        }finally {
+            closeStatement(preparedStatement,logger);
         }
     }
 
     @Override
     public User delete(User user) {
+            PreparedStatement preparedStatement=null;
         try {
-            PreparedStatement preparedStatement;
             String preparedQuery = "DELETE FROM Pets.users  WHERE userName = ? AND password=? " +
                     "AND token=? AND email=? AND roleString=?";
             preparedStatement = connection.prepareStatement(preparedQuery);
@@ -75,13 +80,15 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
         } catch (SQLException e) {
             logger.error("There are problems with user deleting from DB\n"+e);
             throw new DAOException("There are problems with user deleting from DB" + e);
+        }finally {
+            closeStatement(preparedStatement,logger);
         }
         return user;
     }
 
     @Override
     public User update(User user) {
-        PreparedStatement preparedStatement;
+        PreparedStatement preparedStatement=null;
         try {
             String preparedQuery = "UPDATE Pets.users SET userName = ?," +
                     "password = ?, token = ?, email = ?, roleString = ? WHERE id =?";
@@ -97,13 +104,15 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
         } catch (SQLException e) {
             logger.error("There are problems with new user update in DB\n"+e);
             throw new DAOException("There are problems with new user update in DB" + e);
+        }finally {
+            closeStatement(preparedStatement,logger);
         }
         return user;
     }
 
     @Override
     public User get(User user) {
-        PreparedStatement preparedStatement;
+        PreparedStatement preparedStatement=null;
         try {
             String preparedQuery = "SELECT * FROM Pets.users WHERE userName = ? AND password = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
@@ -123,13 +132,15 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
         } catch (SQLException e) {
             logger.error("There are problems with getting user from DB\n"+e);
             throw new DAOException("There are problems with getting user from DB" + e);
+        }finally {
+            closeStatement(preparedStatement,logger);
         }
         return user;
     }
 
     @Override
     public User findByLoginPassword(String login, String password) {
-        PreparedStatement preparedStatement;
+        PreparedStatement preparedStatement=null;
         User user;
         try {
             String preparedQuery = "SELECT * FROM Pets.users WHERE userName = ? AND password = ?";
@@ -148,13 +159,15 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
         } catch (SQLException e) {
             logger.error("There are problems with getting user from DB\n"+e);
             throw new DAOException("There are problems with getting user from DB" + e);
+        }finally {
+            closeStatement(preparedStatement,logger);
         }
         return user;
     }
 
     @Override
     public User findById(Integer id) {
-        PreparedStatement preparedStatement;
+        PreparedStatement preparedStatement=null;
         User user;
         try {
             String preparedQuery = "SELECT * FROM Pets.users WHERE id = ?";
@@ -174,6 +187,8 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
         } catch (SQLException e) {
             logger.error("There are problems searching user by id\n"+e);
             throw new DAOException("There are problems searching user by id " + e);
+        }finally {
+            closeStatement(preparedStatement,logger);
         }
         return null;
     }
@@ -181,7 +196,7 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
 
     @Override
     public User findByToken(String token) {
-        PreparedStatement preparedStatement;
+        PreparedStatement preparedStatement=null;
         User user;
         try {
             String preparedQuery = "SELECT * FROM Pets.users WHERE token = ?";
@@ -201,12 +216,14 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
         } catch (SQLException e) {
             logger.error("There are problems with user search by token\n"+e);
             throw new DAOException("There are problems with user search by token" + e);
+        }finally {
+            closeStatement(preparedStatement,logger);
         }
         return null;
     }
 
     public List<User> getAllRecords() {
-        PreparedStatement preparedStatement;
+        PreparedStatement preparedStatement=null;
         List<User> users= new ArrayList<>();
         try {
             String preparedQuery = "SELECT * FROM Pets.users";
@@ -226,6 +243,8 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
         } catch (SQLException e) {
             logger.error("There are problems with user search by token\n"+e);
             throw new DAOException("There are problems with user search by token" + e);
+        }finally {
+            closeStatement(preparedStatement,logger);
         }
     }
 

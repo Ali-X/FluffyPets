@@ -17,4 +17,9 @@ public class ForgotPasswordController implements Controller {
         logger.info("forgot page selected");
         return vm;
     }
+
+    @Override
+    public void close() throws Exception {
+
+    }
 }

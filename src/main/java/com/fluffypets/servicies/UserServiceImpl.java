@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService,AutoCloseable {
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class.getName());
 
     private UserDAOImpl userDao;
@@ -42,5 +42,10 @@ public class UserServiceImpl implements UserService {
         user.setRoleString(role);
         userDao.update(user);
         return user;
+    }
+
+    @Override
+    public void close() throws Exception {
+        userDao.close();
     }
 }

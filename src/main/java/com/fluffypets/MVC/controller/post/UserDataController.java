@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDate;
 
-public class UserDataController implements Controller {
+public class UserDataController implements Controller,AutoCloseable {
     private static final Logger logger = LogManager.getLogger(UserDataController.class.getName());
 
     private UserDataService userDataService;
@@ -54,5 +54,10 @@ public class UserDataController implements Controller {
         }
         vm.setView("profile");
         return vm;
+    }
+
+    @Override
+    public void close() throws Exception {
+        userDataService.close();
     }
 }

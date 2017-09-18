@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class CategoryServiceImpl implements CategoryService {
+public class CategoryServiceImpl implements CategoryService,AutoCloseable {
     private static final Logger logger = LogManager.getLogger(CategoryServiceImpl.class.getName());
 
     private final CategoryDAO categoryDAO;
@@ -31,5 +31,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category get(Integer id) {
         return categoryDAO.findById(id);
+    }
+
+    @Override
+    public void close() throws Exception {
+        categoryDAO.close();
     }
 }

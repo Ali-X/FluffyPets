@@ -17,4 +17,9 @@ public class LoginPageController implements Controller {
         logger.info("login page selected");
         return vm;
     }
+
+    @Override
+    public void close() throws Exception {
+
+    }
 }

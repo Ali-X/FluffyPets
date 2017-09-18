@@ -10,7 +10,7 @@ import com.fluffypets.servicies.ProductService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class TakeProductFromCart implements Controller {
+public class TakeProductFromCart implements Controller,AutoCloseable {
     private static final Logger logger = LogManager.getLogger(TakeProductFromCart.class.getName());
 
     private ProductService productService;
@@ -32,5 +32,10 @@ public class TakeProductFromCart implements Controller {
         }
         vm.setAttribute("cart",cart);
         return vm;
+    }
+
+    @Override
+    public void close() throws Exception {
+        productService.close();
     }
 }

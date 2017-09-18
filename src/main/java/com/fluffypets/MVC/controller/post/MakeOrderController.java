@@ -9,7 +9,7 @@ import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.factory.Factory;
 import com.fluffypets.servicies.UserDataService;
 
-public class MakeOrderController implements Controller {
+public class MakeOrderController implements Controller,AutoCloseable {
 
     private final UserDataService userDataService;
 
@@ -35,5 +35,10 @@ public class MakeOrderController implements Controller {
         vm.setAttribute("userData",userData);
         vm.setView("submitOrder");
         return vm;
+    }
+
+    @Override
+    public void close() throws Exception {
+        userDataService.close();
     }
 }

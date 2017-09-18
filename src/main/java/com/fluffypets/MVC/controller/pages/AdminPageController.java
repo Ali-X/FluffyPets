@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class AdminPageController implements Controller {
+public class AdminPageController implements Controller,AutoCloseable {
     private static final Logger logger = LogManager.getLogger(AdminPageController.class.getName());
 
     private UserService userService;
@@ -26,5 +26,10 @@ public class AdminPageController implements Controller {
             vm.setAttribute("users", users);
             vm.setView("admin");
         return vm;
+    }
+
+    @Override
+    public void close() throws Exception {
+        userService.close();
     }
 }

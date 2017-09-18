@@ -35,15 +35,15 @@ public class Factory {
     private static ViewModel vm = new ViewModel();
 
     public static Connection getConnection() {
-        return Factory.getConnectionMySQL();
-//        return getContextConnection();
+//        return Factory.getConnectionMySQL();
+        return getContextConnection();
     }
 
     public static Connection getContextConnection() {
         try{
             Context ctx = new InitialContext();
             Context initCtx  = (Context) ctx.lookup("java:/comp/env");
-            DataSource ds = (DataSource) initCtx.lookup("jdbc/TestDB");
+            DataSource ds = (DataSource) initCtx.lookup("jdbc/Pets");
             return ds.getConnection();
         }
             catch (NamingException|SQLException e){
@@ -52,30 +52,30 @@ public class Factory {
             }
     }
 
-    private static Connection getConnectionH2() {
-        Connection connection;
-        try {
-            Class.forName("org.h2.Driver");
-            connection = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/test", "sa", "");
-        } catch (SQLException | ClassNotFoundException e) {
-            logger.error("problem with JDBC H2 error\n" +e);
-            throw new FactoryException("problem with JDBC H2 error");
-        }
-        return connection;
-    }
-
-    private static Connection getConnectionMySQL() {
-        Connection connection = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Pets",
-                    "root", "nicolas");
-        } catch (SQLException | ClassNotFoundException e) {
-            logger.error("problem with JDBC MySQL error\n" +e);
-            throw new FactoryException("problem with JDBC MySQL error");
-        }
-        return connection;
-    }
+//    private static Connection getConnectionH2() {
+//        Connection connection;
+//        try {
+//            Class.forName("org.h2.Driver");
+//            connection = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/test", "sa", "");
+//        } catch (SQLException | ClassNotFoundException e) {
+//            logger.error("problem with JDBC H2 error\n" +e);
+//            throw new FactoryException("problem with JDBC H2 error");
+//        }
+//        return connection;
+//    }
+//
+//    private static Connection getConnectionMySQL() {
+//        Connection connection = null;
+//        try {
+//            Class.forName("com.mysql.jdbc.Driver");
+//            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Pets",
+//                    "root", "nicolas");
+//        } catch (SQLException | ClassNotFoundException e) {
+//            logger.error("problem with JDBC MySQL error\n" +e);
+//            throw new FactoryException("problem with JDBC MySQL error");
+//        }
+//        return connection;
+//    }
 
     public static ViewModel getViewModel() {
         return vm;
@@ -98,9 +98,9 @@ public class Factory {
         return new CategoryDAOImpl(Factory.getConnection());
     }
 
-    public static CategoryDAO categoryDaoByConnection(Connection connection) {
-        return new CategoryDAOImpl(connection);
-    }
+//    public static CategoryDAO categoryDaoByConnection(Connection connection) {
+//        return new CategoryDAOImpl(connection);
+//    }
 
     public static CategoryDAO getCategoryDAO() {
         return new CategoryDAOImpl(Factory.getConnection());
@@ -138,7 +138,7 @@ public class Factory {
     //---------------------                 get pages                ---------------------------------------------------
 
     public static Controller getHomeController() {
-        return new HomePageController(Factory.getProductService(), Factory.getCategoriesService(),Factory.getUserService());
+        return new HomePageController(Factory.getProductService(), Factory.getCategoriesService());
     }
 
     public static Controller getLoginPageController() {

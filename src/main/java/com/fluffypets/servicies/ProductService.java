@@ -21,4 +21,5 @@ public interface ProductService {
 
     Product update(Product product);
 
+    void close() throws Exception;
 }

@@ -33,20 +33,23 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
                 "`secondaryPhone` VARCHAR(20)," +
                 "PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC)," +
                 " CONSTRAINT FOREIGN KEY (userId) REFERENCES users(id))";
+        Statement statement=null;
         try {
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
             statement.execute(initialQuery);
             logger.info("createTableIfNotExists UserDataDAO query");
         } catch (SQLException e) {
             logger.error("Table UserDataDAO creation error\n"+e);
             throw new DAOException("Table UserDataDAO creation error");
+        }finally {
+            closeStatement(statement,logger);
         }
     }
 
     @Override
     public UserData create(UserData userData) {
+        PreparedStatement preparedStatement=null;
         try {
-            PreparedStatement preparedStatement;
             String preparedQuery = "INSERT INTO Pets.userData (" +
                     "userId,fullName,dateOfBirth,gender,maried,district,area,street,app,primaryPhone,secondaryPhone)" +
                     " VALUES(?,?,?,?,?,?,?,?,?,?,?)";
@@ -69,14 +72,16 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
         } catch (SQLException e) {
             logger.error("create user query error\n"+e);
             throw new DAOException("There are problems with new userData insertion to DB" + e);
+        }finally {
+            closeStatement(preparedStatement,logger);
         }
     }
 
 
     @Override
     public UserData delete(UserData userData) {
+        PreparedStatement preparedStatement=null;
         try {
-            PreparedStatement preparedStatement;
             String preparedQuery = "DELETE FROM Pets.userData WHERE userId = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, userData.getUserId());
@@ -86,12 +91,14 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
         } catch (SQLException e) {
             logger.error("There are problems with userData deleting from DB\n"+e);
             throw new DAOException("There are problems with userData deleting from DB" + e);
+        }finally {
+            closeStatement(preparedStatement,logger);
         }
     }
 
     @Override
     public UserData update(UserData userData) {
-        PreparedStatement preparedStatement;
+        PreparedStatement preparedStatement=null;
         try {
             String preparedQuery = "UPDATE Pets.userData SET userId = ?," +
                     "fullName = ?, dateOfBirth = ?, gender = ?, maried = ?, " +
@@ -115,13 +122,15 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
         } catch (SQLException e) {
             logger.error("There are problems with userData update in DB\n"+e);
             throw new DAOException("There are problems with userData update in DB" + e);
+        }finally {
+            closeStatement(preparedStatement,logger);
         }
         return userData;
     }
 
     @Override
     public UserData get(UserData userData) {
-        PreparedStatement preparedStatement;
+        PreparedStatement preparedStatement=null;
         try {
             String preparedQuery = "SELECT * FROM Pets.userData WHERE userId = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
@@ -148,6 +157,8 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
         } catch (SQLException e) {
             logger.error("There are problems with getting UserData from DB\n"+e);
             throw new DAOException("There are problems with getting UserData from DB" + e);
+        }finally {
+            closeStatement(preparedStatement,logger);
         }
         return userData;
     }
@@ -155,7 +166,7 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
     @Override
     public UserData getByUserId(Integer id) {
         UserData userData;
-        PreparedStatement preparedStatement;
+        PreparedStatement preparedStatement=null;
         try {
             String preparedQuery = "SELECT * FROM Pets.userData WHERE userId = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
@@ -182,13 +193,15 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
         } catch (SQLException e) {
             logger.error("There are problems with getting userData by userId from DB\n"+e);
             throw new DAOException("There are problems with getting userData by userId from DB" + e);
+        }finally {
+            closeStatement(preparedStatement,logger);
         }
         return userData;
     }
 
     @Override
     public UserData updateAdress(UserData userData) {
-        PreparedStatement preparedStatement;
+        PreparedStatement preparedStatement=null;
         try {
             String preparedQuery = "UPDATE Pets.userData SET userId = ?," +
                     "fullName = ?, district = ?, area = ?, street = ?, app = ?, primaryPhone=? WHERE id =?";
@@ -206,6 +219,8 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
         } catch (SQLException e) {
             logger.error("There are problems with userData update in DB\n"+e);
             throw new DAOException("There are problems with userData update in DB" + e);
+        }finally {
+            closeStatement(preparedStatement,logger);
         }
         return userData;
     }
@@ -213,7 +228,7 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
     @Override
     public UserData findById(Integer id) {
         UserData userData=null;
-        PreparedStatement preparedStatement;
+        PreparedStatement preparedStatement=null;
         try {
             String preparedQuery = "SELECT * FROM Pets.userData WHERE id = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
@@ -240,6 +255,8 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
         } catch (SQLException e) {
             logger.error("There are problems with getting UserData by Id from DB\n"+e);
             throw new DAOException("There are problems with getting UserData by Id from DB" + e);
+        }finally {
+            closeStatement(preparedStatement,logger);
         }
         return userData;
     }

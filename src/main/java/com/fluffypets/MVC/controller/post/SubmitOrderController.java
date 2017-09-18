@@ -10,7 +10,7 @@ import com.fluffypets.factory.Factory;
 import com.fluffypets.servicies.OrderService;
 import com.fluffypets.servicies.UserDataService;
 
-public class SubmitOrderController implements Controller {
+public class SubmitOrderController implements Controller,AutoCloseable {
     private final OrderService orderService;
 
     public SubmitOrderController( OrderService orderService) {
@@ -37,7 +37,12 @@ public class SubmitOrderController implements Controller {
 
         vm.removeAttribute("cart");
         vm.removeAttribute("userData");
-        vm.setView("home");
+        vm.setView("thankyou");
         return vm;
+    }
+
+    @Override
+    public void close() throws Exception {
+        orderService.close();
     }
 }

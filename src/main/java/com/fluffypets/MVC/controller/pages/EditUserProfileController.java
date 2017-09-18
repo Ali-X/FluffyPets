@@ -17,4 +17,9 @@ public class EditUserProfileController implements Controller {
         logger.info("editProfile page selected");
         return vm;
     }
+
+    @Override
+    public void close() throws Exception {
+
+    }
 }

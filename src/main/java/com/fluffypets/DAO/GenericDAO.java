@@ -16,4 +16,5 @@ public interface GenericDAO<T> {
 
     String printConnectInfo() ;
 
+    void close() throws Exception;
 }

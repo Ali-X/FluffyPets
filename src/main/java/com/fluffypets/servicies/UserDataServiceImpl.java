@@ -5,7 +5,7 @@ import com.fluffypets.MVC.model.UserData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class UserDataServiceImpl implements UserDataService {
+public class UserDataServiceImpl implements UserDataService,AutoCloseable {
     private static final Logger logger = LogManager.getLogger(UserDataServiceImpl.class.getName());
 
     private UserDataDAOImpl userDataDao;
@@ -27,5 +27,10 @@ public class UserDataServiceImpl implements UserDataService {
     @Override
     public UserData update(UserData userData){
         return userDataDao.update(userData);
+    }
+
+    @Override
+    public void close() throws Exception {
+        userDataDao.close();
     }
 }

@@ -22,4 +22,9 @@ public class ErrorController implements Controller {
         vm.setAttribute("error", request.getAttribute("error"));
         return vm;
     }
+
+    @Override
+    public void close() throws Exception {
+
+    }
 }

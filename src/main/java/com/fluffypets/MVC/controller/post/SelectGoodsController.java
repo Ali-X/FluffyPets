@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.StringJoiner;
 
-public class SelectGoodsController implements Controller {
+public class SelectGoodsController implements Controller,AutoCloseable {
     private static final Logger logger = LogManager.getLogger(SelectGoodsController.class.getName());
 
     private ProductService productService;
@@ -45,5 +45,11 @@ public class SelectGoodsController implements Controller {
         vm.setAttribute("products",products);
         vm.setView("home");
         return vm;
+    }
+
+    @Override
+    public void close() throws Exception {
+        productService.close();
+        categoryService.close();
     }
 }

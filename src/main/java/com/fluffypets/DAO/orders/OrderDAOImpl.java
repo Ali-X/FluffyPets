@@ -25,27 +25,29 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
 
     @Override
     protected void createTableIfNotExists() throws DAOException {
+        Statement statement = null;
         String initialQuery = "CREATE TABLE IF NOT EXISTS `Pets`.`orders` (  `id` INT NOT NULL AUTO_INCREMENT, " +
                 "`userId` INT NOT NULL,  `dateOfOrder` DATE NOT NULL,  `orderStatus` VARCHAR(16) NOT NULL," +
                 "`dateOfDelivery` DATE,`comment` VARCHAR(128),PRIMARY KEY (`id`), " +
                 "UNIQUE INDEX `id_UNIQUE` (`id` ASC),CONSTRAINT FOREIGN KEY (userId) REFERENCES users(id))";
         try {
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
             statement.execute(initialQuery);
             logger.info("createTableIfNotExists query from order DAO");
         } catch (SQLException e) {
-            logger.error("Table order creation error\n"+e);
+            logger.error("Table order creation error\n" + e);
             throw new DAOException("Table order creation error");
+        } finally {
+            closeStatement(statement, logger);
         }
     }
-
 
     @Override
     public List<Order> getMyOrders(Integer userId) {
         List<Order> list = new ArrayList<>();
+        PreparedStatement preparedStatement = null;
 
         try {
-            PreparedStatement preparedStatement;
             String preparedQuery = "SELECT * FROM Pets.orders WHERE userId=?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, userId);
@@ -61,16 +63,18 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
                 logger.info("getMyOrders query");
             }
         } catch (SQLException e) {
-            logger.error("There are problems with getting all orders from DB\n"+e);
+            logger.error("There are problems with getting all orders from DB\n" + e);
             throw new DAOException("There are problems with getting all orders from DB" + e);
+        } finally {
+            closeStatement(preparedStatement, logger);
         }
         return list;
     }
 
     @Override
     public Order create(Order order) {
+        PreparedStatement preparedStatement = null;
         try {
-            PreparedStatement preparedStatement;
             String preparedQuery = "INSERT INTO Pets.orders (userId, dateOfOrder, orderStatus, dateOfDelivery, comment) VALUES(?,?,?,?,?)";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, order.getUserId());
@@ -88,33 +92,37 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
             logger.info("Order create query");
             return theOrder;
         } catch (SQLException e) {
-            logger.error("There are problems with new order insertion to DB\n"+e);
+            logger.error("There are problems with new order insertion to DB\n" + e);
             throw new DAOException("There are problems with new order insertion to DB" + e);
+        } finally {
+            closeStatement(preparedStatement, logger);
         }
     }
 
     @Override
     public Order delete(Order order) {
+        PreparedStatement preparedStatement = null;
         try {
             for (OrderItem item : order.getItems()) {
                 itemDAO.delete(item);
             }
-            PreparedStatement preparedStatement;
             String preparedQuery = "DELETE FROM Pets.orders  WHERE id = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, order.getOrderId());
             preparedStatement.execute();
             logger.info("Order delete query");
         } catch (SQLException e) {
-            logger.error("There are problems with order deleting from DB\n"+e);
+            logger.error("There are problems with order deleting from DB\n" + e);
             throw new DAOException("There are problems with order deleting from DB" + e);
+        } finally {
+            closeStatement(preparedStatement, logger);
         }
         return order;
     }
 
     @Override
     public Order update(Order order) {
-        PreparedStatement preparedStatement;
+        PreparedStatement preparedStatement = null;
         try {
             String preparedQuery = "UPDATE Pets.orders SET  userId = ?,dateOfOrder = ?, orderStatus = ?, dateOfDelivery = ?, comment=? WHERE id =?";
             preparedStatement = connection.prepareStatement(preparedQuery);
@@ -133,15 +141,17 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
             }
             logger.info("Order update query");
         } catch (SQLException e) {
-            logger.error("There are problems with order item update in DB \n"+e );
+            logger.error("There are problems with order item update in DB \n" + e);
             throw new DAOException("There are problems with order item update in DB" + e);
+        } finally {
+            closeStatement(preparedStatement, logger);
         }
         return order;
     }
 
     @Override
     public Order get(Order order) {
-        PreparedStatement preparedStatement;
+        PreparedStatement preparedStatement = null;
         Order theOrder = null;
         try {
             String preparedQuery = "SELECT * FROM Pets.orders WHERE userId = ? AND dateOfOrder = ? AND orderStatus = ?" +
@@ -162,15 +172,17 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
                 return theOrder;
             }
         } catch (SQLException e) {
-            logger.error("There are problems with getting orders from DB \n"+e );
+            logger.error("There are problems with getting orders from DB \n" + e);
             throw new DAOException("There are problems with getting orders from DB" + e);
+        } finally {
+            closeStatement(preparedStatement, logger);
         }
         return null;
     }
 
     @Override
     public Order findById(Integer id) {
-        PreparedStatement preparedStatement;
+        PreparedStatement preparedStatement = null;
         Order theOrder = null;
         try {
             String preparedQuery = "SELECT * FROM Pets.orders WHERE id = ?";
@@ -189,11 +201,14 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
                 return theOrder;
             }
         } catch (SQLException e) {
-            logger.error("There are problems with getting orders by id from DB \n"+e );
+            logger.error("There are problems with getting orders by id from DB \n" + e);
             throw new DAOException("There are problems with getting orders by id from DB" + e);
+        } finally {
+            closeStatement(preparedStatement, logger);
         }
         return null;
     }
+
 
     @Override
     public void close() throws Exception {

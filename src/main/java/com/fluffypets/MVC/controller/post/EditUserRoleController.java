@@ -9,7 +9,7 @@ import com.fluffypets.servicies.UserService;
 
 import java.util.List;
 
-public class EditUserRoleController implements Controller {
+public class EditUserRoleController implements Controller,AutoCloseable {
     private UserService userService;
 
     public EditUserRoleController(UserService userService){this.userService=userService;}
@@ -23,5 +23,10 @@ public class EditUserRoleController implements Controller {
         vm.setAttribute("users", users);
         vm.setView("admin");
         return vm;
+    }
+
+    @Override
+    public void close() throws Exception {
+        userService.close();
     }
 }

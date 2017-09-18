@@ -53,5 +53,10 @@ public class UserFilter implements Filter {
     }
     @Override
     public void destroy() {
+        try {
+            userDao.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

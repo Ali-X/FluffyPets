@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 
-public class CreateProductController implements Controller {
+public class CreateProductController implements Controller,AutoCloseable {
     private static final Logger logger = LogManager.getLogger(CreateProductController.class.getName());
 
 
@@ -48,5 +48,11 @@ public class CreateProductController implements Controller {
         }
         vm.setView("createProduct");
         return vm;
+    }
+
+    @Override
+    public void close() throws Exception {
+        productService.close();
+        categoryService.close();
     }
 }

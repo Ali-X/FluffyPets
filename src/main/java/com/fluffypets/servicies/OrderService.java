@@ -15,4 +15,5 @@ public interface OrderService {
 
     Order changeOrderStatus(Order order, LocalDate deliveryDate, String comment);
 
+    void close() throws Exception;
 }

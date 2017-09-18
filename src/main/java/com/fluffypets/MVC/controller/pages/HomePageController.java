@@ -18,17 +18,15 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.util.List;
 
-public class HomePageController implements Controller {
+public class HomePageController implements Controller,AutoCloseable {
     private static final Logger logger = LogManager.getLogger(HomePageController.class.getName());
 
     private ProductService productService;
     private CategoryService categoryService;
-    private UserService userService;
 
-    public HomePageController(ProductService productService,CategoryService categoryService,UserService userService) {
+    public HomePageController(ProductService productService,CategoryService categoryService) {
         this.productService = productService;
         this.categoryService = categoryService;
-        this.userService=userService;
     }
 
     @Override
@@ -54,5 +52,11 @@ public class HomePageController implements Controller {
         vm.setView("home");
         logger.info("home page selected");
         return vm;
+    }
+
+    @Override
+    public void close() throws Exception {
+        productService.close();
+        categoryService.close();
     }
 }

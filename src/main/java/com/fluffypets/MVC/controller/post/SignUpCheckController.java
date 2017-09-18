@@ -9,7 +9,7 @@ import com.fluffypets.servicies.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class SignUpCheckController implements Controller {
+public class SignUpCheckController implements Controller,AutoCloseable {
     private static final Logger logger = LogManager.getLogger(SignUpCheckController.class.getName());
 
     private UserService userService;
@@ -32,5 +32,10 @@ public class SignUpCheckController implements Controller {
         vm.addCookie("token", user.getToken());
         vm.setView("profile");
         return vm;
+    }
+
+    @Override
+    public void close() throws Exception {
+        userService.close();
     }
 }

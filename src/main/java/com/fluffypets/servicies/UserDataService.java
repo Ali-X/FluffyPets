@@ -10,4 +10,5 @@ public interface UserDataService {
 
     UserData update(UserData userData);
 
+    void close() throws Exception;
 }

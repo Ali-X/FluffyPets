@@ -26,13 +26,16 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
                 "PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC)," +
                 "CONSTRAINT FOREIGN KEY (orderId) REFERENCES orders(id)," +
                 "CONSTRAINT FOREIGN KEY (productId) REFERENCES products(id))";
+        Statement statement=null;
         try {
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
             statement.execute(initialQuery);
             logger.info("createTableIfNotExists query from Order Item Dao");
         } catch (SQLException e) {
             logger.error("Table orderItem creation error\n"+e);
             throw new DAOException("Table orderItem creation error");
+        }finally {
+            closeStatement(statement,logger);
         }
     }
 
@@ -44,8 +47,8 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
         Integer productId;
         Integer quantity;
         BigDecimal price;
+            PreparedStatement preparedStatement=null;
         try {
-            PreparedStatement preparedStatement;
             String preparedQuery = "SELECT * FROM Pets.ordersItems WHERE orderId=?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setLong(1,orderId);
@@ -62,14 +65,16 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
         } catch (SQLException e) {
             logger.error("get All order Items query error\n"+e);
             throw new DAOException("get All order Items query error");
+        }finally {
+            closeStatement(preparedStatement,logger);
         }
         return list;
     }
 
     @Override
     public OrderItem create(OrderItem orderItem) {
+            PreparedStatement preparedStatement=null;
         try {
-            PreparedStatement preparedStatement;
             String preparedQuery = "INSERT INTO Pets.ordersItems (orderId, productId, quantity, price) VALUES(?,?,?,?)";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setLong(1, orderItem.getOrderId());
@@ -82,13 +87,15 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
         } catch (SQLException e) {
             logger.error("There are problems with new order item insertion to DB\n"+e);
             throw new DAOException("There are problems with new order item insertion to DB" + e);
+        }finally {
+            closeStatement(preparedStatement,logger);
         }
     }
 
     @Override
     public OrderItem delete(OrderItem orderItem) {
+            PreparedStatement preparedStatement=null;
         try {
-            PreparedStatement preparedStatement;
             String preparedQuery = "DELETE FROM Pets.ordersItems  WHERE orderId = ? AND productId = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setLong(1, orderItem.getOrderId());
@@ -98,13 +105,15 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
         } catch (SQLException e) {
             logger.error("There are problems with order item deleting from DB \n"+e);
             throw new DAOException("There are problems with order item deleting from DB" + e);
+        }finally {
+            closeStatement(preparedStatement,logger);
         }
         return orderItem;
     }
 
     @Override
     public OrderItem update(OrderItem orderItem) {
-        PreparedStatement preparedStatement;
+        PreparedStatement preparedStatement=null;
         try {
             String preparedQuery = "UPDATE Pets.ordersItems SET  orderId= ?," +
                     "productId = ?, quantity = ?, price = ? WHERE id =?";
@@ -119,13 +128,15 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
         } catch (SQLException e) {
             logger.error("There are problems with order item update in DB \n"+e);
             throw new DAOException("There are problems with order item update in DB" + e);
+        }finally {
+            closeStatement(preparedStatement,logger);
         }
         return orderItem;
     }
 
     @Override
     public OrderItem get(OrderItem orderItem) {
-        PreparedStatement preparedStatement;
+        PreparedStatement preparedStatement=null;
         OrderItem theItem=null;
         try {
             String preparedQuery = "SELECT * FROM Pets.ordersItems WHERE orderId = ? AND productId = ?";
@@ -145,13 +156,15 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
         } catch (SQLException e) {
             logger.error("There are problems with getting order item from DB \n"+e);
             throw new DAOException("There are problems with getting order item from DB" + e);
+        }finally {
+            closeStatement(preparedStatement,logger);
         }
         return theItem;
     }
 
     @Override
     public OrderItem findById(Integer id) {
-        PreparedStatement preparedStatement;
+        PreparedStatement preparedStatement=null;
         OrderItem orderItem;
         try {
             String preparedQuery = "SELECT * FROM Pets.ordersItems WHERE id = ?";
@@ -170,6 +183,8 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
         } catch (SQLException e) {
             logger.error("There are problems searching order item by id \n"+e);
             throw new DAOException("There are problems searching order item by id " + e);
+        }finally {
+            closeStatement(preparedStatement,logger);
         }
         return null;
     }

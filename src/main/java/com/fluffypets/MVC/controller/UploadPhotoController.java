@@ -37,4 +37,9 @@ public class UploadPhotoController implements Controller {
         logger.info(uniqueName+"was uploaded");
         return vm;
     }
+
+    @Override
+    public void close() throws Exception {
+
+    }
 }

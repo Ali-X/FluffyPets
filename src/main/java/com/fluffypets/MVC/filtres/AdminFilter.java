@@ -58,6 +58,11 @@ public class AdminFilter implements Filter {
 
     @Override
     public void destroy() {
-
+        try {
+            userDAO.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
 }

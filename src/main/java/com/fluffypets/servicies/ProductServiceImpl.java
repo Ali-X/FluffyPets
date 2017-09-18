@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl implements ProductService,AutoCloseable {
     private static final Logger logger = LogManager.getLogger(ProductServiceImpl.class.getName());
 
     private final ProductDAO productDAO;
@@ -50,5 +50,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product update(Product product) {
         return productDAO.update(product);
+    }
+
+    @Override
+    public void close() throws Exception {
+        productDAO.close();
     }
 }

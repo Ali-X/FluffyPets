@@ -16,4 +16,6 @@ public interface UserService {
     List<User> getAllUsers();
 
     User changeRole(Integer userId, String command);
+
+    void close() throws Exception;
 }

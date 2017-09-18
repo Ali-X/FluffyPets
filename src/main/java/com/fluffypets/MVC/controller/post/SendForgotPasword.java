@@ -8,7 +8,7 @@ import com.fluffypets.servicies.UserDataService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class SendForgotPasword implements Controller {               // TODO: 9/2/17 demands implementation
+public class SendForgotPasword implements Controller,AutoCloseable {               // TODO: 9/2/17 demands implementation
     private static final Logger logger = LogManager.getLogger(SendForgotPasword.class.getName());
 
     private UserDataService userDataService;
@@ -50,5 +50,10 @@ public class SendForgotPasword implements Controller {               // TODO: 9/
 //        }
         vm.setView("profile");
         return vm;
+    }
+
+    @Override
+    public void close() throws Exception {
+        userDataService.close();
     }
 }

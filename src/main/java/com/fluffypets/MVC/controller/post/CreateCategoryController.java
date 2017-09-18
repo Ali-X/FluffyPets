@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class CreateCategoryController implements Controller {
+public class CreateCategoryController implements Controller,AutoCloseable {
     private static final Logger logger = LogManager.getLogger(CreateCategoryController.class.getName());
 
     private CategoryService categoryService;
@@ -37,5 +37,10 @@ public class CreateCategoryController implements Controller {
             vm.setView("createProduct");
         }
         return vm;
+    }
+
+    @Override
+    public void close() throws Exception {
+        categoryService.close();
     }
 }

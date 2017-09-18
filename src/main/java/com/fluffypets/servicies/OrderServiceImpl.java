@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class OrderServiceImpl implements OrderService {
+public class OrderServiceImpl implements OrderService,AutoCloseable {
     private UserDataDAO userDataDAO;
     private OrderDAO orderDAO;
 
@@ -47,5 +47,11 @@ public class OrderServiceImpl implements OrderService {
         theOrder.setComment(comment);
         orderDAO.update(thisOrder);
         return null;
+    }
+
+    @Override
+    public void close() throws Exception {
+        userDataDAO.close();
+        orderDAO.close();
     }
 }

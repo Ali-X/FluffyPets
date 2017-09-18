@@ -1,9 +1,11 @@
 package com.fluffypets.DAO;
 
 import exeptions.DAOException;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.StringJoiner;
 
 
@@ -29,6 +31,17 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
             e.printStackTrace();
         }
         return sj.toString();
+    }
+
+    public void closeStatement(Statement statement, Logger logger) {
+        if (statement != null) {
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                logger.error(e.getLocalizedMessage());
+            }
+        }
     }
 }
 

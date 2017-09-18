@@ -12,7 +12,7 @@ import com.fluffypets.servicies.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class LoginCheckController implements Controller {
+public class LoginCheckController implements Controller,AutoCloseable {
     private static final Logger logger = LogManager.getLogger(LoginCheckController.class.getName());
 
     private UserService userService;
@@ -44,5 +44,11 @@ public class LoginCheckController implements Controller {
             vm.setView("profile");
         }
         return vm;
+    }
+
+    @Override
+    public void close() throws Exception {
+        userDataService.close();
+        userService.close();
     }
 }
