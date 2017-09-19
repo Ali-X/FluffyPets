@@ -41,12 +41,17 @@ public class OrderServiceImpl implements OrderService,AutoCloseable {
     }
 
     @Override
-    public Order changeOrderStatus(Order theOrder, LocalDate deliveryDate, String comment) {
-        Order thisOrder=orderDAO.findById(theOrder.getUserId());
+    public Order changeOrderStatus(Integer orderId, LocalDate deliveryDate, String status) {
+        Order thisOrder=orderDAO.findById(orderId);
         thisOrder.setDeliveryDate(deliveryDate);
-        theOrder.setComment(comment);
-        orderDAO.update(thisOrder);
-        return null;
+        thisOrder.setStatus(status);
+        thisOrder=orderDAO.update(thisOrder);
+        return thisOrder;
+    }
+
+    @Override
+    public List<Order> getAllOrders() {
+        return orderDAO.getAllOrders();
     }
 
     @Override

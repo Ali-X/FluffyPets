@@ -11,7 +11,7 @@
 <div class="container">
     <div class="row text-center">
         <div class="col-sm-6 col-sm-offset-3">
-            <div>>
+            <div>
                 <img src="${pageContext.request.contextPath}/resourseces/img/success-blocks.jpg" height="250">
             </div>
             <h3>Dear, ${requestScope.user.getUserName()}!</h3>

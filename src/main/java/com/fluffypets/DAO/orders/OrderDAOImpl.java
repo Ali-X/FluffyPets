@@ -72,6 +72,36 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
     }
 
     @Override
+    public List<Order> getAllOrders() {
+        List<Order> list = new ArrayList<>();
+        PreparedStatement preparedStatement = null;
+
+        try {
+            String preparedQuery = "SELECT * FROM Pets.orders";
+            preparedStatement = connection.prepareStatement(preparedQuery);
+//            preparedStatement.setInt(1, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Integer id = resultSet.getInt("userId");
+                Integer userId = resultSet.getInt("id");
+                LocalDate dateOfOrder = resultSet.getDate("dateOfOrder").toLocalDate();
+                String orderStatus = resultSet.getString("orderStatus");
+                LocalDate dateOfDelivery = resultSet.getDate("dateOfDelivery").toLocalDate();
+                String comment = resultSet.getString("comment");
+                List<OrderItem> items = itemDAO.getAllItems(id);
+                list.add(new Order(id, userId, dateOfOrder, dateOfDelivery, orderStatus, items, comment));
+                logger.info("getAllOrders query");
+            }
+        } catch (SQLException e) {
+            logger.error("There are problems with getting all orders from DB\n" + e);
+            throw new DAOException("There are problems with getting all orders from DB" + e);
+        } finally {
+            closeStatement(preparedStatement, logger);
+        }
+        return list;
+    }
+
+    @Override
     public Order create(Order order) {
         PreparedStatement preparedStatement = null;
         try {
@@ -124,13 +154,13 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
     public Order update(Order order) {
         PreparedStatement preparedStatement = null;
         try {
-            String preparedQuery = "UPDATE Pets.orders SET  userId = ?,dateOfOrder = ?, orderStatus = ?, dateOfDelivery = ?, comment=? WHERE id =?";
+            String preparedQuery = "UPDATE Pets.orders SET  userId = ?,dateOfOrder = ?, orderStatus = ?, dateOfDelivery = ? WHERE id =?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, order.getUserId());
             preparedStatement.setDate(2, Date.valueOf(order.getOrderDate()));
             preparedStatement.setString(3, order.getStatus());
             preparedStatement.setDate(4, Date.valueOf(order.getDeliveryDate()));
-            preparedStatement.setString(5, order.getComment());
+            preparedStatement.setInt(5, order.getOrderId());
             preparedStatement.execute();
             for (OrderItem item : order.getItems()) {
                 if (itemDAO.get(item) != null) {

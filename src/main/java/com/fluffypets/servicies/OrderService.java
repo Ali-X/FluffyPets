@@ -6,6 +6,7 @@ import com.fluffypets.MVC.model.User;
 import com.fluffypets.MVC.model.UserData;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface OrderService {
 
@@ -13,7 +14,9 @@ public interface OrderService {
 
     Order makeOrder(User user, Cart cart, String comment);
 
-    Order changeOrderStatus(Order order, LocalDate deliveryDate, String comment);
+    Order changeOrderStatus(Integer orderId, LocalDate deliveryDate, String status);
+
+    List<Order> getAllOrders();
 
     void close() throws Exception;
 }

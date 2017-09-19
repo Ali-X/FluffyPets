@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FrontServlet extends HttpServlet {
+public class FrontServlet extends HttpServlet implements AutoCloseable {
     private static final Logger logger = LogManager.getLogger(FrontServlet.class.getName());
 
     private Map<Request, Controller> controllerMap = new HashMap<>();
@@ -36,12 +36,14 @@ public class FrontServlet extends HttpServlet {
         controllerMap.put(new Request("GET", "/root/signup"), Factory.getRegistrationPageController());
         controllerMap.put(new Request("GET", "/root/forgot"), Factory.getForgotPassword());
         controllerMap.put(new Request("GET", "/root/admin"), Factory.getAdminPage());
+        controllerMap.put(new Request("GET", "/root/adminOrders"), Factory.getAdminOrdersPage());
         controllerMap.put(new Request("GET", "/root/editProfile"), Factory.getEditUserProfileController());
         controllerMap.put(new Request("GET", "/root/createProduct"), Factory.getProductController());
 //      POST methods from pages
         controllerMap.put(new Request("POST", "/root/selectGoods"), Factory.getSelectGoodsController());
         controllerMap.put(new Request("POST", "/root/login"), Factory.getLoginCheckController());
         controllerMap.put(new Request("POST", "/root/admin"), Factory.getEditUserRole());
+        controllerMap.put(new Request("POST", "/root/adminOrders"), Factory.getEditOrder());
         controllerMap.put(new Request("POST", "/root/signup"), Factory.getSignUpCheckController());
         controllerMap.put(new Request("POST", "/root/editProfile"), Factory.getUserDataController());
         controllerMap.put(new Request("POST", "/root/createCategory"), Factory.getCreateCategoryController());
@@ -108,4 +110,17 @@ public class FrontServlet extends HttpServlet {
         String suffix = ".jsp";
         return prefix + vm.getView() + suffix;
     }
+
+    @Override
+    public void close() throws Exception {
+        controllerMap.forEach((key, value) -> {
+            try {
+                value.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    controllerMap=null;
+    }
+
 }

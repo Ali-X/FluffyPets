@@ -111,62 +111,58 @@
                 <h1>Tools</h1>
             </span>
 
-            <a href="/root/adminStatistics" id="ordersStatistics" class="list-group-item">
+            <a href="#" id="ordersStatistics" class="list-group-item">
                 <span class="glyphicon glyphicon-stats"></span>
                 Statistics <span class="badge">314</span> </a>
-            <a href="/root/adminOrders" id="orderManagement" class="list-group-item">
+            <a href="/root/adminOrders" id="orderManagement" class="list-group-item active">
                 <span class="glyphicon glyphicon-credit-card"></span>
                 Orders</a>
-            <a href="/root/admin" id="users" class="list-group-item active">
+            <a href="/root/admin" id="users" class="list-group-item">
                 <span class="glyphicon glyphicon-user"></span>
                 Users</a>
         </div>
     </div>
     <div class="col-lg-10 col-md-9 col-sm-12">
-        <h2>Users Table</h2>
+        <h2>Orders Table</h2>
         <table class="table-condensed table-bordered">
             <thead>
             <tr>
-                <th class="text-center">UserId</th>
-                <th class="text-center">User Name</th>
-                <th class="text-center">Email</th>
-                <th class="text-center">Role</th>
-                <th class="text-center">Allowed actions</th>
+                <th class="text-center">order Id</th>
+                <th class="text-center">user Id</th>
+                <th class="text-center">order Date</th>
+                <th class="text-center">order status</th>
+                <th class="text-center">delivery date</th>
+                <th class="text-center">actions</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${requestScope.users}" var="userFromBase">
-                <form method="post" action="/root/admin">
+            <c:forEach items="${requestScope.orders}" var="concreteOrder">
+                <form method="post" action="/root/adminOrders">
                     <tr>
                         <td>
-                            <input type="number" name="userId" value="${userFromBase.getId()}" readonly>
+                            <input type="number" name="orderId"  value="${concreteOrder.getOrderId()}" readonly>
                         </td>
                         <td>
-                            <input type="text" value="${userFromBase.getUserName()}" readonly>
+                            <input type="number" name="userId" value="${concreteOrder.getUserId()}" readonly>
                         </td>
                         <td>
-                            <input type="email" value="${userFromBase.getEmail()}" readonly>
+                            <input type="date" value="${concreteOrder.getOrderDate()}" readonly>
                         </td>
                         <td>
-                            <input type="text" value="${userFromBase.getRoleString()}" readonly>
+                            <input type="text" name="status" value="${concreteOrder.getStatus()}" class="text-success">
                         </td>
                         <td>
-                            <c:if test="${userFromBase.getRoleString() ne 'user'}">
-                                <button class="btn-link" value="user" name="command"><span
-                                        class="glyphicon glyphicon-user"></span>
-                                    make user
+                            <input type="date" name="delivery" value="${concreteOrder.getDeliveryDate()}" class="text-success">
+                        </td>
+                        <td>
+                                <button class="btn-link" value="update" name="command"><span
+                                        class="glyphicon glyphicon-refresh"></span>
+                                    update
                                 </button>
-                            </c:if>
-                            <c:if test="${userFromBase.getRoleString() ne 'admin'}">
-                                <button class="btn-link" value="admin" name="command"><span
-                                        class="glyphicon glyphicon-wrench"></span> make admin
-                                </button>
-                            </c:if>
-                            <c:if test="${userFromBase.getRoleString() ne 'admin'}">
-                                <button class="btn-link" value="blocked" name="command"><span
+
+                                <button  formaction="/root/admin" formmethod="post" class="btn-link" value="blocked" name="command"><span
                                         class="glyphicon glyphicon-remove"></span> block
                                 </button>
-                            </c:if>
                         </td>
                     </tr>
                 </form>

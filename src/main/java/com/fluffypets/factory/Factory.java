@@ -217,4 +217,12 @@ public class Factory {
     public static Controller getSubmitOrderController() {
         return new SubmitOrderController(Factory.getOrderService(),Factory.getEmailSender());
     }
+
+    public static Controller getAdminOrdersPage() {
+        return new AdminOrdersPageController(Factory.getOrderService());
+    }
+
+    public static Controller getEditOrder() {
+        return new AdminEditOrdersController(Factory.getOrderService());
+    }
 }

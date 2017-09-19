@@ -5,4 +5,6 @@ import com.fluffypets.MVC.servlets.ViewModel;
 
 public interface Controller extends AutoCloseable {
     ViewModel process(Request request);
+
+    void close() throws Exception;
 }
