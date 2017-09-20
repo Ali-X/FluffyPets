@@ -1,46 +1,28 @@
-package com.fluffypets.MVC.controller.pages;
+package com.fluffypets.MVC.controller.post;
 
 import com.fluffypets.MVC.controller.Controller;
-import com.fluffypets.MVC.model.Cart;
-import com.fluffypets.MVC.model.Category;
-import com.fluffypets.MVC.model.Product;
-import com.fluffypets.MVC.model.User;
-import com.fluffypets.MVC.model.enumes.Prices;
 import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.factory.Factory;
-import com.fluffypets.servicies.CategoryService;
-import com.fluffypets.servicies.ProductService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class HomePageController implements Controller,AutoCloseable {
-    private static final Logger logger = LogManager.getLogger(HomePageController.class.getName());
-
-    private ProductService productService;
-    private CategoryService categoryService;
-
-    public HomePageController(ProductService productService,CategoryService categoryService) {
-        this.productService = productService;
-        this.categoryService = categoryService;
-    }
+public class LocaleController implements Controller,AutoCloseable {
 
     @Override
     public ViewModel process(Request request) {
-//        File dir = new File(System.getProperty("catalina.base"), "uploads");
-//        System.out.println(dir);
-        ViewModel vm = Factory.getViewModel();
-        List<Product> products=productService.getAll();
-        List<Category> categories=categoryService.getAll();
-
-        vm.setAttribute("products",products);
-        vm.setAttribute("categories",categories);
-        vm.setAttribute("prices", Prices.values());
-
-//        -------------         localization for page home     ----------------------
+        ViewModel vm= Factory.getViewModel();
+        String locale=request.getAttribute("locale");
+        String page=request.getAttribute("page");
+        switch (locale){
+            case "en_US": vm.setCurrentLocale(new Locale("en","US"));
+            break;
+            case "uk_UA": vm.setCurrentLocale(new Locale("uk","UA"));
+            break;
+            default:vm.setCurrentLocale(new Locale("en","US"));
+        }
+        //        -------------         localization of all pages        ----------------------
         ResourceBundle resourceBundle = ResourceBundle.getBundle("lang", vm.getCurrentLocale());
         vm.setAttribute("Add_to_cart",ViewModel.stringUTF8(resourceBundle.getString("Add_to_cart")));
         vm.setAttribute("Admin_page",ViewModel.stringUTF8(resourceBundle.getString("Admin_page")));
@@ -61,24 +43,11 @@ public class HomePageController implements Controller,AutoCloseable {
         vm.setAttribute("Select",ViewModel.stringUTF8(resourceBundle.getString("Select")));
 //        =============         localization        ======================
 
-
-        User user=(User) vm.getAttribute("user");
-        if (user==null){
-        user=new User(0,"Unknown","","","","user");}
-
-        Cart cart=(Cart) vm.getAttribute("cart");
-        if (cart==null){
-        cart = new Cart(user);}
-        else {cart.setUser(user);}
-        vm.setAttribute("cart", cart);
-        vm.setView("home");
-        logger.info("home page selected");
+        vm.setView(page);
         return vm;
     }
 
     @Override
     public void close() throws Exception {
-        productService.close();
-        categoryService.close();
     }
 }

@@ -4,7 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.Cookie;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class ViewModel {
@@ -14,6 +16,7 @@ public class ViewModel {
     private String view;
     private Map<String, Object> attributes = new HashMap<>();
     private final Map<String, String> cookieS = new HashMap<>();
+    private Locale currentLocale= new Locale("en","US");
 
     public Map<String, Object> getAttributes() {
         return attributes;
@@ -26,6 +29,14 @@ public class ViewModel {
     public Object getAttribute(String attrName) {
         Object value = attributes.get(attrName);
         return value;
+    }
+
+    public Locale getCurrentLocale() {
+        return currentLocale;
+    }
+
+    public void setCurrentLocale(Locale currentLocale) {
+        this.currentLocale = currentLocale;
     }
 
     public String getView() {
@@ -59,5 +70,14 @@ public class ViewModel {
 
     public static ViewModel of() {
         return new ViewModel();
+    }
+
+    public static String stringUTF8(String string){
+        try {
+            return new String( string.getBytes("ISO-8859-1"),"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

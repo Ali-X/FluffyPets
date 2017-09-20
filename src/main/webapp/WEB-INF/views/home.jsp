@@ -23,43 +23,44 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
 
-                <li class="active"><a href="<c:url value="/root/home"/> ">Products</a></li>
+                <li class="active"><a href="<c:url value="/root/home"/> ">${requestScope.Products}</a></li>
 
                 <c:if test="${not empty requestScope.user}">
                     <c:if test="${requestScope.user.getRoleString().equals('admin')}">
                         <li><a href="<c:url value="/root/createProduct"/>">
                             <span class="glyphicon glyphicon-edit"></span>
-                            Create product</a></li>
+                                ${requestScope.Create_product}</a></li>
                         <li><a href="<c:url value="/root/admin"/>">
                             <span class="glyphicon glyphicon-wrench"></span>
-                            Admin page</a></li>
+                                ${requestScope.Admin_page}</a></li>
                     </c:if></c:if>
 
                 <c:if test="${empty requestScope.user}">
                     <li><a href="<c:url value="/root/login"/>">
                         <span class="glyphicon glyphicon-log-in"></span>
-                        Signin</a></li>
+                            ${requestScope.Signin}</a></li>
                     <li><a href="<c:url value="/root/signup"/>">
                         <span class="glyphicon glyphicon-ok"></span>
-                        Signup</a></li>
+                            ${requestScope.Signup}</a></li>
                 </c:if>
 
                 <c:if test="${not empty requestScope.user}">
                     <li class="text-warning"><a href="<c:url value="/root/profile"/>">
                         <span class="glyphicon glyphicon-user"></span>
-                        My profile</a></li>
+                            ${requestScope.My_profile}</a></li>
 
                     <li class="text-warning"><a href="<c:url value="/root/logout"/>">
                         <span class="glyphicon glyphicon-log-out"></span>
-                        Logout</a></li>
+                            ${requestScope.Logout}</a></li>
                 </c:if>
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <span class="glyphicon glyphicon-shopping-cart"></span>My cart<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
+                        <span class="glyphicon glyphicon-shopping-cart"></span>${requestScope.My_cart}<b
+                            class="caret"></b></a>
+                    <ul id="cartList" class="dropdown-menu">
                         <c:if test="${empty requestScope.user}">
-                            <li><a href="/root/login">You are not authorised, please login!</a></li>
+                            <li><a href="/root/login">${requestScope.message_L}</a></li>
                         </c:if>
                         <c:if test="${not empty requestScope.user}">
                             <li><a href="#">Welcome ${requestScope.user.getUserName()}!</a></li>
@@ -69,30 +70,48 @@
                             <c:forEach items="${requestScope.cart.getProductInCarts()}" var="cartItem">
                                 <li class="text-center">
                                     <form method="post">
-                                    <div class="row center-block">
-                                            ${cartItem.getProduct().getName()} :
-                                        <button class="btn-link"  formaction="/root/takeFromCart"
-                                                name="productId"    value="${cartItem.getProduct().getId()}" >
-                                            <span class="glyphicon glyphicon-minus"></span>
-                                        </button>
-                                            ${cartItem.getNumber()}
-                                        <button class="btn-link"  formaction="/root/addToCart"
-                                                name="productId" value="${cartItem.getProduct().getId()}" >
-                                            <span class="glyphicon glyphicon-plus"></span>
-                                        </button>
-                                    </div>
+                                        <div class="row center-block">
+                                                ${cartItem.getProduct().getName()} :
+                                            <button class="btn-link" formaction="/root/takeFromCart"
+                                                    name="productId" value="${cartItem.getProduct().getId()}">
+                                                <span class="glyphicon glyphicon-minus"></span>
+                                            </button>
+                                                ${cartItem.getNumber()}
+                                            <button class="btn-link" formaction="/root/addToCart"
+                                                    name="productId" value="${cartItem.getProduct().getId()}">
+                                                <span class="glyphicon glyphicon-plus"></span>
+                                            </button>
+                                        </div>
                                     </form>
                                 </li>
                             </c:forEach>
                             <li class="divider"></li>
                             <li class="text-center">
-                            <form method="post">
-                                <button type="submit"
-                                        <c:if test="${not empty requestScope.user}"> formaction="/root/makeOder" class="btn btn-danger"</c:if>
-                                        <c:if test="${empty requestScope.user}"> class="btn btn-default" disabled="disabled"</c:if>
-                                > Confirm your order</button>
-                            </form></li>
+                                <form method="post">
+                                    <button type="submit"
+                                            <c:if test="${not empty requestScope.user}"> formaction="/root/makeOder" class="btn btn-danger"</c:if>
+                                            <c:if test="${empty requestScope.user}"> class="btn btn-default" disabled="disabled"</c:if>
+                                    > ${requestScope.Confirm_your_order}
+                                    </button>
+                                </form>
+                            </li>
                         </c:if>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <span class="glyphicon glyphicon-globe"></span>${requestScope.Language}<b class="caret"></b></a>
+                    <ul id="lang" class="dropdown-menu">
+                        <form method="post" name="locale" action="/root/internationalization">
+                            <input name="page" value="home" hidden>
+                            <li>
+                                <button value="en_US" name="locale" class="btn-link">English</button>
+                            </li>
+                            <li>
+                                <button value="uk_UA" name="locale" class="btn-link">Українська</button>
+                            </li>
+                        </form>
                     </ul>
                 </li>
 
@@ -100,6 +119,7 @@
         </div>
     </div>
 </nav>
+
 
 <div class="container-fluid">
     <div class="row">
@@ -119,7 +139,7 @@
         <div class="bg-info col-xs-6 col-sm-3 col-lg-2">
             <form action="/root/selectGoods" method="post">
                 <div class="form-group">
-                    <h4>Select categories</h4>
+                    <h4>${requestScope.Select_categories}</h4>
 
                     <c:forEach items="${categories}" var="category">
                         <div class="checkbox">
@@ -128,10 +148,10 @@
                         </div>
                     </c:forEach>
 
-                    <h4>Select price range</h4>
+                    <h4>${requestScope.Select_price_range}</h4>
 
                     <div class="radio">
-                        <label><input type="radio" name="selectedPrice" checked="checked" value="all">all</label>
+                        <label><input type="radio" name="selectedPrice" checked="checked" value="all">${requestScope.All}</label>
                     </div>
 
                     <c:forEach items="${prices}" var="price">
@@ -141,7 +161,7 @@
                         </div>
                     </c:forEach>
 
-                    <button class="btn btn-info text-center btn-large" type="submit">Select</button>
+                    <button class="btn btn-info text-center btn-large" type="submit">${requestScope.Select}</button>
                 </div>
             </form>
         </div>
@@ -162,8 +182,8 @@
                                 <form class="form-horizontal" method="post">
                                     <h2><span class="glyphicon glyphicon-usd"></span> ${product.getPrice()} </h2>
                                     <button class="btn btn-success btn-md" name="productId" value="${product.getId()}"
-                                            formaction="<c:url value="/root/addToCart"/>">Add to
-                                        cart
+                                            formaction="<c:url value="/root/addToCart"/>">
+                                            ${requestScope.Add_to_cart}
                                     </button>
                                 </form>
                             </div>

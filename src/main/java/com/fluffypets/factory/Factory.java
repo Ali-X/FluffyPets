@@ -225,4 +225,8 @@ public class Factory {
     public static Controller getEditOrder() {
         return new AdminEditOrdersController(Factory.getOrderService());
     }
+
+    public static Controller getInternationalizationController() {
+        return new LocaleController();
+    }
 }

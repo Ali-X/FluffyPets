@@ -54,6 +54,7 @@ public class FrontServlet extends HttpServlet implements AutoCloseable {
         controllerMap.put(new Request("POST", "/root/submitOder"), Factory.getSubmitOrderController());
         controllerMap.put(new Request("POST", "/root/forgot"), Factory.getSendForgotPassword());
         controllerMap.put(new Request("POST", "/root/upload"), Factory.getImageUploadController());
+        controllerMap.put(new Request("POST", "/root/internationalization"), Factory.getInternationalizationController());
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -69,6 +70,7 @@ public class FrontServlet extends HttpServlet implements AutoCloseable {
 
         Request request = new Request(httpRequest.getMethod(), httpRequest.getRequestURI(), httpRequest.getParameterMap());
         try {
+
             Controller controller = controllerMap.get(request);
             if (controller == null) {
                 logger.error("Can't handle " + request.getUri());
