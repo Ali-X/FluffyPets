@@ -27,10 +27,10 @@
 
                 <c:if test="${not empty requestScope.user}">
                     <c:if test="${requestScope.user.getRoleString().equals('admin')}">
-                        <li><a href="<c:url value="/root/createProduct"/>">
+                        <li><a href="<c:url value="/root/admin/createProduct"/>">
                             <span class="glyphicon glyphicon-edit"></span>
                             Create product</a></li>
-                        <li class="active"><a href="<c:url value="/root/admin"/>">
+                        <li class="active"><a href="<c:url value="/root/admin/users"/>">
                             <span class="glyphicon glyphicon-wrench"></span>
                             Admin page</a></li>
                     </c:if></c:if>
@@ -114,10 +114,10 @@
             <a href="#" id="ordersStatistics" class="list-group-item">
                 <span class="glyphicon glyphicon-stats"></span>
                 Statistics <span class="badge">314</span> </a>
-            <a href="/root/adminOrders" id="orderManagement" class="list-group-item active">
+            <a href="/root/admin/orders" id="orderManagement" class="list-group-item active">
                 <span class="glyphicon glyphicon-credit-card"></span>
                 Orders</a>
-            <a href="/root/admin" id="users" class="list-group-item">
+            <a href="/root/admin/users" id="users" class="list-group-item">
                 <span class="glyphicon glyphicon-user"></span>
                 Users</a>
         </div>
@@ -137,7 +137,7 @@
             </thead>
             <tbody>
             <c:forEach items="${requestScope.orders}" var="concreteOrder">
-                <form method="post" action="/root/adminOrders">
+                <form method="post" action="/root/admin/orders">
                     <tr>
                         <td>
                             <input type="number" name="orderId"  value="${concreteOrder.getOrderId()}" readonly>
@@ -160,7 +160,7 @@
                                     update
                                 </button>
 
-                                <button  formaction="/root/admin" formmethod="post" class="btn-link" value="blocked" name="command"><span
+                                <button  formaction="/root/admin/users" formmethod="post" class="btn-link" value="blocked" name="command"><span
                                         class="glyphicon glyphicon-remove"></span> block
                                 </button>
                         </td>

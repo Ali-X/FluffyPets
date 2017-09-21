@@ -3,6 +3,7 @@ package com.fluffypets.MVC.filtres;
 import com.fluffypets.DAO.user.UserDAOImpl;
 import com.fluffypets.MVC.model.User;
 import com.fluffypets.factory.Factory;
+import exeptions.MVCexception;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,7 +25,10 @@ public class UserFilter implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
         userDao = Factory.getUserDao();
         protectedUrl.add("/root/profile");
+        protectedUrl.add("/root/makeOder");
+        protectedUrl.add("/root/submitOder");
         protectedUrl.add("/root/editProfile");
+        protectedUrl.add("/root/selectGoods");
     }
 
     @Override
@@ -33,6 +37,8 @@ public class UserFilter implements Filter {
         Cookie[] cookies = httpRequest.getCookies();
         String uri = httpRequest.getRequestURI();
 
+        User user= (User) httpRequest.getAttribute("user");
+
         if (protectedUrl.contains(uri)) {
             String token = null;
             for (Cookie cookie : cookies) {
@@ -40,13 +46,14 @@ public class UserFilter implements Filter {
                 String TOKEN = "token";
                 if (TOKEN.equals(name)) {
                     token = cookie.getValue();
-                    User user = userDao.findByToken(token);
+                    user = userDao.findByToken(token);
                     request.setAttribute("user", user);
                 }
             }
-            User user= (User) request.getAttribute("user");
-            if (token == null || user.getRoleString().equals("blocked")) {
-                request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
+//            user= (User) request.getAttribute("user");
+            if (user==null||user.getRoleString().equals("blocked")) {
+//                request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
+                throw new MVCexception("Illegal access ");
             }
         }
         chain.doFilter(request, response);

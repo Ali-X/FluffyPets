@@ -3,6 +3,7 @@ package com.fluffypets.MVC.filtres;
 import com.fluffypets.DAO.user.UserDAOImpl;
 import com.fluffypets.MVC.controller.UploadPhotoController;
 import com.fluffypets.MVC.model.User;
+import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.factory.Factory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,8 +25,10 @@ public class AdminFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         userDAO = Factory.getUserDao();
-        protectedUrls.add("/root/admin");
-        protectedUrls.add("/root/createProduct");
+        protectedUrls.add("/root/admin/users");
+        protectedUrls.add("/root/admin/orders");
+        protectedUrls.add("/root/admin/createProduct");
+        protectedUrls.add("/root/admin/createCategory");
     }
 
     @Override
@@ -39,6 +42,7 @@ public class AdminFilter implements Filter {
             for (Cookie cookie : cookies) {
                 String name = cookie.getName().toLowerCase();
                 String TOKEN = "token";
+
                 if (TOKEN.equals(name)) {
                     token = cookie.getValue();
                     User user = userDAO.findByToken(token);

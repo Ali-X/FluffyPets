@@ -25,10 +25,10 @@
 
                 <c:if test="${not empty requestScope.user}">
                     <c:if test="${requestScope.user.getRoleString().equals('admin')}">
-                        <li><a href="<c:url value="/root/createProduct"/>">
+                        <li><a href="<c:url value="/root/admin/createProduct"/>">
                             <span class="glyphicon glyphicon-edit"></span>
                             Create profile</a></li>
-                        <li><a href="<c:url value="/root/admin"/>">
+                        <li><a href="<c:url value="/root/admin/users"/>">
                             <span class="glyphicon glyphicon-wrench"></span>
                             Admin page</a></li>
                     </c:if></c:if>

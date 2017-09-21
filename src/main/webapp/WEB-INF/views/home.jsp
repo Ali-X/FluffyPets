@@ -27,10 +27,10 @@
 
                 <c:if test="${not empty requestScope.user}">
                     <c:if test="${requestScope.user.getRoleString().equals('admin')}">
-                        <li><a href="<c:url value="/root/createProduct"/>">
+                        <li><a href="<c:url value="/root/admin/createProduct"/>">
                             <span class="glyphicon glyphicon-edit"></span>
                                 ${requestScope.Create_product}</a></li>
-                        <li><a href="<c:url value="/root/admin"/>">
+                        <li><a href="<c:url value="/root/admin/users"/>">
                             <span class="glyphicon glyphicon-wrench"></span>
                                 ${requestScope.Admin_page}</a></li>
                     </c:if></c:if>
@@ -60,15 +60,15 @@
                             class="caret"></b></a>
                     <ul id="cartList" class="dropdown-menu">
                         <c:if test="${empty requestScope.user}">
-                            <li><a href="/root/login">${requestScope.message_L}</a></li>
+                            <li style="width: 450px"><a href="/root/login">${requestScope.message_L}</a></li>
                         </c:if>
                         <c:if test="${not empty requestScope.user}">
-                            <li><a href="#">Welcome ${requestScope.user.getUserName()}!</a></li>
+                            <li style="width: 450px"><a href="#">Welcome ${requestScope.user.getUserName()}!</a></li>
                         </c:if>
                         <c:if test="${not empty requestScope.cart.getProductInCarts()}">
                             <li class="divider"></li>
                             <c:forEach items="${requestScope.cart.getProductInCarts()}" var="cartItem">
-                                <li class="text-center">
+                                <li class="text-center" style="width: 450px">
                                     <form method="post">
                                         <div class="row center-block">
                                                 ${cartItem.getProduct().getName()} :

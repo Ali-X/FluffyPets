@@ -16,7 +16,6 @@ import com.fluffypets.MVC.controller.pages.*;
 import com.fluffypets.MVC.controller.post.*;
 import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.servicies.*;
-import exeptions.DAOException;
 import exeptions.FactoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,7 +25,6 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Factory {
@@ -160,6 +158,13 @@ public class Factory {
         return new ProductController(Factory.getCategoriesService());
     }
 
+    public static Controller getAdminPage() {
+        return new AdminPageController(Factory.getUserService());
+    }
+
+    public static Controller getAdminOrdersPage() {
+        return new AdminOrdersPageController(Factory.getOrderService());
+    }
     //----------------------               Post handling            --------------------------------------------
 
     public static Controller getLoginCheckController() {
@@ -194,9 +199,6 @@ public class Factory {
         return new SelectGoodsController(Factory.getProductService(), Factory.getCategoriesService());
     }
 
-    public static Controller getAdminPage() {
-        return new AdminPageController(Factory.getUserService());
-    }
 
     public static Controller getEditUserRole() {
         return new EditUserRoleController(Factory.getUserService());
@@ -218,9 +220,6 @@ public class Factory {
         return new SubmitOrderController(Factory.getOrderService(),Factory.getEmailSender());
     }
 
-    public static Controller getAdminOrdersPage() {
-        return new AdminOrdersPageController(Factory.getOrderService());
-    }
 
     public static Controller getEditOrder() {
         return new AdminEditOrdersController(Factory.getOrderService());
@@ -229,4 +228,5 @@ public class Factory {
     public static Controller getInternationalizationController() {
         return new LocaleController();
     }
+
 }

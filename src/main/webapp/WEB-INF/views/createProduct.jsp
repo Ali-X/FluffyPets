@@ -26,10 +26,10 @@
 
                 <c:if test="${not empty requestScope.user}">
                     <c:if test="${requestScope.user.getRoleString().equals('admin')}">
-                        <li class="active"><a href="<c:url value="/root/createProduct"/>">
+                        <li class="active"><a href="<c:url value="/root/admin/createProduct"/>">
                             <span class="glyphicon glyphicon-edit"></span>
                             Create product</a></li>
-                        <li><a href="<c:url value="/root/admin"/>">
+                        <li><a href="<c:url value="/root/admin/users"/>">
                             <span class="glyphicon glyphicon-wrench"></span>
                             Admin page</a></li>
                     </c:if></c:if>
@@ -145,7 +145,7 @@
 
                     <div class="row">
                         <div class="col-md-3">
-                            <button class="btn btn-success btn-md" formaction="/root/createProduct">Create good</button>
+                            <button class="btn btn-success btn-md" formaction="/root/admin/createProduct">Create good</button>
                         </div>
                         <c:if test="${not empty requestScope.categories}">
                             <div class="col-md-3">
@@ -197,7 +197,7 @@
                                           id="comment2"></textarea>
                                 <br>
 
-                                <button class="btn btn-success btn-md" formaction="/root/createCategory">Create
+                                <button class="btn btn-success btn-md" formaction="/root/admin/createCategory">Create
                                     category
                                 </button>
 
