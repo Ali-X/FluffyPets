@@ -37,7 +37,7 @@ public class LoginCheckController implements Controller,AutoCloseable {
             myCart.setUser(user);
             vm.setAttribute("cart", myCart);}
             vm.setAttribute("user", user);
-            vm.addCookie("token", user.getToken());
+            vm.addCookie("FluffyPets", user.getToken());
 
             UserData userData = userDataService.get(user.getId());
             if (userData != null) vm.setAttribute("userData", userData);

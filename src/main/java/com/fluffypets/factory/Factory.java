@@ -17,6 +17,7 @@ import com.fluffypets.MVC.controller.post.*;
 import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.servicies.*;
 import exeptions.FactoryException;
+import exeptions.ServiciesException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,6 +25,9 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -121,7 +125,9 @@ public class Factory {
         String[] emeilPassword=Factory.getEmailPassword();
         if (emeilPassword != null) {
             return new SendEmailServiceImpl(emeilPassword[0],emeilPassword[1]);
-        }else {throw new SecurityException("falier with JNDI");}
+        }else {
+            throw new ServiciesException("falier with JNDI");
+        }
     }
 
     //---------------------                 get pages                ---------------------------------------------------
@@ -229,4 +235,26 @@ public class Factory {
         return new LocaleController();
     }
 
+    public static String md5Custom(String st,Logger logger) {
+        MessageDigest messageDigest = null;
+        byte[] digest = new byte[0];
+
+        try {
+            messageDigest = MessageDigest.getInstance("MD5");
+            messageDigest.reset();
+            messageDigest.update(st.getBytes());
+            digest = messageDigest.digest();
+        } catch (NoSuchAlgorithmException e) {
+            logger.error("MD5 error "+e.getLocalizedMessage());
+        }
+
+        BigInteger bigInt = new BigInteger(1, digest);
+        String md5Hex = bigInt.toString(16);
+
+        while( md5Hex.length() < 32 ){
+            md5Hex = "0" + md5Hex;
+        }
+
+        return md5Hex;
+    }
 }

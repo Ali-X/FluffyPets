@@ -15,20 +15,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserFilter implements Filter {
-    private static final Logger logger = LogManager.getLogger(AdminFilter.class.getName());
+    private static final Logger logger = LogManager.getLogger(UserFilter.class.getName());
 
 
     private UserDAOImpl userDao;
-    private List<String> protectedUrl = new ArrayList<>();
+    private List<String> protectedUrls = new ArrayList<>();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         userDao = Factory.getUserDao();
-        protectedUrl.add("/root/profile");
-        protectedUrl.add("/root/makeOder");
-        protectedUrl.add("/root/submitOder");
-        protectedUrl.add("/root/editProfile");
-        protectedUrl.add("/root/selectGoods");
+        protectedUrls.add("/root/profile");
+        protectedUrls.add("/root/makeOder");
+        protectedUrls.add("/root/submitOder");
+        protectedUrls.add("/root/editProfile");
+        protectedUrls.add("/root/selectGoods");
+        protectedUrls.add("/root/admin/users");
+        protectedUrls.add("/root/admin/orders");
+        protectedUrls.add("/root/admin/createProduct");
+        protectedUrls.add("/root/admin/createCategory");
     }
 
     @Override
@@ -39,20 +43,19 @@ public class UserFilter implements Filter {
 
         User user= (User) httpRequest.getAttribute("user");
 
-        if (protectedUrl.contains(uri)) {
+        if (protectedUrls.contains(uri)) {
             String token = null;
             for (Cookie cookie : cookies) {
                 String name = cookie.getName();
-                String TOKEN = "token";
+                String TOKEN = "FluffyPets";
                 if (TOKEN.equals(name)) {
                     token = cookie.getValue();
                     user = userDao.findByToken(token);
                     request.setAttribute("user", user);
                 }
             }
-//            user= (User) request.getAttribute("user");
-            if (user==null||user.getRoleString().equals("blocked")) {
-//                request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
+            if (user==null||user.getRoleString().equals("blocked")||user.getRoleString().equals("Unknown")) {
+                logger.error("Illegal access, RequestedSessionId: "+httpRequest.getRequestedSessionId());
                 throw new MVCexception("Illegal access ");
             }
         }

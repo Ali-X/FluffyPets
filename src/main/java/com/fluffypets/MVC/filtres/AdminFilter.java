@@ -5,6 +5,7 @@ import com.fluffypets.MVC.controller.UploadPhotoController;
 import com.fluffypets.MVC.model.User;
 import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.factory.Factory;
+import exeptions.MVCexception;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,32 +33,31 @@ public class AdminFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+    public void doFilter(ServletRequest httpRequest, ServletResponse httpResponse, FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest httpServletRequest = (HttpServletRequest) httpRequest;
         Cookie[] cookies = httpServletRequest.getCookies();
         String uri = httpServletRequest.getRequestURI();
+
+        User user= (User) httpRequest.getAttribute("user");
 
         if (protectedUrls.contains(uri)) {
             String token = null;
             for (Cookie cookie : cookies) {
-                String name = cookie.getName().toLowerCase();
-                String TOKEN = "token";
-
+                String name = cookie.getName();
+                String TOKEN = "FluffyPets";
                 if (TOKEN.equals(name)) {
                     token = cookie.getValue();
-                    User user = userDAO.findByToken(token);
-                    if (user.getRoleString().equals("admin")) {
-                        request.setAttribute("user", user);
-                    } else {
-                        request.getRequestDispatcher("/WEB-INF/views/home.jsp").forward(request, response);
-                    }
+                    user = userDAO.findByToken(token);
+                    httpRequest.setAttribute("user", user);
                 }
             }
-            if (token == null) {
-                request.getRequestDispatcher("/WEB-INF/views/home.jsp").forward(request, response);
+            if (user==null||!user.getRoleString().equals("admin")) {
+                logger.error("Illegal access, RequestedSessionId: "+httpServletRequest.getRequestedSessionId());
+                throw new MVCexception("Illegal access ");
             }
         }
-        chain.doFilter(request, response);
+
+        chain.doFilter(httpRequest, httpResponse);
     }
 
     @Override

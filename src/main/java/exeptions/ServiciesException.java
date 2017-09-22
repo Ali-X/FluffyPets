@@ -1,7 +1,7 @@
 package exeptions;
 
 public class ServiciesException extends RuntimeException {
-    ServiciesException(String message){
+    public ServiciesException(String message){
         super(message);
     }
 }
