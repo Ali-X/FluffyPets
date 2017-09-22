@@ -3,7 +3,6 @@ package com.fluffypets.MVC.controller.post;
 import com.fluffypets.MVC.controller.Controller;
 import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
-import com.fluffypets.factory.Factory;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -11,8 +10,7 @@ import java.util.ResourceBundle;
 public class LocaleController implements Controller,AutoCloseable {
 
     @Override
-    public ViewModel process(Request request) {
-        ViewModel vm= Factory.getViewModel();
+    public ViewModel process(Request request, ViewModel vm) {
         String locale=request.getAttribute("locale");
         String page=request.getAttribute("page");
         switch (locale){

@@ -8,6 +8,7 @@ import com.fluffypets.DAO.orders.OrderItemDAO;
 import com.fluffypets.DAO.orders.OrderItemDAOImpl;
 import com.fluffypets.DAO.product.ProductDAO;
 import com.fluffypets.DAO.product.ProductDAOImpl;
+import com.fluffypets.DAO.user.UserDAO;
 import com.fluffypets.DAO.user.UserDAOImpl;
 import com.fluffypets.DAO.user.UserDataDAOImpl;
 import com.fluffypets.MVC.controller.Controller;
@@ -75,7 +76,7 @@ public class Factory {
         return new ProductDAOImpl(Factory.getConnection());
     }
 
-    public static UserDAOImpl getUserDao() {
+    public static UserDAO getUserDao() {
         return new UserDAOImpl(Factory.getConnection());
     }
 

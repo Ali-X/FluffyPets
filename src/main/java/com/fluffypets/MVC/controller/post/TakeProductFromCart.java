@@ -5,13 +5,9 @@ import com.fluffypets.MVC.model.Cart;
 import com.fluffypets.MVC.model.User;
 import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
-import com.fluffypets.factory.Factory;
 import com.fluffypets.servicies.ProductService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-public class TakeProductFromCart implements Controller,AutoCloseable {
-    private static final Logger logger = LogManager.getLogger(TakeProductFromCart.class.getName());
+public class TakeProductFromCart implements Controller, AutoCloseable {
 
     private ProductService productService;
 
@@ -20,17 +16,16 @@ public class TakeProductFromCart implements Controller,AutoCloseable {
     }
 
     @Override
-    public ViewModel process(Request request) {
-        ViewModel vm = Factory.getViewModel();
+    public ViewModel process(Request request, ViewModel vm) {
         Cart cart = (Cart) vm.getAttribute("cart");
         User user = (User) vm.getAttribute("user");
         if (cart == null) {
-            cart=new Cart(user);
+            cart = new Cart(user);
         } else {
             Integer productId = Integer.valueOf(request.getAttribute("productId"));
             cart.removeGood(productService.getProductById(productId));
         }
-        vm.setAttribute("cart",cart);
+        vm.setAttribute("cart", cart);
         return vm;
     }
 

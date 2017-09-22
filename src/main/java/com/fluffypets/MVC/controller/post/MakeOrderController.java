@@ -6,7 +6,6 @@ import com.fluffypets.MVC.model.User;
 import com.fluffypets.MVC.model.UserData;
 import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
-import com.fluffypets.factory.Factory;
 import com.fluffypets.servicies.UserDataService;
 
 public class MakeOrderController implements Controller,AutoCloseable {
@@ -19,8 +18,7 @@ public class MakeOrderController implements Controller,AutoCloseable {
 
 
     @Override
-    public ViewModel process(Request request) {
-        ViewModel vm = Factory.getViewModel();
+    public ViewModel process(Request request, ViewModel vm) {
         User user = (User) vm.getAttribute("user");
         Cart cart = (Cart) vm.getAttribute("cart");
         if (user == null) {

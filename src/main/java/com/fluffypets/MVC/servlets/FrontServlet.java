@@ -67,7 +67,8 @@ public class FrontServlet extends HttpServlet implements AutoCloseable {
 
         Request request = new Request(httpRequest.getMethod(), httpRequest.getRequestURI(), httpRequest.getParameterMap());
         try {
-            ViewModel vm;
+            ViewModel vm = (ViewModel) httpRequest.getSession().getAttribute("vm");
+            if (vm == null) vm = new ViewModel();
 
             Controller controller = controllerMap.get(request);
             if (controller == null) {
@@ -86,7 +87,7 @@ public class FrontServlet extends HttpServlet implements AutoCloseable {
                 }
             }
             try {
-                vm = controller.process(request);
+                vm = controller.process(request, vm);
             } catch (RuntimeException e) {
                 logger.error("error in controller " + e);
                 throw new MVCexception("error in controller " + e);
@@ -110,6 +111,7 @@ public class FrontServlet extends HttpServlet implements AutoCloseable {
 
     synchronized private void forward(HttpServletRequest request, HttpServletResponse resp, ViewModel vm) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher(getView(vm));
+        request.getSession().setAttribute("vm", vm);
         setAttributes(request, vm);
         dispatcher.forward(request, resp);
     }
@@ -135,5 +137,4 @@ public class FrontServlet extends HttpServlet implements AutoCloseable {
         });
         controllerMap = null;
     }
-
 }

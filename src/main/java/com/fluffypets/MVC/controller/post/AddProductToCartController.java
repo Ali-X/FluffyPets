@@ -5,13 +5,9 @@ import com.fluffypets.MVC.model.Cart;
 import com.fluffypets.MVC.model.User;
 import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
-import com.fluffypets.factory.Factory;
 import com.fluffypets.servicies.ProductService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class AddProductToCartController implements Controller,AutoCloseable {
-    private static final Logger logger = LogManager.getLogger(AddProductToCartController.class.getName());
 
     private ProductService productService;
 
@@ -20,8 +16,7 @@ public class AddProductToCartController implements Controller,AutoCloseable {
     }
 
     @Override
-    public ViewModel process(Request request) {
-        ViewModel vm = Factory.getViewModel();
+    public ViewModel process(Request request,ViewModel vm) {
         Cart cart = (Cart) vm.getAttribute("cart");
         User user = (User) vm.getAttribute("user");
         if (cart == null) {

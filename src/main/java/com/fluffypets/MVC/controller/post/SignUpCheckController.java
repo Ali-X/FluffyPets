@@ -9,7 +9,7 @@ import com.fluffypets.servicies.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class SignUpCheckController implements Controller,AutoCloseable {
+public class SignUpCheckController implements Controller, AutoCloseable {
     private static final Logger logger = LogManager.getLogger(SignUpCheckController.class.getName());
 
     private UserService userService;
@@ -19,15 +19,14 @@ public class SignUpCheckController implements Controller,AutoCloseable {
     }
 
     @Override
-    public ViewModel process(Request request) {
-        ViewModel vm = Factory.getViewModel();
+    public ViewModel process(Request request, ViewModel vm) {
         String userName = request.getAttribute("form-userName");
         String email = request.getAttribute("form-email");
         String password = request.getAttribute("form-password");
-        String token=Factory.md5Custom(userName,logger);
-        String role="user";
-        User user = new User(1,userName,password,token,email,role);
-        user=userService.create(user);
+        String token = Factory.md5Custom(userName, logger);
+        String role = "user";
+        User user = new User(1, userName, password, token, email, role);
+        user = userService.create(user);
         vm.setAttribute("user", user);
         vm.addCookie("FluffyPets", user.getToken());
         vm.setView("profile");

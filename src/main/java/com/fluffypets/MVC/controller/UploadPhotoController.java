@@ -2,7 +2,6 @@ package com.fluffypets.MVC.controller;
 
 import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
-import com.fluffypets.factory.Factory;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,8 +16,7 @@ public class UploadPhotoController implements Controller {
 
 
     @Override
-    synchronized public ViewModel process(Request request) {
-        ViewModel vm = Factory.getViewModel();
+    synchronized public ViewModel process(Request request, ViewModel vm) {
         String uniqueName=null;
 
         List<FileItem> multiparts = request.getItemsForUpload();
