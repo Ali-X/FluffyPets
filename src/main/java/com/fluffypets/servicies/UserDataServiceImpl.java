@@ -1,6 +1,6 @@
 package com.fluffypets.servicies;
 
-import com.fluffypets.DAO.user.UserDataDAOImpl;
+import com.fluffypets.DAO.user.UserDataDAO;
 import com.fluffypets.MVC.model.UserData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,9 +8,9 @@ import org.apache.logging.log4j.Logger;
 public class UserDataServiceImpl implements UserDataService,AutoCloseable {
     private static final Logger logger = LogManager.getLogger(UserDataServiceImpl.class.getName());
 
-    private UserDataDAOImpl userDataDao;
+    private UserDataDAO userDataDao;
 
-    public UserDataServiceImpl(UserDataDAOImpl userDataDao) {
+    public UserDataServiceImpl(UserDataDAO userDataDao) {
         this.userDataDao = userDataDao;
     }
 

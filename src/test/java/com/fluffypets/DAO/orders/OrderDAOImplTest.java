@@ -93,7 +93,6 @@ public class OrderDAOImplTest {
         return dodiksOrder;
     }
 
-    //todo: check all messages
     private OrderItem testCreateItem(OrderItemDAO myOrderItems, OrderItem item1) {
         OrderItem expectedOrderItem=myOrderItems.get(item1);
         assertNull("User should be absent", expectedOrderItem);

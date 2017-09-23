@@ -1,22 +1,32 @@
 package com.fluffypets.DAO.orders;
 
 import com.fluffypets.DAO.AbstractDAO;
-import com.fluffypets.MVC.model.Order;
 import com.fluffypets.MVC.model.OrderItem;
+import com.fluffypets.factory.Factory;
 import exeptions.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderItemDAO, AutoCloseable {
     private static final Logger logger = LogManager.getLogger(OrderItemDAOImpl.class.getName());
 
-    public OrderItemDAOImpl(Connection connection) {
-        super(connection);
+    private static OrderItemDAO instance = new OrderItemDAOImpl();
+
+    public static OrderItemDAO getOrderItemDAOImpl() {
+        return instance;
+    }
+
+    private OrderItemDAOImpl() {
+        super(Factory.getContextConnection());
+        createTableIfNotExists();
     }
 
     @Override

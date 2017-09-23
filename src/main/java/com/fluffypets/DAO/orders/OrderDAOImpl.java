@@ -1,9 +1,9 @@
 package com.fluffypets.DAO.orders;
 
 import com.fluffypets.DAO.AbstractDAO;
-import com.fluffypets.DAO.category.CategoryDAOImpl;
 import com.fluffypets.MVC.model.Order;
 import com.fluffypets.MVC.model.OrderItem;
+import com.fluffypets.factory.Factory;
 import exeptions.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,10 +17,22 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
     private static final Logger logger = LogManager.getLogger(OrderDAOImpl.class.getName());
 
     private OrderItemDAO itemDAO;
+//
+//    public OrderDAOImpl(Connection connection) {
+//        super(connection);
+//        itemDAO = OrderItemDAOImpl.getOrderItemDAOImpl();
+//    }
 
-    public OrderDAOImpl(Connection connection) {
-        super(connection);
-        itemDAO = new OrderItemDAOImpl(connection);
+    private static OrderDAO instance = new OrderDAOImpl();
+
+    public static OrderDAO getOrderDAOImpl() {
+        return instance;
+    }
+
+    private OrderDAOImpl() {
+        super(Factory.getContextConnection());
+        itemDAO = OrderItemDAOImpl.getOrderItemDAOImpl();
+        createTableIfNotExists();
     }
 
     @Override
@@ -182,7 +194,7 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
     @Override
     public Order get(Order order) {
         PreparedStatement preparedStatement = null;
-        Order theOrder = null;
+        Order theOrder;
         try {
             String preparedQuery = "SELECT * FROM Pets.orders WHERE userId = ? AND dateOfOrder = ? AND orderStatus = ?" +
                     "AND dateOfDelivery = ? AND comment = ?";
@@ -213,7 +225,7 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
     @Override
     public Order findById(Integer id) {
         PreparedStatement preparedStatement = null;
-        Order theOrder = null;
+        Order theOrder;
         try {
             String preparedQuery = "SELECT * FROM Pets.orders WHERE id = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);

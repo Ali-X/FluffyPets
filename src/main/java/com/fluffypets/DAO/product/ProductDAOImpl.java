@@ -10,16 +10,25 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, AutoCloseable {
     private static final Logger logger = LogManager.getLogger(ProductDAOImpl.class.getName());
 
-    public ProductDAOImpl(Connection connection) {
-        super(connection);
+    private static ProductDAO instance = new ProductDAOImpl();
+
+    public static ProductDAO getOrderItemDAOImpl() {
+        return instance;
+    }
+
+    private ProductDAOImpl() {
+        super(Factory.getContextConnection());
+        createTableIfNotExists();
     }
 
     @Override

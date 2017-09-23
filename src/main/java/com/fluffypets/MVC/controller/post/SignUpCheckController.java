@@ -22,7 +22,7 @@ public class SignUpCheckController implements Controller, AutoCloseable {
     public ViewModel process(Request request, ViewModel vm) {
         String userName = request.getAttribute("form-userName");
         String email = request.getAttribute("form-email");
-        String password = request.getAttribute("form-password");
+        String password = Factory.md5Custom(request.getAttribute("form-password"),logger);
         String token = Factory.md5Custom(userName, logger);
         String role = "user";
         User user = new User(1, userName, password, token, email, role);

@@ -1,6 +1,10 @@
 package com.fluffypets.DAO.category;
 
 import com.fluffypets.DAO.AbstractDAO;
+import com.fluffypets.DAO.product.ProductDAO;
+import com.fluffypets.DAO.product.ProductDAOImpl;
+import com.fluffypets.MVC.model.Product;
+import com.fluffypets.factory.Factory;
 import exeptions.DAOException;
 import com.fluffypets.MVC.model.Category;
 import org.apache.logging.log4j.LogManager;
@@ -13,8 +17,15 @@ import java.util.List;
 public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDAO, AutoCloseable {
     private static final Logger logger = LogManager.getLogger(CategoryDAOImpl.class.getName());
 
-    public CategoryDAOImpl(Connection connection) {
-        super(connection);
+    private static CategoryDAO instance = new CategoryDAOImpl();
+    private static ProductDAO productDAO= ProductDAOImpl.getOrderItemDAOImpl();
+
+    public static CategoryDAO getCategoryDAOImpl() {
+        return instance;
+    }
+
+    private CategoryDAOImpl() {
+        super(Factory.getContextConnection());
         createTableIfNotExists();
     }
 
@@ -62,12 +73,14 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
     public Category delete(Category category) {
             PreparedStatement preparedStatement=null;
         try {
+            List<Product> products=productDAO.selectByCategoryAndPrice(category.getId().toString(),0,Integer.MAX_VALUE);
+            for (Product product:products)productDAO.delete(product);
+
             String preparedQuery = "DELETE FROM Pets.categories  WHERE categoryName = ? AND categoryDescription =?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setString(1, category.getName());
             preparedStatement.setString(2, category.getCategoryDescription());
-
-            preparedStatement.execute();//todo: delete all products before to avoid sql exception
+            preparedStatement.execute();
             logger.info("delete category query");
         } catch (SQLException e) {
             logger.error("There are problems with category deleting from DB\n" + e);

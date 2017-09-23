@@ -2,18 +2,28 @@ package com.fluffypets.DAO.user;
 
 import com.fluffypets.DAO.AbstractDAO;
 import com.fluffypets.MVC.model.UserData;
+import com.fluffypets.factory.Factory;
 import exeptions.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 
 public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDAO, AutoCloseable {
     private static final Logger logger = LogManager.getLogger(UserDataDAOImpl.class.getName());
 
-    public UserDataDAOImpl(Connection connection) {
-        super(connection);
+    private static UserDataDAO instance = new UserDataDAOImpl();
+
+    public static UserDataDAO getOrderItemDAOImpl() {
+        return instance;
+    }
+
+    private UserDataDAOImpl() {
+        super(Factory.getContextConnection());
         createTableIfNotExists();
     }
 

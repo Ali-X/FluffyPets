@@ -10,6 +10,7 @@ import com.fluffypets.DAO.product.ProductDAO;
 import com.fluffypets.DAO.product.ProductDAOImpl;
 import com.fluffypets.DAO.user.UserDAO;
 import com.fluffypets.DAO.user.UserDAOImpl;
+import com.fluffypets.DAO.user.UserDataDAO;
 import com.fluffypets.DAO.user.UserDataDAOImpl;
 import com.fluffypets.MVC.controller.Controller;
 import com.fluffypets.MVC.controller.UploadPhotoController;
@@ -73,31 +74,31 @@ public class Factory {
 
     //---------------------                 DAO                --------------------------------------------------------
     public static ProductDAO getProductDao() {
-        return new ProductDAOImpl(Factory.getConnection());
+        return ProductDAOImpl.getOrderItemDAOImpl();
     }
 
     public static UserDAO getUserDao() {
-        return new UserDAOImpl(Factory.getConnection());
+        return UserDAOImpl.getOrderItemDAOImpl();
     }
 
-    public static UserDataDAOImpl getUserDataDao() {
-        return new UserDataDAOImpl(Factory.getConnection());
+    public static UserDataDAO getUserDataDao() {
+        return UserDataDAOImpl.getOrderItemDAOImpl();
     }
 
     public static CategoryDAO getCategoryDao() {
-        return new CategoryDAOImpl(Factory.getConnection());
+        return CategoryDAOImpl.getCategoryDAOImpl();
     }
 
     public static CategoryDAO getCategoryDAO() {
-        return new CategoryDAOImpl(Factory.getConnection());
+        return CategoryDAOImpl.getCategoryDAOImpl();
     }
 
     public static OrderDAO getOrderDAO() {
-        return new OrderDAOImpl(Factory.getConnection());
+        return OrderDAOImpl.getOrderDAOImpl();
     }
 
     public static OrderItemDAO getOrderItemDAO() {
-        return new OrderItemDAOImpl(Factory.getConnection());
+        return OrderItemDAOImpl.getOrderItemDAOImpl();
     }
 
     //---------------------                 Serveries                ----------------------------------------------------
