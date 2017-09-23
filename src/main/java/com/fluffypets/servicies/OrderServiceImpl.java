@@ -21,10 +21,13 @@ public class OrderServiceImpl implements OrderService,AutoCloseable {
     @Override
     public UserData updateAddress(Integer userId, String fullName, String district, String area, String street, String app, String phone) {
         UserData userData = userDataDAO.getByUserId(userId);
-
-        UserData userDataUpdated = new UserData(userId, fullName, null, "Male", false, district, area, street, app, phone, null);
+        UserData userDataUpdated;
         if (userData == null) {
+        userDataUpdated = new UserData(userId, fullName, null, "Male", false, district, area, street, app, phone, null);
             userDataDAO.create(userDataUpdated);
+        }else {
+            userDataUpdated = new UserData(userData.getUserDataId(),userId, fullName, userData.getDateOfBirth(), userData.getGender(), userData.getMarried(), district, area, street, app, phone, userData.getSecondaryNumber());
+        userDataDAO.update(userDataUpdated);
         }
         return userDataUpdated;
     }

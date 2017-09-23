@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,27 +25,6 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
 
     private OrderItemDAOImpl() {
         super(Factory.getContextConnection());
-        createTableIfNotExists();
-    }
-
-    @Override
-    protected void createTableIfNotExists() throws DAOException {
-        String initialQuery = "CREATE TABLE IF NOT EXISTS `Pets`.`ordersItems` (`id` INT NOT NULL AUTO_INCREMENT," +
-                "`orderId` INT NOT NULL,`productId` INT,`quantity` INT NOT NULL,`price` VARCHAR(128) NOT NULL," +
-                "PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC)," +
-                "CONSTRAINT FOREIGN KEY (orderId) REFERENCES orders(id)," +
-                "CONSTRAINT FOREIGN KEY (productId) REFERENCES products(id))";
-        Statement statement=null;
-        try {
-            statement = connection.createStatement();
-            statement.execute(initialQuery);
-            logger.info("createTableIfNotExists query from Order Item Dao");
-        } catch (SQLException e) {
-            logger.error("Table orderItem creation error\n"+e);
-            throw new DAOException("Table orderItem creation error");
-        }finally {
-            closeStatement(statement,logger);
-        }
     }
 
     @Override

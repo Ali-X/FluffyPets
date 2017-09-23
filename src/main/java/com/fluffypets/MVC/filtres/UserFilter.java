@@ -3,6 +3,7 @@ package com.fluffypets.MVC.filtres;
 import com.fluffypets.DAO.user.UserDAO;
 import com.fluffypets.MVC.model.User;
 import com.fluffypets.MVC.servlets.ViewModel;
+import com.fluffypets.factory.DaoFactory;
 import com.fluffypets.factory.Factory;
 import exeptions.MVCexception;
 import org.apache.logging.log4j.LogManager;
@@ -22,7 +23,7 @@ public class UserFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        userDao = Factory.getUserDao();
+        userDao = DaoFactory.getUserDao();
         allowedPages.add("/root/home");
         allowedPages.add("/root/login");
         allowedPages.add("/root/signup");

@@ -149,10 +149,11 @@
                         </div>
                         <c:if test="${not empty requestScope.categories}">
                             <div class="col-md-3">
+                                <c:if test="${not empty requestScope.categories}"><h1>Create Category First</h1></c:if>
+
                                 <select class="form-control bg-warning" id="sel1" name="categorySelId">
                                     <c:forEach items="${requestScope.categories}" var="category">
-                                        <option value="${category.getId()}"><c:out
-                                                value="${category.getName()}"/></option>
+                                        <option style="width: 300px" value="${category.getId()}"><c:out value="${category.getName()}"/></option>
                                     </c:forEach>
                                 </select>
                             </div>

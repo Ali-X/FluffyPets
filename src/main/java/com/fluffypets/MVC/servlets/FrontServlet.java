@@ -49,7 +49,7 @@ public class FrontServlet extends HttpServlet implements AutoCloseable {
         controllerMap.put(new Request("POST", "/root/makeOder"), Factory.getMakeOrderController());
         controllerMap.put(new Request("POST", "/root/submitOder"), Factory.getSubmitOrderController());
         controllerMap.put(new Request("POST", "/root/forgot"), Factory.getSendForgotPassword());
-        controllerMap.put(new Request("POST", "/root/upload"), Factory.getImageUploadController());
+        controllerMap.put(new Request("POST", "/root/admin/upload"), Factory.getImageUploadController());
         controllerMap.put(new Request("POST", "/root/internationalization"), Factory.getInternationalizationController());
     }
 

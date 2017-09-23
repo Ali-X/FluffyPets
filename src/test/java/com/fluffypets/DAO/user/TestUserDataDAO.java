@@ -2,6 +2,7 @@ package com.fluffypets.DAO.user;
 
 import com.fluffypets.MVC.model.User;
 import com.fluffypets.MVC.model.UserData;
+import com.fluffypets.factory.DaoFactory;
 import com.fluffypets.factory.Factory;
 import org.junit.Test;
 
@@ -12,10 +13,10 @@ import static junit.framework.TestCase.*;
 public class TestUserDataDAO {
     @Test
     public void testUserDataCRUD(){
-        UserDAO myUsers = Factory.getUserDao();
-        UserDataDAO myUserData = Factory.getUserDataDao();
+        UserDAO myUsers = DaoFactory.getUserDao();
+        UserDataDAO myUserData = DaoFactory.getUserDataDao();
         System.out.println("in Users CRUD test connection is:  \n"+myUsers.printConnectInfo());
-        User dodik = new User(1, "David", "shabat","Davids_token_123456", "DavidShimshilovits@mail.ru", "User");
+        User dodik = new User(1, "David", "shabat", "DavidShimshilovits@mail.ru", "User");
         User expectedUser = myUsers.get(dodik);
         assertNull("User should be absent", expectedUser);
         dodik=myUsers.create(dodik);    //essential because Dodik Id will change

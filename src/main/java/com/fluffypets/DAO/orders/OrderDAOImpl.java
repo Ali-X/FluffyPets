@@ -17,11 +17,6 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
     private static final Logger logger = LogManager.getLogger(OrderDAOImpl.class.getName());
 
     private OrderItemDAO itemDAO;
-//
-//    public OrderDAOImpl(Connection connection) {
-//        super(connection);
-//        itemDAO = OrderItemDAOImpl.getOrderItemDAOImpl();
-//    }
 
     private static OrderDAO instance = new OrderDAOImpl();
 
@@ -32,26 +27,6 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
     private OrderDAOImpl() {
         super(Factory.getContextConnection());
         itemDAO = OrderItemDAOImpl.getOrderItemDAOImpl();
-        createTableIfNotExists();
-    }
-
-    @Override
-    protected void createTableIfNotExists() throws DAOException {
-        Statement statement = null;
-        String initialQuery = "CREATE TABLE IF NOT EXISTS `Pets`.`orders` (  `id` INT NOT NULL AUTO_INCREMENT, " +
-                "`userId` INT NOT NULL,  `dateOfOrder` DATE NOT NULL,  `orderStatus` VARCHAR(16) NOT NULL," +
-                "`dateOfDelivery` DATE,`comment` VARCHAR(128),PRIMARY KEY (`id`), " +
-                "UNIQUE INDEX `id_UNIQUE` (`id` ASC),CONSTRAINT FOREIGN KEY (userId) REFERENCES users(id))";
-        try {
-            statement = connection.createStatement();
-            statement.execute(initialQuery);
-            logger.info("createTableIfNotExists query from order DAO");
-        } catch (SQLException e) {
-            logger.error("Table order creation error\n" + e);
-            throw new DAOException("Table order creation error");
-        } finally {
-            closeStatement(statement, logger);
-        }
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.fluffypets.DAO.category;
 
 
 import com.fluffypets.MVC.model.Category;
+import com.fluffypets.factory.DaoFactory;
 import com.fluffypets.factory.Factory;
 import org.junit.Test;
 
@@ -11,7 +12,7 @@ import static junit.framework.TestCase.assertNull;
 public class CategoryDAOImplTest {
     @Test
     public void testCategoriesCRUD(){
-        CategoryDAO categoryDAO= Factory.getCategoryDao();
+        CategoryDAO categoryDAO= DaoFactory.getCategoryDao();
         Category teddyBear =new Category(1,"teddy bear","brown bear 14 inch");
         Category expectedCategory=categoryDAO.get(teddyBear);
         assertNull("in base should not be this record",expectedCategory);

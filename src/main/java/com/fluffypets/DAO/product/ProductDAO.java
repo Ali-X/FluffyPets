@@ -2,7 +2,6 @@ package com.fluffypets.DAO.product;
 
 
 import com.fluffypets.DAO.GenericDAO;
-import com.fluffypets.MVC.model.Category;
 import com.fluffypets.MVC.model.Product;
 
 import java.util.List;

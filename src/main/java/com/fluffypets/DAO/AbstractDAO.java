@@ -1,6 +1,5 @@
 package com.fluffypets.DAO;
 
-import exeptions.DAOException;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
@@ -16,8 +15,6 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
     protected AbstractDAO(Connection connection) {
         this.connection = connection;
     }
-
-    protected abstract void createTableIfNotExists() throws DAOException;
 
     @Override
     public String printConnectInfo() {

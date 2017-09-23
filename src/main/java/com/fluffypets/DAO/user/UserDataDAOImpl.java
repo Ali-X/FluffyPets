@@ -10,7 +10,6 @@ import org.apache.logging.log4j.Logger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
 
 public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDAO, AutoCloseable {
@@ -24,36 +23,6 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
 
     private UserDataDAOImpl() {
         super(Factory.getContextConnection());
-        createTableIfNotExists();
-    }
-
-    public void createTableIfNotExists() throws DAOException {
-        String initialQuery = "CREATE TABLE IF NOT EXISTS `Pets`.`userData` (" +
-                "`id` INT NOT NULL AUTO_INCREMENT," +
-                "`userId` INT NOT NULL," +
-                "`fullName` VARCHAR(100) NOT NULL ," +
-                "`dateOfBirth` DATE," +
-                "`gender` VARCHAR(7) NOT NULL," +
-                "`maried` BOOLEAN NOT NULL," +
-                "`district` VARCHAR(30) NOT NULL," +
-                "`area` VARCHAR(30) NOT NULL," +
-                "`street` VARCHAR(30) NOT NULL," +
-                "`app` VARCHAR(30) NOT NULL," +
-                "`primaryPhone` VARCHAR(20) NOT NULL," +
-                "`secondaryPhone` VARCHAR(20)," +
-                "PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC)," +
-                " CONSTRAINT FOREIGN KEY (userId) REFERENCES users(id))";
-        Statement statement=null;
-        try {
-            statement = connection.createStatement();
-            statement.execute(initialQuery);
-            logger.info("createTableIfNotExists UserDataDAO query");
-        } catch (SQLException e) {
-            logger.error("Table UserDataDAO creation error\n"+e);
-            throw new DAOException("Table UserDataDAO creation error");
-        }finally {
-            closeStatement(statement,logger);
-        }
     }
 
     @Override
@@ -203,32 +172,6 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
         } catch (SQLException e) {
             logger.error("There are problems with getting userData by userId from DB\n"+e);
             throw new DAOException("There are problems with getting userData by userId from DB" + e);
-        }finally {
-            closeStatement(preparedStatement,logger);
-        }
-        return userData;
-    }
-
-    @Override
-    public UserData updateAdress(UserData userData) {
-        PreparedStatement preparedStatement=null;
-        try {
-            String preparedQuery = "UPDATE Pets.userData SET userId = ?," +
-                    "fullName = ?, district = ?, area = ?, street = ?, app = ?, primaryPhone=? WHERE id =?";
-            preparedStatement = connection.prepareStatement(preparedQuery);
-            preparedStatement.setInt(1, userData.getUserId());
-            preparedStatement.setString(2, userData.getFullName());
-            preparedStatement.setString(3, userData.getDistrict());
-            preparedStatement.setString(4, userData.getArea());
-            preparedStatement.setString(5, userData.getStreet());
-            preparedStatement.setString(6, userData.getApp());
-            preparedStatement.setString(7, userData.getPrimaryNumber());
-            preparedStatement.setInt(8, userData.getUserDataId());
-            preparedStatement.execute();
-            logger.info("update UserData query");
-        } catch (SQLException e) {
-            logger.error("There are problems with userData update in DB\n"+e);
-            throw new DAOException("There are problems with userData update in DB" + e);
         }finally {
             closeStatement(preparedStatement,logger);
         }

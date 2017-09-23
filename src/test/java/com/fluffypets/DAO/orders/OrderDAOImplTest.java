@@ -4,6 +4,7 @@ import com.fluffypets.DAO.category.CategoryDAO;
 import com.fluffypets.DAO.product.ProductDAO;
 import com.fluffypets.DAO.user.UserDAO;
 import com.fluffypets.MVC.model.*;
+import com.fluffypets.factory.DaoFactory;
 import com.fluffypets.factory.Factory;
 import org.junit.Test;
 
@@ -20,12 +21,12 @@ import static org.junit.Assert.assertNotNull;
 public class OrderDAOImplTest {
     @Test
     public void testOrderCRUD() {
-        OrderDAO myOrders = Factory.getOrderDAO();
-        UserDAO myUsers = Factory.getUserDao();
-        CategoryDAO myCategories = Factory.getCategoryDao();
-        ProductDAO myProducts=Factory.getProductDao();
+        OrderDAO myOrders = DaoFactory.getOrderDAO();
+        UserDAO myUsers = DaoFactory.getUserDao();
+        CategoryDAO myCategories = DaoFactory.getCategoryDao();
+        ProductDAO myProducts=DaoFactory.getProductDao();
 
-        User dodik = new User(1, "David", "shabat", "Davids_token_123456","DavidShimshilovits@mail.ru", "User");
+        User dodik = new User(1, "David", "shabat", "DavidShimshilovits@mail.ru", "User");
         dodik = testCreateUser(myUsers, dodik);
 
         Category plushBears = new Category(1, "Plussssh bears", "plush toy it should be bear");

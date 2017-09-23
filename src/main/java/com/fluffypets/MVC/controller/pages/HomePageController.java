@@ -61,7 +61,7 @@ public class HomePageController implements Controller, AutoCloseable {
 
         User user = (User) vm.getAttribute("user");
         if (user == null) {
-            user = new User(0, "Unknown", "", "", "", "user");
+            user = new User(0, "Unknown", "", "", "user");
         }
 
         Cart cart = (Cart) vm.getAttribute("cart");

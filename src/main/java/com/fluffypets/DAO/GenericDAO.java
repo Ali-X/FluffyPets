@@ -1,7 +1,5 @@
 package com.fluffypets.DAO;
 
-import java.sql.Connection;
-
 public interface GenericDAO<T> {
 
     T create(T t);

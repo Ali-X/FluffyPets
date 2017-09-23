@@ -7,5 +7,4 @@ public interface UserDataDAO extends GenericDAO<UserData> {
 
     UserData getByUserId(Integer id);
 
-    UserData updateAdress(UserData userData);
 }

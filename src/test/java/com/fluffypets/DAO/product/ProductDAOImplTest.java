@@ -3,6 +3,7 @@ package com.fluffypets.DAO.product;
 import com.fluffypets.DAO.category.CategoryDAO;
 import com.fluffypets.MVC.model.Category;
 import com.fluffypets.MVC.model.Product;
+import com.fluffypets.factory.DaoFactory;
 import com.fluffypets.factory.Factory;
 import org.junit.Test;
 
@@ -28,8 +29,8 @@ public class ProductDAOImplTest {
 
     @Test
     public void testProductCRUD() {
-        CategoryDAO categoryDAO = Factory.getCategoryDao();
-        ProductDAO productDAO = Factory.getProductDao();
+        CategoryDAO categoryDAO = DaoFactory.getCategoryDao();
+        ProductDAO productDAO = DaoFactory.getProductDao();
         Category plushBears = new Category(1, "Plussssh bears", "plush toy it should be bear");
         Category plushDisney = new Category(2, "Plussssh W. Disney Cartons", "plush toy it should from carton");
 

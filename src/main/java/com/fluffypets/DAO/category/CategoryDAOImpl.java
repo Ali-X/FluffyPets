@@ -26,27 +26,6 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
 
     private CategoryDAOImpl() {
         super(Factory.getContextConnection());
-        createTableIfNotExists();
-    }
-
-    @Override
-    protected void createTableIfNotExists() throws DAOException {
-        Statement statement=null;
-        String initialQuery = "CREATE TABLE IF NOT EXISTS `Pets`.`categories` (" +
-                "`id` INT NOT NULL AUTO_INCREMENT," +
-                "`categoryName` VARCHAR(256) NOT NULL," +
-                "`categoryDescription` VARCHAR(256) NOT NULL," +
-                "PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC))";
-        try {
-            statement = connection.createStatement();
-            statement.execute(initialQuery);
-            logger.info("create table Category if not exists query");
-        } catch (SQLException e) {
-            logger.error("Table categories creation error\n" + e);
-            throw new DAOException("Table categories creation error");
-        } finally {
-            closeStatement(statement,logger);
-        }
     }
 
     @Override

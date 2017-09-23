@@ -8,11 +8,10 @@ public class User {
   private String email;
   private String RoleString;
 
-    public User(Integer id, String userName, String password, String token, String email, String roleString) {
+    public User(Integer id, String userName, String password, String email, String roleString) {
         this.id = id;
         this.userName = userName;
         this.password = password;
-        this.token = token;
         this.email = email;
         RoleString = roleString;
     }

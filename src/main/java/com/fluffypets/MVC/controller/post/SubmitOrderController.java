@@ -27,7 +27,7 @@ public class SubmitOrderController implements Controller,AutoCloseable {
     public ViewModel process(Request request, ViewModel vm) {
         User user = (User) vm.getAttribute("user");
         Cart cart = (Cart) vm.getAttribute("cart");
-        UserData userData = (UserData) vm.getAttribute("userData");
+        UserData userData;
 
         String comment=request.getAttribute("orderComment");
         String fullName=request.getAttribute("Fullname");
@@ -37,7 +37,7 @@ public class SubmitOrderController implements Controller,AutoCloseable {
         String app=request.getAttribute("App");
         String telephone=request.getAttribute("PhoneNumber");
 
-//        orderService.updateAddress(user.getId(),fullName,district,area,street,app,telephone);
+        userData=orderService.updateAddress(user.getId(),fullName,district,area,street,app,telephone);
         Order order=orderService.makeOrder(user,cart,comment);
 
         String subject="Your order №"+order.getOrderId()+" was acepted";
@@ -46,8 +46,8 @@ public class SubmitOrderController implements Controller,AutoCloseable {
                 "Total price of your order is "+cart.getTotalPrice()+"$";
         if (!sendEmailService.sendEmailTo(user.getEmail(),subject,content))
             logger.error("letter to userId="+user.getId()+" was not sent");
-        vm.removeAttribute("cart");
-        vm.removeAttribute("userData");
+        vm.setAttribute("cart",new Cart(user));
+        vm.setAttribute("userData",userData);
         vm.setView("thankyou");
         return vm;
     }

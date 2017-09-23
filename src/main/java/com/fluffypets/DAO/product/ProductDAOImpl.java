@@ -4,6 +4,7 @@ import com.fluffypets.DAO.AbstractDAO;
 import com.fluffypets.DAO.category.CategoryDAO;
 import com.fluffypets.MVC.model.Category;
 import com.fluffypets.MVC.model.Product;
+import com.fluffypets.factory.DaoFactory;
 import com.fluffypets.factory.Factory;
 import exeptions.DAOException;
 import org.apache.logging.log4j.LogManager;
@@ -13,7 +14,6 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,32 +28,6 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
 
     private ProductDAOImpl() {
         super(Factory.getContextConnection());
-        createTableIfNotExists();
-    }
-
-    @Override
-    protected void createTableIfNotExists() throws DAOException {
-        String initialQuery = "CREATE TABLE IF NOT EXISTS `Pets`.`products` (" +
-                "`id` INT NOT NULL AUTO_INCREMENT," +
-                "`productName` VARCHAR(256) NOT NULL," +
-                "`producer` VARCHAR(256) NOT NULL," +
-                "`price` VARCHAR(256) NOT NULL," +
-                "`description` VARCHAR(256) NOT NULL," +
-                "`pictureURL` VARCHAR(128) NOT NULL," +
-                "  `categoryId` INT NOT NULL," +
-                "PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC)," +
-                " CONSTRAINT FOREIGN KEY (categoryId) REFERENCES categories(id))";
-        Statement statement = null;
-        try {
-            statement = connection.createStatement();
-            statement.execute(initialQuery);
-            logger.info("createTableIfNotExists query from Product Item Dao");
-        } catch (SQLException e) {
-            logger.error("Table products creation error\n" + e);
-            throw new DAOException("Table products creation error");
-        } finally {
-            closeStatement(statement, logger);
-        }
     }
 
     @Override
@@ -142,7 +116,7 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
                 int id = resultSet.getInt("id");
                 int categoryId = resultSet.getInt("categoryId");
 
-                CategoryDAO supportReq = Factory.getCategoryDao();
+                CategoryDAO supportReq = DaoFactory.getCategoryDao();
 
                 product = new Product(id, productName, producer, new BigDecimal(price),
                         description, pictureURL, supportReq.findById(categoryId));
@@ -172,7 +146,7 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
                 String pictureURL = resultSet.getString("pictureURL");
                 int categoryId = resultSet.getInt("categoryId");
 
-                CategoryDAO supportReq = Factory.getCategoryDao();
+                CategoryDAO supportReq = DaoFactory.getCategoryDao();
 
                 product = new Product(id, productName, producer, new BigDecimal(price),
                         description, pictureURL, supportReq.findById(categoryId));
@@ -190,7 +164,7 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
     public List<Product> getAll() {
         PreparedStatement preparedStatement = null;
         List<Product> product = new ArrayList<>();
-        CategoryDAO supportReq = Factory.getCategoryDao();
+        CategoryDAO supportReq = DaoFactory.getCategoryDao();
         try {
             String preparedQuery = "SELECT * FROM Pets.products ORDER BY LENGTH(price),price";
             preparedStatement = connection.prepareStatement(preparedQuery);
@@ -220,7 +194,7 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
     public List<Product> selectByCategoryAndPrice(String categoryIds, int min, int max) {
         PreparedStatement preparedStatement = null;
         List<Product> product = new ArrayList<>();
-        CategoryDAO supportReq = Factory.getCategoryDao();
+        CategoryDAO supportReq = DaoFactory.getCategoryDao();
         try {
             String preparedQuery = "SELECT * FROM Pets.products WHERE price>=? AND price<=? " +
                     "AND categoryId IN(" + categoryIds + ")";

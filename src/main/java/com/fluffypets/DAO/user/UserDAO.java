@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface UserDAO extends GenericDAO<User> {
 
-    User findByToken(String token);
-
     User findByLoginPassword(String login, String password);
 
     List<User> getAllRecords();

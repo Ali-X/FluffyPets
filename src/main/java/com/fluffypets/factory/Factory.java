@@ -1,22 +1,9 @@
 package com.fluffypets.factory;
 
-import com.fluffypets.DAO.category.CategoryDAO;
-import com.fluffypets.DAO.category.CategoryDAOImpl;
-import com.fluffypets.DAO.orders.OrderDAO;
-import com.fluffypets.DAO.orders.OrderDAOImpl;
-import com.fluffypets.DAO.orders.OrderItemDAO;
-import com.fluffypets.DAO.orders.OrderItemDAOImpl;
-import com.fluffypets.DAO.product.ProductDAO;
-import com.fluffypets.DAO.product.ProductDAOImpl;
-import com.fluffypets.DAO.user.UserDAO;
-import com.fluffypets.DAO.user.UserDAOImpl;
-import com.fluffypets.DAO.user.UserDataDAO;
-import com.fluffypets.DAO.user.UserDataDAOImpl;
 import com.fluffypets.MVC.controller.Controller;
 import com.fluffypets.MVC.controller.UploadPhotoController;
 import com.fluffypets.MVC.controller.pages.*;
 import com.fluffypets.MVC.controller.post.*;
-import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.servicies.*;
 import exeptions.FactoryException;
 import exeptions.ServiciesException;
@@ -37,13 +24,11 @@ public class Factory {
 
     private static final Logger logger = LogManager.getLogger(Factory.class.getName());
 
-    private static ViewModel vm = new ViewModel();
-
     public static Connection getConnection() {
         return getContextConnection();
     }
 
-    public static String[] getEmailPassword() {
+    private static String[] getEmailPassword() {
         try {
             Context ctx = new InitialContext();
             Context initCtx = (Context) ctx.lookup("java:/comp/env");
@@ -68,66 +53,33 @@ public class Factory {
         }
     }
 
-    public static ViewModel getViewModel() {
-        return vm;
-    }
-
-    //---------------------                 DAO                --------------------------------------------------------
-    public static ProductDAO getProductDao() {
-        return ProductDAOImpl.getOrderItemDAOImpl();
-    }
-
-    public static UserDAO getUserDao() {
-        return UserDAOImpl.getOrderItemDAOImpl();
-    }
-
-    public static UserDataDAO getUserDataDao() {
-        return UserDataDAOImpl.getOrderItemDAOImpl();
-    }
-
-    public static CategoryDAO getCategoryDao() {
-        return CategoryDAOImpl.getCategoryDAOImpl();
-    }
-
-    public static CategoryDAO getCategoryDAO() {
-        return CategoryDAOImpl.getCategoryDAOImpl();
-    }
-
-    public static OrderDAO getOrderDAO() {
-        return OrderDAOImpl.getOrderDAOImpl();
-    }
-
-    public static OrderItemDAO getOrderItemDAO() {
-        return OrderItemDAOImpl.getOrderItemDAOImpl();
-    }
-
     //---------------------                 Serveries                ----------------------------------------------------
 
     private static UserService getUserService() {
-        return new UserServiceImpl(Factory.getUserDao());
+        return new UserServiceImpl(DaoFactory.getUserDao());
     }
 
     private static UserDataService getUserDataService() {
-        return new UserDataServiceImpl(Factory.getUserDataDao());
+        return new UserDataServiceImpl(DaoFactory.getUserDataDao());
     }
 
-    public static CategoryService getCategoriesService() {
-        return new CategoryServiceImpl(Factory.getCategoryDAO());
+    private static CategoryService getCategoriesService() {
+        return new CategoryServiceImpl(DaoFactory.getCategoryDAO());
     }
 
-    public static ProductService getProductService() {
-        return new ProductServiceImpl(Factory.getProductDao());
+    private static ProductService getProductService() {
+        return new ProductServiceImpl(DaoFactory.getProductDao());
     }
 
     private static OrderService getOrderService() {
-        return new OrderServiceImpl(Factory.getUserDataDao(), Factory.getOrderDAO());
+        return new OrderServiceImpl(DaoFactory.getUserDataDao(), DaoFactory.getOrderDAO());
     }
 
-    private static SendEmailService getEmailSender(){
-        String[] emeilPassword=Factory.getEmailPassword();
+    private static SendEmailService getEmailSender() {
+        String[] emeilPassword = Factory.getEmailPassword();
         if (emeilPassword != null) {
-            return new SendEmailServiceImpl(emeilPassword[0],emeilPassword[1]);
-        }else {
+            return new SendEmailServiceImpl(emeilPassword[0], emeilPassword[1]);
+        } else {
             throw new ServiciesException("falier with JNDI");
         }
     }
@@ -225,7 +177,7 @@ public class Factory {
     }
 
     public static Controller getSubmitOrderController() {
-        return new SubmitOrderController(Factory.getOrderService(),Factory.getEmailSender());
+        return new SubmitOrderController(Factory.getOrderService(), Factory.getEmailSender());
     }
 
 
@@ -237,8 +189,8 @@ public class Factory {
         return new LocaleController();
     }
 
-    public static String md5Custom(String st,Logger logger) {
-        MessageDigest messageDigest = null;
+    public static String md5Custom(String st, Logger logger) {
+        MessageDigest messageDigest;
         byte[] digest = new byte[0];
 
         try {
@@ -247,16 +199,16 @@ public class Factory {
             messageDigest.update(st.getBytes());
             digest = messageDigest.digest();
         } catch (NoSuchAlgorithmException e) {
-            logger.error("MD5 error "+e.getLocalizedMessage());
+            logger.error("MD5 error " + e.getLocalizedMessage());
         }
 
         BigInteger bigInt = new BigInteger(1, digest);
-        String md5Hex = bigInt.toString(16);
+        StringBuilder md5Hex = new StringBuilder(bigInt.toString(16));
 
-        while( md5Hex.length() < 32 ){
-            md5Hex = "0" + md5Hex;
+        while (md5Hex.length() < 32) {
+            md5Hex.insert(0, "0");
         }
 
-        return md5Hex;
+        return md5Hex.toString();
     }
 }

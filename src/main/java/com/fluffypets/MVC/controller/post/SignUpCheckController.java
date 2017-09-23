@@ -25,7 +25,7 @@ public class SignUpCheckController implements Controller, AutoCloseable {
         String password = Factory.md5Custom(request.getAttribute("form-password"),logger);
         String token = Factory.md5Custom(userName, logger);
         String role = "user";
-        User user = new User(1, userName, password, token, email, role);
+        User user = new User(1, userName, password, email, role);
         user = userService.create(user);
         vm.setAttribute("user", user);
         vm.addCookie("FluffyPets", user.getToken());
