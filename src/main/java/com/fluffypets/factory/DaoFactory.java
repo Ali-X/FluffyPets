@@ -49,7 +49,7 @@ public class DaoFactory {
                 "`productName` VARCHAR(128) NOT NULL," +
                 "`producer` VARCHAR(128)," +
                 "`price` VARCHAR(12) NOT NULL," +
-                "`description` VARCHAR(128)," +
+                "`description` VARCHAR(500)," +
                 "`pictureURL` VARCHAR(128)," +
                 "  `categoryId` INT NOT NULL," +
                 "PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC)," +
@@ -91,7 +91,7 @@ public class DaoFactory {
                 " CONSTRAINT FOREIGN KEY (userId) REFERENCES users(id))";
 
         Statement statement;
-        try (Connection connection = JNDIFactory.getContextConnection()) {
+        try (Connection connection = ContextFactory.getContextConnection()) {
             statement = connection.createStatement();
 //            statement.execute(initialQ);
             statement.execute(initialCategories);

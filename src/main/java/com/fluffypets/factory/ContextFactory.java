@@ -17,8 +17,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Enumeration;
 
-public class JNDIFactory {
-    private static final Logger logger = LogManager.getLogger(JNDIFactory.class.getName());
+public class ContextFactory {
+    private static final Logger logger = LogManager.getLogger(ContextFactory.class.getName());
 
         public static Connection getConnection() {
             return getContextConnection();

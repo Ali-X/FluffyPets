@@ -3,8 +3,7 @@ package com.fluffypets.DAO.orders;
 import com.fluffypets.DAO.AbstractDAO;
 import com.fluffypets.MVC.model.Order;
 import com.fluffypets.MVC.model.OrderItem;
-import com.fluffypets.factory.Factory;
-import com.fluffypets.factory.JNDIFactory;
+import com.fluffypets.factory.ContextFactory;
 import exeptions.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,7 +25,7 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
     }
 
     private OrderDAOImpl() {
-        super(JNDIFactory.getContextConnection());
+        super(ContextFactory.getContextConnection());
         itemDAO = OrderItemDAOImpl.getOrderItemDAOImpl();
     }
 
@@ -67,11 +66,10 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
         try {
             String preparedQuery = "SELECT * FROM Pets.orders";
             preparedStatement = connection.prepareStatement(preparedQuery);
-//            preparedStatement.setInt(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                Integer id = resultSet.getInt("userId");
-                Integer userId = resultSet.getInt("id");
+                Integer id = resultSet.getInt("id");
+                Integer userId = resultSet.getInt("userId");
                 LocalDate dateOfOrder = resultSet.getDate("dateOfOrder").toLocalDate();
                 String orderStatus = resultSet.getString("orderStatus");
                 LocalDate dateOfDelivery = resultSet.getDate("dateOfDelivery").toLocalDate();
@@ -135,7 +133,7 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
         } finally {
             closeStatement(preparedStatement, logger);
         }
-        return order;
+        return null;
     }
 
     @Override

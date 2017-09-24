@@ -111,7 +111,7 @@
                 <h1>Tools</h1>
             </span>
 
-            <a href="/root/admin/statistics" id="ordersStatistics" class="list-group-item">
+            <a href="#" id="ordersStatistics" class="list-group-item">
                 <span class="glyphicon glyphicon-stats"></span>
                 Statistics <span class="badge">314</span> </a>
             <a href="/root/admin/orders" id="orderManagement" class="list-group-item">

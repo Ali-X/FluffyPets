@@ -19,4 +19,6 @@ public interface OrderService {
     List<Order> getAllOrders();
 
     void close() throws Exception;
+
+    boolean delete(Integer orderId);
 }

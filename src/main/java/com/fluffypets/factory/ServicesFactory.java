@@ -25,7 +25,7 @@ public class ServicesFactory {
     }
 
     static SendEmailService getEmailSender() {
-        String[] emeilPassword = JNDIFactory.getEmailPassword();
+        String[] emeilPassword = ContextFactory.getEmailPassword();
         if (emeilPassword != null) {
             return new SendEmailServiceImpl(emeilPassword[0], emeilPassword[1]);
         } else {

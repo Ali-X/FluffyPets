@@ -2,8 +2,7 @@ package com.fluffypets.DAO.user;
 
 import com.fluffypets.DAO.AbstractDAO;
 import com.fluffypets.MVC.model.User;
-import com.fluffypets.factory.Factory;
-import com.fluffypets.factory.JNDIFactory;
+import com.fluffypets.factory.ContextFactory;
 import exeptions.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,7 +23,7 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
     }
 
     private UserDAOImpl() {
-        super(JNDIFactory.getContextConnection());
+        super(ContextFactory.getContextConnection());
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.fluffypets.MVC.servlets;
 
 import com.fluffypets.MVC.controller.Controller;
 import com.fluffypets.factory.Factory;
-import com.fluffypets.factory.JNDIFactory;
+import com.fluffypets.factory.ContextFactory;
 import exeptions.MVCexception;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -16,9 +16,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -74,13 +71,12 @@ public class FrontServlet extends HttpServlet implements AutoCloseable {
         try {
             ViewModel vm = (ViewModel) httpRequest.getSession().getAttribute("vm");
             if (vm == null) vm = new ViewModel();
-            vm.setAttribute("hostPort", JNDIFactory.getIp()+":"+httpRequest.getLocalPort());
+            vm.setAttribute("hostPort", ContextFactory.getIp()+":"+httpRequest.getLocalPort());
 
             Controller controller = controllerMap.get(request);
             if (controller == null) {
                 logger.error("Can't handle " + request.getUri());
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
-                throw new MVCexception("Can't handle " + request.getUri());
             }
 
             if (ServletFileUpload.isMultipartContent(httpRequest)) {
@@ -89,15 +85,9 @@ public class FrontServlet extends HttpServlet implements AutoCloseable {
                 } catch (FileUploadException e) {
                     logger.error("error with getting multipart content" + e);
                     response.sendError(HttpServletResponse.SC_PARTIAL_CONTENT);
-                    throw new MVCexception("error with getting multipart content " + request.getUri());
                 }
             }
-            try {
                 vm = controller.process(request, vm);
-            } catch (RuntimeException e) {
-                logger.error("error in controller " + e);
-                throw new MVCexception("error in controller " + e);
-            }
 
             forward(httpRequest, response, vm);
         } catch (Throwable e) {

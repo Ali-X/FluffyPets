@@ -171,7 +171,6 @@
 
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="thumbnail" style="height: 520px">
-                            <a href="${initParam.get('localDir')}${product.getPictureURL()}" target="_blank">
                                 <img src="${initParam.get('localDir')}${product.getPictureURL()}"
                                      style="height: 320px">
                                 <div class="caption">

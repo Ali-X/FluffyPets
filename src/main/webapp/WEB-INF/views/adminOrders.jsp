@@ -71,13 +71,13 @@
                                     <form method="post">
                                         <div class="row center-block">
                                                 ${cartItem.getProduct().getName()} :
-                                            <button class="btn-link"  formaction="/root/takeFromCart"
-                                                    name="productId"    value="${cartItem.getProduct().getId()}" >
+                                            <button class="btn-link" formaction="/root/takeFromCart"
+                                                    name="productId" value="${cartItem.getProduct().getId()}">
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </button>
                                                 ${cartItem.getNumber()}
-                                            <button class="btn-link"  formaction="/root/addToCart"
-                                                    name="productId" value="${cartItem.getProduct().getId()}" >
+                                            <button class="btn-link" formaction="/root/addToCart"
+                                                    name="productId" value="${cartItem.getProduct().getId()}">
                                                 <span class="glyphicon glyphicon-plus"></span>
                                             </button>
                                         </div>
@@ -90,8 +90,10 @@
                                     <button type="submit"
                                             <c:if test="${not empty requestScope.user}"> formaction="/root/makeOder" class="btn btn-danger"</c:if>
                                             <c:if test="${empty requestScope.user}"> class="btn btn-default" disabled="disabled"</c:if>
-                                    > Confirm your order</button>
-                                </form></li>
+                                    > Confirm your order
+                                    </button>
+                                </form>
+                            </li>
                         </c:if>
                     </ul>
                 </li>
@@ -102,7 +104,7 @@
 </nav>
 
 <div class="row">
-    <div class="col-lg-2 col-md-3 col-sm-12">
+    <div class="col-lg-2 col-md-3 col-xs-12 col-sm-12">
         <br>
         <br>
 
@@ -122,7 +124,7 @@
                 Users</a>
         </div>
     </div>
-    <div class="col-lg-10 col-md-9 col-sm-12">
+    <div class="col-lg-10 col-md-9 col-xs-12 col-sm-12">
         <h2>Orders Table</h2>
         <table class="table-condensed table-bordered">
             <thead>
@@ -140,7 +142,7 @@
                 <form method="post" action="/root/admin/orders">
                     <tr>
                         <td>
-                            <input type="number" name="orderId"  value="${concreteOrder.getOrderId()}" readonly>
+                            <input type="number" name="orderId" value="${concreteOrder.getOrderId()}" readonly>
                         </td>
                         <td>
                             <input type="number" name="userId" value="${concreteOrder.getUserId()}" readonly>
@@ -152,17 +154,24 @@
                             <input type="text" name="status" value="${concreteOrder.getStatus()}" class="text-success">
                         </td>
                         <td>
-                            <input type="date" name="delivery" value="${concreteOrder.getDeliveryDate()}" class="text-success">
+                            <input type="date" name="delivery" value="${concreteOrder.getDeliveryDate()}"
+                                   class="text-success">
                         </td>
                         <td>
-                                <button class="btn-link" value="update" name="command"><span
-                                        class="glyphicon glyphicon-refresh"></span>
-                                    update
-                                </button>
+                            <button class="btn-link" value="update" name="command"><span
+                                    class="glyphicon glyphicon-refresh"></span>
+                                update
+                            </button>
 
-                                <button  formaction="/root/admin/users" formmethod="post" class="btn-link" value="blocked" name="command"><span
-                                        class="glyphicon glyphicon-remove"></span> block
-                                </button>
+                            <button formaction="/root/admin/users" formmethod="post" class="btn-link" value="blocked"
+                                    name="command"><span
+                                    class="glyphicon glyphicon-remove"></span> block
+                            </button>
+
+                            <button formmethod="post" class="btn-link" value="delete" name="command"><span
+                                    class="glyphicon glyphicon-remove-sign"></span> delete
+                            </button>
+
                         </td>
                     </tr>
                 </form>

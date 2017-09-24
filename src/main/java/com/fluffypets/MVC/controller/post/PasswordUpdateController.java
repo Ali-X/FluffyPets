@@ -4,8 +4,7 @@ import com.fluffypets.MVC.controller.Controller;
 import com.fluffypets.MVC.model.User;
 import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
-import com.fluffypets.factory.Factory;
-import com.fluffypets.factory.JNDIFactory;
+import com.fluffypets.factory.ContextFactory;
 import com.fluffypets.servicies.UserService;
 import exeptions.ServiciesException;
 import org.apache.logging.log4j.LogManager;
@@ -27,7 +26,7 @@ public class PasswordUpdateController implements Controller, AutoCloseable {
         String pas2=request.getAttribute("pas2");
         if (pas1.equals(pas2)) {
             User user = userService.findByEmail(email);
-            user.setPassword(JNDIFactory.md5Custom(pas1,logger));
+            user.setPassword(ContextFactory.md5Custom(pas1,logger));
             userService.update(user);
         }else throw new ServiciesException("different passwords");
         vm.setView("login");

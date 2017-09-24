@@ -2,8 +2,7 @@ package com.fluffypets.DAO.orders;
 
 import com.fluffypets.DAO.AbstractDAO;
 import com.fluffypets.MVC.model.OrderItem;
-import com.fluffypets.factory.Factory;
-import com.fluffypets.factory.JNDIFactory;
+import com.fluffypets.factory.ContextFactory;
 import exeptions.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,7 +24,7 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
     }
 
     private OrderItemDAOImpl() {
-        super(JNDIFactory.getContextConnection());
+        super(ContextFactory.getContextConnection());
     }
 
     @Override

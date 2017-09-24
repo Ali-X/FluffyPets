@@ -4,7 +4,6 @@ import com.fluffypets.DAO.user.UserDAO;
 import com.fluffypets.MVC.model.User;
 import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.factory.DaoFactory;
-import com.fluffypets.factory.Factory;
 import exeptions.MVCexception;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,6 +29,8 @@ public class UserFilter implements Filter {
         allowedPages.add("/root/forgot");
         allowedPages.add("/root/recoverPassword");
         allowedPages.add("/root/selectGoods");
+        allowedPages.add("/root/addToCart");
+        allowedPages.add("/root/takeFromCart");
     }
 
     @Override

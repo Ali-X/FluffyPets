@@ -4,8 +4,7 @@ import com.fluffypets.DAO.AbstractDAO;
 import com.fluffypets.DAO.product.ProductDAO;
 import com.fluffypets.DAO.product.ProductDAOImpl;
 import com.fluffypets.MVC.model.Product;
-import com.fluffypets.factory.Factory;
-import com.fluffypets.factory.JNDIFactory;
+import com.fluffypets.factory.ContextFactory;
 import exeptions.DAOException;
 import com.fluffypets.MVC.model.Category;
 import org.apache.logging.log4j.LogManager;
@@ -26,7 +25,7 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
     }
 
     private CategoryDAOImpl() {
-        super(JNDIFactory.getContextConnection());
+        super(ContextFactory.getContextConnection());
     }
 
     @Override
