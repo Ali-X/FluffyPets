@@ -29,6 +29,7 @@ public class UserFilter implements Filter {
         allowedPages.add("/root/signup");
         allowedPages.add("/root/forgot");
         allowedPages.add("/root/recoverPassword");
+        allowedPages.add("/root/selectGoods");
     }
 
     @Override

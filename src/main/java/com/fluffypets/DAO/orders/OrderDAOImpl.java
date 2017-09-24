@@ -4,6 +4,7 @@ import com.fluffypets.DAO.AbstractDAO;
 import com.fluffypets.MVC.model.Order;
 import com.fluffypets.MVC.model.OrderItem;
 import com.fluffypets.factory.Factory;
+import com.fluffypets.factory.JNDIFactory;
 import exeptions.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,7 +26,7 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
     }
 
     private OrderDAOImpl() {
-        super(Factory.getContextConnection());
+        super(JNDIFactory.getContextConnection());
         itemDAO = OrderItemDAOImpl.getOrderItemDAOImpl();
     }
 

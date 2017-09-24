@@ -7,6 +7,7 @@ import com.fluffypets.MVC.model.UserData;
 import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.factory.Factory;
+import com.fluffypets.factory.JNDIFactory;
 import com.fluffypets.servicies.UserDataService;
 import com.fluffypets.servicies.UserService;
 import org.apache.logging.log4j.LogManager;
@@ -27,7 +28,7 @@ public class LoginCheckController implements Controller, AutoCloseable {
     @Override
     public ViewModel process(Request request, ViewModel vm) {
         String userName = request.getAttribute("userName");
-        String pass = Factory.md5Custom(request.getAttribute("password"),logger);
+        String pass = JNDIFactory.md5Custom(request.getAttribute("password"),logger);
         Cart myCart = (Cart) vm.getAttribute("cart");
         User user = userService.findUser(userName, pass);
         if (user == null) {

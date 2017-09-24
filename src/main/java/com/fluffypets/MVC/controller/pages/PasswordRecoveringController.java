@@ -6,6 +6,7 @@ import com.fluffypets.MVC.model.User;
 import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.factory.Factory;
+import com.fluffypets.factory.JNDIFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,8 +26,8 @@ public class PasswordRecoveringController implements Controller {
         if (user != null) {
             String who = request.getAttribute("who");
             String verify = request.getAttribute("verify");
-            if (who.equals(Factory.md5Custom(user.getId().toString(), logger))) {
-                if (verify.equals(Factory.md5Custom(user.getPassword() + user.getRoleString(), logger))) {
+            if (who.equals(JNDIFactory.md5Custom(user.getId().toString(), logger))) {
+                if (verify.equals(JNDIFactory.md5Custom(user.getPassword() + user.getRoleString(), logger))) {
                     vm.setAttribute("email", email);
                     vm.setView("recover");
                 } else throw new SecurityException("Illegal access");

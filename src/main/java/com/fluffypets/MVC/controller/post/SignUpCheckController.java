@@ -5,6 +5,7 @@ import com.fluffypets.MVC.model.User;
 import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.factory.Factory;
+import com.fluffypets.factory.JNDIFactory;
 import com.fluffypets.servicies.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,8 +23,8 @@ public class SignUpCheckController implements Controller, AutoCloseable {
     public ViewModel process(Request request, ViewModel vm) {
         String userName = request.getAttribute("form-userName");
         String email = request.getAttribute("form-email");
-        String password = Factory.md5Custom(request.getAttribute("form-password"),logger);
-        String token = Factory.md5Custom(userName, logger);
+        String password = JNDIFactory.md5Custom(request.getAttribute("form-password"),logger);
+        String token = JNDIFactory.md5Custom(userName, logger);
         String role = "user";
         User user = new User(1, userName, password, email, role);
         user = userService.create(user);

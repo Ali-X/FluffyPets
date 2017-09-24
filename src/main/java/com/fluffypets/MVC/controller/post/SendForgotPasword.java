@@ -5,6 +5,7 @@ import com.fluffypets.MVC.model.User;
 import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.factory.Factory;
+import com.fluffypets.factory.JNDIFactory;
 import com.fluffypets.servicies.SendEmailService;
 import com.fluffypets.servicies.SendEmailServiceImpl;
 import com.fluffypets.servicies.UserDataService;
@@ -31,8 +32,8 @@ public class SendForgotPasword implements Controller, AutoCloseable {
         String email = request.getAttribute("email");
         String hostPort = (String) vm.getAttribute("hostPort");
         User user = userService.findByEmail(email);
-        String who = "who="+ Factory.md5Custom(user.getId().toString(),logger);
-        String verify = "verify="+Factory.md5Custom(user.getPassword()+user.getRoleString(),logger);
+        String who = "who="+ JNDIFactory.md5Custom(user.getId().toString(),logger);
+        String verify = "verify="+JNDIFactory.md5Custom(user.getPassword()+user.getRoleString(),logger);
         String subject = "FluffyPets password recovering";
         String content = "Dear costumer, if you are trying to recover your password you should follow next link \n" +
                 hostPort+"/root/recoverPassword"+"?"+who+"&"+verify+"&email="+email+"   \n" +

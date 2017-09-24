@@ -2,6 +2,7 @@ package com.fluffypets.MVC.servlets;
 
 import com.fluffypets.MVC.controller.Controller;
 import com.fluffypets.factory.Factory;
+import com.fluffypets.factory.JNDIFactory;
 import exeptions.MVCexception;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -73,7 +74,7 @@ public class FrontServlet extends HttpServlet implements AutoCloseable {
         try {
             ViewModel vm = (ViewModel) httpRequest.getSession().getAttribute("vm");
             if (vm == null) vm = new ViewModel();
-            vm.setAttribute("hostPort", Factory.getIp()+":"+httpRequest.getLocalPort());
+            vm.setAttribute("hostPort", JNDIFactory.getIp()+":"+httpRequest.getLocalPort());
 
             Controller controller = controllerMap.get(request);
             if (controller == null) {

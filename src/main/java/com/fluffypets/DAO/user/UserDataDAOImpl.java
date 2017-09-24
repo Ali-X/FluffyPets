@@ -3,6 +3,7 @@ package com.fluffypets.DAO.user;
 import com.fluffypets.DAO.AbstractDAO;
 import com.fluffypets.MVC.model.UserData;
 import com.fluffypets.factory.Factory;
+import com.fluffypets.factory.JNDIFactory;
 import exeptions.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,7 +23,7 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
     }
 
     private UserDataDAOImpl() {
-        super(Factory.getContextConnection());
+        super(JNDIFactory.getContextConnection());
     }
 
     @Override

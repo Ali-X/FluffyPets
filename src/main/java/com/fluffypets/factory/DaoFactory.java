@@ -90,10 +90,10 @@ public class DaoFactory {
                 "PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC)," +
                 " CONSTRAINT FOREIGN KEY (userId) REFERENCES users(id))";
 
-        Statement statement = null;
-        try (Connection connection = Factory.getContextConnection()) {
+        Statement statement;
+        try (Connection connection = JNDIFactory.getContextConnection()) {
             statement = connection.createStatement();
-            statement.execute(initialQ);
+//            statement.execute(initialQ);
             statement.execute(initialCategories);
             statement.execute(initialUsers);
             statement.execute(initialProducts);
