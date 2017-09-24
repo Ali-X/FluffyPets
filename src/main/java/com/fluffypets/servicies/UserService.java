@@ -17,5 +17,9 @@ public interface UserService {
 
     User changeRole(Integer userId, String command);
 
+    User findByEmail(String email);
+
     void close() throws Exception;
+
+    User update(User user);
 }

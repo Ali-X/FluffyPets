@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +34,7 @@ public class FrontServlet extends HttpServlet implements AutoCloseable {
         controllerMap.put(new Request("GET", "/root/profile"), Factory.getProfilePageController());
         controllerMap.put(new Request("GET", "/root/signup"), Factory.getRegistrationPageController());
         controllerMap.put(new Request("GET", "/root/forgot"), Factory.getForgotPassword());
+        controllerMap.put(new Request("GET", "/root/recoverPassword"), Factory.getRecoverPassword());
         controllerMap.put(new Request("GET", "/root/admin/users"), Factory.getAdminPage());
         controllerMap.put(new Request("GET", "/root/admin/orders"), Factory.getAdminOrdersPage());
         controllerMap.put(new Request("GET", "/root/editProfile"), Factory.getEditUserProfileController());
@@ -49,6 +53,7 @@ public class FrontServlet extends HttpServlet implements AutoCloseable {
         controllerMap.put(new Request("POST", "/root/makeOder"), Factory.getMakeOrderController());
         controllerMap.put(new Request("POST", "/root/submitOder"), Factory.getSubmitOrderController());
         controllerMap.put(new Request("POST", "/root/forgot"), Factory.getSendForgotPassword());
+        controllerMap.put(new Request("POST", "/root/recoverPassword"), Factory.getUpdatePassword());
         controllerMap.put(new Request("POST", "/root/admin/upload"), Factory.getImageUploadController());
         controllerMap.put(new Request("POST", "/root/internationalization"), Factory.getInternationalizationController());
     }
@@ -68,6 +73,7 @@ public class FrontServlet extends HttpServlet implements AutoCloseable {
         try {
             ViewModel vm = (ViewModel) httpRequest.getSession().getAttribute("vm");
             if (vm == null) vm = new ViewModel();
+            vm.setAttribute("hostPort", Factory.getIp()+":"+httpRequest.getLocalPort());
 
             Controller controller = controllerMap.get(request);
             if (controller == null) {

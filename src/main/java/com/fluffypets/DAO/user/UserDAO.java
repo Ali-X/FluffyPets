@@ -10,4 +10,6 @@ public interface UserDAO extends GenericDAO<User> {
     User findByLoginPassword(String login, String password);
 
     List<User> getAllRecords();
+
+    User findByEmail(String email);
 }

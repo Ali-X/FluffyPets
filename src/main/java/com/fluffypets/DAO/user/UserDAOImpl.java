@@ -172,6 +172,33 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
         return null;
     }
 
+    @Override
+    public User findByEmail(String email) {
+        PreparedStatement preparedStatement=null;
+        User user;
+        try {
+            String preparedQuery = "SELECT * FROM Pets.users WHERE email = ?";
+            preparedStatement = connection.prepareStatement(preparedQuery);
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Integer id = resultSet.getInt("id");
+                String userName = resultSet.getString("userName");
+                String password = resultSet.getString("password");
+                String roleString = resultSet.getString("roleString");
+                user = new User(id, userName, password, email, roleString);
+                return user;
+            }
+            logger.info("findByEmail user query");
+        } catch (SQLException e) {
+            logger.error("There are problems searching user by email\n"+e);
+            throw new DAOException("There are problems searching user by email " + e);
+        }finally {
+            closeStatement(preparedStatement,logger);
+        }
+        return null;
+    }
+
     public List<User> getAllRecords() {
         PreparedStatement preparedStatement=null;
         List<User> users= new ArrayList<>();

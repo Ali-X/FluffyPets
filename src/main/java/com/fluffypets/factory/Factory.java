@@ -15,10 +15,13 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.math.BigInteger;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Enumeration;
 
 public class Factory {
 
@@ -148,7 +151,7 @@ public class Factory {
     }
 
     public static Controller getSendForgotPassword() {
-        return new SendForgotPasword(Factory.getUserDataService());
+        return new SendForgotPasword(Factory.getUserService(),Factory.getEmailSender());
     }
 
     public static Controller getImageUploadController() {
@@ -180,6 +183,13 @@ public class Factory {
         return new SubmitOrderController(Factory.getOrderService(), Factory.getEmailSender());
     }
 
+    public static Controller getRecoverPassword() {
+        return new PasswordRecoveringController(DaoFactory.getUserDao());
+    }
+
+    public static Controller getUpdatePassword() {
+        return new PasswordUpdateController(Factory.getUserService());
+    }
 
     public static Controller getEditOrder() {
         return new AdminEditOrdersController(Factory.getOrderService());
@@ -187,6 +197,27 @@ public class Factory {
 
     public static Controller getInternationalizationController() {
         return new LocaleController();
+    }
+
+    public static String getIp(){
+        String ip=null;
+        try {
+        Enumeration networkInterfaces = NetworkInterface.getNetworkInterfaces();  // gets All networkInterfaces of your device
+        while (networkInterfaces.hasMoreElements()) {
+            NetworkInterface inet = (NetworkInterface) networkInterfaces.nextElement();
+            Enumeration address = inet.getInetAddresses();
+            while (address.hasMoreElements()) {
+                InetAddress inetAddress = (InetAddress) address.nextElement();
+                if (inetAddress.isSiteLocalAddress()) {
+                    ip=inetAddress.getHostAddress(); /// gives ip address of your device
+                }
+            }
+        }
+        return ip;
+    } catch (Exception e) {
+        logger.error("ip finding error");
+    }
+    return null;
     }
 
     public static String md5Custom(String st, Logger logger) {
@@ -211,4 +242,6 @@ public class Factory {
 
         return md5Hex.toString();
     }
+
+
 }

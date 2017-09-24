@@ -40,7 +40,7 @@ public class DaoFactory {
                 "`id` INT NOT NULL AUTO_INCREMENT," +
                 "`userName` VARCHAR(32) NOT NULL UNIQUE ," +
                 "`password` VARCHAR(32) NOT NULL," +
-                "`email` VARCHAR(128) NOT NULL," +
+                "`email` VARCHAR(128) NOT NULL UNIQUE," +
                 "`roleString` VARCHAR(32) NOT NULL," +
                 "PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC))";
 

@@ -1,54 +1,51 @@
 package com.fluffypets.MVC.controller.post;
 
 import com.fluffypets.MVC.controller.Controller;
+import com.fluffypets.MVC.model.User;
 import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
+import com.fluffypets.factory.Factory;
+import com.fluffypets.servicies.SendEmailService;
+import com.fluffypets.servicies.SendEmailServiceImpl;
 import com.fluffypets.servicies.UserDataService;
+import com.fluffypets.servicies.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class SendForgotPasword implements Controller,AutoCloseable {               // TODO: 9/2/17 demands implementation
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
-    private UserDataService userDataService;
+public class SendForgotPasword implements Controller, AutoCloseable {
+    private static final Logger logger = LogManager.getLogger(SendForgotPasword.class.getName());
 
-    public SendForgotPasword(UserDataService userDataService) {
-        this.userDataService = userDataService;
+    private UserService userService;
+    private SendEmailService sendEmailService;
+
+    public SendForgotPasword(UserService userService, SendEmailService sendEmailService) {
+        this.userService = userService;
+        this.sendEmailService = sendEmailService;
     }
 
     @Override
     public ViewModel process(Request request, ViewModel vm) {
-//        User user = (User) vm.getAttribute("user");
-//        if (user == null) {
-//            vm.setView("login");
-//        } else {
-//            String fullName = request.getAttribute("Fullname");
-//            LocalDate localDate = LocalDate.parse(request.getAttribute("DateOfBirth"));
-//            String gender = request.getAttribute("Gender");
-//            Boolean married = request.getAttribute("Marital").equals("true");
-//            String district = request.getAttribute("District");
-//            String area = request.getAttribute("Area");
-//            String street = request.getAttribute("Street");
-//            String app = request.getAttribute("App");
-//
-//            String prim = request.getAttribute("Phone number");
-//            String second = request.getAttribute("PhoneSecNumber");
-//
-//            UserData userData = new UserData(user.getId().longValue(), fullName, localDate, gender, married, district,
-//                    area, street, app, prim, second);
-//
-//            UserData current = userDataService.get(user.getId().longValue());
-//            if (current == null) {
-//                userData = userDataService.create(userData);
-//            } else {
-//                userData.setUserDataId(current.getUserDataId());
-//                userData = userDataService.update(userData);
-//            }
-//            vm.setAttribute("userData", userData);
-//        }
-        vm.setView("profile");
+        String email = request.getAttribute("email");
+        String hostPort = (String) vm.getAttribute("hostPort");
+        User user = userService.findByEmail(email);
+        String who = "who="+ Factory.md5Custom(user.getId().toString(),logger);
+        String verify = "verify="+Factory.md5Custom(user.getPassword()+user.getRoleString(),logger);
+        String subject = "FluffyPets password recovering";
+        String content = "Dear costumer, if you are trying to recover your password you should follow next link \n" +
+                hostPort+"/root/recoverPassword"+"?"+who+"&"+verify+"&email="+email+"   \n" +
+                "In opposite case ignore this letter.\n";
+        if (!sendEmailService.sendEmailTo(email, subject, content))
+            logger.error("letter was not sent");
+
+        vm.setView("home");
         return vm;
     }
 
     @Override
     public void close() throws Exception {
-        userDataService.close();
+        userService.close();
     }
 }
