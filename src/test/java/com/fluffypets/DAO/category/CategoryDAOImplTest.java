@@ -3,7 +3,6 @@ package com.fluffypets.DAO.category;
 
 import com.fluffypets.MVC.model.Category;
 import com.fluffypets.factory.DaoFactory;
-import com.fluffypets.factory.Factory;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;

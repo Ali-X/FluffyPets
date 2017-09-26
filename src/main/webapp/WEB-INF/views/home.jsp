@@ -138,6 +138,7 @@
     <div class="row">
         <div class="bg-info col-xs-6 col-sm-3 col-lg-2">
             <form action="/root/selectGoods" method="post">
+                <input name="formN" value="1" hidden="hidden">
                 <div class="form-group">
                     <h4>${requestScope.Select_categories}</h4>
 
@@ -151,7 +152,8 @@
                     <h4>${requestScope.Select_price_range}</h4>
 
                     <div class="radio">
-                        <label><input type="radio" name="selectedPrice" checked="checked" value="all">${requestScope.All}</label>
+                        <label><input type="radio" name="selectedPrice" checked="checked"
+                                      value="all">${requestScope.All}</label>
                     </div>
 
                     <c:forEach items="${prices}" var="price">
@@ -160,22 +162,29 @@
                                           value="${price.getLabel()}">${price.getLabel()}</label>
                         </div>
                     </c:forEach>
-
+                    <div>
+                        <label for="order">${requestScope.OrderLabel}</label>
+                        <select id="order" name="order">
+                            <option value="asc" selected="selected">${requestScope.IncreasePrice}</option>
+                            <option value="desc">${requestScope.DecreasePrice}</option>
+                        </select>
+                    </div>
+                    <br>
                     <button class="btn btn-info text-center btn-large" type="submit">${requestScope.Select}</button>
                 </div>
             </form>
         </div>
         <div class="col-xs-6 col-sm-9 col-lg-10">
             <div class="row">
-                <c:forEach items="${requestScope.products}" var="product">
+                <c:forEach items="${homePagePref.getProducts()}" var="product">
 
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="thumbnail" style="height: 520px">
-                                <img src="${initParam.get('localDir')}${product.getPictureURL()}"
-                                     style="height: 320px">
-                                <div class="caption">
-                                    <h4>${product.getName()}</h4>
-                                </div>
+                            <img src="${initParam.get('localDir')}${product.getPictureURL()}"
+                                 style="height: 320px">
+                            <div class="caption">
+                                <h4>${product.getName()}</h4>
+                            </div>
                             </a>
                             <div class="container">
                                 <form class="form-horizontal" method="post">
@@ -192,6 +201,15 @@
                 </c:forEach>
             </div>
         </div>
+    </div>
+
+    <div class="row text-center">
+            <form method="post" action="/root/selectGoods">
+                <c:forEach var="count" begin = "1" end ="${homePagePref.getPaginationMax()}">
+                    <button class="btn-lg btn-info" name="pagination" value="${count}">${count}</button>
+                    <input name="formN" value="2" hidden="hidden">
+                </c:forEach>
+            </form>
     </div>
 </div>
 

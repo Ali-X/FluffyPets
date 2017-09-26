@@ -3,7 +3,6 @@ package com.fluffypets.DAO.user;
 import com.fluffypets.MVC.model.User;
 import com.fluffypets.MVC.model.UserData;
 import com.fluffypets.factory.DaoFactory;
-import com.fluffypets.factory.Factory;
 import org.junit.Test;
 
 import java.time.LocalDate;

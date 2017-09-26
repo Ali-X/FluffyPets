@@ -26,6 +26,16 @@ public class ProductServiceImpl implements ProductService,AutoCloseable {
     }
 
     @Override
+    public Integer countSelected(String categoryIds, int min, int max,int paginationStep) {
+        return productDAO.countSelected(categoryIds,min,max,paginationStep);
+    }
+
+    @Override
+    public List<Product> selectAndPagination(String categoryIds, int min, int max, String order, Integer paginationStep, Integer pagination) {
+        return productDAO.selectAndPagination(categoryIds,min,max,order,paginationStep,pagination);
+    }
+
+    @Override
     public Product getProduct(Product product) {
         return productDAO.get(product);
     }

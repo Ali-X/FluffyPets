@@ -1,7 +1,5 @@
 package com.fluffypets.DAO.user;
 
-import com.fluffypets.MVC.model.User;
-import com.fluffypets.factory.Factory;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
@@ -11,7 +9,7 @@ public class TestUserDAO {
 
     @Test
     public void testTableUsersCRUD() {
-//        UserDAO myUsers = Factory.getUserDao();
+//        UserDAO myUsers = ControllersFactory.getUserDao();
 //        System.out.println("in Users CRUD test connection is:  \n"+myUsers.printConnectInfo());
 //        User dodik = new User(1, "David", "shabat",
 //                "Davids_token_123456", "DavidShimshilovits@mail.ru", "User");

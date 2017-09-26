@@ -5,7 +5,7 @@ import com.fluffypets.MVC.controller.UploadPhotoController;
 import com.fluffypets.MVC.controller.pages.*;
 import com.fluffypets.MVC.controller.post.*;
 
-public class Factory {
+public class ControllersFactory {
 
     //---------------------                 get pages                ---------------------------------------------------
 

@@ -11,6 +11,10 @@ public interface ProductService {
 
     List<Product> getAllSelected(String categIds,int min, int max);
 
+    Integer countSelected(String categoryIds, int min, int max, int paginationStep);
+
+    List<Product> selectAndPagination (String categoryIds, int min, int max,String order, Integer paginationMax,Integer pagination);
+
     Product getProduct(Product product);
 
     Product getProductById(Integer id);

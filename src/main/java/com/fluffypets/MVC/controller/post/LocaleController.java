@@ -21,7 +21,7 @@ public class LocaleController implements Controller,AutoCloseable {
             default:vm.setCurrentLocale(new Locale("en","US"));
         }
         //        -------------         localization of all pages        ----------------------
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("lang", vm.getCurrentLocale());
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("language", vm.getCurrentLocale());
         vm.setAttribute("Add_to_cart",ViewModel.stringUTF8(resourceBundle.getString("Add_to_cart")));
         vm.setAttribute("Admin_page",ViewModel.stringUTF8(resourceBundle.getString("Admin_page")));
         vm.setAttribute("Confirm_your_order",ViewModel.stringUTF8(resourceBundle.getString("Confirm_your_order")));
@@ -39,6 +39,9 @@ public class LocaleController implements Controller,AutoCloseable {
         vm.setAttribute("All",ViewModel.stringUTF8(resourceBundle.getString("All")));
         vm.setAttribute("Language",ViewModel.stringUTF8(resourceBundle.getString("Language")));
         vm.setAttribute("Select",ViewModel.stringUTF8(resourceBundle.getString("Select")));
+        vm.setAttribute("OrderLabel", ViewModel.stringUTF8(resourceBundle.getString("OrderLabel")));
+        vm.setAttribute("IncreasePrice", ViewModel.stringUTF8(resourceBundle.getString("IncreasePrice")));
+        vm.setAttribute("DecreasePrice", ViewModel.stringUTF8(resourceBundle.getString("DecreasePrice")));
 //        =============         localization        ======================
 
         vm.setView(page);

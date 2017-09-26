@@ -31,6 +31,7 @@ public class UserFilter implements Filter {
         allowedPages.add("/root/selectGoods");
         allowedPages.add("/root/addToCart");
         allowedPages.add("/root/takeFromCart");
+        allowedPages.add("/root/internationalization");
     }
 
     @Override

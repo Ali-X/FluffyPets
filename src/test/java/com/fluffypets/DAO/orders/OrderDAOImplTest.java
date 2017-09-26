@@ -5,7 +5,6 @@ import com.fluffypets.DAO.product.ProductDAO;
 import com.fluffypets.DAO.user.UserDAO;
 import com.fluffypets.MVC.model.*;
 import com.fluffypets.factory.DaoFactory;
-import com.fluffypets.factory.Factory;
 import org.junit.Test;
 
 import java.math.BigDecimal;

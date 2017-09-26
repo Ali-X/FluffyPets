@@ -1,10 +1,7 @@
 package com.fluffypets.MVC.controller.pages;
 
 import com.fluffypets.MVC.controller.Controller;
-import com.fluffypets.MVC.model.Cart;
-import com.fluffypets.MVC.model.Category;
-import com.fluffypets.MVC.model.Product;
-import com.fluffypets.MVC.model.User;
+import com.fluffypets.MVC.model.*;
 import com.fluffypets.MVC.model.enumes.Prices;
 import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
@@ -15,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.StringJoiner;
 
 public class HomePageController implements Controller, AutoCloseable {
     private static final Logger logger = LogManager.getLogger(HomePageController.class.getName());
@@ -30,15 +28,26 @@ public class HomePageController implements Controller, AutoCloseable {
     @Override
     public ViewModel process(Request request, ViewModel vm) {
 
-        List<Product> products = productService.getAll();
-        List<Category> categories = categoryService.getAll();
+        HomePagePref homePagePref;
 
-        vm.setAttribute("products", products);
-        vm.setAttribute("categories", categories);
+        if (vm.getAttribute("homePagePref") == null) {
+            List<Category> categories = categoryService.getAll();
+            StringJoiner categoryList = new StringJoiner(",");
+            categories.forEach(category -> categoryList.add(category.getId().toString()));
+            int defaultPaginationStep=8;
+            Integer paginationMax = productService.countSelected(categoryList.toString(), 0, Integer.MAX_VALUE,defaultPaginationStep);
+            List<Product> products=productService.selectAndPagination(categoryList.toString(),0,Integer.MAX_VALUE,"asc",defaultPaginationStep,1);
+            homePagePref = new HomePagePref(categories, "all", products, "asc", paginationMax,defaultPaginationStep, 1);
+            vm.setAttribute("categories", categories);
+            vm.setAttribute("homePagePref", homePagePref);
+        }
+
+
         vm.setAttribute("prices", Prices.values());
 
 //        -------------         localization for page home     ----------------------
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("lang", vm.getCurrentLocale());
+
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("language", vm.getCurrentLocale());
         vm.setAttribute("Add_to_cart", ViewModel.stringUTF8(resourceBundle.getString("Add_to_cart")));
         vm.setAttribute("Admin_page", ViewModel.stringUTF8(resourceBundle.getString("Admin_page")));
         vm.setAttribute("Confirm_your_order", ViewModel.stringUTF8(resourceBundle.getString("Confirm_your_order")));
@@ -56,6 +65,9 @@ public class HomePageController implements Controller, AutoCloseable {
         vm.setAttribute("All", ViewModel.stringUTF8(resourceBundle.getString("All")));
         vm.setAttribute("Language", ViewModel.stringUTF8(resourceBundle.getString("Language")));
         vm.setAttribute("Select", ViewModel.stringUTF8(resourceBundle.getString("Select")));
+        vm.setAttribute("OrderLabel", ViewModel.stringUTF8(resourceBundle.getString("OrderLabel")));
+        vm.setAttribute("IncreasePrice", ViewModel.stringUTF8(resourceBundle.getString("IncreasePrice")));
+        vm.setAttribute("DecreasePrice", ViewModel.stringUTF8(resourceBundle.getString("DecreasePrice")));
 //        =============         localization        ======================
 
 
