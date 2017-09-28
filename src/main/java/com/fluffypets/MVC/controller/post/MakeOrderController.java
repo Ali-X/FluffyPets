@@ -6,7 +6,7 @@ import com.fluffypets.MVC.model.User;
 import com.fluffypets.MVC.model.UserData;
 import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
-import com.fluffypets.servicies.UserDataService;
+import com.fluffypets.servicies.user.UserDataService;
 
 public class MakeOrderController implements Controller,AutoCloseable {
 

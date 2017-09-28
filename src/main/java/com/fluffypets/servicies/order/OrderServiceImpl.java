@@ -1,11 +1,10 @@
-package com.fluffypets.servicies;
+package com.fluffypets.servicies.order;
 
 import com.fluffypets.DAO.orders.OrderDAO;
 import com.fluffypets.DAO.user.UserDataDAO;
 import com.fluffypets.MVC.model.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,11 +22,11 @@ public class OrderServiceImpl implements OrderService, AutoCloseable {
         UserData userData = userDataDAO.getByUserId(userId);
         UserData userDataUpdated;
         if (userData == null) {
-            userDataUpdated = new UserData(userId, fullName, null, "Male", false, district, area, street, app, phone, null);
-            userDataDAO.create(userDataUpdated);
+            userDataUpdated = new UserData(userId, fullName, LocalDate.now(), "Male", false, district, area, street, app, phone, "");
+            userDataUpdated=userDataDAO.create(userDataUpdated);
         } else {
             userDataUpdated = new UserData(userData.getUserDataId(), userId, fullName, userData.getDateOfBirth(), userData.getGender(), userData.getMarried(), district, area, street, app, phone, userData.getSecondaryNumber());
-            userDataDAO.update(userDataUpdated);
+            userDataUpdated=userDataDAO.update(userDataUpdated);
         }
         return userDataUpdated;
     }

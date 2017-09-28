@@ -69,10 +69,15 @@ public class FrontServlet extends HttpServlet implements AutoCloseable {
     private void processRequest(HttpServletRequest httpRequest, HttpServletResponse response) throws ServletException, IOException {
 
         Request request = new Request(httpRequest.getMethod(), httpRequest.getRequestURI(), httpRequest.getParameterMap());
+
         try {
             ViewModel vm = (ViewModel) httpRequest.getSession().getAttribute("vm");
-            if (vm == null) vm = new ViewModel();
-            vm.setAttribute("hostPort", ContextFactory.getIp()+":"+httpRequest.getLocalPort());
+            if (vm == null) {
+                vm = new ViewModel();
+                vm.setView("home");
+            }
+
+            vm.setAttribute("hostPort", ContextFactory.getIp() + ":" + httpRequest.getLocalPort());
 
             Controller controller = controllerMap.get(request);
             if (controller == null) {
@@ -80,19 +85,23 @@ public class FrontServlet extends HttpServlet implements AutoCloseable {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
             }
 
-            if (ServletFileUpload.isMultipartContent(httpRequest)) {
-                try {
-                    request.setItemsForUpload(new ServletFileUpload(new DiskFileItemFactory()).parseRequest(httpRequest));
-                } catch (FileUploadException e) {
-                    logger.error("error with getting multipart content" + e);
-                    response.sendError(HttpServletResponse.SC_PARTIAL_CONTENT);
-                }
-            }
-                vm = controller.process(request, vm);
+            ifMultipart(httpRequest, response, request);
+            vm = controller.process(request, vm);
 
             forward(httpRequest, response, vm);
         } catch (Throwable e) {
             logger.error("Error in request handeling" + e);
+        }
+    }
+
+    synchronized private void ifMultipart(HttpServletRequest httpRequest, HttpServletResponse response, Request request) throws IOException {
+        if (ServletFileUpload.isMultipartContent(httpRequest)) {
+            try {
+                request.setItemsForUpload(new ServletFileUpload(new DiskFileItemFactory()).parseRequest(httpRequest));
+            } catch (FileUploadException e) {
+                logger.error("error with getting multipart content" + e);
+                response.sendError(HttpServletResponse.SC_PARTIAL_CONTENT);
+            }
         }
     }
 

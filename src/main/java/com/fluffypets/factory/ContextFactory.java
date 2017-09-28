@@ -15,6 +15,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Enumeration;
 
 public class ContextFactory {
@@ -42,7 +43,8 @@ public class ContextFactory {
             Context ctx = new InitialContext();
             Context initCtx = (Context) ctx.lookup("java:/comp/env");
             DataSource ds = (DataSource) initCtx.lookup("jdbc/Pets");
-            return ds.getConnection();
+            Connection connection=ds.getConnection();
+            return connection;
         } catch (NamingException | SQLException e) {
             logger.error("get connection from TomCat error\n" + e);
             throw new FactoryException("get connection from TomCat error");

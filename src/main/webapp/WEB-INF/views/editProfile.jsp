@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <html>
 <head>
     <title>Edit profile</title>
@@ -102,7 +102,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-10 ">
-            <form id="formEditUser" onsubmit="return validateForm()" method="post"
+            <form id="formEditUser" method="post"
                   action="<c:url value="/root/editProfile"/>" class="form-horizontal">
 
                 <!-- Form Name -->

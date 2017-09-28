@@ -1,4 +1,4 @@
-package com.fluffypets.servicies;
+package com.fluffypets.servicies.user;
 
 
 import com.fluffypets.MVC.model.User;

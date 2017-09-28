@@ -7,8 +7,8 @@ import com.fluffypets.MVC.model.Product;
 import com.fluffypets.MVC.model.enumes.Prices;
 import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
-import com.fluffypets.servicies.CategoryService;
-import com.fluffypets.servicies.ProductService;
+import com.fluffypets.servicies.product.CategoryService;
+import com.fluffypets.servicies.product.ProductService;
 
 import java.util.Arrays;
 import java.util.List;

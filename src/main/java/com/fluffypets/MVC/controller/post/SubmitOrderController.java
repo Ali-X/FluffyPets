@@ -7,8 +7,8 @@ import com.fluffypets.MVC.model.User;
 import com.fluffypets.MVC.model.UserData;
 import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
-import com.fluffypets.servicies.OrderService;
-import com.fluffypets.servicies.SendEmailService;
+import com.fluffypets.servicies.order.OrderService;
+import com.fluffypets.servicies.email.SendEmailService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

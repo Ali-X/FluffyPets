@@ -5,7 +5,7 @@ import com.fluffypets.MVC.model.User;
 import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.factory.ContextFactory;
-import com.fluffypets.servicies.UserService;
+import com.fluffypets.servicies.user.UserService;
 import exeptions.ServiciesException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

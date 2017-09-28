@@ -28,7 +28,9 @@ public class DaoFactory {
     }
 
     private DaoFactory() {
-        String initialQ = "CREATE SCHEMA IF NOT EXISTS `Pets` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;";
+        String initialQ1 = "SET NAMES 'utf8'";
+        String initialQ2 ="SET CHARACTER SET 'utf8'";
+        String initialQ3 ="SET SESSION collation_connection = 'utf8_general_ci'";
 
         String initialCategories = "CREATE TABLE IF NOT EXISTS `Pets`.`categories` (" +
                 "`id` INT NOT NULL AUTO_INCREMENT," +
@@ -93,7 +95,9 @@ public class DaoFactory {
         Statement statement;
         try (Connection connection = ContextFactory.getContextConnection()) {
             statement = connection.createStatement();
-//            statement.execute(initialQ);
+            statement.execute(initialQ1);
+            statement.execute(initialQ2);
+            statement.execute(initialQ3);
             statement.execute(initialCategories);
             statement.execute(initialUsers);
             statement.execute(initialProducts);

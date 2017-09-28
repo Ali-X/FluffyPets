@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
     <title>Login</title>
@@ -126,13 +126,6 @@
                                required placeholder="password">
                     </div>
 
-                    <div class="input-group">
-                        <div class="checkbox">
-                            <label>
-                                <input id="login-remember" type="checkbox" name="remember" value="1"> Remember me
-                            </label>
-                        </div>
-                    </div>                                                      <%--todo: remember is not used--%>
                     <div class="col-sm-12 controls text-center">
                         <button type="submit" id="btn-login" class="btn btn-success btn-lg ">Login</button>
                     </div>

@@ -7,8 +7,8 @@ import com.fluffypets.MVC.model.UserData;
 import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
 import com.fluffypets.factory.ContextFactory;
-import com.fluffypets.servicies.UserDataService;
-import com.fluffypets.servicies.UserService;
+import com.fluffypets.servicies.user.UserDataService;
+import com.fluffypets.servicies.user.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -42,7 +42,7 @@ public class LoginCheckController implements Controller, AutoCloseable {
 
             UserData userData = userDataService.get(user.getId());
             if (userData != null) vm.setAttribute("userData", userData);
-            vm.setView("profile");
+            vm.setView("home");
         }
         return vm;
     }

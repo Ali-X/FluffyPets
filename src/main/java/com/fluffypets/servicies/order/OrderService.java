@@ -1,4 +1,4 @@
-package com.fluffypets.servicies;
+package com.fluffypets.servicies.order;
 
 import com.fluffypets.MVC.model.Cart;
 import com.fluffypets.MVC.model.Order;

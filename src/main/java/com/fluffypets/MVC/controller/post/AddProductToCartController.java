@@ -5,7 +5,7 @@ import com.fluffypets.MVC.model.Cart;
 import com.fluffypets.MVC.model.User;
 import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
-import com.fluffypets.servicies.ProductService;
+import com.fluffypets.servicies.product.ProductService;
 
 public class AddProductToCartController implements Controller,AutoCloseable {
 

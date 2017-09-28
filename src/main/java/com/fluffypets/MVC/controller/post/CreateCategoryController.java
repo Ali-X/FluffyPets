@@ -5,7 +5,7 @@ import com.fluffypets.MVC.model.Category;
 import com.fluffypets.MVC.model.User;
 import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
-import com.fluffypets.servicies.CategoryService;
+import com.fluffypets.servicies.product.CategoryService;
 
 import java.util.List;
 

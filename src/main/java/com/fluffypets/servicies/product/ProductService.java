@@ -1,4 +1,4 @@
-package com.fluffypets.servicies;
+package com.fluffypets.servicies.product;
 
 
 import com.fluffypets.MVC.model.Product;

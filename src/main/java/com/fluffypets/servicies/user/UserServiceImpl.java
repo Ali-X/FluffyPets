@@ -1,7 +1,6 @@
-package com.fluffypets.servicies;
+package com.fluffypets.servicies.user;
 
 import com.fluffypets.DAO.user.UserDAO;
-import com.fluffypets.DAO.user.UserDAOImpl;
 import com.fluffypets.MVC.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

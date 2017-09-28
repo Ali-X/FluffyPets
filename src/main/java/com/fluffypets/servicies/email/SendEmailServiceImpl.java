@@ -1,4 +1,4 @@
-package com.fluffypets.servicies;
+package com.fluffypets.servicies.email;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

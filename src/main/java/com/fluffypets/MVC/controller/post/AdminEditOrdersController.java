@@ -3,7 +3,7 @@ package com.fluffypets.MVC.controller.post;
 import com.fluffypets.MVC.controller.Controller;
 import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
-import com.fluffypets.servicies.OrderService;
+import com.fluffypets.servicies.order.OrderService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

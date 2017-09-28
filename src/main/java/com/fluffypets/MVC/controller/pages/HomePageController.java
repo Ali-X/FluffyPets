@@ -5,8 +5,8 @@ import com.fluffypets.MVC.model.*;
 import com.fluffypets.MVC.model.enumes.Prices;
 import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
-import com.fluffypets.servicies.CategoryService;
-import com.fluffypets.servicies.ProductService;
+import com.fluffypets.servicies.product.CategoryService;
+import com.fluffypets.servicies.product.ProductService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

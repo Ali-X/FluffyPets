@@ -4,7 +4,7 @@ import com.fluffypets.MVC.controller.Controller;
 import com.fluffypets.MVC.model.Order;
 import com.fluffypets.MVC.servlets.Request;
 import com.fluffypets.MVC.servlets.ViewModel;
-import com.fluffypets.servicies.OrderService;
+import com.fluffypets.servicies.order.OrderService;
 
 import java.util.List;
 
