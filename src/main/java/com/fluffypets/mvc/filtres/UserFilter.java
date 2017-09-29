@@ -4,7 +4,6 @@ import com.fluffypets.dao.user.UserDAO;
 import com.fluffypets.mvc.model.User;
 import com.fluffypets.mvc.servlets.ViewModel;
 import com.fluffypets.factory.DaoFactory;
-import exeptions.MVCexception;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -45,7 +44,8 @@ public class UserFilter implements Filter {
         if (!allowedPages.contains(uri)) {
             if (user == null || user.getRoleString().equals("blocked") || user.getRoleString().equals("Unknown")) {
                 logger.error("Illegal access, RequestedSessionId: " + httpRequest.getRequestedSessionId());
-                throw new MVCexception("Illegal access ");
+                throw new RuntimeException("Illegal Access");
+
             }
         }
         chain.doFilter(request, response);

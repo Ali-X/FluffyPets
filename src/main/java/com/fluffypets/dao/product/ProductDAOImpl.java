@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,10 +31,15 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
         super(ContextFactory.getContextConnection());
     }
 
+    public ProductDAOImpl(Connection connection) {
+        super(connection);
+    }
+
     @Override
     public Product create(Product product) {
         PreparedStatement preparedStatement = null;
         try {
+            this.connection.setAutoCommit(false);
             String preparedQuery = "INSERT INTO Pets.products (productName, producer, price, " +
                     "description,pictureURL,categoryId) VALUES(?,?,?,?,?,?)";
             preparedStatement = connection.prepareStatement(preparedQuery);
@@ -44,10 +50,16 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
             preparedStatement.setString(5, product.getPictureURL());
             preparedStatement.setInt(6, product.getCategory().getId());
             preparedStatement.execute();
+            this.connection.commit();
             logger.info("create product query");
             return get(product);
         } catch (SQLException e) {
             logger.error("There are problems with new product insertion to DB\n" + e);
+            try {
+                this.connection.rollback();
+            } catch (SQLException e1) {
+                throw new DAOException("rollback " + e1.getLocalizedMessage());
+            }
             throw new DAOException("There are problems with new product insertion to DB" + e);
         } finally {
             closeStatement(preparedStatement, logger);
@@ -58,6 +70,7 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
     public Product delete(Product item) {
         PreparedStatement preparedStatement = null;
         try {
+            this.connection.setAutoCommit(false);
             String preparedQuery = "DELETE FROM Pets.products  WHERE productName = ? AND producer=? " +
                     "AND price=?";
             preparedStatement = connection.prepareStatement(preparedQuery);
@@ -65,8 +78,14 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
             preparedStatement.setString(2, item.getProducer());
             preparedStatement.setString(3, item.getPrice().toString());
             preparedStatement.execute();
+            this.connection.commit();
             logger.info("delete product query");
         } catch (SQLException e) {
+            try {
+                this.connection.rollback();
+            } catch (SQLException e1) {
+                throw new DAOException("rollback " + e1.getLocalizedMessage());
+            }
             throw new DAOException("There are problems with product deleting from DB" + e);
         } finally {
             closeStatement(preparedStatement, logger);
@@ -78,6 +97,7 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
     public Product update(Product product) {
         PreparedStatement preparedStatement = null;
         try {
+            this.connection.setAutoCommit(false);
             String preparedQuery = "UPDATE Pets.products SET productName = ?," +
                     "producer = ?, price = ?, description = ?, pictureURL = ?, categoryId= ? WHERE id =?";
             preparedStatement = connection.prepareStatement(preparedQuery);
@@ -89,7 +109,13 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
             preparedStatement.setLong(6, product.getCategory().getId());
             preparedStatement.setLong(7, product.getId());
             preparedStatement.execute();
+            this.connection.commit();
         } catch (SQLException e) {
+            try {
+                this.connection.rollback();
+            } catch (SQLException e1) {
+                throw new DAOException("rollback " + e1.getLocalizedMessage());
+            }
             throw new DAOException("There are problems with new user update in DB" + e);
         } finally {
             closeStatement(preparedStatement, logger);
@@ -101,6 +127,7 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
     public Product get(Product product) {
         PreparedStatement preparedStatement = null;
         try {
+            this.connection.setAutoCommit(false);
             String preparedQuery = "SELECT * FROM Pets.products WHERE productName = ? AND producer = ? AND price = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setString(1, product.getName());
@@ -108,7 +135,13 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
             preparedStatement.setString(3, product.getPrice().toString());
             ResultSet resultSet = preparedStatement.executeQuery();
             product = parseResultSet(resultSet).get(0);
+            this.connection.commit();
         } catch (SQLException e) {
+            try {
+                this.connection.rollback();
+            } catch (SQLException e1) {
+                throw new DAOException("rollback " + e1.getLocalizedMessage());
+            }
             throw new DAOException("There are problems with getting product from DB" + e);
         } finally {
             closeStatement(preparedStatement, logger);
@@ -121,12 +154,19 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
         PreparedStatement preparedStatement = null;
         Product product;
         try {
+            this.connection.setAutoCommit(false);
             String preparedQuery = "SELECT * FROM Pets.products WHERE id = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             product = parseResultSet(resultSet).get(0);
+            this.connection.commit();
         } catch (SQLException e) {
+            try {
+                this.connection.rollback();
+            } catch (SQLException e1) {
+                throw new DAOException("rollback " + e1.getLocalizedMessage());
+            }
             throw new DAOException("There are problems searching product by id " + e);
         } finally {
             closeStatement(preparedStatement, logger);
@@ -139,12 +179,19 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
         PreparedStatement preparedStatement = null;
         List<Product> products;
         try {
+            this.connection.setAutoCommit(false);
             String preparedQuery = "SELECT * FROM Pets.products ORDER BY CAST(price AS DECIMAL(9,2))";
             preparedStatement = connection.prepareStatement(preparedQuery);
             ResultSet resultSet = preparedStatement.executeQuery();
             products = parseResultSet(resultSet);
+            this.connection.commit();
             return products;
         } catch (SQLException e) {
+            try {
+                this.connection.rollback();
+            } catch (SQLException e1) {
+                throw new DAOException("rollback " + e1.getLocalizedMessage());
+            }
             throw new DAOException("There are problems searching product by category id " + e);
         } finally {
             closeStatement(preparedStatement, logger);
@@ -156,14 +203,21 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
         PreparedStatement preparedStatement = null;
         List<Product> products;
         try {
+            this.connection.setAutoCommit(false);
             String preparedQuery = "SELECT * FROM Pets.products WHERE price>=? AND price<=? AND categoryId IN(" + categoryIds + ")";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, min);
             preparedStatement.setInt(2, max);
             ResultSet resultSet = preparedStatement.executeQuery();
             products = parseResultSet(resultSet);
+            this.connection.commit();
             return products;
         } catch (SQLException e) {
+            try {
+                this.connection.rollback();
+            } catch (SQLException e1) {
+                throw new DAOException("rollback " + e1.getLocalizedMessage());
+            }
             throw new DAOException("There are problems searching product by category id " + e);
         } finally {
             closeStatement(preparedStatement, logger);
@@ -174,6 +228,7 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
     public Integer countSelected(String categoryIds, int min, int max, int paginationStep) {
         PreparedStatement preparedStatement = null;
         try {
+            this.connection.setAutoCommit(false);
             String preparedQuery = "SELECT COUNT(*) FROM Pets.products WHERE price>=? AND price<=? AND categoryId IN(" + categoryIds + ")";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, min);
@@ -184,8 +239,14 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
                 result = resultSet.getInt(1);
             }
             result = (int) Math.ceil(result / ((double) paginationStep));
+            this.connection.commit();
             return result;
         } catch (SQLException e) {
+            try {
+                this.connection.rollback();
+            } catch (SQLException e1) {
+                throw new DAOException("rollback " + e1.getLocalizedMessage());
+            }
             throw new DAOException("There are problems with counting products " + e);
         } finally {
             closeStatement(preparedStatement, logger);
@@ -197,6 +258,7 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
         PreparedStatement preparedStatement = null;
         List<Product> products;
         try {
+            this.connection.setAutoCommit(false);
             String preparedQuery = "SELECT * FROM Pets.products WHERE price>=? AND price<=? AND categoryId IN(" + categoryIds + ") ORDER BY CAST(price as DECIMAL(9,2)) " + order + " LIMIT ?,?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, min);
@@ -206,8 +268,14 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
             preparedStatement.setInt(4, paginationStep);
             ResultSet resultSet = preparedStatement.executeQuery();
             products = parseResultSet(resultSet);
+            this.connection.commit();
             return products;
         } catch (SQLException e) {
+            try {
+                this.connection.rollback();
+            } catch (SQLException e1) {
+                throw new DAOException("rollback " + e1.getLocalizedMessage());
+            }
             throw new DAOException("There are problems with pagination search " + e);
         } finally {
             closeStatement(preparedStatement, logger);

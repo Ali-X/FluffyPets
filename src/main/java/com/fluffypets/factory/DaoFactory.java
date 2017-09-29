@@ -92,7 +92,7 @@ public class DaoFactory {
                 "PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC)," +
                 " CONSTRAINT FOREIGN KEY (userId) REFERENCES users(id))";
 
-        Statement statement;
+        Statement statement = null;
         try (Connection connection = ContextFactory.getContextConnection()) {
             statement = connection.createStatement();
             statement.execute(initialQ1);
@@ -106,6 +106,14 @@ public class DaoFactory {
             statement.execute(initialUserData);
         } catch (SQLException e) {
             logger.error("Problems with Database Initialization");
+        }finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                logger.error(e.getLocalizedMessage());
+            }
         }
     }
 
@@ -125,7 +133,7 @@ public class DaoFactory {
         return CategoryDAOImpl.getCategoryDAOImpl();
     }
 
-    public static CategoryDAO getCategoryDAO() {
+    static CategoryDAO getCategoryDAO() {
         return CategoryDAOImpl.getCategoryDAOImpl();
     }
 

@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,6 +26,10 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
 
     private OrderItemDAOImpl() {
         super(ContextFactory.getContextConnection());
+    }
+
+    OrderItemDAOImpl(Connection connection) {
+        super(connection);
     }
 
     @Override
@@ -169,7 +174,7 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
     }
 
     @Override
-    public void close() throws DAOException {
+    public void close() {
         logger.info("close connection from OrderItemDAO");
         try {
             this.connection.close();

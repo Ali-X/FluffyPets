@@ -7,6 +7,8 @@ import com.fluffypets.mvc.controller.post.*;
 
 public class ControllersFactory {
 
+    private ControllersFactory(){}
+
     //---------------------                 get pages                ---------------------------------------------------
 
     public static Controller getHomeController() {

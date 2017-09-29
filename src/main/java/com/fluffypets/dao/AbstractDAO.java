@@ -1,5 +1,6 @@
 package com.fluffypets.dao;
 
+import exeptions.DAOException;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
@@ -25,17 +26,17 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
             sj.add("Driver: " + connection.getMetaData().getDriverName());
             sj.add("Autocommit: " + connection.getAutoCommit());
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException(e.getLocalizedMessage());
         }
         return sj.toString();
     }
 
-    public void closeStatement(Statement statement, Logger logger) {
+    protected void closeStatement(Statement statement, Logger logger) {
         if (statement != null) {
             try {
                 statement.close();
+                this.connection.setAutoCommit(true);
             } catch (SQLException e) {
-                e.printStackTrace();
                 logger.error(e.getLocalizedMessage());
             }
         }

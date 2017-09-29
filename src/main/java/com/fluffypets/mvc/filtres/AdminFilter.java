@@ -5,7 +5,6 @@ import com.fluffypets.mvc.model.User;
 import com.fluffypets.mvc.servlets.ViewModel;
 import com.fluffypets.factory.DaoFactory;
 import exeptions.DAOException;
-import exeptions.MVCexception;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,7 +33,7 @@ public class AdminFilter implements Filter {
             if (user != null) {
                 logger.error("Illegal access, by: " +user.getUserName() );
             }
-            throw new MVCexception("Illegal access ");
+            throw new RuntimeException("Illegal Access");
         }
 
         chain.doFilter(httpRequest, httpResponse);

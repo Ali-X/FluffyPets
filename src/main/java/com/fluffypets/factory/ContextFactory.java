@@ -1,7 +1,5 @@
 package com.fluffypets.factory;
 
-import exeptions.DAOException;
-import exeptions.FactoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,7 +13,6 @@ import java.net.NetworkInterface;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Enumeration;
 
@@ -26,6 +23,8 @@ public class ContextFactory {
             return getContextConnection();
         }
 
+        private ContextFactory(){}
+
         static String[] getEmailPassword() {
             try {
                 Context ctx = new InitialContext();
@@ -35,7 +34,7 @@ public class ContextFactory {
                 return new String[]{userName, password};
             } catch (NamingException e) {
                 logger.error("error in getting email and password from context \n" + e);
-                return null;
+                return new String[0];
             }
         }
 
@@ -50,20 +49,6 @@ public class ContextFactory {
             throw new FactoryException("get connection from TomCat error");
         }
     }
-
-    private static Connection getConnectionMySQL() {
-        Connection connection = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Pets",
-                    "root", "nicolas");
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            throw new DAOException("problem with JDBC MySQL driver");
-        }
-        return connection;
-    }
-
 
     public static String getIp(){
         String ip=null;
