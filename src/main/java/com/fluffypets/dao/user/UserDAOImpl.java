@@ -28,7 +28,7 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
 
     @Override
     public User create(User user) {
-            PreparedStatement preparedStatement=null;
+        PreparedStatement preparedStatement = null;
         try {
             String preparedQuery = "INSERT INTO Pets.users (userName, password, email,roleString) VALUES(?,?,?,?)";
             preparedStatement = connection.prepareStatement(preparedQuery);
@@ -40,16 +40,16 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
             logger.info("create user query");
             return get(user);
         } catch (SQLException e) {
-            logger.error("create user query error\n"+e);
+            logger.error("create user query error\n" + e);
             throw new DAOException("There are problems with new user insertion to DB" + e);
-        }finally {
-            closeStatement(preparedStatement,logger);
+        } finally {
+            closeStatement(preparedStatement, logger);
         }
     }
 
     @Override
     public User delete(User user) {
-            PreparedStatement preparedStatement=null;
+        PreparedStatement preparedStatement = null;
         try {
             String preparedQuery = "DELETE FROM Pets.users  WHERE userName = ? AND password=?  AND email=? AND roleString=?";
             preparedStatement = connection.prepareStatement(preparedQuery);
@@ -60,17 +60,17 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
             preparedStatement.execute();
             logger.info("delete user query");
         } catch (SQLException e) {
-            logger.error("There are problems with user deleting from DB\n"+e);
+            logger.error("There are problems with user deleting from DB\n" + e);
             throw new DAOException("There are problems with user deleting from DB" + e);
-        }finally {
-            closeStatement(preparedStatement,logger);
+        } finally {
+            closeStatement(preparedStatement, logger);
         }
         return user;
     }
 
     @Override
     public User update(User user) {
-        PreparedStatement preparedStatement=null;
+        PreparedStatement preparedStatement = null;
         try {
             String preparedQuery = "UPDATE Pets.users SET userName = ?," +
                     "password = ?, email = ?, roleString = ? WHERE id =?";
@@ -83,44 +83,37 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
             preparedStatement.execute();
             logger.info("update user query");
         } catch (SQLException e) {
-            logger.error("There are problems with new user update in DB\n"+e);
+            logger.error("There are problems with new user update in DB\n" + e);
             throw new DAOException("There are problems with new user update in DB" + e);
-        }finally {
-            closeStatement(preparedStatement,logger);
+        } finally {
+            closeStatement(preparedStatement, logger);
         }
         return user;
     }
 
     @Override
     public User get(User user) {
-        PreparedStatement preparedStatement=null;
+        PreparedStatement preparedStatement = null;
         try {
             String preparedQuery = "SELECT * FROM Pets.users WHERE userName = ? AND password = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setString(1, user.getUserName());
             preparedStatement.setString(2, user.getPassword());
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                String userName = resultSet.getString("userName");
-                String password = resultSet.getString("password");
-                String email = resultSet.getString("email");
-                String roleString = resultSet.getString("roleString");
-                int id = resultSet.getInt("id");
-                user = new User(id, userName, password, email, roleString);
-            } else user = null;
+            user = parseResultSet(resultSet).get(0);
             logger.info("get user query");
         } catch (SQLException e) {
-            logger.error("There are problems with getting user from DB\n"+e);
+            logger.error("There are problems with getting user from DB\n" + e);
             throw new DAOException("There are problems with getting user from DB" + e);
-        }finally {
-            closeStatement(preparedStatement,logger);
+        } finally {
+            closeStatement(preparedStatement, logger);
         }
         return user;
     }
 
     @Override
     public User findByLoginPassword(String login, String password) {
-        PreparedStatement preparedStatement=null;
+        PreparedStatement preparedStatement = null;
         User user;
         try {
             String preparedQuery = "SELECT * FROM Pets.users WHERE userName = ? AND password = ?";
@@ -128,109 +121,101 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
             preparedStatement.setString(1, login);
             preparedStatement.setString(2, password);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                String email = resultSet.getString("email");
-                String roleString = resultSet.getString("roleString");
-                int id = resultSet.getInt("id");
-                user = new User(id, login, password, email, roleString);
-            } else user = null;
+            user = parseResultSet(resultSet).get(0);
             logger.info("findByLoginPassword user query");
         } catch (SQLException e) {
-            logger.error("There are problems with getting user from DB\n"+e);
+            logger.error("There are problems with getting user from DB\n" + e);
             throw new DAOException("There are problems with getting user from DB" + e);
-        }finally {
-            closeStatement(preparedStatement,logger);
+        } finally {
+            closeStatement(preparedStatement, logger);
         }
         return user;
     }
 
     @Override
     public User findById(Integer id) {
-        PreparedStatement preparedStatement=null;
+        PreparedStatement preparedStatement = null;
         User user;
         try {
             String preparedQuery = "SELECT * FROM Pets.users WHERE id = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                String userName = resultSet.getString("userName");
-                String password = resultSet.getString("password");
-                String email = resultSet.getString("email");
-                String roleString = resultSet.getString("roleString");
-                user = new User(id, userName, password, email, roleString);
-                return user;
-            }
+            user = parseResultSet(resultSet).get(0);
             logger.info("findById user query");
         } catch (SQLException e) {
-            logger.error("There are problems searching user by id\n"+e);
+            logger.error("There are problems searching user by id\n" + e);
             throw new DAOException("There are problems searching user by id " + e);
-        }finally {
-            closeStatement(preparedStatement,logger);
+        } finally {
+            closeStatement(preparedStatement, logger);
         }
-        return null;
+        return user;
     }
 
     @Override
     public User findByEmail(String email) {
-        PreparedStatement preparedStatement=null;
+        PreparedStatement preparedStatement = null;
         User user;
         try {
             String preparedQuery = "SELECT * FROM Pets.users WHERE email = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setString(1, email);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                Integer id = resultSet.getInt("id");
-                String userName = resultSet.getString("userName");
-                String password = resultSet.getString("password");
-                String roleString = resultSet.getString("roleString");
-                user = new User(id, userName, password, email, roleString);
-                return user;
-            }
+            user = parseResultSet(resultSet).get(0);
             logger.info("findByEmail user query");
         } catch (SQLException e) {
-            logger.error("There are problems searching user by email\n"+e);
+            logger.error("There are problems searching user by email\n" + e);
             throw new DAOException("There are problems searching user by email " + e);
-        }finally {
-            closeStatement(preparedStatement,logger);
+        } finally {
+            closeStatement(preparedStatement, logger);
         }
-        return null;
+        return user;
     }
 
     public List<User> getAllRecords() {
-        PreparedStatement preparedStatement=null;
-        List<User> users= new ArrayList<>();
+        PreparedStatement preparedStatement = null;
+        List<User> users;
         try {
             String preparedQuery = "SELECT * FROM Pets.users";
             preparedStatement = connection.prepareStatement(preparedQuery);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String userName = resultSet.getString("userName");
-                String password = resultSet.getString("password");
-                String email = resultSet.getString("email");
-                String roleString = resultSet.getString("roleString");
-                users.add( new User(id, userName, password, email, roleString));
-            }
+            users = parseResultSet(resultSet);
             logger.info("get all users query");
             return users;
         } catch (SQLException e) {
-            logger.error("There are problems with getting all records\n"+e);
+            logger.error("There are problems with getting all records\n" + e);
             throw new DAOException("There are problems with getting all records" + e);
-        }finally {
-            closeStatement(preparedStatement,logger);
+        } finally {
+            closeStatement(preparedStatement, logger);
         }
     }
 
     @Override
-    public void close()  {
+    public void close() {
         logger.info("connection close from UserDAO");
         try {
             this.connection.close();
         } catch (SQLException e) {
             throw new DAOException(e.getLocalizedMessage());
         }
+    }
+
+    @Override
+    public List<User> parseResultSet(ResultSet resultSet) {
+        List<User> users = new ArrayList<>();
+        try {
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String userName = resultSet.getString("userName");
+                String password = resultSet.getString("password");
+                String email = resultSet.getString("email");
+                String roleString = resultSet.getString("roleString");
+                users.add(new User(id, userName, password, email, roleString));
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e.getLocalizedMessage());
+        }
+        return users;
     }
 
 }

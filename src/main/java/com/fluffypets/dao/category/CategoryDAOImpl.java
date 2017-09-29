@@ -18,7 +18,7 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
     private static final Logger logger = LogManager.getLogger(CategoryDAOImpl.class.getName());
 
     private static CategoryDAO instance = new CategoryDAOImpl();
-    private static ProductDAO productDAO= ProductDAOImpl.getOrderItemDAOImpl();
+    private static ProductDAO productDAO = ProductDAOImpl.getOrderItemDAOImpl();
 
     public static CategoryDAO getCategoryDAOImpl() {
         return instance;
@@ -30,7 +30,7 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
 
     @Override
     public Category create(Category category) {
-            PreparedStatement preparedStatement=null;
+        PreparedStatement preparedStatement = null;
         try {
             String preparedQuery = "INSERT INTO Pets.categories (categoryName,categoryDescription) VALUES(?,?)";
             preparedStatement = connection.prepareStatement(preparedQuery);
@@ -44,16 +44,16 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
             logger.error("There are problems with new category insertion to DB\n" + e);
             throw new DAOException("There are problems with new category insertion to DB" + e);
         } finally {
-            closeStatement(preparedStatement,logger);
+            closeStatement(preparedStatement, logger);
         }
     }
 
     @Override
     public Category delete(Category category) {
-            PreparedStatement preparedStatement=null;
+        PreparedStatement preparedStatement = null;
         try {
-            List<Product> products=productDAO.selectByCategoryAndPrice(category.getId().toString(),0,Integer.MAX_VALUE);
-            for (Product product:products)productDAO.delete(product);
+            List<Product> products = productDAO.selectByCategoryAndPrice(category.getId().toString(), 0, Integer.MAX_VALUE);
+            for (Product product : products) productDAO.delete(product);
 
             String preparedQuery = "DELETE FROM Pets.categories  WHERE categoryName = ? AND categoryDescription =?";
             preparedStatement = connection.prepareStatement(preparedQuery);
@@ -65,14 +65,14 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
             logger.error("There are problems with category deleting from DB\n" + e);
             throw new DAOException("There are problems with category deleting from DB" + e);
         } finally {
-            closeStatement(preparedStatement,logger);
+            closeStatement(preparedStatement, logger);
         }
         return category;
     }
 
     @Override
     public Category update(Category category) {
-        PreparedStatement preparedStatement=null;
+        PreparedStatement preparedStatement = null;
         try {
             String preparedQuery = "UPDATE Pets.categories SET categoryName = ?,categoryDescription=? WHERE id =?";
             preparedStatement = connection.prepareStatement(preparedQuery);
@@ -84,70 +84,76 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
             logger.error("There are problems with new category update in DB\n" + e);
             throw new DAOException("There are problems with new category update in DB" + e);
         } finally {
-            closeStatement(preparedStatement,logger);
+            closeStatement(preparedStatement, logger);
         }
         return category;
     }
 
     @Override
     public Category get(Category category) {
-        PreparedStatement preparedStatement=null;
+        PreparedStatement preparedStatement = null;
         try {
             String preparedQuery = "SELECT * FROM Pets.categories WHERE categoryName=?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setString(1, category.getName());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                String categoryName = resultSet.getString("categoryName");
-                String categoryDescription = resultSet.getString("categoryDescription");
-                int id = resultSet.getInt("id");
-                category = new Category(id, categoryName, categoryDescription);
-            } else category = null;
+            ResultSet rs = preparedStatement.executeQuery();
+            category = parseResultSet(rs).get(0);
             logger.info("get category query");
         } catch (SQLException e) {
             logger.error("There are problems with getting category from DB\n" + e);
             throw new DAOException("There are problems with getting category from DB" + e);
         } finally {
-            closeStatement(preparedStatement,logger);
+            closeStatement(preparedStatement, logger);
         }
         return category;
     }
 
     @Override
     public Category findById(Integer id) {
-        PreparedStatement preparedStatement=null;
+        PreparedStatement preparedStatement = null;
         Category category;
         try {
             String preparedQuery = "SELECT * FROM Pets.categories WHERE id = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                String categoryName = resultSet.getString("categoryName");
-                String categoryDescription = resultSet.getString("categoryDescription");
-                category = new Category(id, categoryName, categoryDescription);
-                return category;
-            }
+            ResultSet rs = preparedStatement.executeQuery();
+            List<Category> categories = parseResultSet(rs);
+            category=categories.get(0);
             logger.info("findById category query");
         } catch (SQLException e) {
             logger.error("There are problems searching category by id\n" + e);
             throw new DAOException("There are problems searching category by id" + e);
         } finally {
-            closeStatement(preparedStatement,logger);
+            closeStatement(preparedStatement, logger);
         }
-        return null;
+        return category;
     }
 
     public List<Category> getAll() {
-        List<Category> list = new ArrayList<>();
-        Category category;
-        Integer id;
-        String name;
-            PreparedStatement preparedStatement=null;
+        List<Category> list;
+        PreparedStatement preparedStatement = null;
         try {
             String preparedQuery = "SELECT * FROM Pets.categories";
             preparedStatement = connection.prepareStatement(preparedQuery);
             ResultSet rs = preparedStatement.executeQuery();
+            list = parseResultSet(rs);
+            logger.info("find category By Id query");
+        } catch (SQLException e) {
+            logger.error("category list query error\n" + e);
+            throw new DAOException("getAll list query error" + e);
+        } finally {
+            closeStatement(preparedStatement, logger);
+        }
+        return list;
+    }
+
+    @Override
+    public List<Category> parseResultSet(ResultSet rs) {
+        List<Category> list = new ArrayList<>();
+        Category category;
+        Integer id;
+        String name;
+        try {
             while (rs.next()) {
                 id = rs.getInt("id");
                 name = rs.getString("categoryName");
@@ -155,17 +161,11 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
                 category = new Category(id, name, categoryDescription);
                 list.add(category);
             }
-            logger.info("find category By Id query");
-
         } catch (SQLException e) {
-            logger.error("category list query error\n" + e);
-            throw new DAOException("getAll list query error" + e);
-        } finally {
-            closeStatement(preparedStatement,logger);
+            throw new DAOException(e.getLocalizedMessage());
         }
         return list;
     }
-
 
     @Override
     public void close() throws DAOException {

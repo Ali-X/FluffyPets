@@ -1,5 +1,8 @@
 package com.fluffypets.dao;
 
+import java.sql.ResultSet;
+import java.util.List;
+
 public interface GenericDAO<T> {
 
     T create(T t);
@@ -15,4 +18,6 @@ public interface GenericDAO<T> {
     String printConnectInfo() ;
 
     void close();
+
+    List<T> parseResultSet(ResultSet rs);
 }

@@ -107,20 +107,7 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
             preparedStatement.setString(2, product.getProducer());
             preparedStatement.setString(3, product.getPrice().toString());
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                String productName = resultSet.getString("productName");
-                String producer = resultSet.getString("producer");
-                String price = resultSet.getString("price");
-                String description = resultSet.getString("description");
-                String pictureURL = resultSet.getString("pictureURL");
-                int id = resultSet.getInt("id");
-                int categoryId = resultSet.getInt("categoryId");
-
-                CategoryDAO supportReq = DaoFactory.getCategoryDao();
-
-                product = new Product(id, productName, producer, new BigDecimal(price),
-                        description, pictureURL, supportReq.findById(categoryId));
-            } else product = null;
+            product = parseResultSet(resultSet).get(0);
         } catch (SQLException e) {
             throw new DAOException("There are problems with getting product from DB" + e);
         } finally {
@@ -138,51 +125,25 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                String productName = resultSet.getString("productName");
-                String producer = resultSet.getString("producer");
-                String price = resultSet.getString("price");
-                String description = resultSet.getString("description");
-                String pictureURL = resultSet.getString("pictureURL");
-                int categoryId = resultSet.getInt("categoryId");
-
-                CategoryDAO supportReq = DaoFactory.getCategoryDao();
-
-                product = new Product(id, productName, producer, new BigDecimal(price),
-                        description, pictureURL, supportReq.findById(categoryId));
-                return product;
-            }
+            product = parseResultSet(resultSet).get(0);
         } catch (SQLException e) {
             throw new DAOException("There are problems searching product by id " + e);
         } finally {
             closeStatement(preparedStatement, logger);
         }
-        return null;
+        return product;
     }
 
     @Override
     public List<Product> getAll() {
         PreparedStatement preparedStatement = null;
-        List<Product> product = new ArrayList<>();
-        CategoryDAO supportReq = DaoFactory.getCategoryDao();
+        List<Product> products;
         try {
-            String preparedQuery = "SELECT * FROM Pets.products ORDER BY CAST(price as DECIMAL(9,2))";
+            String preparedQuery = "SELECT * FROM Pets.products ORDER BY CAST(price AS DECIMAL(9,2))";
             preparedStatement = connection.prepareStatement(preparedQuery);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                String productName = resultSet.getString("productName");
-                String producer = resultSet.getString("producer");
-                String price = resultSet.getString("price");
-                String description = resultSet.getString("description");
-                String pictureURL = resultSet.getString("pictureURL");
-                int id = resultSet.getInt("id");
-
-                Category thisCategory = supportReq.findById(id);
-
-                product.add(new Product(id, productName, producer, new BigDecimal(price),
-                        description, pictureURL, thisCategory));
-            }
-            return product;
+            products = parseResultSet(resultSet);
+            return products;
         } catch (SQLException e) {
             throw new DAOException("There are problems searching product by category id " + e);
         } finally {
@@ -193,28 +154,15 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
     @Override
     public List<Product> selectByCategoryAndPrice(String categoryIds, int min, int max) {
         PreparedStatement preparedStatement = null;
-        List<Product> product = new ArrayList<>();
-        CategoryDAO supportReq = DaoFactory.getCategoryDao();
+        List<Product> products;
         try {
             String preparedQuery = "SELECT * FROM Pets.products WHERE price>=? AND price<=? AND categoryId IN(" + categoryIds + ")";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, min);
             preparedStatement.setInt(2, max);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                String productName = resultSet.getString("productName");
-                String producer = resultSet.getString("producer");
-                String price = resultSet.getString("price");
-                String description = resultSet.getString("description");
-                String pictureURL = resultSet.getString("pictureURL");
-                int id = resultSet.getInt("id");
-
-                Category thisCategory = supportReq.findById(id);
-
-                product.add(new Product(id, productName, producer, new BigDecimal(price),
-                        description, pictureURL, thisCategory));
-            }
-            return product;
+            products = parseResultSet(resultSet);
+            return products;
         } catch (SQLException e) {
             throw new DAOException("There are problems searching product by category id " + e);
         } finally {
@@ -223,7 +171,7 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
     }
 
     @Override
-    public Integer countSelected(String categoryIds, int min, int max,int paginationStep) {
+    public Integer countSelected(String categoryIds, int min, int max, int paginationStep) {
         PreparedStatement preparedStatement = null;
         try {
             String preparedQuery = "SELECT COUNT(*) FROM Pets.products WHERE price>=? AND price<=? AND categoryId IN(" + categoryIds + ")";
@@ -231,11 +179,11 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
             preparedStatement.setInt(1, min);
             preparedStatement.setInt(2, max);
             ResultSet resultSet = preparedStatement.executeQuery();
-            Integer result=0;
+            Integer result = 0;
             if (resultSet.next()) {
-                result=resultSet.getInt(1);
+                result = resultSet.getInt(1);
             }
-            result=(int) Math.ceil(result/((double)paginationStep));
+            result = (int) Math.ceil(result / ((double) paginationStep));
             return result;
         } catch (SQLException e) {
             throw new DAOException("There are problems with counting products " + e);
@@ -247,31 +195,18 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
     @Override
     public List<Product> selectAndPagination(String categoryIds, int min, int max, String order, Integer paginationStep, Integer pagination) {
         PreparedStatement preparedStatement = null;
-        List<Product> product = new ArrayList<>();
-        CategoryDAO supportReq = DaoFactory.getCategoryDao();
+        List<Product> products;
         try {
-            String preparedQuery = "SELECT * FROM Pets.products WHERE price>=? AND price<=? AND categoryId IN(" + categoryIds + ") ORDER BY CAST(price as DECIMAL(9,2)) "+order+" LIMIT ?,?";
+            String preparedQuery = "SELECT * FROM Pets.products WHERE price>=? AND price<=? AND categoryId IN(" + categoryIds + ") ORDER BY CAST(price as DECIMAL(9,2)) " + order + " LIMIT ?,?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, min);
             preparedStatement.setInt(2, max);
             preparedStatement.setString(3, order);
-            preparedStatement.setInt(3, (pagination-1)*paginationStep);
+            preparedStatement.setInt(3, (pagination - 1) * paginationStep);
             preparedStatement.setInt(4, paginationStep);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                String productName = resultSet.getString("productName");
-                String producer = resultSet.getString("producer");
-                String price = resultSet.getString("price");
-                String description = resultSet.getString("description");
-                String pictureURL = resultSet.getString("pictureURL");
-                int id = resultSet.getInt("id");
-
-                Category thisCategory = supportReq.findById(id);
-
-                product.add(new Product(id, productName, producer, new BigDecimal(price),
-                        description, pictureURL, thisCategory));
-            }
-            return product;
+            products = parseResultSet(resultSet);
+            return products;
         } catch (SQLException e) {
             throw new DAOException("There are problems with pagination search " + e);
         } finally {
@@ -280,7 +215,32 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, 
     }
 
     @Override
-    public void close()  {
+    public List<Product> parseResultSet(ResultSet resultSet) {
+        List<Product> products = new ArrayList<>();
+        try {
+            while (resultSet.next()) {
+                String productName = resultSet.getString("productName");
+                String producer = resultSet.getString("producer");
+                String price = resultSet.getString("price");
+                String description = resultSet.getString("description");
+                String pictureURL = resultSet.getString("pictureURL");
+                int id = resultSet.getInt("id");
+                int categoryId = resultSet.getInt("categoryId");
+
+                CategoryDAO supportReq = DaoFactory.getCategoryDao();
+                Category thisCategory = supportReq.findById(categoryId);
+
+                products.add(new Product(id, productName, producer, new BigDecimal(price),
+                        description, pictureURL, thisCategory));
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e.getLocalizedMessage());
+        }
+        return products;
+    }
+
+    @Override
+    public void close() {
         try {
             this.connection.close();
         } catch (SQLException e) {

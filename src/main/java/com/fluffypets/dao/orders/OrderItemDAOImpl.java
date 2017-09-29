@@ -29,39 +29,27 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
 
     @Override
     public List<OrderItem> getAllItems(Integer orderId) {
-        List<OrderItem> list = new ArrayList<>();
-        OrderItem orderItem;
-        Integer id;
-        Integer productId;
-        Integer quantity;
-        BigDecimal price;
-            PreparedStatement preparedStatement=null;
+        List<OrderItem> list;
+        PreparedStatement preparedStatement = null;
         try {
             String preparedQuery = "SELECT * FROM Pets.ordersItems WHERE orderId=?";
             preparedStatement = connection.prepareStatement(preparedQuery);
-            preparedStatement.setLong(1,orderId);
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                id = rs.getInt("id");
-                productId = rs.getInt("productId");
-                quantity = rs.getInt("quantity");
-                price=new BigDecimal(rs.getString("price"));
-                orderItem = new OrderItem(id,productId,orderId,quantity,price);
-                list.add(orderItem);
-            }
+            preparedStatement.setLong(1, orderId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            list = parseResultSet(resultSet);
             logger.info("get All order Items query from Order Item Dao");
         } catch (SQLException e) {
-            logger.error("get All order Items query error\n"+e);
+            logger.error("get All order Items query error\n" + e);
             throw new DAOException("get All order Items query error");
-        }finally {
-            closeStatement(preparedStatement,logger);
+        } finally {
+            closeStatement(preparedStatement, logger);
         }
         return list;
     }
 
     @Override
     public OrderItem create(OrderItem orderItem) {
-            PreparedStatement preparedStatement=null;
+        PreparedStatement preparedStatement = null;
         try {
             String preparedQuery = "INSERT INTO Pets.ordersItems (orderId, productId, quantity, price) VALUES(?,?,?,?)";
             preparedStatement = connection.prepareStatement(preparedQuery);
@@ -73,16 +61,16 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
             logger.info("create Order Item");
             return get(orderItem);
         } catch (SQLException e) {
-            logger.error("There are problems with new order item insertion to DB\n"+e);
+            logger.error("There are problems with new order item insertion to DB\n" + e);
             throw new DAOException("There are problems with new order item insertion to DB" + e);
-        }finally {
-            closeStatement(preparedStatement,logger);
+        } finally {
+            closeStatement(preparedStatement, logger);
         }
     }
 
     @Override
     public OrderItem delete(OrderItem orderItem) {
-            PreparedStatement preparedStatement=null;
+        PreparedStatement preparedStatement = null;
         try {
             String preparedQuery = "DELETE FROM Pets.ordersItems  WHERE orderId = ? AND productId = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
@@ -91,17 +79,17 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
             preparedStatement.execute();
             logger.info("delete Order Item");
         } catch (SQLException e) {
-            logger.error("There are problems with order item deleting from DB \n"+e);
+            logger.error("There are problems with order item deleting from DB \n" + e);
             throw new DAOException("There are problems with order item deleting from DB" + e);
-        }finally {
-            closeStatement(preparedStatement,logger);
+        } finally {
+            closeStatement(preparedStatement, logger);
         }
         return orderItem;
     }
 
     @Override
     public OrderItem update(OrderItem orderItem) {
-        PreparedStatement preparedStatement=null;
+        PreparedStatement preparedStatement = null;
         try {
             String preparedQuery = "UPDATE Pets.ordersItems SET  orderId= ?," +
                     "productId = ?, quantity = ?, price = ? WHERE id =?";
@@ -114,67 +102,51 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
             preparedStatement.execute();
             logger.info("update Order Item");
         } catch (SQLException e) {
-            logger.error("There are problems with order item update in DB \n"+e);
+            logger.error("There are problems with order item update in DB \n" + e);
             throw new DAOException("There are problems with order item update in DB" + e);
-        }finally {
-            closeStatement(preparedStatement,logger);
+        } finally {
+            closeStatement(preparedStatement, logger);
         }
         return orderItem;
     }
 
     @Override
     public OrderItem get(OrderItem orderItem) {
-        PreparedStatement preparedStatement=null;
-        OrderItem theItem=null;
+        PreparedStatement preparedStatement = null;
         try {
             String preparedQuery = "SELECT * FROM Pets.ordersItems WHERE orderId = ? AND productId = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setLong(1, orderItem.getOrderId());
             preparedStatement.setLong(2, orderItem.getProductId());
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                Integer id = resultSet.getInt("id");
-                Integer productId = resultSet.getInt("productId");
-                Integer orderId = resultSet.getInt("orderId");
-                Integer quantity = resultSet.getInt("quantity");
-                BigDecimal price = new BigDecimal(resultSet.getString("price"));
-             theItem=new OrderItem(id,productId,orderId,quantity,price);
-            }
+            orderItem = parseResultSet(resultSet).get(0);
             logger.info("get Order Item");
         } catch (SQLException e) {
-            logger.error("There are problems with getting order item from DB \n"+e);
+            logger.error("There are problems with getting order item from DB \n" + e);
             throw new DAOException("There are problems with getting order item from DB" + e);
-        }finally {
-            closeStatement(preparedStatement,logger);
+        } finally {
+            closeStatement(preparedStatement, logger);
         }
-        return theItem;
+        return orderItem;
     }
 
     @Override
     public OrderItem findById(Integer id) {
-        PreparedStatement preparedStatement=null;
+        PreparedStatement preparedStatement = null;
         OrderItem orderItem;
         try {
             String preparedQuery = "SELECT * FROM Pets.ordersItems WHERE id = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                Integer productId = resultSet.getInt("productId");
-                Integer orderId = resultSet.getInt("orderId");
-                Integer quantity = resultSet.getInt("quantity");
-                BigDecimal price = new BigDecimal(resultSet.getString("price"));
-                orderItem=new OrderItem(id,productId,orderId,quantity,price);
-                logger.info("find order item by id");
-                return orderItem;
-            }
+            orderItem = parseResultSet(resultSet).get(0);
         } catch (SQLException e) {
-            logger.error("There are problems searching order item by id \n"+e);
+            logger.error("There are problems searching order item by id \n" + e);
             throw new DAOException("There are problems searching order item by id " + e);
-        }finally {
-            closeStatement(preparedStatement,logger);
+        } finally {
+            closeStatement(preparedStatement, logger);
         }
-        return null;
+        return orderItem;
     }
 
     @Override
@@ -185,5 +157,24 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
         } catch (SQLException e) {
             throw new DAOException(e.getLocalizedMessage());
         }
+    }
+
+    @Override
+    public List<OrderItem> parseResultSet(ResultSet rs) {
+        List<OrderItem> list = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                Integer id = rs.getInt("id");
+                Integer orderId = rs.getInt("orderId");
+                Integer productId = rs.getInt("productId");
+                Integer quantity = rs.getInt("quantity");
+                BigDecimal price = new BigDecimal(rs.getString("price"));
+                OrderItem orderItem = new OrderItem(id, productId, orderId, quantity, price);
+                list.add(orderItem);
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e.getLocalizedMessage());
+        }
+        return list;
     }
 }

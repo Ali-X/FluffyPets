@@ -31,7 +31,7 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
 
     @Override
     public List<Order> getMyOrders(Integer userId) {
-        List<Order> list = new ArrayList<>();
+        List<Order> list;
         PreparedStatement preparedStatement = null;
 
         try {
@@ -39,16 +39,7 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                Integer id = resultSet.getInt("id");
-                LocalDate dateOfOrder = resultSet.getDate("dateOfOrder").toLocalDate();
-                String orderStatus = resultSet.getString("orderStatus");
-                LocalDate dateOfDelivery = resultSet.getDate("dateOfDelivery").toLocalDate();
-                String comment = resultSet.getString("comment");
-                List<OrderItem> items = itemDAO.getAllItems(id);
-                list.add(new Order(id, userId, dateOfOrder, dateOfDelivery, orderStatus, items, comment));
-                logger.info("getMyOrders query");
-            }
+            list=parseResultSet(resultSet);
         } catch (SQLException e) {
             logger.error("There are problems with getting all orders from DB\n" + e);
             throw new DAOException("There are problems with getting all orders from DB" + e);
@@ -60,24 +51,14 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
 
     @Override
     public List<Order> getAllOrders() {
-        List<Order> list = new ArrayList<>();
+        List<Order> list;
         PreparedStatement preparedStatement = null;
 
         try {
             String preparedQuery = "SELECT * FROM Pets.orders";
             preparedStatement = connection.prepareStatement(preparedQuery);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                Integer id = resultSet.getInt("id");
-                Integer userId = resultSet.getInt("userId");
-                LocalDate dateOfOrder = resultSet.getDate("dateOfOrder").toLocalDate();
-                String orderStatus = resultSet.getString("orderStatus");
-                LocalDate dateOfDelivery = resultSet.getDate("dateOfDelivery").toLocalDate();
-                String comment = resultSet.getString("comment");
-                List<OrderItem> items = itemDAO.getAllItems(id);
-                list.add(new Order(id, userId, dateOfOrder, dateOfDelivery, orderStatus, items, comment));
-                logger.info("getAllOrders query");
-            }
+            list = parseResultSet(resultSet);
         } catch (SQLException e) {
             logger.error("There are problems with getting all orders from DB\n" + e);
             throw new DAOException("There are problems with getting all orders from DB" + e);
@@ -179,21 +160,14 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
             preparedStatement.setDate(4, Date.valueOf(order.getDeliveryDate()));
             preparedStatement.setString(5, order.getComment());
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                Integer id = resultSet.getInt("id");
-                List<OrderItem> items = itemDAO.getAllItems(id);
-                theOrder = new Order(id, order.getUserId(), order.getOrderDate(),
-                        order.getDeliveryDate(), order.getStatus(), items, order.getComment());
-                logger.info("Order get query");
-                return theOrder;
-            }
+            theOrder = parseResultSet(resultSet).get(0);
         } catch (SQLException e) {
             logger.error("There are problems with getting orders from DB \n" + e);
             throw new DAOException("There are problems with getting orders from DB" + e);
         } finally {
             closeStatement(preparedStatement, logger);
         }
-        return null;
+        return theOrder;
     }
 
     @Override
@@ -205,29 +179,39 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                Integer userId = resultSet.getInt("userId");
-                LocalDate dateOfOrder = resultSet.getDate("dateOfOrder").toLocalDate();
-                String orderStatus = resultSet.getString("orderStatus");
-                LocalDate dateOfDelivery = resultSet.getDate("dateOfDelivery").toLocalDate();
-                String comment = resultSet.getString("comment");
-                List<OrderItem> items = itemDAO.getAllItems(id);
-                theOrder = new Order(id, userId, dateOfOrder, dateOfDelivery, orderStatus, items, comment);
-                logger.info("Order findById query");
-                return theOrder;
-            }
+            theOrder = parseResultSet(resultSet).get(0);
         } catch (SQLException e) {
             logger.error("There are problems with getting orders by id from DB \n" + e);
             throw new DAOException("There are problems with getting orders by id from DB" + e);
         } finally {
             closeStatement(preparedStatement, logger);
         }
-        return null;
+        return theOrder;
     }
 
+    @Override
+    public List<Order> parseResultSet(ResultSet resultSet) {
+        List<Order> orders = new ArrayList<>();
+        try {
+            while (resultSet.next()) {
+                Integer id = resultSet.getInt("id");
+                Integer userId = resultSet.getInt("userId");
+                LocalDate dateOfOrder = resultSet.getDate("dateOfOrder").toLocalDate();
+                String orderStatus = resultSet.getString("orderStatus");
+                LocalDate dateOfDelivery = resultSet.getDate("dateOfDelivery").toLocalDate();
+                String comment = resultSet.getString("comment");
+                List<OrderItem> items = itemDAO.getAllItems(id);
+                orders.add(new Order(id, userId, dateOfOrder, dateOfDelivery, orderStatus, items, comment));
+                logger.info("getAllOrders query");
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e.getLocalizedMessage());
+        }
+        return orders;
+    }
 
     @Override
-    public void close()  {
+    public void close() {
         logger.info("Connection close from product dao");
         try {
             connection.close();

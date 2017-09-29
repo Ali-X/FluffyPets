@@ -1,5 +1,6 @@
 package com.fluffypets.factory;
 
+import exeptions.DAOException;
 import exeptions.FactoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,8 +15,8 @@ import java.net.NetworkInterface;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Enumeration;
 
 public class ContextFactory {
@@ -43,13 +44,26 @@ public class ContextFactory {
             Context ctx = new InitialContext();
             Context initCtx = (Context) ctx.lookup("java:/comp/env");
             DataSource ds = (DataSource) initCtx.lookup("jdbc/Pets");
-            Connection connection=ds.getConnection();
-            return connection;
+            return ds.getConnection();
         } catch (NamingException | SQLException e) {
             logger.error("get connection from TomCat error\n" + e);
             throw new FactoryException("get connection from TomCat error");
         }
     }
+
+    private static Connection getConnectionMySQL() {
+        Connection connection = null;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Pets",
+                    "root", "nicolas");
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new DAOException("problem with JDBC MySQL driver");
+        }
+        return connection;
+    }
+
 
     public static String getIp(){
         String ip=null;

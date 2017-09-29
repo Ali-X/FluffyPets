@@ -5,8 +5,7 @@ import com.fluffypets.mvc.model.Category;
 import com.fluffypets.factory.DaoFactory;
 import org.junit.Test;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNull;
+import static junit.framework.TestCase.*;
 
 public class CategoryDAOImplTest {
     @Test
