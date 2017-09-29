@@ -1,14 +1,17 @@
 package com.fluffypets.dao.orders;
 
 import com.fluffypets.dao.AbstractDAO;
+import com.fluffypets.factory.ContextFactory;
 import com.fluffypets.mvc.model.Order;
 import com.fluffypets.mvc.model.OrderItem;
-import com.fluffypets.factory.ContextFactory;
 import exeptions.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +42,7 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            list=parseResultSet(resultSet);
+            list = parseResultSet(resultSet);
         } catch (SQLException e) {
             logger.error("There are problems with getting all orders from DB\n" + e);
             throw new DAOException("There are problems with getting all orders from DB" + e);
@@ -214,7 +217,7 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
     public void close() {
         logger.info("Connection close from product dao");
         try {
-            connection.close();
+            this.connection.close();
         } catch (SQLException e) {
             throw new DAOException(e.getLocalizedMessage());
         }

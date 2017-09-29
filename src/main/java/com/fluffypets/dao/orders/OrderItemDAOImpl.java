@@ -150,16 +150,6 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
     }
 
     @Override
-    public void close() throws DAOException {
-        logger.info("close connection from OrderItemDAO");
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            throw new DAOException(e.getLocalizedMessage());
-        }
-    }
-
-    @Override
     public List<OrderItem> parseResultSet(ResultSet rs) {
         List<OrderItem> list = new ArrayList<>();
         try {
@@ -176,5 +166,15 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
             throw new DAOException(e.getLocalizedMessage());
         }
         return list;
+    }
+
+    @Override
+    public void close() throws DAOException {
+        logger.info("close connection from OrderItemDAO");
+        try {
+            this.connection.close();
+        } catch (SQLException e) {
+            throw new DAOException(e.getLocalizedMessage());
+        }
     }
 }

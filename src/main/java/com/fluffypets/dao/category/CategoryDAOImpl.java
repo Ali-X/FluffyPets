@@ -3,14 +3,16 @@ package com.fluffypets.dao.category;
 import com.fluffypets.dao.AbstractDAO;
 import com.fluffypets.dao.product.ProductDAO;
 import com.fluffypets.dao.product.ProductDAOImpl;
-import com.fluffypets.mvc.model.Product;
 import com.fluffypets.factory.ContextFactory;
-import exeptions.DAOException;
 import com.fluffypets.mvc.model.Category;
+import com.fluffypets.mvc.model.Product;
+import exeptions.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,7 +120,7 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
             preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
             List<Category> categories = parseResultSet(rs);
-            category=categories.get(0);
+            category = categories.get(0);
             logger.info("findById category query");
         } catch (SQLException e) {
             logger.error("There are problems searching category by id\n" + e);
@@ -150,15 +152,12 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
     @Override
     public List<Category> parseResultSet(ResultSet rs) {
         List<Category> list = new ArrayList<>();
-        Category category;
-        Integer id;
-        String name;
         try {
             while (rs.next()) {
-                id = rs.getInt("id");
-                name = rs.getString("categoryName");
+                int id = rs.getInt("id");
+                String name = rs.getString("categoryName");
                 String categoryDescription = rs.getString("categoryDescription");
-                category = new Category(id, name, categoryDescription);
+                Category category = new Category(id, name, categoryDescription);
                 list.add(category);
             }
         } catch (SQLException e) {

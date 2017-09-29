@@ -1,8 +1,8 @@
 package com.fluffypets.dao.user;
 
 import com.fluffypets.dao.AbstractDAO;
-import com.fluffypets.mvc.model.UserData;
 import com.fluffypets.factory.ContextFactory;
+import com.fluffypets.mvc.model.UserData;
 import exeptions.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -167,16 +167,6 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
     }
 
     @Override
-    public void close() throws DAOException {
-        try {
-            this.connection.close();
-        } catch (SQLException e) {
-            throw new DAOException(e.getLocalizedMessage());
-        }
-        logger.info("connection closed from UserDataDAO");
-    }
-
-    @Override
     public List<UserData> parseResultSet(ResultSet resultSet) {
         List<UserData> userDataList = new ArrayList<>();
         try {
@@ -202,5 +192,15 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
             throw new DAOException(e.getLocalizedMessage());
         }
         return userDataList;
+    }
+
+    @Override
+    public void close() throws DAOException {
+        try {
+            this.connection.close();
+        } catch (SQLException e) {
+            throw new DAOException(e.getLocalizedMessage());
+        }
+        logger.info("connection closed from UserDataDAO");
     }
 }

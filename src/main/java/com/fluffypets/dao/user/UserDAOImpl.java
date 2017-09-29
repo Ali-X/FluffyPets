@@ -191,16 +191,6 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
     }
 
     @Override
-    public void close() {
-        logger.info("connection close from UserDAO");
-        try {
-            this.connection.close();
-        } catch (SQLException e) {
-            throw new DAOException(e.getLocalizedMessage());
-        }
-    }
-
-    @Override
     public List<User> parseResultSet(ResultSet resultSet) {
         List<User> users = new ArrayList<>();
         try {
@@ -218,4 +208,13 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
         return users;
     }
 
+    @Override
+    public void close() {
+        logger.info("connection close from UserDAO");
+        try {
+            this.connection.close();
+        } catch (SQLException e) {
+            throw new DAOException(e.getLocalizedMessage());
+        }
+    }
 }
