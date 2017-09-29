@@ -1,7 +1,7 @@
 package com.fluffypets.servicies.product;
 
 
-import com.fluffypets.MVC.model.Product;
+import com.fluffypets.mvc.model.Product;
 
 import java.util.List;
 

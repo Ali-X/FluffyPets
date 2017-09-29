@@ -1,6 +1,6 @@
 package com.fluffypets.servicies.user;
 
-import com.fluffypets.MVC.model.UserData;
+import com.fluffypets.mvc.model.UserData;
 
 public interface UserDataService {
 

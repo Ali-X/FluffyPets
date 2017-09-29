@@ -1,7 +1,7 @@
 package com.fluffypets.servicies.product;
 
-import com.fluffypets.DAO.product.ProductDAO;
-import com.fluffypets.MVC.model.Product;
+import com.fluffypets.dao.product.ProductDAO;
+import com.fluffypets.mvc.model.Product;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

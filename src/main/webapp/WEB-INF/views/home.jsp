@@ -204,12 +204,12 @@
     </div>
 
     <div class="row text-center">
-            <form method="post" action="/root/selectGoods">
-                <c:forEach var="count" begin = "1" end ="${homePagePref.getPaginationMax()}">
-                    <button class="btn-lg btn-info" name="pagination" value="${count}">${count}</button>
-                    <input name="formN" value="2" hidden="hidden">
-                </c:forEach>
-            </form>
+        <form method="post" action="/root/selectGoods">
+            <c:forEach var="count" begin="1" end="${homePagePref.getPaginationMax()}">
+                <button class="btn-lg btn-info" name="pagination" value="${count}">${count}</button>
+                <input name="formN" value="2" hidden="hidden">
+            </c:forEach>
+        </form>
     </div>
 </div>
 

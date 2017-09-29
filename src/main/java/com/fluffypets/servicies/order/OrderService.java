@@ -1,9 +1,9 @@
 package com.fluffypets.servicies.order;
 
-import com.fluffypets.MVC.model.Cart;
-import com.fluffypets.MVC.model.Order;
-import com.fluffypets.MVC.model.User;
-import com.fluffypets.MVC.model.UserData;
+import com.fluffypets.mvc.model.Cart;
+import com.fluffypets.mvc.model.Order;
+import com.fluffypets.mvc.model.User;
+import com.fluffypets.mvc.model.UserData;
 
 import java.time.LocalDate;
 import java.util.List;

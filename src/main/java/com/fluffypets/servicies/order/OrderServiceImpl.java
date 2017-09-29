@@ -1,8 +1,8 @@
 package com.fluffypets.servicies.order;
 
-import com.fluffypets.DAO.orders.OrderDAO;
-import com.fluffypets.DAO.user.UserDataDAO;
-import com.fluffypets.MVC.model.*;
+import com.fluffypets.dao.orders.OrderDAO;
+import com.fluffypets.dao.user.UserDataDAO;
+import com.fluffypets.mvc.model.*;
 
 import java.time.LocalDate;
 import java.util.List;

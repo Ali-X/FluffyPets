@@ -7,7 +7,7 @@
 
     <servlet>
         <servlet-name>MainServlet</servlet-name>
-        <servlet-class>com.fluffypets.MVC.servlets.FrontServlet</servlet-class>
+        <servlet-class>com.fluffypets.mvc.servlets.FrontServlet</servlet-class>
     </servlet>
 
     <jsp-config>
@@ -19,7 +19,7 @@
 
     <servlet>
         <servlet-name>FileStoringServlet</servlet-name>
-        <servlet-class>com.fluffypets.MVC.servlets.FileStoringServlet</servlet-class>
+        <servlet-class>com.fluffypets.mvc.servlets.FileStoringServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -41,7 +41,7 @@
 
     <servlet>
         <servlet-name>FileUploadHandler</servlet-name>
-        <servlet-class>com.fluffypets.MVC.servlets.FrontServlet</servlet-class>
+        <servlet-class>com.fluffypets.mvc.servlets.FrontServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -65,7 +65,7 @@
 
     <filter>
         <filter-name>CharsetFilter</filter-name>
-        <filter-class>com.fluffypets.MVC.filtres.CharsetFilter</filter-class>
+        <filter-class>com.fluffypets.mvc.filtres.CharsetFilter</filter-class>
         <init-param>
             <param-name>requestEncoding</param-name>
             <param-value>UTF-8</param-value>
@@ -74,12 +74,12 @@
 
     <filter>
         <filter-name>AdminFilter</filter-name>
-        <filter-class>com.fluffypets.MVC.filtres.AdminFilter</filter-class>
+        <filter-class>com.fluffypets.mvc.filtres.AdminFilter</filter-class>
     </filter>
 
     <filter>
         <filter-name>UserFilter</filter-name>
-        <filter-class>com.fluffypets.MVC.filtres.UserFilter</filter-class>
+        <filter-class>com.fluffypets.mvc.filtres.UserFilter</filter-class>
     </filter>
 
     <filter-mapping>

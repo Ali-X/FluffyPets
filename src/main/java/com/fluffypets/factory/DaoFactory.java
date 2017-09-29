@@ -1,17 +1,17 @@
 package com.fluffypets.factory;
 
-import com.fluffypets.DAO.category.CategoryDAO;
-import com.fluffypets.DAO.category.CategoryDAOImpl;
-import com.fluffypets.DAO.orders.OrderDAO;
-import com.fluffypets.DAO.orders.OrderDAOImpl;
-import com.fluffypets.DAO.orders.OrderItemDAO;
-import com.fluffypets.DAO.orders.OrderItemDAOImpl;
-import com.fluffypets.DAO.product.ProductDAO;
-import com.fluffypets.DAO.product.ProductDAOImpl;
-import com.fluffypets.DAO.user.UserDAO;
-import com.fluffypets.DAO.user.UserDAOImpl;
-import com.fluffypets.DAO.user.UserDataDAO;
-import com.fluffypets.DAO.user.UserDataDAOImpl;
+import com.fluffypets.dao.category.CategoryDAO;
+import com.fluffypets.dao.category.CategoryDAOImpl;
+import com.fluffypets.dao.orders.OrderDAO;
+import com.fluffypets.dao.orders.OrderDAOImpl;
+import com.fluffypets.dao.orders.OrderItemDAO;
+import com.fluffypets.dao.orders.OrderItemDAOImpl;
+import com.fluffypets.dao.product.ProductDAO;
+import com.fluffypets.dao.product.ProductDAOImpl;
+import com.fluffypets.dao.user.UserDAO;
+import com.fluffypets.dao.user.UserDAOImpl;
+import com.fluffypets.dao.user.UserDataDAO;
+import com.fluffypets.dao.user.UserDataDAOImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

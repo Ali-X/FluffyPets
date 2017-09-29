@@ -1,9 +1,9 @@
 package com.fluffypets.factory;
 
-import com.fluffypets.MVC.controller.Controller;
-import com.fluffypets.MVC.controller.UploadPhotoController;
-import com.fluffypets.MVC.controller.pages.*;
-import com.fluffypets.MVC.controller.post.*;
+import com.fluffypets.mvc.controller.Controller;
+import com.fluffypets.mvc.controller.UploadPhotoController;
+import com.fluffypets.mvc.controller.pages.*;
+import com.fluffypets.mvc.controller.post.*;
 
 public class ControllersFactory {
 

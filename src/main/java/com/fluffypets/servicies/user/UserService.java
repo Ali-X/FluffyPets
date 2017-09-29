@@ -1,7 +1,7 @@
 package com.fluffypets.servicies.user;
 
 
-import com.fluffypets.MVC.model.User;
+import com.fluffypets.mvc.model.User;
 
 import java.util.List;
 

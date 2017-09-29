@@ -1,7 +1,8 @@
 package com.fluffypets.servicies.product;
 
-import com.fluffypets.DAO.category.CategoryDAO;
-import com.fluffypets.MVC.model.Category;
+import com.fluffypets.dao.category.CategoryDAO;
+import com.fluffypets.mvc.model.Category;
+import exeptions.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,7 +35,7 @@ public class CategoryServiceImpl implements CategoryService,AutoCloseable {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() throws DAOException {
         categoryDAO.close();
     }
 }

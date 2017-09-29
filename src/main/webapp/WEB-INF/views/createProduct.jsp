@@ -70,13 +70,13 @@
                                     <form method="post">
                                         <div class="row center-block">
                                                 ${cartItem.getProduct().getName()} :
-                                            <button class="btn-link"  formaction="/root/takeFromCart"
-                                                    name="productId"    value="${cartItem.getProduct().getId()}" >
+                                            <button class="btn-link" formaction="/root/takeFromCart"
+                                                    name="productId" value="${cartItem.getProduct().getId()}">
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </button>
                                                 ${cartItem.getNumber()}
-                                            <button class="btn-link"  formaction="/root/addToCart"
-                                                    name="productId" value="${cartItem.getProduct().getId()}" >
+                                            <button class="btn-link" formaction="/root/addToCart"
+                                                    name="productId" value="${cartItem.getProduct().getId()}">
                                                 <span class="glyphicon glyphicon-plus"></span>
                                             </button>
                                         </div>
@@ -89,8 +89,10 @@
                                     <button type="submit"
                                             <c:if test="${not empty requestScope.user}"> formaction="/root/makeOder" class="btn btn-danger"</c:if>
                                             <c:if test="${empty requestScope.user}"> class="btn btn-default" disabled="disabled"</c:if>
-                                    > Confirm your order</button>
-                                </form></li>
+                                    > Confirm your order
+                                    </button>
+                                </form>
+                            </li>
                         </c:if>
                     </ul>
                 </li>
@@ -139,21 +141,24 @@
                     <label for="price">Picture URL (auto set value for uploaded)</label><br>
                     <div class="form-group">
                         <div class="col-md-1"><span class="glyphicon glyphicon-usd"></span></div>
-                        <div class="col-md-2"><input id="price" type="number" step="0.01" min="0" name="price" placeholder="?" required
+                        <div class="col-md-2"><input id="price" type="number" step="0.01" min="0" name="price"
+                                                     placeholder="?" required
                                                      class="form-control"></div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-3">
-                            <button class="btn btn-success btn-md" formaction="/root/admin/createProduct">Create good</button>
+                            <button id="submitProduct" class="btn btn-success btn-md" formaction="/root/admin/createProduct">Create good
+                            </button>
                         </div>
                         <c:if test="${not empty requestScope.categories}">
                             <div class="col-md-3">
                                 <c:if test="${empty requestScope.categories}"><h1>Create Category First</h1></c:if>
-
-                                <select class="form-control bg-warning" id="sel1" name="categorySelId">
+                                <label for="sel1"> Select the category</label>
+                                <select class="form-control bg-warning" id="sel1" name="categorySelId" style="width: 250px">
                                     <c:forEach items="${requestScope.categories}" var="category">
-                                        <option style="width: 300px" value="${category.getId()}"><c:out value="${category.getName()}"/></option>
+                                        <option style="width: 300px" value="${category.getId()}"><c:out
+                                                value="${category.getName()}"/></option>
                                     </c:forEach>
                                 </select>
                             </div>
