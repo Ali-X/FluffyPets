@@ -24,7 +24,7 @@ public class CreateCategoryController implements Controller{
             vm.setView("login");
         } else {
             String categoryName = command.getAttribute("categoryName");
-            String categoryDescription = command.getAttribute("categoryDescription");
+            String categoryDescription = command.getAttribute("nameUa");
             Category category = new Category(categoryName, categoryDescription);
             categoryService.create(category);
             List<Category> categories = categoryService.getAll();

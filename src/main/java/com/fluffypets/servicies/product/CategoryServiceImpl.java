@@ -41,11 +41,9 @@ public class CategoryServiceImpl implements CategoryService {
                 connection.setAutoCommit(false);
                 CategoryDAO categoryDAO = new CategoryDAOImpl(connection);
                 Category existing = categoryDAO.get(category);
+                if (existing == null) existing= categoryDAO.create(category);
                 connection.commit();
-                if (existing == null) return categoryDAO.create(category);
-                else {
-                    return existing;
-                }
+                return existing;
             } catch (SQLException e) {
                 connection.rollback();
             } finally {

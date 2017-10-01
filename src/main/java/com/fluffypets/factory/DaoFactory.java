@@ -13,8 +13,8 @@ public class DaoFactory {
 
     public static void initialQueries() {
         String initialQ1 = "SET NAMES 'utf8'";
-        String initialQ2 ="SET CHARACTER SET 'utf8'";
-        String initialQ3 ="SET SESSION collation_connection = 'utf8_general_ci'";
+        String initialQ2 = "SET CHARACTER SET 'utf8'";
+        String initialQ3 = "SET SESSION collation_connection = 'utf8_general_ci'";
 
         String initialCategories = "CREATE TABLE IF NOT EXISTS `Pets`.`categories` (" +
                 "`id` INT NOT NULL AUTO_INCREMENT," +
@@ -72,6 +72,29 @@ public class DaoFactory {
                 "PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC)," +
                 " CONSTRAINT FOREIGN KEY (userId) REFERENCES users(id))";
 
+        String initialCourier = "CREATE TABLE IF NOT EXISTS `Pets`.`courier`" +
+                "(id INT PRIMARY KEY NOT NULL AUTO_INCREMENT," +
+                "    name VARCHAR(45) NOT NULL," +
+                "    surname VARCHAR(45) NOT NULL," +
+                "    passportNumber VARCHAR(45) NOT NULL);";
+
+        String initialStorage ="CREATE TABLE IF NOT EXISTS `Pets`.`storage`" +
+                "(id INT PRIMARY KEY NOT NULL AUTO_INCREMENT," +
+                "productId INT NOT NULL, " +
+                "avaliableHere INT NOT NULL," +
+                "status VARCHAR(45)," +
+                "CONSTRAINT storage_products_id_fk FOREIGN KEY (productId) REFERENCES products (id));";
+
+        String initialDelivery ="CREATE TABLE IF NOT EXISTS `Pets`.`delivery`" +
+                "(id INT PRIMARY KEY NOT NULL AUTO_INCREMENT," +
+                "    courierId INT NOT NULL," +
+                "    orderId INT NOT NULL," +
+                "    status VARCHAR(45) NOT NULL," +
+                "    start DATE NOT NULL," +
+                "    finish DATE," +
+                "    CONSTRAINT delivery_courier_id_fk FOREIGN KEY (courierId) REFERENCES courier (id)," +
+                "    CONSTRAINT delivery_orders_id_fk FOREIGN KEY (orderId) REFERENCES orders (id));";
+
         Statement statement = null;
         try (Connection connection = ContextFactory.getContextConnection()) {
             statement = connection.createStatement();
@@ -84,9 +107,12 @@ public class DaoFactory {
             statement.execute(initialOrders);
             statement.execute(initialOrdersItems);
             statement.execute(initialUserData);
+            statement.execute(initialCourier);
+            statement.execute(initialStorage);
+            statement.execute(initialDelivery);
         } catch (SQLException e) {
             logger.error("Problems with Database Initialization");
-        }finally {
+        } finally {
             try {
                 if (statement != null) {
                     statement.close();

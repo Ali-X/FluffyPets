@@ -110,7 +110,6 @@
                         <c:if test="${empty requestScope.uploadedFile}">src="${pageContext.request.contextPath}/resourseces/img/toy-bear.jpg"</c:if>
                         <c:if test="${not empty requestScope.uploadedFile}">src="${requestScope.uploadedFile}"</c:if>
                         style="width:100%">
-                </a>
             </div>
         </div>
         <div class="col-xs-12 col-md-8 ">
@@ -148,14 +147,16 @@
 
                     <div class="row">
                         <div class="col-md-3">
-                            <button id="submitProduct" class="btn btn-success btn-md" formaction="/root/admin/createProduct">Create good
+                            <button id="submitProduct" class="btn btn-success btn-md"
+                                    formaction="/root/admin/createProduct">Create good
                             </button>
                         </div>
                         <c:if test="${not empty requestScope.categories}">
                             <div class="col-md-3">
                                 <c:if test="${empty requestScope.categories}"><h1>Create Category First</h1></c:if>
                                 <label for="sel1"> Select the category</label>
-                                <select class="form-control bg-warning" id="sel1" name="categorySelId" style="width: 250px">
+                                <select class="form-control bg-warning" id="sel1" name="categorySelId"
+                                        style="width: 250px">
                                     <c:forEach items="${requestScope.categories}" var="category">
                                         <option style="width: 300px" value="${category.getId()}"><c:out
                                                 value="${category.getName()}"/></option>
@@ -198,9 +199,9 @@
                                        placeholder="categoryName" class="form-control">
 
                                 <br>
-                                <label for="comment2">Insert category description</label>
-                                <textarea class="form-control" name="nameUa" rows="2" required
-                                          id="comment2"></textarea>
+                                <label for="comment2">Введіть назву Україньською</label>
+                                <input id="comment2" type="text" name="nameUa" required
+                                       placeholder="categoryName" class="form-control">
                                 <br>
 
                                 <button class="btn btn-success btn-md" formaction="/root/admin/createCategory">Create

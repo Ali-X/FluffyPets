@@ -157,6 +157,12 @@
                                     make user
                                 </button>
                             </c:if>
+                            <c:if test="${userFromBase.getRoleString() ne 'courier'}">
+                                <button class="btn-link" value="courier" name="command"><span
+                                        class="glyphicon glyphicon-transfer"></span>
+                                    make courier
+                                </button>
+                            </c:if>
                             <c:if test="${userFromBase.getRoleString() ne 'admin'}">
                                 <button class="btn-link" value="admin" name="command"><span
                                         class="glyphicon glyphicon-wrench"></span> make admin
