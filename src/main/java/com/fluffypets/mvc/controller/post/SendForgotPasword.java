@@ -10,7 +10,7 @@ import com.fluffypets.servicies.user.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class SendForgotPasword implements Controller, AutoCloseable {
+public class SendForgotPasword implements Controller {
     private static final Logger logger = LogManager.getLogger(SendForgotPasword.class.getName());
 
     private UserService userService;
@@ -37,10 +37,5 @@ public class SendForgotPasword implements Controller, AutoCloseable {
 
         vm.setView("home");
         return vm;
-    }
-
-    @Override
-    public void close() throws Exception {
-        userService.close();
     }
 }

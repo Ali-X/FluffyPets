@@ -3,13 +3,13 @@ package com.fluffypets.dao.category;
 import com.fluffypets.dao.AbstractDAO;
 import com.fluffypets.dao.product.ProductDAO;
 import com.fluffypets.dao.product.ProductDAOImpl;
-import com.fluffypets.factory.ContextFactory;
 import com.fluffypets.mvc.model.Category;
 import com.fluffypets.mvc.model.Product;
 import exeptions.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,37 +19,23 @@ import java.util.List;
 public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDAO, AutoCloseable {
     private static final Logger logger = LogManager.getLogger(CategoryDAOImpl.class.getName());
 
-    private static CategoryDAO instance = new CategoryDAOImpl();
-
-    public static CategoryDAO getCategoryDAOImpl() {
-        return instance;
-    }
-
-    private CategoryDAOImpl() {
-        super(ContextFactory.getContextConnection());
+    public CategoryDAOImpl(Connection connection) {
+        super(connection);
     }
 
     @Override
     public Category create(Category category) {
         PreparedStatement preparedStatement = null;
         try {
-            this.connection.setAutoCommit(false);
             String preparedQuery = "INSERT INTO Pets.categories (categoryName,categoryDescription) VALUES(?,?)";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setString(1, category.getName());
             preparedStatement.setString(2, category.getCategoryDescription());
             preparedStatement.execute();
-            this.connection.commit();
             logger.info("create category query");
             return get(category);
         } catch (SQLException e) {
-            logger.error("There are problems with new category insertion to DB\n" + e.getLocalizedMessage());
-            try {
-                this.connection.rollback();
-            } catch (SQLException e1) {
-                throw new DAOException("rollback " + e1.getLocalizedMessage());
-            }
-            throw new DAOException("There are problems with new category insertion to DB" + e.getLocalizedMessage());
+            throw new DAOException("There are problems with new category insertion to DB " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
@@ -59,7 +45,6 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
     public Category delete(Category category) {
         PreparedStatement preparedStatement = null;
         try {
-            this.connection.setAutoCommit(false);
             ProductDAO productDAO = new ProductDAOImpl(this.connection);
             List<Product> products = productDAO.selectByCategoryAndPrice(category.getId().toString(), 0, Integer.MAX_VALUE);
             for (Product product : products) productDAO.delete(product);
@@ -69,16 +54,9 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
             preparedStatement.setString(1, category.getName());
             preparedStatement.setString(2, category.getCategoryDescription());
             preparedStatement.execute();
-            this.connection.commit();
             logger.info("delete category query");
         } catch (SQLException e) {
-            logger.error("There are problems with category deleting from DB\n" + e);
-            try {
-                this.connection.rollback();
-            } catch (SQLException e1) {
-                throw new DAOException("rollback " + e1.getLocalizedMessage());
-            }
-            throw new DAOException("There are problems with category deleting from DB" + e);
+            throw new DAOException("There are problems with category deleting from DB " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
@@ -89,22 +67,14 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
     public Category update(Category category) {
         PreparedStatement preparedStatement = null;
         try {
-            this.connection.setAutoCommit(false);
             String preparedQuery = "UPDATE Pets.categories SET categoryName = ?,categoryDescription=? WHERE id =?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setString(1, category.getName());
             preparedStatement.setString(2, category.getCategoryDescription());
             preparedStatement.setLong(3, category.getId());
             preparedStatement.execute();
-            this.connection.commit();
         } catch (SQLException e) {
-            logger.error("There are problems with new category update in DB\n" + e);
-            try {
-                this.connection.rollback();
-            } catch (SQLException e1) {
-                throw new DAOException("rollback " + e1.getLocalizedMessage());
-            }
-            throw new DAOException("There are problems with new category update in DB" + e);
+            throw new DAOException("There are problems with new category update in DB " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
@@ -115,22 +85,19 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
     public Category get(Category category) {
         PreparedStatement preparedStatement = null;
         try {
-            this.connection.setAutoCommit(false);
             String preparedQuery = "SELECT * FROM Pets.categories WHERE categoryName=?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setString(1, category.getName());
             ResultSet rs = preparedStatement.executeQuery();
-            category = parseResultSet(rs).get(0);
-            this.connection.commit();
+            List<Category> resSetCont = parseResultSet(rs);
+            if (resSetCont.size() == 0) {
+                category = null;
+            } else {
+                category = resSetCont.get(0);
+            }
             logger.info("get category query");
         } catch (SQLException e) {
-            logger.error("There are problems with getting category from DB\n" + e);
-            try {
-                this.connection.rollback();
-            } catch (SQLException e1) {
-                throw new DAOException("rollback " + e1.getLocalizedMessage());
-            }
-            throw new DAOException("There are problems with getting category from DB" + e);
+            throw new DAOException("There are problems with getting category from DB " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
@@ -142,23 +109,19 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
         PreparedStatement preparedStatement = null;
         Category category;
         try {
-            this.connection.setAutoCommit(false);
             String preparedQuery = "SELECT * FROM Pets.categories WHERE id = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
-            List<Category> categories = parseResultSet(rs);
-            category = categories.get(0);
-            this.connection.commit();
+            List<Category> resSetCont = parseResultSet(rs);
+            if (resSetCont.size() == 0) {
+                category = null;
+            } else {
+                category = resSetCont.get(0);
+            }
             logger.info("findById category query");
         } catch (SQLException e) {
-            logger.error("There are problems searching category by id\n" + e);
-            try {
-                this.connection.rollback();
-            } catch (SQLException e1) {
-                throw new DAOException("rollback " + e1.getLocalizedMessage());
-            }
-            throw new DAOException("There are problems searching category by id" + e);
+            throw new DAOException("There are problems searching category by id " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
@@ -169,21 +132,13 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
         List<Category> list;
         PreparedStatement preparedStatement = null;
         try {
-            this.connection.setAutoCommit(false);
             String preparedQuery = "SELECT * FROM Pets.categories";
             preparedStatement = connection.prepareStatement(preparedQuery);
             ResultSet rs = preparedStatement.executeQuery();
             list = parseResultSet(rs);
-            this.connection.commit();
             logger.info("find category By Id query");
         } catch (SQLException e) {
-            logger.error("category list query error\n" + e);
-            try {
-                this.connection.rollback();
-            } catch (SQLException e1) {
-                throw new DAOException("rollback " + e1.getLocalizedMessage());
-            }
-            throw new DAOException("getAll list query error" + e);
+            throw new DAOException("getAll list query error" + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }

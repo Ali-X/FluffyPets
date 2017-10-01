@@ -1,17 +1,5 @@
 package com.fluffypets.factory;
 
-import com.fluffypets.dao.category.CategoryDAO;
-import com.fluffypets.dao.category.CategoryDAOImpl;
-import com.fluffypets.dao.orders.OrderDAO;
-import com.fluffypets.dao.orders.OrderDAOImpl;
-import com.fluffypets.dao.orders.OrderItemDAO;
-import com.fluffypets.dao.orders.OrderItemDAOImpl;
-import com.fluffypets.dao.product.ProductDAO;
-import com.fluffypets.dao.product.ProductDAOImpl;
-import com.fluffypets.dao.user.UserDAO;
-import com.fluffypets.dao.user.UserDAOImpl;
-import com.fluffypets.dao.user.UserDataDAO;
-import com.fluffypets.dao.user.UserDataDAOImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,14 +8,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DaoFactory {
-    private static DaoFactory instance = new DaoFactory();
     private static final Logger logger = LogManager.getLogger(DaoFactory.class.getName());
 
-    public static DaoFactory getInstance() {
-        return instance;
-    }
 
-    private DaoFactory() {
+    static void initialQueries() {
         String initialQ1 = "SET NAMES 'utf8'";
         String initialQ2 ="SET CHARACTER SET 'utf8'";
         String initialQ3 ="SET SESSION collation_connection = 'utf8_general_ci'";
@@ -115,33 +99,5 @@ public class DaoFactory {
                 logger.error(e.getLocalizedMessage());
             }
         }
-    }
-
-    public static ProductDAO getProductDao() {
-        return ProductDAOImpl.getOrderItemDAOImpl();
-    }
-
-    public static UserDAO getUserDao() {
-        return UserDAOImpl.getOrderItemDAOImpl();
-    }
-
-    public static UserDataDAO getUserDataDao() {
-        return UserDataDAOImpl.getOrderItemDAOImpl();
-    }
-
-    public static CategoryDAO getCategoryDao() {
-        return CategoryDAOImpl.getCategoryDAOImpl();
-    }
-
-    static CategoryDAO getCategoryDAO() {
-        return CategoryDAOImpl.getCategoryDAOImpl();
-    }
-
-    public static OrderDAO getOrderDAO() {
-        return OrderDAOImpl.getOrderDAOImpl();
-    }
-
-    public static OrderItemDAO getOrderItemDAO() {
-        return OrderItemDAOImpl.getOrderItemDAOImpl();
     }
 }

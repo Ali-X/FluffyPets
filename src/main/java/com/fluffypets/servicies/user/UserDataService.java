@@ -9,6 +9,4 @@ public interface UserDataService {
     UserData create(UserData userData);
 
     UserData update(UserData userData);
-
-    void close() throws Exception;
 }

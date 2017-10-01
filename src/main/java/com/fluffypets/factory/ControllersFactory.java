@@ -106,7 +106,7 @@ public class ControllersFactory {
     }
 
     public static Controller getRecoverPassword() {
-        return new PasswordRecoveringController(DaoFactory.getUserDao());
+        return new PasswordRecoveringController();
     }
 
     public static Controller getUpdatePassword() {

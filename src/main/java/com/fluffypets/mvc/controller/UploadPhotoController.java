@@ -34,12 +34,4 @@ public class UploadPhotoController implements Controller {
         logger.info(uniqueName + "was uploaded");
         return vm;
     }
-/**
-
- This method is empty becouse it dosent use resources
- */
-    @Override
-    public void close() throws Exception {
-
-    }
 }

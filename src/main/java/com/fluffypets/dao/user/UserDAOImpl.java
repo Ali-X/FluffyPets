@@ -2,11 +2,11 @@ package com.fluffypets.dao.user;
 
 import com.fluffypets.dao.AbstractDAO;
 import com.fluffypets.mvc.model.User;
-import com.fluffypets.factory.ContextFactory;
 import exeptions.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,21 +16,14 @@ import java.util.List;
 public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoCloseable {
     private static final Logger logger = LogManager.getLogger(UserDAOImpl.class.getName());
 
-    private static UserDAO instance = new UserDAOImpl();
-
-    public static UserDAO getOrderItemDAOImpl() {
-        return instance;
-    }
-
-    private UserDAOImpl() {
-        super(ContextFactory.getContextConnection());
+    public UserDAOImpl(Connection connection) {
+        super(connection);
     }
 
     @Override
     public User create(User user) {
         PreparedStatement preparedStatement = null;
         try {
-            this.connection.setAutoCommit(false);
             String preparedQuery = "INSERT INTO Pets.users (userName, password, email,roleString) VALUES(?,?,?,?)";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setString(1, user.getUserName());
@@ -38,17 +31,10 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
             preparedStatement.setString(3, user.getEmail());
             preparedStatement.setString(4, user.getRoleString());
             preparedStatement.execute();
-            this.connection.commit();
             logger.info("create user query");
             return get(user);
         } catch (SQLException e) {
-            logger.error("create user query error\n" + e);
-            try {
-                this.connection.rollback();
-            } catch (SQLException e1) {
-                throw new DAOException("rollback " + e1.getLocalizedMessage());
-            }
-            throw new DAOException("There are problems with new user insertion to DB" + e);
+            throw new DAOException("There are problems with new user insertion to DB " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
@@ -58,7 +44,6 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
     public User delete(User user) {
         PreparedStatement preparedStatement = null;
         try {
-            this.connection.setAutoCommit(false);
             String preparedQuery = "DELETE FROM Pets.users  WHERE userName = ? AND password=?  AND email=? AND roleString=?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setString(1, user.getUserName());
@@ -66,16 +51,9 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
             preparedStatement.setString(3, user.getEmail());
             preparedStatement.setString(4, user.getRoleString());
             preparedStatement.execute();
-            this.connection.commit();
             logger.info("delete user query");
         } catch (SQLException e) {
-            logger.error("There are problems with user deleting from DB\n" + e);
-            try {
-                this.connection.rollback();
-            } catch (SQLException e1) {
-                throw new DAOException("rollback " + e1.getLocalizedMessage());
-            }
-            throw new DAOException("There are problems with user deleting from DB" + e);
+            throw new DAOException("There are problems with user deleting from DB " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
@@ -86,7 +64,6 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
     public User update(User user) {
         PreparedStatement preparedStatement = null;
         try {
-            this.connection.setAutoCommit(false);
             String preparedQuery = "UPDATE Pets.users SET userName = ?," +
                     "password = ?, email = ?, roleString = ? WHERE id =?";
             preparedStatement = connection.prepareStatement(preparedQuery);
@@ -96,16 +73,9 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
             preparedStatement.setString(4, user.getRoleString());
             preparedStatement.setLong(5, user.getId());
             preparedStatement.execute();
-            this.connection.commit();
             logger.info("update user query");
         } catch (SQLException e) {
-            logger.error("There are problems with new user update in DB\n" + e);
-            try {
-                this.connection.rollback();
-            } catch (SQLException e1) {
-                throw new DAOException("rollback " + e1.getLocalizedMessage());
-            }
-            throw new DAOException("There are problems with new user update in DB" + e);
+            throw new DAOException("There are problems with new user update in DB " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
@@ -116,23 +86,20 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
     public User get(User user) {
         PreparedStatement preparedStatement = null;
         try {
-            this.connection.setAutoCommit(false);
             String preparedQuery = "SELECT * FROM Pets.users WHERE userName = ? AND password = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setString(1, user.getUserName());
             preparedStatement.setString(2, user.getPassword());
             ResultSet resultSet = preparedStatement.executeQuery();
-            user = parseResultSet(resultSet).get(0);
-            this.connection.commit();
+            List<User> resSetCont = parseResultSet(resultSet);
+            if (resSetCont.size() == 0) {
+                user = null;
+            } else {
+                user = resSetCont.get(0);
+            }
             logger.info("get user query");
         } catch (SQLException e) {
-            logger.error("There are problems with getting user from DB\n" + e);
-            try {
-                this.connection.rollback();
-            } catch (SQLException e1) {
-                throw new DAOException("rollback " + e1.getLocalizedMessage());
-            }
-            throw new DAOException("There are problems with getting user from DB" + e);
+            throw new DAOException("There are problems with getting user from DB " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
@@ -144,23 +111,20 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
         PreparedStatement preparedStatement = null;
         User user;
         try {
-            this.connection.setAutoCommit(false);
             String preparedQuery = "SELECT * FROM Pets.users WHERE userName = ? AND password = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setString(1, login);
             preparedStatement.setString(2, password);
             ResultSet resultSet = preparedStatement.executeQuery();
-            user = parseResultSet(resultSet).get(0);
-            this.connection.commit();
+            List<User> resSetCont = parseResultSet(resultSet);
+            if (resSetCont.size() == 0) {
+                user = null;
+            } else {
+                user = resSetCont.get(0);
+            }
             logger.info("findByLoginPassword user query");
         } catch (SQLException e) {
-            logger.error("There are problems with getting user from DB\n" + e);
-            try {
-                this.connection.rollback();
-            } catch (SQLException e1) {
-                throw new DAOException("rollback " + e1.getLocalizedMessage());
-            }
-            throw new DAOException("There are problems with getting user from DB" + e);
+            throw new DAOException("There are problems with getting user from DB " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
@@ -172,22 +136,19 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
         PreparedStatement preparedStatement = null;
         User user;
         try {
-            this.connection.setAutoCommit(false);
             String preparedQuery = "SELECT * FROM Pets.users WHERE id = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            user = parseResultSet(resultSet).get(0);
-            this.connection.commit();
+            List<User> resSetCont = parseResultSet(resultSet);
+            if (resSetCont.size() == 0) {
+                user = null;
+            } else {
+                user = resSetCont.get(0);
+            }
             logger.info("findById user query");
         } catch (SQLException e) {
-            logger.error("There are problems searching user by id\n" + e);
-            try {
-                this.connection.rollback();
-            } catch (SQLException e1) {
-                throw new DAOException("rollback " + e1.getLocalizedMessage());
-            }
-            throw new DAOException("There are problems searching user by id " + e);
+            throw new DAOException("There are problems searching user by id " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
@@ -199,22 +160,19 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
         PreparedStatement preparedStatement = null;
         User user;
         try {
-            this.connection.setAutoCommit(false);
             String preparedQuery = "SELECT * FROM Pets.users WHERE email = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setString(1, email);
             ResultSet resultSet = preparedStatement.executeQuery();
-            user = parseResultSet(resultSet).get(0);
-            this.connection.commit();
+            List<User> resSetCont = parseResultSet(resultSet);
+            if (resSetCont.size() == 0) {
+                user = null;
+            } else {
+                user = resSetCont.get(0);
+            }
             logger.info("findByEmail user query");
         } catch (SQLException e) {
-            logger.error("There are problems searching user by email\n" + e);
-            try {
-                this.connection.rollback();
-            } catch (SQLException e1) {
-                throw new DAOException("rollback " + e1.getLocalizedMessage());
-            }
-            throw new DAOException("There are problems searching user by email " + e);
+            throw new DAOException("There are problems searching user by email " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
@@ -225,22 +183,14 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoClose
         PreparedStatement preparedStatement = null;
         List<User> users;
         try {
-            this.connection.setAutoCommit(false);
             String preparedQuery = "SELECT * FROM Pets.users";
             preparedStatement = connection.prepareStatement(preparedQuery);
             ResultSet resultSet = preparedStatement.executeQuery();
             users = parseResultSet(resultSet);
-            this.connection.commit();
             logger.info("get all users query");
             return users;
         } catch (SQLException e) {
-            logger.error("There are problems with getting all records\n" + e);
-            try {
-                this.connection.rollback();
-            } catch (SQLException e1) {
-                throw new DAOException("rollback " + e1.getLocalizedMessage());
-            }
-            throw new DAOException("There are problems with getting all records" + e);
+            throw new DAOException("There are problems with getting all records " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }

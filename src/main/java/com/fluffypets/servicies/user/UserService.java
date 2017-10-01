@@ -19,7 +19,5 @@ public interface UserService {
 
     User findByEmail(String email);
 
-    void close() throws Exception;
-
     User update(User user);
 }

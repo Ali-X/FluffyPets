@@ -35,7 +35,6 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
         if (statement != null) {
             try {
                 statement.close();
-                this.connection.setAutoCommit(true);
             } catch (SQLException e) {
                 logger.error(e.getLocalizedMessage());
             }

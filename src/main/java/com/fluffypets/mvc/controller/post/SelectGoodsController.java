@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
-public class SelectGoodsController implements Controller, AutoCloseable {
+public class SelectGoodsController implements Controller {
 
     private ProductService productService;
     private CategoryService categoryService;
@@ -67,11 +67,5 @@ public class SelectGoodsController implements Controller, AutoCloseable {
 
         vm.setView("home");
         return vm;
-    }
-
-    @Override
-    public void close() throws Exception {
-        productService.close();
-        categoryService.close();
     }
 }

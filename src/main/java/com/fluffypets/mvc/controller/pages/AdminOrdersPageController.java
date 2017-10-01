@@ -8,7 +8,7 @@ import com.fluffypets.servicies.order.OrderService;
 
 import java.util.List;
 
-public class AdminOrdersPageController implements Controller, AutoCloseable {
+public class AdminOrdersPageController implements Controller {
 
     private OrderService orderService;
 
@@ -22,10 +22,5 @@ public class AdminOrdersPageController implements Controller, AutoCloseable {
         vm.setAttribute("orders", orders);
         vm.setView("adminOrders");
         return vm;
-    }
-
-    @Override
-    public void close() throws Exception {
-        orderService.close();
     }
 }

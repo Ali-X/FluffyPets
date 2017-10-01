@@ -1,9 +1,7 @@
 package com.fluffypets.mvc.filtres;
 
-import com.fluffypets.dao.user.UserDAO;
 import com.fluffypets.mvc.model.User;
 import com.fluffypets.mvc.servlets.ViewModel;
-import com.fluffypets.factory.DaoFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,12 +14,10 @@ import java.util.Set;
 public class UserFilter implements Filter {
     private static final Logger logger = LogManager.getLogger(UserFilter.class.getName());
 
-    private UserDAO userDao;
     private Set<String> allowedPages = new HashSet<>();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        userDao = DaoFactory.getUserDao();
         allowedPages.add("/root/home");
         allowedPages.add("/root/login");
         allowedPages.add("/root/signup");
@@ -45,7 +41,6 @@ public class UserFilter implements Filter {
             if (user == null || user.getRoleString().equals("blocked") || user.getRoleString().equals("Unknown")) {
                 logger.error("Illegal access, RequestedSessionId: " + httpRequest.getRequestedSessionId());
                 throw new RuntimeException("Illegal Access");
-
             }
         }
         chain.doFilter(request, response);
@@ -53,10 +48,5 @@ public class UserFilter implements Filter {
 
     @Override
     public void destroy() {
-        try {
-            userDao.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

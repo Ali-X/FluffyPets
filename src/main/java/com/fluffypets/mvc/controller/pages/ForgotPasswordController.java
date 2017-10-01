@@ -16,8 +16,4 @@ public class ForgotPasswordController implements Controller {
         return vm;
     }
 
-    @Override
-    public void close() throws Exception {
-
-    }
 }

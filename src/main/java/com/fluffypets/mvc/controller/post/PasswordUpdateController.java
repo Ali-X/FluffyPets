@@ -10,7 +10,7 @@ import exeptions.ServiciesException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class PasswordUpdateController implements Controller, AutoCloseable {
+public class PasswordUpdateController implements Controller{
     private static final Logger logger = LogManager.getLogger(PasswordUpdateController.class.getName());
 
     private UserService userService;
@@ -31,10 +31,5 @@ public class PasswordUpdateController implements Controller, AutoCloseable {
         } else throw new ServiciesException("different passwords");
         vm.setView("login");
         return vm;
-    }
-
-    @Override
-    public void close() throws Exception {
-        userService.close();
     }
 }

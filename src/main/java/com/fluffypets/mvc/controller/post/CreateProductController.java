@@ -11,7 +11,7 @@ import com.fluffypets.servicies.product.ProductService;
 
 import java.math.BigDecimal;
 
-public class CreateProductController implements Controller, AutoCloseable {
+public class CreateProductController implements Controller {
 
 
     private ProductService productService;
@@ -42,11 +42,5 @@ public class CreateProductController implements Controller, AutoCloseable {
         }
         vm.setView("createProduct");
         return vm;
-    }
-
-    @Override
-    public void close() throws Exception {
-        productService.close();
-        categoryService.close();
     }
 }

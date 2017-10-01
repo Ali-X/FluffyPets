@@ -9,7 +9,7 @@ import com.fluffypets.servicies.user.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class SignUpCheckController implements Controller, AutoCloseable {
+public class SignUpCheckController implements Controller{
     private static final Logger logger = LogManager.getLogger(SignUpCheckController.class.getName());
 
     private UserService userService;
@@ -32,8 +32,4 @@ public class SignUpCheckController implements Controller, AutoCloseable {
         return vm;
     }
 
-    @Override
-    public void close() throws Exception {
-        userService.close();
-    }
 }

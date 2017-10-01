@@ -6,22 +6,20 @@ import com.fluffypets.mvc.model.User;
 import com.fluffypets.mvc.servlets.Command;
 import com.fluffypets.mvc.servlets.ViewModel;
 import com.fluffypets.factory.ContextFactory;
+import com.fluffypets.servicies.user.UserService;
+import com.fluffypets.servicies.user.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class PasswordRecoveringController implements Controller {
 
-    public PasswordRecoveringController(UserDAO userDAO) {
-        this.userDAO = userDAO;
-    }
-
-    private UserDAO userDAO;
     private static final Logger logger = LogManager.getLogger(PasswordRecoveringController.class.getName());
 
     @Override
     public ViewModel process(Command command, ViewModel vm) {
         String email = command.getAttribute("email");
-        User user = userDAO.findByEmail(email);
+        UserService userService=new UserServiceImpl();
+        User user = userService.findByEmail(email);
         if (user != null) {
             String who = command.getAttribute("who");
             String verify = command.getAttribute("verify");
@@ -34,10 +32,5 @@ public class PasswordRecoveringController implements Controller {
             vm.setAttribute("login", user.getUserName());
         } else throw new SecurityException("Illegal access");
         return vm;
-    }
-
-    @Override
-    public void close() throws Exception {
-        userDAO.close();
     }
 }

@@ -7,7 +7,7 @@ import com.fluffypets.mvc.servlets.Command;
 import com.fluffypets.mvc.servlets.ViewModel;
 import com.fluffypets.servicies.product.ProductService;
 
-public class AddProductToCartController implements Controller, AutoCloseable {
+public class AddProductToCartController implements Controller{
 
     private ProductService productService;
 
@@ -27,10 +27,5 @@ public class AddProductToCartController implements Controller, AutoCloseable {
         }
         vm.setAttribute("cart", cart);
         return vm;
-    }
-
-    @Override
-    public void close() throws Exception {
-        productService.close();
     }
 }

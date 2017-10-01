@@ -8,7 +8,7 @@ import com.fluffypets.servicies.user.UserService;
 
 import java.util.List;
 
-public class AdminPageController implements Controller,AutoCloseable {
+public class AdminPageController implements Controller {
 
     private UserService userService;
 
@@ -20,10 +20,5 @@ public class AdminPageController implements Controller,AutoCloseable {
             vm.setAttribute("users", users);
             vm.setView("admin");
         return vm;
-    }
-
-    @Override
-    public void close() throws Exception {
-        userService.close();
     }
 }

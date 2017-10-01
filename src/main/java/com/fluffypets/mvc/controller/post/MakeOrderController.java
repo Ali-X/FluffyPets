@@ -8,7 +8,7 @@ import com.fluffypets.mvc.servlets.Command;
 import com.fluffypets.mvc.servlets.ViewModel;
 import com.fluffypets.servicies.user.UserDataService;
 
-public class MakeOrderController implements Controller, AutoCloseable {
+public class MakeOrderController implements Controller {
 
     private final UserDataService userDataService;
 
@@ -33,10 +33,5 @@ public class MakeOrderController implements Controller, AutoCloseable {
         vm.setAttribute("userData", userData);
         vm.setView("submitOrder");
         return vm;
-    }
-
-    @Override
-    public void close() throws Exception {
-        userDataService.close();
     }
 }

@@ -13,6 +13,4 @@ public interface CategoryService {
     Category create(Category category);
 
     Category get(Integer id);
-
-    void close() throws DAOException;
 }

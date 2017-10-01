@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class ProductController implements Controller,AutoCloseable {
+public class ProductController implements Controller {
     private static final Logger logger = LogManager.getLogger(ProductController.class.getName());
 
     private CategoryService categoryService;
@@ -26,10 +26,5 @@ public class ProductController implements Controller,AutoCloseable {
         vm.setView("createProduct");
         logger.info("createProduct page selected");
         return vm;
-    }
-
-    @Override
-    public void close() throws Exception {
-        categoryService.close();
     }
 }

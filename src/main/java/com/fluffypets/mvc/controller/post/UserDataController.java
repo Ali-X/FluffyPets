@@ -9,7 +9,7 @@ import com.fluffypets.servicies.user.UserDataService;
 
 import java.time.LocalDate;
 
-public class UserDataController implements Controller, AutoCloseable {
+public class UserDataController implements Controller {
 
     private UserDataService userDataService;
 
@@ -49,10 +49,5 @@ public class UserDataController implements Controller, AutoCloseable {
         }
         vm.setView("profile");
         return vm;
-    }
-
-    @Override
-    public void close() throws Exception {
-        userDataService.close();
     }
 }

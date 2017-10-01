@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDate;
 
-public class AdminEditOrdersController implements Controller, AutoCloseable {
+public class AdminEditOrdersController implements Controller {
     private static final Logger logger = LogManager.getLogger(AddProductToCartController.class.getName());
 
     private OrderService orderService;
@@ -36,10 +36,5 @@ public class AdminEditOrdersController implements Controller, AutoCloseable {
         vm.setView("adminOrders");
         logger.info("changed status for orderId");
         return vm;
-    }
-
-    @Override
-    public void close() throws Exception {
-        orderService.close();
     }
 }

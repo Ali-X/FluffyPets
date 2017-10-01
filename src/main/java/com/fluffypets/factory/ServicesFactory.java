@@ -12,35 +12,30 @@ import com.fluffypets.servicies.user.UserDataService;
 import com.fluffypets.servicies.user.UserDataServiceImpl;
 import com.fluffypets.servicies.user.UserService;
 import com.fluffypets.servicies.user.UserServiceImpl;
-import exeptions.ServiciesException;
 
-public class ServicesFactory {
+class ServicesFactory {
     static UserService getUserService() {
-        return new UserServiceImpl(DaoFactory.getUserDao());
+        return new UserServiceImpl();
     }
 
     static UserDataService getUserDataService() {
-        return new UserDataServiceImpl(DaoFactory.getUserDataDao());
+        return new UserDataServiceImpl();
     }
 
     static CategoryService getCategoriesService() {
-        return new CategoryServiceImpl(DaoFactory.getCategoryDAO());
+        return new CategoryServiceImpl();
     }
 
     static ProductService getProductService() {
-        return new ProductServiceImpl(DaoFactory.getProductDao());
+        return new ProductServiceImpl();
     }
 
     static OrderService getOrderService() {
-        return new OrderServiceImpl(DaoFactory.getUserDataDao(), DaoFactory.getOrderDAO());
+        return new OrderServiceImpl();
     }
 
     static SendEmailService getEmailSender() {
         String[] emeilPassword = ContextFactory.getEmailPassword();
-        if (emeilPassword != null) {
-            return new SendEmailServiceImpl(emeilPassword[0], emeilPassword[1]);
-        } else {
-            throw new ServiciesException("falier with JNDI");
-        }
+        return new SendEmailServiceImpl(emeilPassword[0], emeilPassword[1]);
     }
 }

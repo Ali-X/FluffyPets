@@ -1,10 +1,7 @@
 package com.fluffypets.mvc.filtres;
 
-import com.fluffypets.dao.user.UserDAO;
 import com.fluffypets.mvc.model.User;
 import com.fluffypets.mvc.servlets.ViewModel;
-import com.fluffypets.factory.DaoFactory;
-import exeptions.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,11 +12,8 @@ import java.io.IOException;
 public class AdminFilter implements Filter {
     private static final Logger logger = LogManager.getLogger(AdminFilter.class.getName());
 
-    private UserDAO userDAO;
-
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        userDAO = DaoFactory.getUserDao();
     }
 
     @Override
@@ -41,11 +35,6 @@ public class AdminFilter implements Filter {
 
     @Override
     public void destroy() {
-        try {
-            userDAO.close();
-        } catch (Exception e) {
-           throw new DAOException("Dao destroy exception");
-        }
     }
 
 }

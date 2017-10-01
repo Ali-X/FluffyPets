@@ -1,69 +1,188 @@
 package com.fluffypets.servicies.product;
 
 import com.fluffypets.dao.product.ProductDAO;
+import com.fluffypets.dao.product.ProductDAOImpl;
+import com.fluffypets.factory.ContextFactory;
 import com.fluffypets.mvc.model.Product;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import exeptions.DAOException;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
-public class ProductServiceImpl implements ProductService,AutoCloseable {
-    private static final Logger logger = LogManager.getLogger(ProductServiceImpl.class.getName());
+public class ProductServiceImpl implements ProductService {
 
-    private final ProductDAO productDAO;
-
-    public ProductServiceImpl(ProductDAO productDAO) {
-        this.productDAO = productDAO;
-    }
-
+    @Override
     public List<Product> getAll() {
-        return productDAO.getAll();
+        return null;
     }
 
     @Override
     public List<Product> getAllSelected(String categIds, int min, int max) {
-        return productDAO.selectByCategoryAndPrice(categIds,min,max);
+        Connection connection = ContextFactory.getContextConnection();
+        try {
+            try {
+                connection.setAutoCommit(false);
+                ProductDAO productDAO = new ProductDAOImpl(connection);
+                List<Product> products = productDAO.selectByCategoryAndPrice(categIds, min, max);
+                connection.commit();
+                return products;
+            } catch (SQLException e) {
+                connection.rollback();
+            } finally {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Transaction error " + e.getLocalizedMessage());
+        }
+        return null;
     }
 
     @Override
-    public Integer countSelected(String categoryIds, int min, int max,int paginationStep) {
-        return productDAO.countSelected(categoryIds,min,max,paginationStep);
+    public Integer countSelected(String categoryIds, int min, int max, int paginationStep) {
+        Connection connection = ContextFactory.getContextConnection();
+        try {
+            try {
+                connection.setAutoCommit(false);
+                ProductDAO productDAO = new ProductDAOImpl(connection);
+                Integer productsNum = productDAO.countSelected(categoryIds, min, max, paginationStep);
+                connection.commit();
+                return productsNum;
+            } catch (SQLException e) {
+                connection.rollback();
+            } finally {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Transaction error " + e.getLocalizedMessage());
+        }
+        return null;
     }
 
     @Override
     public List<Product> selectAndPagination(String categoryIds, int min, int max, String order, Integer paginationStep, Integer pagination) {
-        return productDAO.selectAndPagination(categoryIds,min,max,order,paginationStep,pagination);
+        Connection connection = ContextFactory.getContextConnection();
+        try {
+            try {
+                connection.setAutoCommit(false);
+                ProductDAO productDAO = new ProductDAOImpl(connection);
+                List<Product> products = productDAO.selectAndPagination(categoryIds, min, max, order, paginationStep, pagination);
+                connection.commit();
+                return products;
+            } catch (SQLException e) {
+                connection.rollback();
+            } finally {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Transaction error " + e.getLocalizedMessage());
+        }
+        return null;
     }
 
     @Override
     public Product getProduct(Product product) {
-        return productDAO.get(product);
+        Connection connection = ContextFactory.getContextConnection();
+        try {
+            try {
+                connection.setAutoCommit(false);
+                ProductDAO productDAO = new ProductDAOImpl(connection);
+                Product theProduct = productDAO.get(product);
+                connection.commit();
+                return theProduct;
+            } catch (SQLException e) {
+                connection.rollback();
+            } finally {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Transaction error " + e.getLocalizedMessage());
+        }
+        return null;
     }
 
     @Override
     public Product getProductById(Integer id) {
-        return productDAO.findById(id);
+        Connection connection = ContextFactory.getContextConnection();
+        try {
+            try {
+                connection.setAutoCommit(false);
+                ProductDAO productDAO = new ProductDAOImpl(connection);
+                Product product = productDAO.findById(id);
+                connection.commit();
+                return product;
+            } catch (SQLException e) {
+                connection.rollback();
+            } finally {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Transaction error " + e.getLocalizedMessage());
+        }
+        return null;
     }
 
     @Override
     public Product create(Product product) {
-        Product existing=productDAO.get(product);
-        if (existing==null) return productDAO.create(product);
-        else {return existing;}
+        Connection connection = ContextFactory.getContextConnection();
+        try {
+            try {
+                connection.setAutoCommit(false);
+                ProductDAO productDAO = new ProductDAOImpl(connection);
+                Product existing = productDAO.get(product);
+                if (existing == null) existing = productDAO.create(product);
+                connection.commit();
+                return existing;
+            } catch (SQLException e) {
+                connection.rollback();
+            } finally {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Transaction error " + e.getLocalizedMessage());
+        }
+        return null;
     }
 
     @Override
     public Product delete(Product product) {
-        return productDAO.delete(product);
+        Connection connection = ContextFactory.getContextConnection();
+        try {
+            try {
+                connection.setAutoCommit(false);
+                ProductDAO productDAO = new ProductDAOImpl(connection);
+                Product product1 = productDAO.delete(product);
+                connection.commit();
+                return product1;
+            } catch (SQLException e) {
+                connection.rollback();
+            } finally {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Transaction error " + e.getLocalizedMessage());
+        }
+        return null;
     }
 
     @Override
     public Product update(Product product) {
-        return productDAO.update(product);
-    }
-
-    @Override
-    public void close() throws Exception {
-        productDAO.close();
+        Connection connection = ContextFactory.getContextConnection();
+        try {
+            try {
+                connection.setAutoCommit(false);
+                ProductDAO productDAO = new ProductDAOImpl(connection);
+                Product product1 = productDAO.update(product);
+                connection.commit();
+                return product1;
+            } catch (SQLException e) {
+                connection.rollback();
+            } finally {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Transaction error " + e.getLocalizedMessage());
+        }
+        return null;
     }
 }

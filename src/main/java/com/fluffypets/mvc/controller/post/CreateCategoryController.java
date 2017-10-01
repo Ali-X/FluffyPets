@@ -9,7 +9,7 @@ import com.fluffypets.servicies.product.CategoryService;
 
 import java.util.List;
 
-public class CreateCategoryController implements Controller, AutoCloseable {
+public class CreateCategoryController implements Controller{
 
     private CategoryService categoryService;
 
@@ -32,10 +32,5 @@ public class CreateCategoryController implements Controller, AutoCloseable {
             vm.setView("createProduct");
         }
         return vm;
-    }
-
-    @Override
-    public void close() throws Exception {
-        categoryService.close();
     }
 }

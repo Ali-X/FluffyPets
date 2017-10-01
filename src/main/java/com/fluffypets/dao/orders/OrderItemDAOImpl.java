@@ -2,7 +2,6 @@ package com.fluffypets.dao.orders;
 
 import com.fluffypets.dao.AbstractDAO;
 import com.fluffypets.mvc.model.OrderItem;
-import com.fluffypets.factory.ContextFactory;
 import exeptions.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,16 +16,6 @@ import java.util.List;
 
 public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderItemDAO, AutoCloseable {
     private static final Logger logger = LogManager.getLogger(OrderItemDAOImpl.class.getName());
-
-    private static OrderItemDAO instance = new OrderItemDAOImpl();
-
-    public static OrderItemDAO getOrderItemDAOImpl() {
-        return instance;
-    }
-
-    private OrderItemDAOImpl() {
-        super(ContextFactory.getContextConnection());
-    }
 
     OrderItemDAOImpl(Connection connection) {
         super(connection);
@@ -44,8 +33,7 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
             list = parseResultSet(resultSet);
             logger.info("get All order Items query from Order Item Dao");
         } catch (SQLException e) {
-            logger.error("get All order Items query error\n" + e);
-            throw new DAOException("get All order Items query error");
+            throw new DAOException("get All order Items query error " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
@@ -66,8 +54,7 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
             logger.info("create Order Item");
             return get(orderItem);
         } catch (SQLException e) {
-            logger.error("There are problems with new order item insertion to DB\n" + e);
-            throw new DAOException("There are problems with new order item insertion to DB" + e);
+            throw new DAOException("There are problems with new order item insertion to DB " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
@@ -84,8 +71,7 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
             preparedStatement.execute();
             logger.info("delete Order Item");
         } catch (SQLException e) {
-            logger.error("There are problems with order item deleting from DB \n" + e);
-            throw new DAOException("There are problems with order item deleting from DB" + e);
+            throw new DAOException("There are problems with order item deleting from DB " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
@@ -107,8 +93,7 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
             preparedStatement.execute();
             logger.info("update Order Item");
         } catch (SQLException e) {
-            logger.error("There are problems with order item update in DB \n" + e);
-            throw new DAOException("There are problems with order item update in DB" + e);
+            throw new DAOException("There are problems with order item update in DB " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
@@ -124,11 +109,15 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
             preparedStatement.setLong(1, orderItem.getOrderId());
             preparedStatement.setLong(2, orderItem.getProductId());
             ResultSet resultSet = preparedStatement.executeQuery();
-            orderItem = parseResultSet(resultSet).get(0);
+            List<OrderItem> resSetCont = parseResultSet(resultSet);
+            if (resSetCont.size() == 0) {
+                orderItem = null;
+            } else {
+                orderItem = resSetCont.get(0);
+            }
             logger.info("get Order Item");
         } catch (SQLException e) {
-            logger.error("There are problems with getting order item from DB \n" + e);
-            throw new DAOException("There are problems with getting order item from DB" + e);
+            throw new DAOException("There are problems with getting order item from DB " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
@@ -144,10 +133,14 @@ public class OrderItemDAOImpl extends AbstractDAO<OrderItem> implements OrderIte
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            orderItem = parseResultSet(resultSet).get(0);
+            List<OrderItem> resSetCont = parseResultSet(resultSet);
+            if (resSetCont.size() == 0) {
+                orderItem = null;
+            } else {
+                orderItem = resSetCont.get(0);
+            }
         } catch (SQLException e) {
-            logger.error("There are problems searching order item by id \n" + e);
-            throw new DAOException("There are problems searching order item by id " + e);
+            throw new DAOException("There are problems searching order item by id " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }

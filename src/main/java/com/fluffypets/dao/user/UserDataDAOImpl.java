@@ -1,12 +1,12 @@
 package com.fluffypets.dao.user;
 
 import com.fluffypets.dao.AbstractDAO;
-import com.fluffypets.factory.ContextFactory;
 import com.fluffypets.mvc.model.UserData;
 import exeptions.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,21 +17,14 @@ import java.util.List;
 public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDAO, AutoCloseable {
     private static final Logger logger = LogManager.getLogger(UserDataDAOImpl.class.getName());
 
-    private static UserDataDAO instance = new UserDataDAOImpl();
-
-    public static UserDataDAO getOrderItemDAOImpl() {
-        return instance;
-    }
-
-    private UserDataDAOImpl() {
-        super(ContextFactory.getContextConnection());
+    public UserDataDAOImpl(Connection connection) {
+        super(connection);
     }
 
     @Override
     public UserData create(UserData userData) {
         PreparedStatement preparedStatement = null;
         try {
-            this.connection.setAutoCommit(false);
             String preparedQuery = "INSERT INTO Pets.userData (" +
                     "userId,fullName,dateOfBirth,gender,maried,district,area,street,app,primaryPhone,secondaryPhone)" +
                     " VALUES(?,?,?,?,?,?,?,?,?,?,?)";
@@ -49,17 +42,10 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
             preparedStatement.setString(11, userData.getSecondaryNumber());
 
             preparedStatement.execute();
-            this.connection.commit();
             logger.info("create UserData query");
             return get(userData);
         } catch (SQLException e) {
-            logger.error("create user query error\n" + e);
-            try {
-                this.connection.rollback();
-            } catch (SQLException e1) {
-                throw new DAOException("rollback " + e1.getLocalizedMessage());
-            }
-            throw new DAOException("There are problems with new userData insertion to DB" + e);
+            throw new DAOException("There are problems with new userData insertion to DB " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
@@ -70,22 +56,14 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
     public UserData delete(UserData userData) {
         PreparedStatement preparedStatement = null;
         try {
-            this.connection.setAutoCommit(false);
             String preparedQuery = "DELETE FROM Pets.userData WHERE userId = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, userData.getUserId());
             preparedStatement.execute();
-            this.connection.commit();
             logger.info("delete UserData query");
             return get(userData);
         } catch (SQLException e) {
-            logger.error("There are problems with userData deleting from DB\n" + e);
-            try {
-                this.connection.rollback();
-            } catch (SQLException e1) {
-                throw new DAOException("rollback " + e1.getLocalizedMessage());
-            }
-            throw new DAOException("There are problems with userData deleting from DB" + e);
+            throw new DAOException("There are problems with userData deleting from DB " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
@@ -95,7 +73,6 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
     public UserData update(UserData userData) {
         PreparedStatement preparedStatement = null;
         try {
-            this.connection.setAutoCommit(false);
             String preparedQuery = "UPDATE Pets.userData SET userId = ?," +
                     "fullName = ?, dateOfBirth = ?, gender = ?, maried = ?, " +
                     "district = ?, area = ?, street = ?, app = ?, primaryPhone=?,secondaryPhone=? " +
@@ -114,16 +91,9 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
             preparedStatement.setString(11, userData.getSecondaryNumber());
             preparedStatement.setInt(12, userData.getUserDataId());
             preparedStatement.execute();
-            this.connection.commit();
             logger.info("update UserData query");
         } catch (SQLException e) {
-            logger.error("There are problems with userData update in DB\n" + e);
-            try {
-                this.connection.rollback();
-            } catch (SQLException e1) {
-                throw new DAOException("rollback " + e1.getLocalizedMessage());
-            }
-            throw new DAOException("There are problems with userData update in DB" + e);
+            throw new DAOException("There are problems with userData update in DB " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
@@ -134,22 +104,19 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
     public UserData get(UserData userData) {
         PreparedStatement preparedStatement = null;
         try {
-            this.connection.setAutoCommit(false);
             String preparedQuery = "SELECT * FROM Pets.userData WHERE userId = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, userData.getUserId());
             ResultSet resultSet = preparedStatement.executeQuery();
-            userData = parseResultSet(resultSet).get(0);
-            this.connection.commit();
+            List<UserData> resSetCont = parseResultSet(resultSet);
+            if (resSetCont.size() == 0) {
+                userData = null;
+            } else {
+                userData = resSetCont.get(0);
+            }
             logger.info("get UserData query");
         } catch (SQLException e) {
-            logger.error("There are problems with getting UserData from DB\n" + e);
-            try {
-                this.connection.rollback();
-            } catch (SQLException e1) {
-                throw new DAOException("rollback " + e1.getLocalizedMessage());
-            }
-            throw new DAOException("There are problems with getting UserData from DB" + e);
+            throw new DAOException("There are problems with getting UserData from DB " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
@@ -161,21 +128,18 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
         UserData userData;
         PreparedStatement preparedStatement = null;
         try {
-            this.connection.setAutoCommit(false);
             String preparedQuery = "SELECT * FROM Pets.userData WHERE userId = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            userData = parseResultSet(resultSet).get(0);
-            this.connection.commit();
-        } catch (SQLException e) {
-            logger.error("There are problems with getting userData by userId from DB\n" + e);
-            try {
-                this.connection.rollback();
-            } catch (SQLException e1) {
-                throw new DAOException("rollback " + e1.getLocalizedMessage());
+            List<UserData> resSetCont = parseResultSet(resultSet);
+            if (resSetCont.size() == 0) {
+                userData = null;
+            } else {
+                userData = resSetCont.get(0);
             }
-            throw new DAOException("There are problems with getting userData by userId from DB" + e);
+        } catch (SQLException e) {
+            throw new DAOException("There are problems with getting userData by userId from DB " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
@@ -187,21 +151,18 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
         UserData userData;
         PreparedStatement preparedStatement = null;
         try {
-            this.connection.setAutoCommit(false);
             String preparedQuery = "SELECT * FROM Pets.userData WHERE id = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            userData = parseResultSet(resultSet).get(0);
-            this.connection.commit();
-        } catch (SQLException e) {
-            logger.error("There are problems with getting UserData by Id from DB\n" + e);
-            try {
-                this.connection.rollback();
-            } catch (SQLException e1) {
-                throw new DAOException("rollback " + e1.getLocalizedMessage());
+            List<UserData> resSetCont = parseResultSet(resultSet);
+            if (resSetCont.size() == 0) {
+                userData = null;
+            } else {
+                userData = resSetCont.get(0);
             }
-            throw new DAOException("There are problems with getting UserData by Id from DB" + e);
+        } catch (SQLException e) {
+            throw new DAOException("There are problems with getting UserData by Id from DB " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }

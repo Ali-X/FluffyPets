@@ -1,8 +1,8 @@
 package com.fluffypets.mvc.servlets;
 
-import com.fluffypets.mvc.controller.Controller;
-import com.fluffypets.factory.ControllersFactory;
 import com.fluffypets.factory.ContextFactory;
+import com.fluffypets.factory.ControllersFactory;
+import com.fluffypets.mvc.controller.Controller;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FrontServlet extends HttpServlet implements AutoCloseable {
+public class FrontServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(FrontServlet.class.getName());
 
     private static Map<Command, Controller> controllerMap = new HashMap<>();
@@ -120,16 +120,5 @@ public class FrontServlet extends HttpServlet implements AutoCloseable {
         String prefix = "/WEB-INF/views/";
         String suffix = ".jsp";
         return prefix + vm.getView() + suffix;
-    }
-
-    @Override
-    public void close() throws Exception {
-        controllerMap.forEach((key, value) -> {
-            try {
-                value.close();
-            } catch (Exception e) {
-                logger.error("error in closing of Front Servlet " + e.getLocalizedMessage());
-            }
-        });
     }
 }

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.StringJoiner;
 
-public class HomePageController implements Controller, AutoCloseable {
+public class HomePageController implements Controller {
     private static final Logger logger = LogManager.getLogger(HomePageController.class.getName());
 
     private ProductService productService;
@@ -86,11 +86,5 @@ public class HomePageController implements Controller, AutoCloseable {
         vm.setView("home");
         logger.info("home page selected");
         return vm;
-    }
-
-    @Override
-    public void close() throws Exception {
-        productService.close();
-        categoryService.close();
     }
 }

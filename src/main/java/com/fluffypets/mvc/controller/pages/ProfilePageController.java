@@ -15,9 +15,4 @@ public class ProfilePageController implements Controller {
         logger.info("profile page selected");
         return vm;
     }
-
-    @Override
-    public void close() throws Exception {
-
-    }
 }

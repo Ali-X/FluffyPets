@@ -18,10 +18,5 @@ public class LogoutPageController implements Controller {
         logger.info("logout page selected");
         return vm;
     }
-
-    @Override
-    public void close() throws Exception {
-
-    }
 }
 

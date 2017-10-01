@@ -12,7 +12,7 @@ import com.fluffypets.servicies.email.SendEmailService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class SubmitOrderController implements Controller, AutoCloseable {
+public class SubmitOrderController implements Controller {
     private static final Logger logger = LogManager.getLogger(SubmitOrderController.class.getName());
 
     private final OrderService orderService;
@@ -50,10 +50,5 @@ public class SubmitOrderController implements Controller, AutoCloseable {
         vm.setAttribute("userData", userData);
         vm.setView("thankyou");
         return vm;
-    }
-
-    @Override
-    public void close() throws Exception {
-        orderService.close();
     }
 }

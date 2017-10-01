@@ -46,7 +46,7 @@ public class ContextFactory {
             return ds.getConnection();
         } catch (NamingException | SQLException e) {
             logger.error("get connection from TomCat error\n" + e);
-            throw new FactoryException("get connection from TomCat error");
+            throw new RuntimeException("get connection from TomCat error");
         }
     }
 

@@ -15,9 +15,4 @@ public class RegistrationPageController implements Controller {
         logger.info("signup page selected");
         return vm;
     }
-
-    @Override
-    public void close() throws Exception {
-
-    }
 }
