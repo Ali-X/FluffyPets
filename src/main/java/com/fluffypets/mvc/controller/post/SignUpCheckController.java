@@ -27,7 +27,6 @@ public class SignUpCheckController implements Controller{
         User user = new User(1, userName, password, email, role);
         user = userService.create(user);
         vm.setAttribute("user", user);
-        vm.addCookie("FluffyPets", user.getToken());
         vm.setView("home");
         return vm;
     }

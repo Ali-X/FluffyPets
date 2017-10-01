@@ -1,7 +1,7 @@
 package com.fluffypets.dao.user;
 
 import com.fluffypets.dao.AbstractDAO;
-import com.fluffypets.mvc.model.UserData;
+import com.fluffypets.mvc.model.UserAdress;
 import exeptions.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDAO, AutoCloseable {
+public class UserDataDAOImpl extends AbstractDAO<UserAdress> implements UserDataDAO, AutoCloseable {
     private static final Logger logger = LogManager.getLogger(UserDataDAOImpl.class.getName());
 
     public UserDataDAOImpl(Connection connection) {
@@ -22,30 +22,25 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
     }
 
     @Override
-    public UserData create(UserData userData) {
+    public UserAdress create(UserAdress userAdress) {
         PreparedStatement preparedStatement = null;
         try {
-            String preparedQuery = "INSERT INTO Pets.userData (" +
-                    "userId,fullName,dateOfBirth,gender,maried,district,area,street,app,primaryPhone,secondaryPhone)" +
-                    " VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+            String preparedQuery = "INSERT INTO Pets.userAdress (userId,fullName,district,area,street,app,phone)" +
+                    " VALUES(?,?,?,?,?,?,?)";
             preparedStatement = connection.prepareStatement(preparedQuery);
-            preparedStatement.setInt(1, userData.getUserId());
-            preparedStatement.setString(2, userData.getFullName());
-            preparedStatement.setDate(3, java.sql.Date.valueOf(userData.getDateOfBirth()));
-            preparedStatement.setString(4, userData.getGender());
-            preparedStatement.setBoolean(5, userData.getMarried());
-            preparedStatement.setString(6, userData.getDistrict());
-            preparedStatement.setString(7, userData.getArea());
-            preparedStatement.setString(8, userData.getStreet());
-            preparedStatement.setString(9, userData.getApp());
-            preparedStatement.setString(10, userData.getPrimaryNumber());
-            preparedStatement.setString(11, userData.getSecondaryNumber());
+            preparedStatement.setInt(1, userAdress.getUserId());
+            preparedStatement.setString(2, userAdress.getFullName());
+            preparedStatement.setString(3, userAdress.getDistrict());
+            preparedStatement.setString(4, userAdress.getArea());
+            preparedStatement.setString(5, userAdress.getStreet());
+            preparedStatement.setString(6, userAdress.getApp());
+            preparedStatement.setString(7, userAdress.getPhone());
 
             preparedStatement.execute();
-            logger.info("create UserData query");
-            return get(userData);
+            logger.info("create UserAdress query");
+            return get(userAdress);
         } catch (SQLException e) {
-            throw new DAOException("There are problems with new userData insertion to DB " + e.getLocalizedMessage());
+            throw new DAOException("There are problems with new userAdress insertion to DB " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
@@ -53,148 +48,138 @@ public class UserDataDAOImpl extends AbstractDAO<UserData> implements UserDataDA
 
 
     @Override
-    public UserData delete(UserData userData) {
+    public UserAdress delete(UserAdress userAdress) {
         PreparedStatement preparedStatement = null;
         try {
-            String preparedQuery = "DELETE FROM Pets.userData WHERE userId = ?";
+            String preparedQuery = "DELETE FROM Pets.userAdress WHERE userId = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
-            preparedStatement.setInt(1, userData.getUserId());
+            preparedStatement.setInt(1, userAdress.getUserId());
             preparedStatement.execute();
-            logger.info("delete UserData query");
-            return get(userData);
+            logger.info("delete UserAdress query");
+            return get(userAdress);
         } catch (SQLException e) {
-            throw new DAOException("There are problems with userData deleting from DB " + e.getLocalizedMessage());
+            throw new DAOException("There are problems with userAdress deleting from DB " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
     }
 
     @Override
-    public UserData update(UserData userData) {
+    public UserAdress update(UserAdress userAdress) {
         PreparedStatement preparedStatement = null;
         try {
-            String preparedQuery = "UPDATE Pets.userData SET userId = ?," +
-                    "fullName = ?, dateOfBirth = ?, gender = ?, maried = ?, " +
-                    "district = ?, area = ?, street = ?, app = ?, primaryPhone=?,secondaryPhone=? " +
-                    "WHERE id =?";
+            String preparedQuery = "UPDATE Pets.userAdress SET userId = ?," +
+                    "fullName = ?, district = ?, area = ?, street = ?, app = ?, phone=? WHERE id =?";
             preparedStatement = connection.prepareStatement(preparedQuery);
-            preparedStatement.setInt(1, userData.getUserId());
-            preparedStatement.setString(2, userData.getFullName());
-            preparedStatement.setDate(3, java.sql.Date.valueOf(userData.getDateOfBirth()));
-            preparedStatement.setString(4, userData.getGender());
-            preparedStatement.setBoolean(5, userData.getMarried());
-            preparedStatement.setString(6, userData.getDistrict());
-            preparedStatement.setString(7, userData.getArea());
-            preparedStatement.setString(8, userData.getStreet());
-            preparedStatement.setString(9, userData.getApp());
-            preparedStatement.setString(10, userData.getPrimaryNumber());
-            preparedStatement.setString(11, userData.getSecondaryNumber());
-            preparedStatement.setInt(12, userData.getUserDataId());
+            preparedStatement.setInt(1, userAdress.getUserId());
+            preparedStatement.setString(2, userAdress.getFullName());
+            preparedStatement.setString(3, userAdress.getDistrict());
+            preparedStatement.setString(4, userAdress.getArea());
+            preparedStatement.setString(5, userAdress.getStreet());
+            preparedStatement.setString(6, userAdress.getApp());
+            preparedStatement.setString(7, userAdress.getPhone());
+            preparedStatement.setInt(8, userAdress.getUserDataId());
             preparedStatement.execute();
-            logger.info("update UserData query");
+            logger.info("update UserAdress query");
         } catch (SQLException e) {
-            throw new DAOException("There are problems with userData update in DB " + e.getLocalizedMessage());
+            throw new DAOException("There are problems with userAdress update in DB " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
-        return userData;
+        return userAdress;
     }
 
     @Override
-    public UserData get(UserData userData) {
+    public UserAdress get(UserAdress userAdress) {
         PreparedStatement preparedStatement = null;
         try {
-            String preparedQuery = "SELECT * FROM Pets.userData WHERE userId = ?";
+            String preparedQuery = "SELECT * FROM Pets.userAdress WHERE userId = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
-            preparedStatement.setInt(1, userData.getUserId());
+            preparedStatement.setInt(1, userAdress.getUserId());
             ResultSet resultSet = preparedStatement.executeQuery();
-            List<UserData> resSetCont = parseResultSet(resultSet);
+            List<UserAdress> resSetCont = parseResultSet(resultSet);
             if (resSetCont.size() == 0) {
-                userData = null;
+                userAdress = null;
             } else {
-                userData = resSetCont.get(0);
+                userAdress = resSetCont.get(0);
             }
-            logger.info("get UserData query");
+            logger.info("get UserAdress query");
         } catch (SQLException e) {
-            throw new DAOException("There are problems with getting UserData from DB " + e.getLocalizedMessage());
+            throw new DAOException("There are problems with getting UserAdress from DB " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
-        return userData;
+        return userAdress;
     }
 
     @Override
-    public UserData getByUserId(Integer id) {
-        UserData userData;
+    public UserAdress getByUserId(Integer id) {
+        UserAdress userAdress;
         PreparedStatement preparedStatement = null;
         try {
-            String preparedQuery = "SELECT * FROM Pets.userData WHERE userId = ?";
+            String preparedQuery = "SELECT * FROM Pets.userAdress WHERE userId = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            List<UserData> resSetCont = parseResultSet(resultSet);
+            List<UserAdress> resSetCont = parseResultSet(resultSet);
             if (resSetCont.size() == 0) {
-                userData = null;
+                userAdress = null;
             } else {
-                userData = resSetCont.get(0);
+                userAdress = resSetCont.get(0);
             }
         } catch (SQLException e) {
-            throw new DAOException("There are problems with getting userData by userId from DB " + e.getLocalizedMessage());
+            throw new DAOException("There are problems with getting userAdress by userId from DB " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
-        return userData;
+        return userAdress;
     }
 
     @Override
-    public UserData findById(Integer id) {
-        UserData userData;
+    public UserAdress findById(Integer id) {
+        UserAdress userAdress;
         PreparedStatement preparedStatement = null;
         try {
-            String preparedQuery = "SELECT * FROM Pets.userData WHERE id = ?";
+            String preparedQuery = "SELECT * FROM Pets.userAdress WHERE id = ?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            List<UserData> resSetCont = parseResultSet(resultSet);
+            List<UserAdress> resSetCont = parseResultSet(resultSet);
             if (resSetCont.size() == 0) {
-                userData = null;
+                userAdress = null;
             } else {
-                userData = resSetCont.get(0);
+                userAdress = resSetCont.get(0);
             }
         } catch (SQLException e) {
-            throw new DAOException("There are problems with getting UserData by Id from DB " + e.getLocalizedMessage());
+            throw new DAOException("There are problems with getting UserAdress by Id from DB " + e.getLocalizedMessage());
         } finally {
             closeStatement(preparedStatement, logger);
         }
-        return userData;
+        return userAdress;
     }
 
     @Override
-    public List<UserData> parseResultSet(ResultSet resultSet) {
-        List<UserData> userDataList = new ArrayList<>();
+    public List<UserAdress> parseResultSet(ResultSet resultSet) {
+        List<UserAdress> userAdressList = new ArrayList<>();
         try {
             while (resultSet.next()) {
                 Integer userDataId = resultSet.getInt("id");
                 Integer userId = resultSet.getInt("userId");
                 String fullName = resultSet.getString("fullName");
-                LocalDate dateOfBirth = resultSet.getDate("dateOfBirth").toLocalDate();
-                String gender = resultSet.getString("gender");
-                Boolean married = resultSet.getBoolean("maried");
                 String district = resultSet.getString("district");
                 String area = resultSet.getString("area");
                 String street = resultSet.getString("street");
                 String app = resultSet.getString("app");
-                String primaryNumber = resultSet.getString("primaryPhone");
-                String secondaryNumber = resultSet.getString("secondaryPhone");
+                String phone = resultSet.getString("phone");
 
-                userDataList.add(new UserData(userDataId, userId, fullName, dateOfBirth, gender, married, district, area,
-                        street, app, primaryNumber, secondaryNumber));
-                logger.info("UserData findById query");
+                userAdressList.add(new UserAdress(userDataId, userId, fullName, district, area,
+                        street, app, phone));
+                logger.info("UserAdress findById query");
             }
         } catch (SQLException e) {
             throw new DAOException(e.getLocalizedMessage());
         }
-        return userDataList;
+        return userAdressList;
     }
 
     @Override

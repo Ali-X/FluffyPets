@@ -1,7 +1,7 @@
 //package com.fluffypets.dao.user;
 //
 //import com.fluffypets.mvc.model.User;
-//import com.fluffypets.mvc.model.UserData;
+//import com.fluffypets.mvc.model.UserAdress;
 //import com.fluffypets.factory.DaoFactory;
 //import org.junit.Test;
 //
@@ -20,10 +20,10 @@
 //        assertNull("User should be absent", expectedUser);
 //        dodik=myUsers.create(dodik);    //essential because Dodik Id will change
 //
-//        UserData dodikData=new UserData(dodik.getId(),"dodik's full name", LocalDate.now(),"Male",
+//        UserAdress dodikData=new UserAdress(dodik.getId(),"dodik's full name", LocalDate.now(),"Male",
 //                false,"Poltavska oblast","misto Lubnu","vulitsa Litovska 4",
 //                "app. 43", "858453421","95673421");
-//        UserData expectedUserData=myUserData.get(dodikData);
+//        UserAdress expectedUserData=myUserData.get(dodikData);
 //        assertNull("User data should be absent", expectedUserData);
 //        dodikData=myUserData.create(dodikData);
 //        expectedUserData=myUserData.get(dodikData);

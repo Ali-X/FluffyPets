@@ -36,20 +36,41 @@ public class HomePageController implements Controller {
             List<Category> categories = categoryService.getAll();
             StringJoiner categoryList = new StringJoiner(",");
             categories.forEach(category -> categoryList.add(category.getId().toString()));
-            int defaultPaginationStep=8;
-            Integer paginationMax = productService.countSelected(categoryList.toString(), 0, Integer.MAX_VALUE,defaultPaginationStep);
-            List<Product> products=productService.selectAndPagination(categoryList.toString(),0,Integer.MAX_VALUE,"asc",defaultPaginationStep,1);
-            homePagePref = new HomePagePref(categories, "all", products, "asc", paginationMax,defaultPaginationStep, 1);
+            int defaultPaginationStep = 8;
+            Integer paginationMax = productService.countSelected(categoryList.toString(), 0, Integer.MAX_VALUE, defaultPaginationStep);
+            List<Product> products = productService.selectAndPagination(categoryList.toString(), 0, Integer.MAX_VALUE, "asc", defaultPaginationStep, 1);
+            homePagePref = new HomePagePref(categories, "all", products, "asc", paginationMax, defaultPaginationStep, 1);
             vm.setAttribute("categories", categories);
             vm.setAttribute("homePagePref", homePagePref);
         }
 
+        localisation(vm);
 
-        vm.setAttribute("prices", Prices.values());
+        User user = (User) vm.getAttribute("user");
+        if (user == null) {
+            user = new User(0, "Unknown", "", "", "user");
+        }
 
-//        -------------         localization for page home     ----------------------
+        Cart cart = (Cart) vm.getAttribute("cart");
+        if (cart == null) {
+            cart = new Cart(user);
+        } else {
+            cart.setUser(user);
+        }
+        vm.setAttribute("cart", cart);
+        vm.setView("home");
+        logger.info("home page selected");
+        return vm;
+    }
 
+    private void localisation(ViewModel vm) {
         ResourceBundle resourceBundle = ResourceBundle.getBundle("language", vm.getCurrentLocale());
+        if (vm.isUkrLocale()) {
+            vm.setAttribute("isUa", "true");
+        } else {
+            vm.setAttribute("isUa", "false");
+        }
+        vm.setAttribute("prices", Prices.values());
         vm.setAttribute("Add_to_cart", ViewModel.stringUTF8(resourceBundle.getString("Add_to_cart")));
         vm.setAttribute("Admin_page", ViewModel.stringUTF8(resourceBundle.getString("Admin_page")));
         vm.setAttribute("Confirm_your_order", ViewModel.stringUTF8(resourceBundle.getString("Confirm_your_order")));
@@ -70,23 +91,5 @@ public class HomePageController implements Controller {
         vm.setAttribute("OrderLabel", ViewModel.stringUTF8(resourceBundle.getString("OrderLabel")));
         vm.setAttribute("IncreasePrice", ViewModel.stringUTF8(resourceBundle.getString("IncreasePrice")));
         vm.setAttribute("DecreasePrice", ViewModel.stringUTF8(resourceBundle.getString("DecreasePrice")));
-//        =============         localization        ======================
-
-
-        User user = (User) vm.getAttribute("user");
-        if (user == null) {
-            user = new User(0, "Unknown", "", "", "user");
-        }
-
-        Cart cart = (Cart) vm.getAttribute("cart");
-        if (cart == null) {
-            cart = new Cart(user);
-        } else {
-            cart.setUser(user);
-        }
-        vm.setAttribute("cart", cart);
-        vm.setView("home");
-        logger.info("home page selected");
-        return vm;
     }
 }

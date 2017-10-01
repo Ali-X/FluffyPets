@@ -1,10 +1,10 @@
 package com.fluffypets.dao.user;
 
 import com.fluffypets.dao.GenericDAO;
-import com.fluffypets.mvc.model.UserData;
+import com.fluffypets.mvc.model.UserAdress;
 
-public interface UserDataDAO extends GenericDAO<UserData> {
+public interface UserDataDAO extends GenericDAO<UserAdress> {
 
-    UserData getByUserId(Integer id);
+    UserAdress getByUserId(Integer id);
 
 }

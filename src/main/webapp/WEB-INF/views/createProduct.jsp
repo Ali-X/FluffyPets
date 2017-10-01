@@ -199,7 +199,7 @@
 
                                 <br>
                                 <label for="comment2">Insert category description</label>
-                                <textarea class="form-control" name="categoryDescription" rows="2" required
+                                <textarea class="form-control" name="nameUa" rows="2" required
                                           id="comment2"></textarea>
                                 <br>
 

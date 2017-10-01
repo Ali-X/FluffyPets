@@ -10,10 +10,9 @@ public class ViewModel implements Serializable {
 
     private String view;
     private Map<String, Object> attributes = new HashMap<>();
-    private final Map<String, String> cookieS = new HashMap<>();
     private Locale currentLocale= new Locale("en","US");
 
-    public Map<String, Object> getAttributes() {
+    Map<String, Object> getAttributes() {
         return attributes;
     }
 
@@ -22,19 +21,22 @@ public class ViewModel implements Serializable {
     }
 
     public Object getAttribute(String attrName) {
-        Object value = attributes.get(attrName);
-        return value;
+        return attributes.get(attrName);
     }
 
     public Locale getCurrentLocale() {
         return currentLocale;
     }
 
+    public Boolean isUkrLocale(){
+        return this.currentLocale.equals(new Locale("uk", "UA"));
+    }
+
     public void setCurrentLocale(Locale currentLocale) {
         this.currentLocale = currentLocale;
     }
 
-    public String getView() {
+    String getView() {
         return view;
     }
 
@@ -42,25 +44,8 @@ public class ViewModel implements Serializable {
         attributes.remove(attribute);
     }
 
-    public void removeCookie(String cookie){
-        cookieS.remove(cookie);
-    }
-
     public void setView(String view) {
         this.view = view;
-    }
-
-    public ViewModel addCookie(String name, String value) {
-        cookieS.put(name, value);
-        return this;
-    }
-
-    public boolean hasCookie(String theCookie) {
-        return cookieS.containsKey(theCookie);
-    }
-
-    public Map<String, String> getCookie() {
-        return cookieS;
     }
 
     public void setAttributes(Map<String, Object> attributes) {

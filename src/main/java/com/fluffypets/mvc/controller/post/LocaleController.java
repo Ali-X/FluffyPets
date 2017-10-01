@@ -1,13 +1,14 @@
 package com.fluffypets.mvc.controller.post;
 
 import com.fluffypets.mvc.controller.Controller;
+import com.fluffypets.mvc.model.enumes.Prices;
 import com.fluffypets.mvc.servlets.Command;
 import com.fluffypets.mvc.servlets.ViewModel;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class LocaleController implements Controller, AutoCloseable {
+public class LocaleController implements Controller {
 
     @Override
     public ViewModel process(Command command, ViewModel vm) {
@@ -16,15 +17,26 @@ public class LocaleController implements Controller, AutoCloseable {
         switch (locale) {
             case "en_US":
                 vm.setCurrentLocale(new Locale("en", "US"));
+                vm.setAttribute("isUa", "false");
                 break;
             case "uk_UA":
                 vm.setCurrentLocale(new Locale("uk", "UA"));
+                vm.setAttribute("isUa", "true");
                 break;
             default:
                 vm.setCurrentLocale(new Locale("en", "US"));
+                vm.setAttribute("isUa", "false");
         }
-        //        -------------         localization of all pages        ----------------------
+
+        localeTotal(vm);
+
+        vm.setView(page);
+        return vm;
+    }
+
+    private void localeTotal(ViewModel vm) {
         ResourceBundle resourceBundle = ResourceBundle.getBundle("language", vm.getCurrentLocale());
+        vm.setAttribute("prices", Prices.values());
         vm.setAttribute("Add_to_cart", ViewModel.stringUTF8(resourceBundle.getString("Add_to_cart")));
         vm.setAttribute("Admin_page", ViewModel.stringUTF8(resourceBundle.getString("Admin_page")));
         vm.setAttribute("Confirm_your_order", ViewModel.stringUTF8(resourceBundle.getString("Confirm_your_order")));
@@ -45,13 +57,5 @@ public class LocaleController implements Controller, AutoCloseable {
         vm.setAttribute("OrderLabel", ViewModel.stringUTF8(resourceBundle.getString("OrderLabel")));
         vm.setAttribute("IncreasePrice", ViewModel.stringUTF8(resourceBundle.getString("IncreasePrice")));
         vm.setAttribute("DecreasePrice", ViewModel.stringUTF8(resourceBundle.getString("DecreasePrice")));
-//        =============         localization        ======================
-
-        vm.setView(page);
-        return vm;
-    }
-
-    @Override
-    public void close() throws Exception {
     }
 }

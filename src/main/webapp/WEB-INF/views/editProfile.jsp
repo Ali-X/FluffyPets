@@ -117,69 +117,25 @@
                             </div>
                             <input id="Fullname" name="Fullname" type="text" placeholder="Name (Full name)"
                                    required class="form-control input-md"
-                                   <c:if test="${not empty requestScope.userData.getFullName()}">
-                                   value="${requestScope.userData.getFullName()}"</c:if>>
+                                   <c:if test="${not empty requestScope.userAdress.getFullName()}">
+                                   value="${requestScope.userAdress.getFullName()}"</c:if>>
                         </div>
                     </div>
                 </div>
 
-
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="DateOfBirth">Date Of Birth</label>
-                    <div class="col-md-4">
-
-                        <div class="input-group">
-                            <div class="input-group-addon">
-                                <i class="glyphicon glyphicon-calendar"></i>
-                            </div>
-                            <input id="DateOfBirth" name="DateOfBirth" type="date" placeholder="Date Of Birth"
-                                   class="form-control input-md"
-                                   <c:if test="${not empty requestScope.userData.getDateOfBirth()}">
-                                   value="${requestScope.userData.getDateOfBirth()}"</c:if>>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-md-4 control-label">Gender</label>
-                    <div class="col-md-4">
-                        <label class="radio-inline" for="Gender-0">
-                            <input type="radio" name="Gender" id="Gender-0" value="Male" checked="checked">
-                            Male
-                        </label>
-                        <label class="radio-inline" for="Gender-1">
-                            <input type="radio" name="Gender" id="Gender-1" value="Female">
-                            Female
-                        </label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-md-4 control-label">Marital Status:</label>
-                    <div class="col-md-4">
-                        <label class="radio-inline" for="radios-0">
-                            <input type="radio" name="Marital" id="radios-0" value=true checked="checked">
-                            Married
-                        </label>
-                        <label class="radio-inline" for="radios-1">
-                            <input type="radio" name="Marital" id="radios-1" value=false>
-                            Unmarried
-                        </label>
-                    </div>
-                </div>
                 <div class="form-group">
                     <label class="col-md-4 control-label col-xs-12" for="District">Address</label>
                     <div class="col-md-2  col-xs-4">
                         <input id="District" type="text" name="District"
                                required placeholder="District" class="form-control input-md "
-                               <c:if test="${not empty requestScope.userData.getDistrict()}">
-                               value="${requestScope.userData.getDistrict()}"</c:if>>
+                               <c:if test="${not empty requestScope.userAdress.getDistrict()}">
+                               value="${requestScope.userAdress.getDistrict()}"</c:if>>
                     </div>
                     <div class="col-md-2 col-xs-4">
                         <input id="Area" type="text" name="Area"
                                placeholder="Area" class="form-control input-md "
-                               <c:if test="${not empty requestScope.userData.getArea()}">
-                               value="${requestScope.userData.getArea()}"</c:if>>
+                               <c:if test="${not empty requestScope.userAdress.getArea()}">
+                               value="${requestScope.userAdress.getArea()}"</c:if>>
                     </div>
                 </div>
                 <div class="form-group">
@@ -187,14 +143,14 @@
                     <div class="col-md-2  col-xs-4">
                         <input id="Street" type="text" name="Street"
                                required placeholder="Street" class="form-control input-md "
-                               <c:if test="${not empty requestScope.userData.getStreet()}">
-                               value="${requestScope.userData.getStreet()}"</c:if>>
+                               <c:if test="${not empty requestScope.userAdress.getStreet()}">
+                               value="${requestScope.userAdress.getStreet()}"</c:if>>
                     </div>
                     <div class="col-md-2  col-xs-4">
                         <input id="App" type="text" name="App"
                                required placeholder="App. №" class="form-control input-md "
-                               <c:if test="${not empty requestScope.userData.getApp()}">
-                               value="${requestScope.userData.getApp()}"</c:if>>
+                               <c:if test="${not empty requestScope.userAdress.getApp()}">
+                               value="${requestScope.userAdress.getApp()}"</c:if>>
                     </div>
                 </div>
 
@@ -208,18 +164,8 @@
                             </div>
                             <input id="Phone number " name="Phone number" type="text"
                                    required placeholder="Primary Phone number " class="form-control input-md"
-                                   <c:if test="${not empty requestScope.userData.getPrimaryNumber()}">
-                                   value="${requestScope.userData.getPrimaryNumber()}"</c:if>>
-                        </div>
-                        <div class="input-group othertop">
-                            <div class="input-group-addon">
-                                <i class="glyphicon glyphicon-earphone"></i>
-
-                            </div>
-                            <input id="PhoneSecNumber" name="PhoneSecNumber" type="text"
-                                   placeholder=" Secondary Phone number " class="form-control input-md"
-                                   <c:if test="${not empty requestScope.userData.getSecondaryNumber()}">
-                                   value="${requestScope.userData.getSecondaryNumber()}"</c:if>>
+                                   <c:if test="${not empty requestScope.userAdress.getPhone()}">
+                                   value="${requestScope.userAdress.getPhone()}"</c:if>>
                         </div>
 
                     </div>

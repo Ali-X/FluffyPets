@@ -92,8 +92,8 @@
                             </div>
                             <input id="Fullname" name="Fullname" type="text" placeholder="Name (Full name)"
                                    required class="form-control input-md"
-                            <c:if test="${not empty requestScope.userData.getFullName()}">
-                                   value="${requestScope.userData.getFullName()}"</c:if>>
+                            <c:if test="${not empty requestScope.userAdress.getFullName()}">
+                                   value="${requestScope.userAdress.getFullName()}"</c:if>>
                         </div>
                     </div>
                 </div>
@@ -103,14 +103,14 @@
                     <div class="col-md-2  col-xs-4">
                         <input id="District" type="text" name="District"
                                required placeholder="District" class="form-control input-md "
-                        <c:if test="${not empty requestScope.userData.getDistrict()}">
-                               value="${requestScope.userData.getDistrict()}"</c:if>>
+                        <c:if test="${not empty requestScope.userAdress.getDistrict()}">
+                               value="${requestScope.userAdress.getDistrict()}"</c:if>>
                     </div>
                     <div class="col-md-2 col-xs-4">
                         <input id="Area" type="text" name="Area"
                                placeholder="Area" class="form-control input-md "
-                        <c:if test="${not empty requestScope.userData.getArea()}">
-                               value="${requestScope.userData.getArea()}"</c:if>>
+                        <c:if test="${not empty requestScope.userAdress.getArea()}">
+                               value="${requestScope.userAdress.getArea()}"</c:if>>
                     </div>
                 </div>
 
@@ -119,14 +119,14 @@
                     <div class="col-md-2  col-xs-4">
                         <input id="Street" type="text" name="Street"
                                required placeholder="Street" class="form-control input-md "
-                        <c:if test="${not empty requestScope.userData.getStreet()}">
-                               value="${requestScope.userData.getStreet()}"</c:if>>
+                        <c:if test="${not empty requestScope.userAdress.getStreet()}">
+                               value="${requestScope.userAdress.getStreet()}"</c:if>>
                     </div>
                     <div class="col-md-2  col-xs-4">
                         <input id="App" type="text" name="App"
                                required placeholder="App. №" class="form-control input-md "
-                        <c:if test="${not empty requestScope.userData.getApp()}">
-                               value="${requestScope.userData.getApp()}"</c:if>>
+                        <c:if test="${not empty requestScope.userAdress.getApp()}">
+                               value="${requestScope.userAdress.getApp()}"</c:if>>
                     </div>
                 </div>
 
@@ -140,8 +140,8 @@
                             </div>
                             <input id="Phone number " name="PhoneNumber" type="text"
                                    required placeholder="Primary Phone number " class="form-control input-md"
-                            <c:if test="${not empty requestScope.userData.getPrimaryNumber()}">
-                                   value="${requestScope.userData.getPrimaryNumber()}"</c:if>>
+                            <c:if test="${not empty requestScope.userAdress.getPrimaryNumber()}">
+                                   value="${requestScope.userAdress.getPrimaryNumber()}"</c:if>>
                         </div>
                     </div>
                 </div>

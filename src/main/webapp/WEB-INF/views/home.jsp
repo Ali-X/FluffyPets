@@ -136,7 +136,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="bg-info col-xs-6 col-sm-3 col-lg-2">
+        <div class="bg-info col-xs-12 col-sm-3 col-lg-2">
             <form action="/root/selectGoods" method="post">
                 <input name="formN" value="1" hidden="hidden">
                 <div class="form-group">
@@ -145,7 +145,10 @@
                     <c:forEach items="${categories}" var="category">
                         <div class="checkbox">
                             <label><input type="checkbox" checked="checked" name="${category.getName()}"
-                                          value="${category.getId()}">${category.getName()}</label>
+                                          value="${category.getName()}">
+                                <c:if test="${isUa ne true}">${category.getName()}</c:if>
+                                <c:if test="${isUa eq true}">${category.getNameUa()}</c:if>
+                            </label>
                         </div>
                     </c:forEach>
 
@@ -159,7 +162,10 @@
                     <c:forEach items="${prices}" var="price">
                         <div class="radio">
                             <label><input type="radio" name="selectedPrice"
-                                          value="${price.getLabel()}">${price.getLabel()}</label>
+                                          value="${price.getLabel()}">
+                                <c:if test="${isUa eq true}">${price.getLabelUa()}</c:if>
+                                <c:if test="${isUa ne true}">${price.getLabel()}</c:if>
+                            </label>
                         </div>
                     </c:forEach>
                     <div>
@@ -174,7 +180,7 @@
                 </div>
             </form>
         </div>
-        <div class="col-xs-6 col-sm-9 col-lg-10">
+        <div class="col-xs-12 col-sm-9 col-lg-10">
             <div class="row">
                 <c:forEach items="${homePagePref.getProducts()}" var="product">
 

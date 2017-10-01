@@ -19,23 +19,23 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
 
     @Override
-    public UserData updateAddress(Integer userId, String fullName, String district, String area, String street, String app, String phone) {
+    public UserAdress updateAddress(Integer userId, String fullName, String district, String area, String street, String app, String phone) {
         Connection connection = ContextFactory.getContextConnection();
         try {
             try {
                 connection.setAutoCommit(false);
                 UserDataDAO userDataDAO = new UserDataDAOImpl(connection);
-                UserData userData = userDataDAO.getByUserId(userId);
-                UserData userDataUpdated;
-                if (userData == null) {
-                    userDataUpdated = new UserData(userId, fullName, LocalDate.now(), "Male", false, district, area, street, app, phone, "");
-                    userDataUpdated = userDataDAO.create(userDataUpdated);
+                UserAdress userAdress = userDataDAO.getByUserId(userId);
+                UserAdress userAdressUpdated;
+                if (userAdress == null) {
+                    userAdressUpdated = new UserAdress(userId, fullName, district, area, street, app, phone);
+                    userAdressUpdated = userDataDAO.create(userAdressUpdated);
                 } else {
-                    userDataUpdated = new UserData(userData.getUserDataId(), userId, fullName, userData.getDateOfBirth(), userData.getGender(), userData.getMarried(), district, area, street, app, phone, userData.getSecondaryNumber());
-                    userDataUpdated = userDataDAO.update(userDataUpdated);
+                    userAdressUpdated = new UserAdress(userAdress.getUserDataId(), userId, fullName, district, area, street, app, phone);
+                    userAdressUpdated = userDataDAO.update(userAdressUpdated);
                 }
                 connection.commit();
-                return userDataUpdated;
+                return userAdressUpdated;
             } catch (SQLException e) {
                 connection.rollback();
             } finally {
@@ -126,12 +126,9 @@ public class OrderServiceImpl implements OrderService {
                 connection.setAutoCommit(false);
                 OrderDAO orderDAO = new OrderDAOImpl(connection);
                 Order order = orderDAO.findById(orderId);
+                Order theOrder=orderDAO.delete(order);
                 connection.commit();
-                if (order != null) {
-                    orderDAO.delete(order);
-                    return true;
-                } else
-                    return false;
+                return theOrder != null;
             } catch (SQLException e) {
                 connection.rollback();
             } finally {

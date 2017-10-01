@@ -2,6 +2,7 @@ package com.fluffypets.mvc.servlets;
 
 import com.fluffypets.factory.ContextFactory;
 import com.fluffypets.factory.ControllersFactory;
+import com.fluffypets.factory.DaoFactory;
 import com.fluffypets.mvc.controller.Controller;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -25,6 +26,7 @@ public class FrontServlet extends HttpServlet {
 
     @Override
     public void init() {
+        DaoFactory.initialQueries();
 //      pages GET links
         controllerMap.put(new Command("GET", "/root/home"), ControllersFactory.getHomeController());
         controllerMap.put(new Command("GET", "/root/login"), ControllersFactory.getLoginPageController());

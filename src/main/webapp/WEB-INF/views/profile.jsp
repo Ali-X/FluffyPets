@@ -114,66 +114,25 @@
                     <label>Name (Full name)</label>
                     </div>
                     <div class="col-md-6">
-                        <c:if test="${not empty requestScope.userData.getFullName()}">
-                            <label>${requestScope.userData.getFullName()}</label>
+                        <c:if test="${not empty requestScope.userAdress.getFullName()}">
+                            <label>${requestScope.userAdress.getFullName()}</label>
                         </c:if>
-                        <c:if test="${empty requestScope.userData.getFullName()}">
+                        <c:if test="${empty requestScope.userAdress.getFullName()}">
                             <label>edit your profile and enter full name</label>
                         </c:if>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <div class="col-md-6 text-right">
-                    <label>Date Of Birth</label>
-                    </div>
-                    <div class="col-md-6">
-                        <c:if test="${not empty requestScope.userData.getDateOfBirth()}">
-                            <label>${requestScope.userData.getDateOfBirth()}</label>
-                        </c:if>
-                        <c:if test="${empty requestScope.userData.getDateOfBirth()}">
-                            <label>unknown date of birth</label>
-                        </c:if>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-6 text-right">
-                    <label>Gender:</label>
-                    </div>
-                    <div class="col-md-6">
-                        <c:if test="${not empty requestScope.userData.getGender()}">
-                            <label>${requestScope.userData.getGender()}</label>
-                        </c:if>
-                        <c:if test="${empty requestScope.userData.getGender()}">
-                            <label>gender</label>
-                        </c:if>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-6 text-right">
-                    <label>Marital Status:</label>
-                    </div>
-                    <div class="col-md-6">
-                        <c:if test="${not empty requestScope.userData.getMarried()}">
-                            <label>${requestScope.userData.getMarried()}</label>
-                        </c:if>
-                        <c:if test="${empty requestScope.userData.getMarried()}">
-                            <label>are you married?</label>
-                        </c:if>
-                    </div>
-                </div>
 
                 <div class="form-group">
                     <div class="col-md-6 text-right">
                     <label>My district </label>
                     </div>
                     <div class="col-md-6">
-                        <c:if test="${not empty requestScope.userData.getDistrict()}">
-                            <label>${requestScope.userData.getDistrict()}</label>
+                        <c:if test="${not empty requestScope.userAdress.getDistrict()}">
+                            <label>${requestScope.userAdress.getDistrict()}</label>
                         </c:if>
-                        <c:if test="${empty requestScope.userData.getDistrict()}">
+                        <c:if test="${empty requestScope.userAdress.getDistrict()}">
                             <label>edit your country district</label>
                         </c:if>
                     </div>
@@ -184,10 +143,10 @@
                     <label>My area </label>
                     </div>
                     <div class="col-md-6">
-                        <c:if test="${not empty requestScope.userData.getArea()}">
-                            <label>${requestScope.userData.getArea()}</label>
+                        <c:if test="${not empty requestScope.userAdress.getArea()}">
+                            <label>${requestScope.userAdress.getArea()}</label>
                         </c:if>
-                        <c:if test="${empty requestScope.userData.getArea()}">
+                        <c:if test="${empty requestScope.userAdress.getArea()}">
                             <label>enter your vilage/town/city</label>
                         </c:if>
                     </div>
@@ -198,10 +157,10 @@
                     <label>My street </label>
                     </div>
                     <div class="col-md-6">
-                        <c:if test="${not empty requestScope.userData.getStreet()}">
-                            <label>${requestScope.userData.getStreet()}</label>
+                        <c:if test="${not empty requestScope.userAdress.getStreet()}">
+                            <label>${requestScope.userAdress.getStreet()}</label>
                         </c:if>
-                        <c:if test="${empty requestScope.userData.getStreet()}">
+                        <c:if test="${empty requestScope.userAdress.getStreet()}">
                             <label>enter your sreet and building</label>
                         </c:if>
                     </div>
@@ -212,10 +171,10 @@
                     <label>My appartment </label>
                     </div>
                     <div class="col-md-6">
-                        <c:if test="${not empty requestScope.userData.getApp()}">
-                            <label>${requestScope.userData.getApp()}</label>
+                        <c:if test="${not empty requestScope.userAdress.getApp()}">
+                            <label>${requestScope.userAdress.getApp()}</label>
                         </c:if>
-                        <c:if test="${empty requestScope.userData.getApp()}">
+                        <c:if test="${empty requestScope.userAdress.getApp()}">
                             <label>enter appartment number</label>
                         </c:if>
                     </div>
@@ -226,25 +185,15 @@
                     <label>My phone number</label>
                     </div>
                     <div class="col-md-6">
-                        <c:if test="${not empty requestScope.userData.getPrimaryNumber()}">
-                            <label>${requestScope.userData.getPrimaryNumber()}</label>
+                        <c:if test="${not empty requestScope.userAdress.getPhone()}">
+                            <label>${requestScope.userAdress.getPhone()}</label>
                         </c:if>
-                        <c:if test="${empty requestScope.userData.getPrimaryNumber()}">
+                        <c:if test="${empty requestScope.userAdress.getPhone()}">
                             <label>enter your phone</label>
                         </c:if>
                     </div>
                 </div>
 
-                <c:if test="${not empty requestScope.userData.getSecondaryNumber()}">
-                    <div class="form-group">
-                        <div class="col-md-6 text-right">
-                        <label>My other number</label>
-                        </div>
-                        <div class="col-md-6">
-                            <label>${requestScope.userData.getSecondaryNumber()}</label>
-                        </div>
-                    </div>
-                </c:if>
 
                 <button type="submit" class="btn btn-warning btn-lg center-block"> Edit profile</button>
             </form>

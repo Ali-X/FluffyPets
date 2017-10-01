@@ -3,7 +3,7 @@ package com.fluffypets.servicies.user;
 import com.fluffypets.dao.user.UserDataDAO;
 import com.fluffypets.dao.user.UserDataDAOImpl;
 import com.fluffypets.factory.ContextFactory;
-import com.fluffypets.mvc.model.UserData;
+import com.fluffypets.mvc.model.UserAdress;
 import exeptions.DAOException;
 
 import java.sql.Connection;
@@ -12,15 +12,15 @@ import java.sql.SQLException;
 public class UserDataServiceImpl implements UserDataService {
 
     @Override
-    public UserData get(Integer userId) {
+    public UserAdress get(Integer userId) {
         Connection connection = ContextFactory.getContextConnection();
         try {
             try {
                 connection.setAutoCommit(false);
                 UserDataDAO userDataDao = new UserDataDAOImpl(connection);
-                UserData userData = userDataDao.getByUserId(userId);
+                UserAdress userAdress = userDataDao.getByUserId(userId);
                 connection.commit();
-                return userData;
+                return userAdress;
             } catch (SQLException e) {
                 connection.rollback();
             } finally {
@@ -33,15 +33,15 @@ public class UserDataServiceImpl implements UserDataService {
     }
 
     @Override
-    public UserData create(UserData userData) {
+    public UserAdress create(UserAdress userAdress) {
         Connection connection = ContextFactory.getContextConnection();
         try {
             try {
                 connection.setAutoCommit(false);
                 UserDataDAO userDataDao = new UserDataDAOImpl(connection);
-                UserData theUserData = userDataDao.create(userData);
+                UserAdress theUserAdress = userDataDao.create(userAdress);
                 connection.commit();
-                return theUserData;
+                return theUserAdress;
             } catch (SQLException e) {
                 connection.rollback();
             } finally {
@@ -54,15 +54,15 @@ public class UserDataServiceImpl implements UserDataService {
     }
 
     @Override
-    public UserData update(UserData userData) {
+    public UserAdress update(UserAdress userAdress) {
         Connection connection = ContextFactory.getContextConnection();
         try {
             try {
                 connection.setAutoCommit(false);
                 UserDataDAO userDataDao = new UserDataDAOImpl(connection);
-                UserData theUserData = userDataDao.update(userData);
+                UserAdress theUserAdress = userDataDao.update(userAdress);
                 connection.commit();
-                return theUserData;
+                return theUserAdress;
             } catch (SQLException e) {
                 connection.rollback();
             } finally {

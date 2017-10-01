@@ -2,7 +2,7 @@ package com.fluffypets.mvc.controller.post;
 
 import com.fluffypets.mvc.controller.Controller;
 import com.fluffypets.mvc.model.User;
-import com.fluffypets.mvc.model.UserData;
+import com.fluffypets.mvc.model.UserAdress;
 import com.fluffypets.mvc.servlets.Command;
 import com.fluffypets.mvc.servlets.ViewModel;
 import com.fluffypets.servicies.user.UserDataService;
@@ -24,28 +24,23 @@ public class UserDataController implements Controller {
             vm.setView("login");
         } else {
             String fullName = command.getAttribute("Fullname");
-            LocalDate localDate = LocalDate.parse(command.getAttribute("DateOfBirth"));
-            String gender = command.getAttribute("Gender");
-            Boolean married = command.getAttribute("Marital").equals("true");
             String district = command.getAttribute("District");
             String area = command.getAttribute("Area");
             String street = command.getAttribute("Street");
             String app = command.getAttribute("App");
 
-            String prim = command.getAttribute("Phone number");
-            String second = command.getAttribute("PhoneSecNumber");
+            String phone = command.getAttribute("Phone number");
 
-            UserData userData = new UserData(user.getId(), fullName, localDate, gender, married, district,
-                    area, street, app, prim, second);
+            UserAdress userAdress = new UserAdress(user.getId(), fullName, district, area, street, app, phone);
 
-            UserData current = userDataService.get(user.getId());
+            UserAdress current = userDataService.get(user.getId());
             if (current == null) {
-                userData = userDataService.create(userData);
+                userAdress = userDataService.create(userAdress);
             } else {
-                userData.setUserDataId(current.getUserDataId());
-                userData = userDataService.update(userData);
+                userAdress.setUserDataId(current.getUserDataId());
+                userAdress = userDataService.update(userAdress);
             }
-            vm.setAttribute("userData", userData);
+            vm.setAttribute("userAdress", userAdress);
         }
         vm.setView("profile");
         return vm;

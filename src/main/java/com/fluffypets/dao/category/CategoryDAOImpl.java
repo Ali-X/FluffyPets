@@ -27,10 +27,10 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
     public Category create(Category category) {
         PreparedStatement preparedStatement = null;
         try {
-            String preparedQuery = "INSERT INTO Pets.categories (categoryName,categoryDescription) VALUES(?,?)";
+            String preparedQuery = "INSERT INTO Pets.categories (categoryName,categoryNameUa) VALUES(?,?)";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setString(1, category.getName());
-            preparedStatement.setString(2, category.getCategoryDescription());
+            preparedStatement.setString(2, category.getNameUa());
             preparedStatement.execute();
             logger.info("create category query");
             return get(category);
@@ -49,10 +49,10 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
             List<Product> products = productDAO.selectByCategoryAndPrice(category.getId().toString(), 0, Integer.MAX_VALUE);
             for (Product product : products) productDAO.delete(product);
 
-            String preparedQuery = "DELETE FROM Pets.categories  WHERE categoryName = ? AND categoryDescription =?";
+            String preparedQuery = "DELETE FROM Pets.categories  WHERE categoryName = ? AND categoryNameUa =?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setString(1, category.getName());
-            preparedStatement.setString(2, category.getCategoryDescription());
+            preparedStatement.setString(2, category.getNameUa());
             preparedStatement.execute();
             logger.info("delete category query");
         } catch (SQLException e) {
@@ -67,10 +67,10 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
     public Category update(Category category) {
         PreparedStatement preparedStatement = null;
         try {
-            String preparedQuery = "UPDATE Pets.categories SET categoryName = ?,categoryDescription=? WHERE id =?";
+            String preparedQuery = "UPDATE Pets.categories SET categoryName = ?,categoryNameUa=? WHERE id =?";
             preparedStatement = connection.prepareStatement(preparedQuery);
             preparedStatement.setString(1, category.getName());
-            preparedStatement.setString(2, category.getCategoryDescription());
+            preparedStatement.setString(2, category.getNameUa());
             preparedStatement.setLong(3, category.getId());
             preparedStatement.execute();
         } catch (SQLException e) {
@@ -152,7 +152,7 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String name = rs.getString("categoryName");
-                String categoryDescription = rs.getString("categoryDescription");
+                String categoryDescription = rs.getString("categoryNameUa");
                 Category category = new Category(id, name, categoryDescription);
                 list.add(category);
             }

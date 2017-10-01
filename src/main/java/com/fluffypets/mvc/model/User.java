@@ -4,7 +4,6 @@ public class User {
   private Integer id;
   private String userName;
   private String password;
-  private String token;
   private String email;
   private String RoleString;
 
@@ -44,10 +43,6 @@ public class User {
         this.password = password;
     }
 
-    public void setToken(String token) {
-        this.token = token;
-    }
-
     public void setEmail(String email) {
         this.email = email;
     }
@@ -68,19 +63,11 @@ public class User {
         return password;
     }
 
-    public String getToken() {
-        return token;
-    }
-
     public String getEmail() {
         return email;
     }
 
     public String getRoleString() {
         return RoleString;
-    }
-
-    public static User from(String userName, String password, String token) {
-        return null;
     }
 }

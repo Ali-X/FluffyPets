@@ -1,12 +1,12 @@
 package com.fluffypets.servicies.user;
 
-import com.fluffypets.mvc.model.UserData;
+import com.fluffypets.mvc.model.UserAdress;
 
 public interface UserDataService {
 
-    UserData get(Integer userId);
+    UserAdress get(Integer userId);
 
-    UserData create(UserData userData);
+    UserAdress create(UserAdress userAdress);
 
-    UserData update(UserData userData);
+    UserAdress update(UserAdress userAdress);
 }
