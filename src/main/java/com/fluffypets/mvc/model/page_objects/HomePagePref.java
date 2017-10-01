@@ -1,4 +1,7 @@
-package com.fluffypets.mvc.model;
+package com.fluffypets.mvc.model.page_objects;
+
+import com.fluffypets.mvc.model.Category;
+import com.fluffypets.mvc.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;

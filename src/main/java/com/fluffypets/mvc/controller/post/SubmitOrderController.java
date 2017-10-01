@@ -1,7 +1,7 @@
 package com.fluffypets.mvc.controller.post;
 
 import com.fluffypets.mvc.controller.Controller;
-import com.fluffypets.mvc.model.Cart;
+import com.fluffypets.mvc.model.page_objects.Cart;
 import com.fluffypets.mvc.model.Order;
 import com.fluffypets.mvc.model.User;
 import com.fluffypets.mvc.model.UserData;

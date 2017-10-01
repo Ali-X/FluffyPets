@@ -1,10 +1,13 @@
-package com.fluffypets.mvc.model;
+package com.fluffypets.mvc.model.page_objects;
+
+import com.fluffypets.mvc.model.OrderItem;
+import com.fluffypets.mvc.model.Product;
 
 public class ProductInCart {
     private Product product;
     private Integer number;
 
-    public ProductInCart(Product product, Integer number) {
+    ProductInCart(Product product, Integer number) {
         this.product = product;
         this.number = number;
     }

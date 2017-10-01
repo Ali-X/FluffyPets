@@ -1,4 +1,6 @@
-package com.fluffypets.mvc.model;
+package com.fluffypets.mvc.model.page_objects;
+
+import com.fluffypets.mvc.model.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

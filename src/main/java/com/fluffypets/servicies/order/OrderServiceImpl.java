@@ -6,6 +6,8 @@ import com.fluffypets.dao.user.UserDataDAO;
 import com.fluffypets.dao.user.UserDataDAOImpl;
 import com.fluffypets.factory.ContextFactory;
 import com.fluffypets.mvc.model.*;
+import com.fluffypets.mvc.model.page_objects.Cart;
+import com.fluffypets.mvc.model.page_objects.ProductInCart;
 import exeptions.DAOException;
 
 import java.sql.Connection;

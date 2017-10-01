@@ -1,6 +1,6 @@
 package com.fluffypets.servicies.order;
 
-import com.fluffypets.mvc.model.Cart;
+import com.fluffypets.mvc.model.page_objects.Cart;
 import com.fluffypets.mvc.model.Order;
 import com.fluffypets.mvc.model.User;
 import com.fluffypets.mvc.model.UserData;

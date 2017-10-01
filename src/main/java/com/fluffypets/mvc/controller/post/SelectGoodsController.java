@@ -2,7 +2,7 @@ package com.fluffypets.mvc.controller.post;
 
 import com.fluffypets.mvc.controller.Controller;
 import com.fluffypets.mvc.model.Category;
-import com.fluffypets.mvc.model.HomePagePref;
+import com.fluffypets.mvc.model.page_objects.HomePagePref;
 import com.fluffypets.mvc.model.Product;
 import com.fluffypets.mvc.model.enumes.Prices;
 import com.fluffypets.mvc.servlets.Command;

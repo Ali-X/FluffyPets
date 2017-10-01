@@ -3,6 +3,8 @@ package com.fluffypets.mvc.controller.pages;
 import com.fluffypets.mvc.controller.Controller;
 import com.fluffypets.mvc.model.*;
 import com.fluffypets.mvc.model.enumes.Prices;
+import com.fluffypets.mvc.model.page_objects.Cart;
+import com.fluffypets.mvc.model.page_objects.HomePagePref;
 import com.fluffypets.mvc.servlets.Command;
 import com.fluffypets.mvc.servlets.ViewModel;
 import com.fluffypets.servicies.product.CategoryService;
