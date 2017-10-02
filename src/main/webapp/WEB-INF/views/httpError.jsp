@@ -5,15 +5,15 @@
 <head>
     <title>Sign up</title>
     <meta charset="utf-8">
-    <link href="${pageContext.request.contextPath}/resourseces/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resourseces/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/bootstrap-theme.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
     <div class="row text-center">
         <div class="col-sm-6 col-sm-offset-3">
             <div>
-                <img src="${pageContext.request.contextPath}/resourseces/img/sadDog.jpg" height="250">
+                <img src="${pageContext.request.contextPath}/resources/img/sadDog.jpg" height="250">
             </div>
             <h1>Something goes wrong</h1>
             <h2 class="text-warning"> Status code: ${pageContext.errorData.statusCode}</h2>

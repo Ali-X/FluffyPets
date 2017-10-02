@@ -5,8 +5,8 @@
 <head>
     <title>Fluffy Pets</title>
     <meta charset="utf-8">
-    <link href="${pageContext.request.contextPath}/resourseces/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resourseces/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/bootstrap-theme.min.css" rel="stylesheet">
 </head>
 <body>
 <meta name="viewport" content="width=device-width, initial-scale=1">

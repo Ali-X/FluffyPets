@@ -1,11 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title>Sign up</title>
     <meta charset="utf-8">
-    <link href="${pageContext.request.contextPath}/resourseces/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resourseces/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/bootstrap-theme.min.css" rel="stylesheet">
 </head>
 <body>
 <nav class="navbar navbar-default" role="navigation">
@@ -69,13 +69,13 @@
                                     <form method="post">
                                         <div class="row center-block">
                                                 ${cartItem.getProduct().getName()} :
-                                            <button class="btn-link"  formaction="/root/takeFromCart"
-                                                    name="productId"    value="${cartItem.getProduct().getId()}" >
+                                            <button class="btn-link" formaction="/root/takeFromCart"
+                                                    name="productId" value="${cartItem.getProduct().getId()}">
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </button>
                                                 ${cartItem.getNumber()}
-                                            <button class="btn-link"  formaction="/root/addToCart"
-                                                    name="productId" value="${cartItem.getProduct().getId()}" >
+                                            <button class="btn-link" formaction="/root/addToCart"
+                                                    name="productId" value="${cartItem.getProduct().getId()}">
                                                 <span class="glyphicon glyphicon-plus"></span>
                                             </button>
                                         </div>
@@ -88,8 +88,10 @@
                                     <button type="submit"
                                             <c:if test="${not empty requestScope.user}"> formaction="/root/makeOder" class="btn btn-danger"</c:if>
                                             <c:if test="${empty requestScope.user}"> class="btn btn-default" disabled="disabled"</c:if>
-                                    > Confirm your order</button>
-                                </form></li>
+                                    > Confirm your order
+                                    </button>
+                                </form>
+                            </li>
                         </c:if>
                     </ul>
                 </li>
@@ -112,26 +114,71 @@
                     <div class="form-group">
                         <label for="form-email" class="col-md-3 control-label">Email</label>
                         <div class="col-md-9">
-                            <input type="email" required class="form-control"
-                                   id="form-email" name="form-email" placeholder="Email Address">
+                            <input type="email" required
+                            <c:choose>
+                            <c:when test="${not empty requestScope.validationSignUp.getFieldStatuses().get(0)}">
+                                    value="${requestScope.validationSignUp.getValidationObject().getEmail()}"
+                                   <c:if test="${requestScope.validationSignUp.getFieldStatuses().get(0).isStatus()}">class="form-control"</c:if>
+                                   <c:if test="${not requestScope.validationSignUp.getFieldStatuses().get(0).isStatus()}">class="form-control alert-danger"</c:if>
+                            </c:when>
+                            <c:otherwise>class="form-control"
+                            </c:otherwise>
+                            </c:choose>
+                                   id="form-email" name="email" placeholder="Email Address">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="form-userName" class="col-md-3 control-label">Login</label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control"
-                                   required id="form-userName" name="form-userName"  placeholder="Enter login">
+                            <input type="text"
+                            <c:choose>
+                            <c:when test="${not empty requestScope.validationSignUp.getFieldStatuses().get(1)}">
+                                   value="${requestScope.validationSignUp.getValidationObject().getUsername()}"
+                                   <c:if test="${requestScope.validationSignUp.getFieldStatuses().get(1).isStatus()}">class="form-control"</c:if>
+                                   <c:if test="${not requestScope.validationSignUp.getFieldStatuses().get(1).isStatus()}">class="form-control alert-danger"</c:if>
+                            </c:when>
+                                   <c:otherwise> class="form-control"
+                            </c:otherwise>
+                            </c:choose>
+                                   required id="form-userName" name="username" placeholder="Enter login">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="form-password" class="col-md-3 control-label">Password</label>
                         <div class="col-md-9">
-                            <input type="password" class="form-control"
-                                   required id="form-password" name="form-password"  placeholder="Password">
+                            <input type="password"
+                            <c:choose>
+                            <c:when test="${not empty requestScope.validationSignUp.getFieldStatuses().get(2)}">
+                                   <c:if test="${requestScope.validationSignUp.getFieldStatuses().get(2).isStatus()}">class="form-control"</c:if>
+                                   <c:if test="${not requestScope.validationSignUp.getFieldStatuses().get(2).isStatus()}">class="form-control alert-danger"</c:if>
+                            </c:when>
+                                   <c:otherwise>class="form-control"
+                            </c:otherwise>
+                            </c:choose>
+                                   required id="form-password" name="password" placeholder="Password">
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label for="form-password2" class="col-md-3 control-label">Password</label>
+                        <div class="col-md-9">
+                            <input type="password"
+                            <c:choose>
+                            <c:when test="${not empty requestScope.validationSignUp.getFieldStatuses().get(3)}">
+                                   <c:if test="${requestScope.validationSignUp.getFieldStatuses().get(3).isStatus()}">class="form-control"</c:if>
+                                   <c:if test="${not requestScope.validationSignUp.getFieldStatuses().get(3).isStatus()}">class="form-control alert-danger"</c:if>
+                            </c:when>
+                                   <c:otherwise>class="form-control"
+                            </c:otherwise>
+                            </c:choose>
+                                   required id="form-password2" name="password2" placeholder="repeat it">
+                        </div>
+                    </div>
+
+                    <c:if test="${not empty requestScope.validationSignUp}"><label
+                            class="text-danger">${requestScope.validationSignUp.getValidationMessage()}</label></c:if>
 
                     <div class="form-group">
                         <!-- Button -->
@@ -148,25 +195,9 @@
     </div>
 </div>
 <!-- jQuery -->
-<script src="${pageContext.request.contextPath}/resourseces/js/jquery-3.2.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 <!-- Latest compiled and minified JavaScript -->
-<script src="${pageContext.request.contextPath}/resourseces/js/bootstrap.min.js"></script>
-
-<script>
-    function validateForm() {
-        var login = document.forms["signupform"]["form-userName"].value;
-        var password = document.forms["signupform"]["form-password"].value;
-
-        if (login.length < 5) {
-            alert("Your login should be longer");
-            return false;
-        }
-        if (password.length < 5) {
-            alert("Your password should be longer");
-            return false;
-        }
-    }
-</script>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 
 </body>
 </html>

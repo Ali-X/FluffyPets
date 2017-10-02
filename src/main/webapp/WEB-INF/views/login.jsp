@@ -1,11 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title>Login</title>
     <meta charset="utf-8">
-    <link href="${pageContext.request.contextPath}/resourseces/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resourseces/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/bootstrap-theme.min.css" rel="stylesheet">
 </head>
 <body>
 <%--                                            BEGIN 0f navbar                                        --%>
@@ -70,13 +70,13 @@
                                     <form method="post">
                                         <div class="row center-block">
                                                 ${cartItem.getProduct().getName()} :
-                                            <button class="btn-link"  formaction="/root/takeFromCart"
-                                                    name="productId"    value="${cartItem.getProduct().getId()}" >
+                                            <button class="btn-link" formaction="/root/takeFromCart"
+                                                    name="productId" value="${cartItem.getProduct().getId()}">
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </button>
                                                 ${cartItem.getNumber()}
-                                            <button class="btn-link"  formaction="/root/addToCart"
-                                                    name="productId" value="${cartItem.getProduct().getId()}" >
+                                            <button class="btn-link" formaction="/root/addToCart"
+                                                    name="productId" value="${cartItem.getProduct().getId()}">
                                                 <span class="glyphicon glyphicon-plus"></span>
                                             </button>
                                         </div>
@@ -89,8 +89,10 @@
                                     <button type="submit"
                                             <c:if test="${not empty requestScope.user}"> formaction="/root/makeOder" class="btn btn-danger"</c:if>
                                             <c:if test="${empty requestScope.user}"> class="btn btn-default" disabled="disabled"</c:if>
-                                    > Confirm your order</button>
-                                </form></li>
+                                    > Confirm your order
+                                    </button>
+                                </form>
+                            </li>
                         </c:if>
                     </ul>
                 </li>
@@ -112,20 +114,39 @@
             <div style="padding-top:30px" class="panel-body">
 
                 <form id="loginform" class="form-horizontal" method="post"
-                       action="<c:url value="/root/login"/>">
+                      action="<c:url value="/root/login"/>">
 
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input id="login-username" type="text" class="form-control" name="userName"
-                               required placeholder="login">
+                        <input id="login-username" type="text" name="userName"
+                        <c:choose>
+                        <c:when test="${not empty requestScope.validationUser.getFieldStatuses().get(0)}">
+                        <c:if test="${requestScope.validationUser.getFieldStatuses().get(0).isStatus()}">class="form-control"</c:if>
+                        <c:if test="${not requestScope.validationUser.getFieldStatuses().get(0).isStatus()}">class="form-control alert-danger"</c:if>
+                            </c:when>
+                            <c:otherwise>
+                               class="form-control"
+                        </c:otherwise>
+                        </c:choose>
+                               required placeholder="login" class="form-control">
                     </div>
 
                     <div style="margin-bottom: 5px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                        <input id="login-password" type="password" class="form-control" name="password"
+                        <input id="login-password" type="password" name="password"
+                        <c:choose>
+                        <c:when test="${not empty requestScope.validationUser.getFieldStatuses().get(1)}">
+                               <c:if test="${requestScope.validationUser.getFieldStatuses().get(1).isStatus()}">class="form-control"</c:if>
+                               <c:if test="${not requestScope.validationUser.getFieldStatuses().get(1).isStatus()}">class="form-control alert-danger"</c:if>
+                        </c:when>
+                        <c:otherwise>
+                               class="form-control"
+                        </c:otherwise>
+                        </c:choose>
                                required placeholder="password">
                     </div>
-
+                    <c:if test="${not empty requestScope.validationUser}"><label
+                            class="text-danger">${requestScope.validationUser.getValidationMessage()}</label></c:if>
                     <div class="col-sm-12 controls text-center">
                         <button type="submit" id="btn-login" class="btn btn-success btn-lg ">Login</button>
                     </div>
@@ -136,9 +157,9 @@
 </div>
 
 <!-- jQuery -->
-<script src="${pageContext.request.contextPath}/resourseces/js/jquery-3.2.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 <!-- Latest compiled and minified JavaScript -->
-<script src="${pageContext.request.contextPath}/resourseces/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 
 </body>
 </html>

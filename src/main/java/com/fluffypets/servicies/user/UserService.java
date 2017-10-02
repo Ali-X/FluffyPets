@@ -2,6 +2,8 @@ package com.fluffypets.servicies.user;
 
 
 import com.fluffypets.mvc.model.User;
+import com.fluffypets.mvc.model.page_objects.SignUpPageInputs;
+import com.fluffypets.mvc.model.page_objects.ValidationMessage;
 
 import java.util.List;
 

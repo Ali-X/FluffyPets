@@ -4,8 +4,8 @@
 <head>
     <title>Fluffy Pets</title>
     <meta charset="utf-8">
-    <link href="${pageContext.request.contextPath}/resourseces/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resourseces/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/bootstrap-theme.min.css" rel="stylesheet">
 </head>
 <body>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -185,7 +185,7 @@
 
                     <div class="col-xs-4 col-md-3 col-lg-2 center-block">
                         <div class="thumbnail">
-                            <img src="${pageContext.request.contextPath}/resourseces/img/Category.jpg" alt="Nature"
+                            <img src="${pageContext.request.contextPath}/resources/img/Category.jpg" alt="Nature"
                                  style="max-height: 120px">
                         </div>
                     </div>
@@ -219,8 +219,8 @@
 </div>
 
 <!-- jQuery -->
-<script src="${pageContext.request.contextPath}/resourseces/js/jquery-3.2.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 <!-- Latest compiled and minified JavaScript -->
-<script src="${pageContext.request.contextPath}/resourseces/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 </body>
 </html>

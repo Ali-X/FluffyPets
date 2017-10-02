@@ -4,8 +4,8 @@
 <head>
     <title>Fluffy Pets</title>
     <meta charset="utf-8">
-    <link href="${pageContext.request.contextPath}/resourseces/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resourseces/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/bootstrap-theme.min.css" rel="stylesheet">
 </head>
 <body>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -124,11 +124,11 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3 col-sm-4 visible-md visible-sm visible-lg"><img
-                src="<c:url value="/resourseces/img/pooh.jpg"/>" height="250"></div>
-        <div class="col-md-6 col-sm-5 col-xs-12 text-center"><img src="<c:url value="/resourseces/img/toys.jpg"/>"
+                src="<c:url value="/resources/img/pooh.jpg"/>" height="250"></div>
+        <div class="col-md-6 col-sm-5 col-xs-12 text-center"><img src="<c:url value="/resources/img/toys.jpg"/>"
                                                                   height="250"></div>
         <div class="col-md-3 col-sm-3 visible-md visible-sm visible-lg"><img
-                src="<c:url value="/resourseces/img/redman.jpg"/>" height="250"></div>
+                src="<c:url value="/resources/img/redman.jpg"/>" height="250"></div>
     </div>
 </div>
 
@@ -220,8 +220,8 @@
 </div>
 
 <!-- jQuery -->
-<script src="${pageContext.request.contextPath}/resourseces/js/jquery-3.2.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 <!-- Latest compiled and minified JavaScript -->
-<script src="${pageContext.request.contextPath}/resourseces/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 </body>
 </html>
