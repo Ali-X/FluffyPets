@@ -1,7 +1,7 @@
 package com.fluffypets.mvc.controller.post;
 
 import com.fluffypets.mvc.controller.Controller;
-import com.fluffypets.mvc.model.enumes.Prices;
+import com.fluffypets.entities.enumes.Prices;
 import com.fluffypets.mvc.servlets.Command;
 import com.fluffypets.mvc.servlets.ViewModel;
 

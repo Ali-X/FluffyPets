@@ -1,12 +1,12 @@
 package com.fluffypets.mvc.controller.post;
 
 import com.fluffypets.mvc.controller.Controller;
-import com.fluffypets.mvc.model.UserAdress;
-import com.fluffypets.mvc.model.page_objects.Cart;
-import com.fluffypets.mvc.model.User;
+import com.fluffypets.entities.UserAddress;
+import com.fluffypets.mvc.page_objects.Cart;
+import com.fluffypets.entities.User;
 import com.fluffypets.mvc.servlets.Command;
 import com.fluffypets.mvc.servlets.ViewModel;
-import com.fluffypets.servicies.user.UserDataService;
+import com.fluffypets.services.UserDataService;
 
 public class MakeOrderController implements Controller {
 
@@ -29,8 +29,8 @@ public class MakeOrderController implements Controller {
             vm.setView("home");
             return vm;
         }
-        UserAdress userAdress = userDataService.get(user.getId());
-        vm.setAttribute("userAdress", userAdress);
+        UserAddress userAddress = userDataService.get(user.getId());
+        vm.setAttribute("userAddress", userAddress);
         vm.setView("submitOrder");
         return vm;
     }

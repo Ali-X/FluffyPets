@@ -1,6 +1,6 @@
 package com.fluffypets.mvc.filtres;
 
-import com.fluffypets.mvc.model.User;
+import com.fluffypets.entities.User;
 import com.fluffypets.mvc.servlets.ViewModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.rmi.AccessException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,7 +41,7 @@ public class UserFilter implements Filter {
         if (!allowedPages.contains(uri)) {
             if (user == null || user.getRoleString().equals("blocked") || user.getRoleString().equals("Unknown")) {
                 logger.error("Illegal access, RequestedSessionId: " + httpRequest.getRequestedSessionId());
-                throw new RuntimeException("Illegal Access");
+                throw new AccessException("forbidden url");
             }
         }
         chain.doFilter(request, response);

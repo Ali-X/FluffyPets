@@ -1,10 +1,10 @@
 package com.fluffypets.mvc.controller.post;
 
 import com.fluffypets.mvc.controller.Controller;
-import com.fluffypets.mvc.model.User;
+import com.fluffypets.entities.User;
 import com.fluffypets.mvc.servlets.Command;
 import com.fluffypets.mvc.servlets.ViewModel;
-import com.fluffypets.servicies.user.UserService;
+import com.fluffypets.services.UserService;
 
 import java.util.List;
 

@@ -1,14 +1,16 @@
 package com.fluffypets.mvc.controller.pages;
 
+import com.fluffypets.entities.Category;
+import com.fluffypets.entities.Product;
+import com.fluffypets.entities.User;
 import com.fluffypets.mvc.controller.Controller;
-import com.fluffypets.mvc.model.*;
-import com.fluffypets.mvc.model.enumes.Prices;
-import com.fluffypets.mvc.model.page_objects.Cart;
-import com.fluffypets.mvc.model.page_objects.HomePagePref;
+import com.fluffypets.entities.enumes.Prices;
+import com.fluffypets.mvc.page_objects.Cart;
+import com.fluffypets.mvc.page_objects.HomePagePref;
 import com.fluffypets.mvc.servlets.Command;
 import com.fluffypets.mvc.servlets.ViewModel;
-import com.fluffypets.servicies.product.CategoryService;
-import com.fluffypets.servicies.product.ProductService;
+import com.fluffypets.services.CategoryService;
+import com.fluffypets.services.ProductService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

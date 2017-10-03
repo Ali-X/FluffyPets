@@ -1,13 +1,11 @@
 package com.fluffypets.mvc.controller.post;
 
 import com.fluffypets.mvc.controller.Controller;
-import com.fluffypets.mvc.model.User;
-import com.fluffypets.mvc.model.UserAdress;
+import com.fluffypets.entities.User;
+import com.fluffypets.entities.UserAddress;
 import com.fluffypets.mvc.servlets.Command;
 import com.fluffypets.mvc.servlets.ViewModel;
-import com.fluffypets.servicies.user.UserDataService;
-
-import java.time.LocalDate;
+import com.fluffypets.services.UserDataService;
 
 public class UserDataController implements Controller {
 
@@ -31,16 +29,16 @@ public class UserDataController implements Controller {
 
             String phone = command.getAttribute("Phone number");
 
-            UserAdress userAdress = new UserAdress(user.getId(), fullName, district, area, street, app, phone);
+            UserAddress userAddress = new UserAddress(user.getId(), fullName, district, area, street, app, phone);
 
-            UserAdress current = userDataService.get(user.getId());
+            UserAddress current = userDataService.get(user.getId());
             if (current == null) {
-                userAdress = userDataService.create(userAdress);
+                userAddress = userDataService.create(userAddress);
             } else {
-                userAdress.setUserDataId(current.getUserDataId());
-                userAdress = userDataService.update(userAdress);
+                userAddress.setUserDataId(current.getUserDataId());
+                userAddress = userDataService.update(userAddress);
             }
-            vm.setAttribute("userAdress", userAdress);
+            vm.setAttribute("userAddress", userAddress);
         }
         vm.setView("profile");
         return vm;

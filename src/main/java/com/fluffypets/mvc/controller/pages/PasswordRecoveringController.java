@@ -1,13 +1,12 @@
 package com.fluffypets.mvc.controller.pages;
 
-import com.fluffypets.dao.user.UserDAO;
 import com.fluffypets.mvc.controller.Controller;
-import com.fluffypets.mvc.model.User;
+import com.fluffypets.entities.User;
 import com.fluffypets.mvc.servlets.Command;
 import com.fluffypets.mvc.servlets.ViewModel;
 import com.fluffypets.factory.ContextFactory;
-import com.fluffypets.servicies.user.UserService;
-import com.fluffypets.servicies.user.UserServiceImpl;
+import com.fluffypets.services.UserService;
+import com.fluffypets.services.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

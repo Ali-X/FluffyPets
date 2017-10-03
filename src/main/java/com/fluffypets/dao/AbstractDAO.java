@@ -1,6 +1,6 @@
 package com.fluffypets.dao;
 
-import exeptions.DAOException;
+import com.fluffypets.exeptions.DAOException;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;

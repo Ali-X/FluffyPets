@@ -1,11 +1,11 @@
 package com.fluffypets.mvc.controller.post;
 
 import com.fluffypets.mvc.controller.Controller;
-import com.fluffypets.mvc.model.page_objects.Cart;
-import com.fluffypets.mvc.model.User;
+import com.fluffypets.mvc.page_objects.Cart;
+import com.fluffypets.entities.User;
 import com.fluffypets.mvc.servlets.Command;
 import com.fluffypets.mvc.servlets.ViewModel;
-import com.fluffypets.servicies.product.ProductService;
+import com.fluffypets.services.ProductService;
 
 public class AddProductToCartController implements Controller{
 

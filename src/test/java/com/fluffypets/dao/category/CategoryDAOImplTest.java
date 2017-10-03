@@ -1,7 +1,7 @@
 //package com.fluffypets.dao.category;
 //
 //
-//import com.fluffypets.mvc.model.Category;
+//import com.fluffypets.entities.Category;
 //import com.fluffypets.factory.DaoFactory;
 //import org.junit.Test;
 //

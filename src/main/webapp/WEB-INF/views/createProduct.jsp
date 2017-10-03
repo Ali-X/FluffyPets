@@ -18,7 +18,7 @@
         <div class="col-md-4 center-block hidden-sm hidden-xs">
             <div class="thumbnail">
                 <img
-                        <c:if test="${empty requestScope.uploadedFile}">src="${pageContext.request.contextPath}/resourseces/img/toy-bear.jpg"</c:if>
+                        <c:if test="${empty requestScope.uploadedFile}">src="${pageContext.request.contextPath}/resources/img/toy-bear.jpg"</c:if>
                         <c:if test="${not empty requestScope.uploadedFile}">src="${requestScope.uploadedFile}"</c:if>
                         style="width:100%">
             </div>

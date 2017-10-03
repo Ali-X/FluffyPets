@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ attribute name="validator" required="true" type="com.fluffypets.mvc.model.page_objects.FieldStatus" %>
+<%@ attribute name="validator" required="true" type="com.fluffypets.mvc.page_objects.FieldStatus" %>
 
 <c:choose>
     <c:when test="${not empty validator}">

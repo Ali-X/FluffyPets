@@ -1,10 +1,10 @@
 package com.fluffypets.mvc.controller.pages;
 
 import com.fluffypets.mvc.controller.Controller;
-import com.fluffypets.mvc.model.Order;
+import com.fluffypets.entities.Order;
 import com.fluffypets.mvc.servlets.Command;
 import com.fluffypets.mvc.servlets.ViewModel;
-import com.fluffypets.servicies.order.OrderService;
+import com.fluffypets.services.OrderService;
 
 import java.util.List;
 

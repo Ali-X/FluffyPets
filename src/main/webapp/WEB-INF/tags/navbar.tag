@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ attribute name="activePage" required="true"%>
+<%@tag pageEncoding="UTF-8"%>
 <html>
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">

@@ -1,8 +1,8 @@
 //package com.fluffypets.dao.orders;
 //
-//import com.fluffypets.dao.category.CategoryDAO;
-//import com.fluffypets.dao.product.ProductDAO;
-//import com.fluffypets.dao.user.UserDAO;
+//import com.fluffypets.dao.CategoryDAO;
+//import com.fluffypets.dao.ProductDAO;
+//import com.fluffypets.dao.UserDAO;
 //import com.fluffypets.mvc.model.*;
 //import com.fluffypets.factory.DaoFactory;
 //import org.junit.Test;

@@ -1,17 +1,17 @@
 package com.fluffypets.factory;
 
-import com.fluffypets.servicies.email.SendEmailService;
-import com.fluffypets.servicies.email.SendEmailServiceImpl;
-import com.fluffypets.servicies.order.OrderService;
-import com.fluffypets.servicies.order.OrderServiceImpl;
-import com.fluffypets.servicies.product.CategoryService;
-import com.fluffypets.servicies.product.CategoryServiceImpl;
-import com.fluffypets.servicies.product.ProductService;
-import com.fluffypets.servicies.product.ProductServiceImpl;
-import com.fluffypets.servicies.user.UserDataService;
-import com.fluffypets.servicies.user.UserDataServiceImpl;
-import com.fluffypets.servicies.user.UserService;
-import com.fluffypets.servicies.user.UserServiceImpl;
+import com.fluffypets.services.SendEmailService;
+import com.fluffypets.services.impl.SendEmailServiceImpl;
+import com.fluffypets.services.OrderService;
+import com.fluffypets.services.impl.OrderServiceImpl;
+import com.fluffypets.services.CategoryService;
+import com.fluffypets.services.impl.CategoryServiceImpl;
+import com.fluffypets.services.ProductService;
+import com.fluffypets.services.impl.ProductServiceImpl;
+import com.fluffypets.services.UserDataService;
+import com.fluffypets.services.impl.UserDataServiceImpl;
+import com.fluffypets.services.UserService;
+import com.fluffypets.services.impl.UserServiceImpl;
 
 class ServicesFactory {
     static UserService getUserService() {

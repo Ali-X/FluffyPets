@@ -1,10 +1,10 @@
 package com.fluffypets.mvc.controller.pages;
 
 import com.fluffypets.mvc.controller.Controller;
-import com.fluffypets.mvc.model.Category;
+import com.fluffypets.entities.Category;
 import com.fluffypets.mvc.servlets.Command;
 import com.fluffypets.mvc.servlets.ViewModel;
-import com.fluffypets.servicies.product.CategoryService;
+import com.fluffypets.services.CategoryService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
