@@ -3,7 +3,7 @@ package com.fluffypets.mvc.controller.post;
 import com.fluffypets.mvc.controller.Controller;
 import com.fluffypets.entities.Category;
 import com.fluffypets.entities.User;
-import com.fluffypets.mvc.servlets.Command;
+import com.fluffypets.mvc.servlets.Action;
 import com.fluffypets.mvc.servlets.ViewModel;
 import com.fluffypets.services.CategoryService;
 
@@ -18,13 +18,13 @@ public class CreateCategoryController implements Controller{
     }
 
     @Override
-    public ViewModel process(Command command, ViewModel vm) {
+    public ViewModel process(Action action, ViewModel vm) {
         User user = (User) vm.getAttribute("user");
         if (user == null) {
             vm.setView("login");
         } else {
-            String categoryName = command.getAttribute("categoryName");
-            String categoryDescription = command.getAttribute("nameUa");
+            String categoryName = action.getAttribute("categoryName");
+            String categoryDescription = action.getAttribute("nameUa");
             Category category = new Category(categoryName, categoryDescription);
             categoryService.create(category);
             List<Category> categories = categoryService.getAll();

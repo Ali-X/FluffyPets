@@ -4,7 +4,7 @@
 //import com.fluffypets.dao.ProductDAO;
 //import com.fluffypets.dao.UserDAO;
 //import com.fluffypets.mvc.model.*;
-//import com.fluffypets.factory.DaoFactory;
+//import com.fluffypets.dao.impl.DaoFactory;
 //import org.junit.Test;
 //
 //import java.math.BigDecimal;

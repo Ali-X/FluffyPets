@@ -4,7 +4,7 @@ import com.fluffypets.mvc.controller.Controller;
 import com.fluffypets.entities.User;
 import com.fluffypets.mvc.page_objects.SignUpPageInputs;
 import com.fluffypets.mvc.page_objects.ValidationMessage;
-import com.fluffypets.mvc.servlets.Command;
+import com.fluffypets.mvc.servlets.Action;
 import com.fluffypets.mvc.servlets.ViewModel;
 import com.fluffypets.services.UserService;
 import com.fluffypets.validators.SignUpValidator;
@@ -21,11 +21,11 @@ public class SignUpCheckController implements Controller {
     }
 
     @Override
-    public ViewModel process(Command command, ViewModel vm) {
-        String username = command.getAttribute("username");
-        String email = command.getAttribute("email");
-        String password = command.getAttribute("password");
-        String password2 = command.getAttribute("password2");
+    public ViewModel process(Action action, ViewModel vm) {
+        String username = action.getAttribute("username");
+        String email = action.getAttribute("email");
+        String password = action.getAttribute("password");
+        String password2 = action.getAttribute("password2");
         String role = "user";
         SignUpValidator validator = new SignUpValidator();
         ValidationMessage<SignUpPageInputs> validation = validator.validate(new SignUpPageInputs(email, username, password, password2));

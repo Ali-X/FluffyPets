@@ -7,7 +7,8 @@ import com.fluffypets.mvc.controller.post.*;
 
 public class ControllersFactory {
 
-    private ControllersFactory(){}
+    private ControllersFactory() {
+    }
 
     //---------------------                 get pages                ---------------------------------------------------
 
@@ -73,7 +74,7 @@ public class ControllersFactory {
     }
 
     public static Controller getSendForgotPassword() {
-        return new SendForgotPasword(ServicesFactory.getUserService(),ServicesFactory.getEmailSender());
+        return new SendForgotPasword(ServicesFactory.getUserService(), ServicesFactory.getEmailSender());
     }
 
     public static Controller getImageUploadController() {

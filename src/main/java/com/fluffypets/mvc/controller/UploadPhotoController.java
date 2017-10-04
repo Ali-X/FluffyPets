@@ -1,6 +1,6 @@
 package com.fluffypets.mvc.controller;
 
-import com.fluffypets.mvc.servlets.Command;
+import com.fluffypets.mvc.servlets.Action;
 import com.fluffypets.mvc.servlets.ViewModel;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.logging.log4j.LogManager;
@@ -15,10 +15,10 @@ public class UploadPhotoController implements Controller {
     private static final String UPLOAD_DIRECTORY = "/home/matsishin/FluffyPetsImages";
 
     @Override
-    public synchronized  ViewModel process(Command command, ViewModel vm) {
+    public synchronized  ViewModel process(Action action, ViewModel vm) {
         String uniqueName = null;
 
-        List<FileItem> multiparts = command.getItemsForUpload();
+        List<FileItem> multiparts = action.getItemsForUpload();
         for (FileItem item : multiparts) {
             if (!item.isFormField()) {
                 String name = new File(item.getName()).getName();

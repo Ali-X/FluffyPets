@@ -6,20 +6,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Command {
+public class Action {
 
     private final String method;
     private final String uri;
     private Map<String, String[]> attributes;
     private List<FileItem> itemsForUpload = new ArrayList<>();
 
-    public Command(String requestMethod, String uri, Map<String, String[]> attributes) {
+    public Action(String requestMethod, String uri, Map<String, String[]> attributes) {
         this.uri = uri;
         this.method = requestMethod;
         this.attributes = attributes;
     }
 
-    public Command(String requestMethod, String uri) {
+    public Action(String requestMethod, String uri) {
         this.uri = uri;
         this.method = requestMethod;
     }
@@ -47,10 +47,10 @@ public class Command {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Command command = (Command) o;
+        Action action = (Action) o;
 
-        if (uri != null ? !uri.equals(command.uri) : command.uri != null) return false;
-        return method != null ? method.equals(command.method) : command.method == null;
+        if (uri != null ? !uri.equals(action.uri) : action.uri != null) return false;
+        return method != null ? method.equals(action.method) : action.method == null;
     }
 
     @Override

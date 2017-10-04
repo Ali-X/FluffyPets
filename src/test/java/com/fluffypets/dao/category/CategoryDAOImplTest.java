@@ -2,7 +2,7 @@
 //
 //
 //import com.fluffypets.entities.Category;
-//import com.fluffypets.factory.DaoFactory;
+//import com.fluffypets.dao.impl.DaoFactory;
 //import org.junit.Test;
 //
 //import static junit.framework.TestCase.*;

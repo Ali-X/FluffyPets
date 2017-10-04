@@ -4,7 +4,7 @@ import com.fluffypets.mvc.controller.Controller;
 import com.fluffypets.entities.Category;
 import com.fluffypets.entities.Product;
 import com.fluffypets.entities.User;
-import com.fluffypets.mvc.servlets.Command;
+import com.fluffypets.mvc.servlets.Action;
 import com.fluffypets.mvc.servlets.ViewModel;
 import com.fluffypets.services.CategoryService;
 import com.fluffypets.services.ProductService;
@@ -23,17 +23,17 @@ public class CreateProductController implements Controller {
     }
 
     @Override
-    public ViewModel process(Command command, ViewModel vm) {
+    public ViewModel process(Action action, ViewModel vm) {
         User user = (User) vm.getAttribute("user");
         if (user == null) {
             vm.setView("login");
         } else {
-            String productName = command.getAttribute("productName");
-            String producer = command.getAttribute("producer");
-            String description = command.getAttribute("description");
-            String pictureURL = command.getAttribute("pictureURL");
-            BigDecimal price = new BigDecimal(command.getAttribute("price"));
-            Integer categoryName = new Integer(command.getAttribute("categorySelId"));
+            String productName = action.getAttribute("productName");
+            String producer = action.getAttribute("producer");
+            String description = action.getAttribute("description");
+            String pictureURL = action.getAttribute("pictureURL");
+            BigDecimal price = new BigDecimal(action.getAttribute("price"));
+            Integer categoryName = new Integer(action.getAttribute("categorySelId"));
             Category category = categoryService.get(categoryName);
 
             Product product = new Product(productName, producer, price, description, pictureURL, category);

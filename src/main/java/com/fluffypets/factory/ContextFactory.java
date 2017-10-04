@@ -19,24 +19,25 @@ import java.util.Enumeration;
 public class ContextFactory {
     private static final Logger logger = LogManager.getLogger(ContextFactory.class.getName());
 
-        public static Connection getConnection() {
-            return getContextConnection();
-        }
+    public static Connection getConnection() {
+        return getContextConnection();
+    }
 
-        private ContextFactory(){}
+    private ContextFactory() {
+    }
 
-        static String[] getEmailPassword() {
-            try {
-                Context ctx = new InitialContext();
-                Context initCtx = (Context) ctx.lookup("java:/comp/env");
-                String userName = (String) initCtx.lookup("userName");
-                String password = (String) initCtx.lookup("password");
-                return new String[]{userName, password};
-            } catch (NamingException e) {
-                logger.error("error in getting email and password from context \n" + e);
-                return new String[0];
-            }
+    static String[] getEmailPassword() {
+        try {
+            Context ctx = new InitialContext();
+            Context initCtx = (Context) ctx.lookup("java:/comp/env");
+            String userName = (String) initCtx.lookup("userName");
+            String password = (String) initCtx.lookup("password");
+            return new String[]{userName, password};
+        } catch (NamingException e) {
+            logger.error("error in getting email and password from context \n" + e);
+            return new String[0];
         }
+    }
 
     public static Connection getContextConnection() {
         try {
@@ -50,8 +51,8 @@ public class ContextFactory {
         }
     }
 
-    public static String getIp(){
-        String ip=null;
+    public static String getIp() {
+        String ip = null;
         try {
             Enumeration networkInterfaces = NetworkInterface.getNetworkInterfaces();  // gets All networkInterfaces of your device
             while (networkInterfaces.hasMoreElements()) {
@@ -60,7 +61,7 @@ public class ContextFactory {
                 while (address.hasMoreElements()) {
                     InetAddress inetAddress = (InetAddress) address.nextElement();
                     if (inetAddress.isSiteLocalAddress()) {
-                        ip=inetAddress.getHostAddress(); /// gives ip address of your device
+                        ip = inetAddress.getHostAddress(); /// gives ip address of your device
                     }
                 }
             }

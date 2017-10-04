@@ -5,7 +5,7 @@ import com.fluffypets.entities.Category;
 import com.fluffypets.mvc.page_objects.HomePagePref;
 import com.fluffypets.entities.Product;
 import com.fluffypets.entities.enumes.Prices;
-import com.fluffypets.mvc.servlets.Command;
+import com.fluffypets.mvc.servlets.Action;
 import com.fluffypets.mvc.servlets.ViewModel;
 import com.fluffypets.services.CategoryService;
 import com.fluffypets.services.ProductService;
@@ -27,21 +27,21 @@ public class SelectGoodsController implements Controller {
     }
 
     @Override
-    public ViewModel process(Command command, ViewModel vm) {
+    public ViewModel process(Action action, ViewModel vm) {
         HomePagePref homePagePref = (HomePagePref) vm.getAttribute("homePagePref");
         StringJoiner sj = new StringJoiner(",");
-        String formN = command.getAttribute("formN");
+        String formN = action.getAttribute("formN");
 
         if (formN.equals("1")) {
-            String order = command.getAttribute("order");
+            String order = action.getAttribute("order");
 
             List<Category> categories = categoryService.getAll();
 
-            categories = categories.stream().filter(category -> command.containsAtribute(category.getName())).collect(Collectors.toList());
+            categories = categories.stream().filter(category -> action.containsAtribute(category.getName())).collect(Collectors.toList());
             categories.stream().map(Category::getId).forEach(categId -> sj.add(categId.toString()));
 
             if (sj.toString().equals("")) categories.forEach(category -> sj.add(category.getId().toString()));
-            String priceLabel = command.getAttribute("selectedPrice");
+            String priceLabel = action.getAttribute("selectedPrice");
 
             Optional<Prices> priceSel = Arrays.stream(Prices.values()).filter(value -> value.getLabel().equals(priceLabel)).findAny();
 
@@ -51,7 +51,7 @@ public class SelectGoodsController implements Controller {
             homePagePref = new HomePagePref(categories, priceSel.get().getLabel(), products, order, paginationMax, homePagePref.getPaginationStep(), homePagePref.getPagination());
             vm.setAttribute("homePagePref", homePagePref);
         } else {
-            Integer pagination = new Integer(command.getAttribute("pagination"));
+            Integer pagination = new Integer(action.getAttribute("pagination"));
             homePagePref.setPagination(pagination);
             homePagePref.getCategoryList().forEach(category -> sj.add(category.getId().toString()));
             String price = homePagePref.getPrice();

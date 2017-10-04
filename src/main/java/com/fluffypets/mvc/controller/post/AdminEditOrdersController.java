@@ -1,7 +1,7 @@
 package com.fluffypets.mvc.controller.post;
 
 import com.fluffypets.mvc.controller.Controller;
-import com.fluffypets.mvc.servlets.Command;
+import com.fluffypets.mvc.servlets.Action;
 import com.fluffypets.mvc.servlets.ViewModel;
 import com.fluffypets.services.OrderService;
 import org.apache.logging.log4j.LogManager;
@@ -19,7 +19,7 @@ public class AdminEditOrdersController implements Controller {
     }
 
     @Override
-    public ViewModel process(Command request, ViewModel vm) {
+    public ViewModel process(Action request, ViewModel vm) {
         String command = request.getAttribute("command");
         String status = request.getAttribute("status");
         LocalDate delivery = LocalDate.parse(request.getAttribute("delivery"));

@@ -4,7 +4,7 @@ import com.fluffypets.mvc.controller.Controller;
 import com.fluffypets.entities.UserAddress;
 import com.fluffypets.mvc.page_objects.Cart;
 import com.fluffypets.entities.User;
-import com.fluffypets.mvc.servlets.Command;
+import com.fluffypets.mvc.servlets.Action;
 import com.fluffypets.mvc.servlets.ViewModel;
 import com.fluffypets.services.UserDataService;
 
@@ -18,7 +18,7 @@ public class MakeOrderController implements Controller {
 
 
     @Override
-    public ViewModel process(Command command, ViewModel vm) {
+    public ViewModel process(Action action, ViewModel vm) {
         User user = (User) vm.getAttribute("user");
         Cart cart = (Cart) vm.getAttribute("cart");
         if (user == null) {

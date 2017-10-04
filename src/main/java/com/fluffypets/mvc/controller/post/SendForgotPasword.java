@@ -2,7 +2,7 @@ package com.fluffypets.mvc.controller.post;
 
 import com.fluffypets.mvc.controller.Controller;
 import com.fluffypets.entities.User;
-import com.fluffypets.mvc.servlets.Command;
+import com.fluffypets.mvc.servlets.Action;
 import com.fluffypets.mvc.servlets.ViewModel;
 import com.fluffypets.factory.ContextFactory;
 import com.fluffypets.services.SendEmailService;
@@ -22,8 +22,8 @@ public class SendForgotPasword implements Controller {
     }
 
     @Override
-    public ViewModel process(Command command, ViewModel vm) {
-        String email = command.getAttribute("email");
+    public ViewModel process(Action action, ViewModel vm) {
+        String email = action.getAttribute("email");
         String hostPort = (String) vm.getAttribute("hostPort");
         User user = userService.findByEmail(email);
         String who = "who=" + ContextFactory.md5Custom(user.getId().toString(), logger);

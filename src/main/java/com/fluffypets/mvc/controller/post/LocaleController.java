@@ -2,7 +2,7 @@ package com.fluffypets.mvc.controller.post;
 
 import com.fluffypets.mvc.controller.Controller;
 import com.fluffypets.entities.enumes.Prices;
-import com.fluffypets.mvc.servlets.Command;
+import com.fluffypets.mvc.servlets.Action;
 import com.fluffypets.mvc.servlets.ViewModel;
 
 import java.util.Locale;
@@ -11,9 +11,9 @@ import java.util.ResourceBundle;
 public class LocaleController implements Controller {
 
     @Override
-    public ViewModel process(Command command, ViewModel vm) {
-        String locale = command.getAttribute("locale");
-        String page = command.getAttribute("page");
+    public ViewModel process(Action action, ViewModel vm) {
+        String locale = action.getAttribute("locale");
+        String page = action.getAttribute("page");
         switch (locale) {
             case "en_US":
                 vm.setCurrentLocale(new Locale("en", "US"));

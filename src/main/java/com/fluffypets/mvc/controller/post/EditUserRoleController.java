@@ -2,7 +2,7 @@ package com.fluffypets.mvc.controller.post;
 
 import com.fluffypets.mvc.controller.Controller;
 import com.fluffypets.entities.User;
-import com.fluffypets.mvc.servlets.Command;
+import com.fluffypets.mvc.servlets.Action;
 import com.fluffypets.mvc.servlets.ViewModel;
 import com.fluffypets.services.UserService;
 
@@ -16,7 +16,7 @@ public class EditUserRoleController implements Controller {
     }
 
     @Override
-    public ViewModel process(Command request, ViewModel vm) {
+    public ViewModel process(Action request, ViewModel vm) {
         Integer userId = Integer.valueOf(request.getAttribute("userId"));
         String command = request.getAttribute("command");
         userService.changeRole(userId, command);

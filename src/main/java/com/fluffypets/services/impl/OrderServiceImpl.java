@@ -1,24 +1,26 @@
 package com.fluffypets.services.impl;
 
+import com.fluffypets.dao.impl.DaoFactory;
 import com.fluffypets.dao.OrderDAO;
-import com.fluffypets.dao.impl.OrderDAOImpl;
 import com.fluffypets.dao.UserAddressDAO;
-import com.fluffypets.dao.impl.UserAddressDAOImpl;
 import com.fluffypets.entities.Order;
 import com.fluffypets.entities.OrderItem;
 import com.fluffypets.entities.User;
 import com.fluffypets.entities.UserAddress;
+import com.fluffypets.exeptions.DAOException;
+import com.fluffypets.exeptions.ServiciesException;
 import com.fluffypets.factory.ContextFactory;
 import com.fluffypets.mvc.page_objects.Cart;
 import com.fluffypets.mvc.page_objects.ProductInCart;
 import com.fluffypets.services.OrderService;
-import com.fluffypets.exeptions.DAOException;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.fluffypets.dao.impl.DaoFactory.getUserAddressDAO;
 
 public class OrderServiceImpl implements OrderService {
 
@@ -28,7 +30,7 @@ public class OrderServiceImpl implements OrderService {
         try {
             try {
                 connection.setAutoCommit(false);
-                UserAddressDAO userAddressDAO = new UserAddressDAOImpl(connection);
+                UserAddressDAO userAddressDAO = getUserAddressDAO(connection);
                 UserAddress userAddress = userAddressDAO.getByUserId(userId);
                 UserAddress userAddressUpdated;
                 if (userAddress == null) {
@@ -57,9 +59,9 @@ public class OrderServiceImpl implements OrderService {
         try {
             try {
                 connection.setAutoCommit(false);
-                OrderDAO orderDAO = new OrderDAOImpl(connection);
-                if (cart.getProductInCarts().size() == 0) throw new RuntimeException("empty order");
-                if (cart.getTotalPrice().doubleValue() <= 0) throw new RuntimeException("empty order");
+                OrderDAO orderDAO = DaoFactory.getOrderDAO(connection);
+                if (cart.getProductInCarts().size() == 0) throw new ServiciesException("empty order");
+                if (cart.getTotalPrice().doubleValue() <= 0) throw new ServiciesException("empty order");
                 List<OrderItem> orderItems = cart.getProductInCarts().stream().
                         map(ProductInCart::toOrderItem).collect(Collectors.toList());
                 Order myOrder = new Order(user.getId(), LocalDate.now(), LocalDate.now().plusMonths(1).plusDays(1), "new order", orderItems, comment);
@@ -83,7 +85,7 @@ public class OrderServiceImpl implements OrderService {
         try {
             try {
                 connection.setAutoCommit(false);
-                OrderDAO orderDAO = new OrderDAOImpl(connection);
+                OrderDAO orderDAO = DaoFactory.getOrderDAO(connection);
                 Order thisOrder = orderDAO.findById(orderId);
                 thisOrder.setDeliveryDate(deliveryDate);
                 thisOrder.setStatus(status);
@@ -107,7 +109,7 @@ public class OrderServiceImpl implements OrderService {
         try {
             try {
                 connection.setAutoCommit(false);
-                OrderDAO orderDAO = new OrderDAOImpl(connection);
+                OrderDAO orderDAO = DaoFactory.getOrderDAO(connection);
                 List<Order> orders = orderDAO.getAllOrders();
                 connection.commit();
                 return orders;
@@ -128,7 +130,7 @@ public class OrderServiceImpl implements OrderService {
         try {
             try {
                 connection.setAutoCommit(false);
-                OrderDAO orderDAO = new OrderDAOImpl(connection);
+                OrderDAO orderDAO = DaoFactory.getOrderDAO(connection);
                 Order order = orderDAO.findById(orderId);
                 Order theOrder=orderDAO.delete(order);
                 connection.commit();

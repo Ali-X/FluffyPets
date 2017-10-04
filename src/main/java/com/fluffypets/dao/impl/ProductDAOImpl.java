@@ -20,7 +20,7 @@ import java.util.List;
 public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO, AutoCloseable {
     private static final Logger logger = LogManager.getLogger(ProductDAOImpl.class.getName());
 
-    public ProductDAOImpl(Connection connection) {
+    ProductDAOImpl(Connection connection) {
         super(connection);
     }
 

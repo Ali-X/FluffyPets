@@ -5,7 +5,7 @@ import com.fluffypets.entities.UserAddress;
 import com.fluffypets.mvc.page_objects.Cart;
 import com.fluffypets.entities.User;
 import com.fluffypets.mvc.page_objects.ValidationMessage;
-import com.fluffypets.mvc.servlets.Command;
+import com.fluffypets.mvc.servlets.Action;
 import com.fluffypets.mvc.servlets.ViewModel;
 import com.fluffypets.factory.ContextFactory;
 import com.fluffypets.services.UserDataService;
@@ -27,9 +27,9 @@ public class LoginCheckController implements Controller {
     }
 
     @Override
-    public ViewModel process(Command command, ViewModel vm) {
-        String userName = command.getAttribute("userName");
-        String pass = command.getAttribute("password");
+    public ViewModel process(Action action, ViewModel vm) {
+        String userName = action.getAttribute("userName");
+        String pass = action.getAttribute("password");
         Cart myCart = (Cart) vm.getAttribute("cart");
 
         SignInValidator validator = new SignInValidator();

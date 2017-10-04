@@ -2,7 +2,7 @@
 //
 //import com.fluffypets.entities.User;
 //import com.fluffypets.entities.UserAddress;
-//import com.fluffypets.factory.DaoFactory;
+//import com.fluffypets.dao.impl.DaoFactory;
 //import org.junit.Test;
 //
 //import java.time.LocalDate;

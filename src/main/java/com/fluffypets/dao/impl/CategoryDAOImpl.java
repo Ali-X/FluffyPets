@@ -19,7 +19,7 @@ import java.util.List;
 public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDAO, AutoCloseable {
     private static final Logger logger = LogManager.getLogger(CategoryDAOImpl.class.getName());
 
-    public CategoryDAOImpl(Connection connection) {
+    CategoryDAOImpl(Connection connection) {
         super(connection);
     }
 

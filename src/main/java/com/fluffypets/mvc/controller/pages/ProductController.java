@@ -2,7 +2,7 @@ package com.fluffypets.mvc.controller.pages;
 
 import com.fluffypets.mvc.controller.Controller;
 import com.fluffypets.entities.Category;
-import com.fluffypets.mvc.servlets.Command;
+import com.fluffypets.mvc.servlets.Action;
 import com.fluffypets.mvc.servlets.ViewModel;
 import com.fluffypets.services.CategoryService;
 import org.apache.logging.log4j.LogManager;
@@ -20,7 +20,7 @@ public class ProductController implements Controller {
     }
 
     @Override
-    public ViewModel process(Command command, ViewModel vm) {
+    public ViewModel process(Action action, ViewModel vm) {
         List<Category> categories=categoryService.getAll();
         vm.setAttribute("categories",categories);
         vm.setView("createProduct");

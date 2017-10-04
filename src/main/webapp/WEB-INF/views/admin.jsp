@@ -66,24 +66,24 @@
                         </td>
                         <td>
                             <c:if test="${userFromBase.getRoleString() ne 'user'}">
-                                <button class="btn-link" value="user" name="command"><span
+                                <button class="btn-link" value="user" name="action"><span
                                         class="glyphicon glyphicon-user"></span>
                                     make user
                                 </button>
                             </c:if>
                             <c:if test="${userFromBase.getRoleString() ne 'courier'}">
-                                <button class="btn-link" value="courier" name="command"><span
+                                <button class="btn-link" value="courier" name="action"><span
                                         class="glyphicon glyphicon-transfer"></span>
                                     make courier
                                 </button>
                             </c:if>
                             <c:if test="${userFromBase.getRoleString() ne 'admin'}">
-                                <button class="btn-link" value="admin" name="command"><span
+                                <button class="btn-link" value="admin" name="action"><span
                                         class="glyphicon glyphicon-wrench"></span> make admin
                                 </button>
                             </c:if>
                             <c:if test="${userFromBase.getRoleString() ne 'admin'}">
-                                <button class="btn-link" value="blocked" name="command"><span
+                                <button class="btn-link" value="blocked" name="action"><span
                                         class="glyphicon glyphicon-remove"></span> block
                                 </button>
                             </c:if>

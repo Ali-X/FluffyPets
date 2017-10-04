@@ -1,15 +1,16 @@
 package com.fluffypets.services.impl;
 
 import com.fluffypets.dao.UserDAO;
-import com.fluffypets.dao.impl.UserDAOImpl;
-import com.fluffypets.factory.ContextFactory;
 import com.fluffypets.entities.User;
-import com.fluffypets.services.UserService;
 import com.fluffypets.exeptions.DAOException;
+import com.fluffypets.factory.ContextFactory;
+import com.fluffypets.services.UserService;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+
+import static com.fluffypets.dao.impl.DaoFactory.getUserDAO;
 
 public class UserServiceImpl implements UserService {
 
@@ -19,7 +20,7 @@ public class UserServiceImpl implements UserService {
         try {
             try {
                 connection.setAutoCommit(false);
-                UserDAO userDao = new UserDAOImpl(connection);
+                UserDAO userDao = getUserDAO(connection);
                 User theUser = userDao.get(user);
                 connection.commit();
                 return theUser;
@@ -40,7 +41,7 @@ public class UserServiceImpl implements UserService {
         try {
             try {
                 connection.setAutoCommit(false);
-                UserDAO userDao = new UserDAOImpl(connection);
+                UserDAO userDao = getUserDAO(connection);
                 User theUser = userDao.findByLoginPassword(name, password);
                 connection.commit();
                 return theUser;
@@ -61,7 +62,7 @@ public class UserServiceImpl implements UserService {
         try {
             try {
                 connection.setAutoCommit(false);
-                UserDAO userDao = new UserDAOImpl(connection);
+                UserDAO userDao = getUserDAO(connection);
                 User theUser = userDao.create(user);
                 connection.commit();
                 return theUser;
@@ -82,7 +83,7 @@ public class UserServiceImpl implements UserService {
         try {
             try {
                 connection.setAutoCommit(false);
-                UserDAO userDao = new UserDAOImpl(connection);
+                UserDAO userDao = getUserDAO(connection);
                 List<User> users = userDao.getAllRecords();
                 connection.commit();
                 return users;
@@ -103,7 +104,7 @@ public class UserServiceImpl implements UserService {
         try {
             try {
                 connection.setAutoCommit(false);
-                UserDAO userDao = new UserDAOImpl(connection);
+                UserDAO userDao = getUserDAO(connection);
                 User theUser = userDao.findById(userId);
                 theUser.setRoleString(role);
                 userDao.update(theUser);
@@ -126,7 +127,7 @@ public class UserServiceImpl implements UserService {
         try {
             try {
                 connection.setAutoCommit(false);
-                UserDAO userDao = new UserDAOImpl(connection);
+                UserDAO userDao = getUserDAO(connection);
                 User theUser = userDao.findByEmail(email);
                 connection.commit();
                 return theUser;
@@ -147,7 +148,7 @@ public class UserServiceImpl implements UserService {
         try {
             try {
                 connection.setAutoCommit(false);
-                UserDAO userDao = new UserDAOImpl(connection);
+                UserDAO userDao = getUserDAO(connection);
                 User theUser = userDao.update(user);
                 connection.commit();
                 return theUser;

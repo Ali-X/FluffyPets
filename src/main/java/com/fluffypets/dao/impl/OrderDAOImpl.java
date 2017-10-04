@@ -17,7 +17,7 @@ import java.util.List;
 public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCloseable {
     private static final Logger logger = LogManager.getLogger(OrderDAOImpl.class.getName());
 
-    public OrderDAOImpl(Connection connection) {
+    OrderDAOImpl(Connection connection) {
         super(connection);
     }
 

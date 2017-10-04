@@ -17,7 +17,7 @@ import java.util.List;
 public class UserDAOImpl extends AbstractDAO<User> implements UserDAO, AutoCloseable {
     private static final Logger logger = LogManager.getLogger(UserDAOImpl.class.getName());
 
-    public UserDAOImpl(Connection connection) {
+    UserDAOImpl(Connection connection) {
         super(connection);
     }
 

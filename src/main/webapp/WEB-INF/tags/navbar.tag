@@ -15,51 +15,51 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
 
-                <li <c:if test="${activePage.equals('products')}"> class="active" </c:if> ><a href="<c:url value="/root/home"/> ">Products</a></li>
+                <li <c:if test="${activePage.equals('products')}"> class="active" </c:if> ><a href="<c:url value="/root/home"/> "><c:out value="${requestScope.Products}"/></a></li>
 
                 <c:if test="${not empty requestScope.user}">
                     <c:if test="${requestScope.user.getRoleString().equals('admin')}">
                         <li <c:if test="${activePage.equals('create')}"> class="active" </c:if>><a href="<c:url value="/root/admin/createProduct"/>">
                             <span class="glyphicon glyphicon-edit"></span>
-                            Create product</a></li>
+                            <c:out value="${requestScope.Create_product}"/></a></li>
                         <li <c:if test="${activePage.equals('admin')}"> class="active" </c:if>><a href="<c:url value="/root/admin/users"/>">
                             <span class="glyphicon glyphicon-wrench"></span>
-                            Admin page</a></li>
+                            <c:out value="${requestScope.Admin_page}"/></a></li>
                     </c:if></c:if>
 
                 <c:if test="${empty requestScope.user}">
                     <li <c:if test="${activePage.equals('signin')}"> class="active" </c:if>><a href="<c:url value="/root/login"/>">
                         <span class="glyphicon glyphicon-log-in"></span>
-                        Signin</a></li>
+                        <c:out value="${requestScope.Signin}"/></a></li>
                     <li <c:if test="${activePage.equals('signup')}"> class="active" </c:if>><a href="<c:url value="/root/signup"/>">
                         <span class="glyphicon glyphicon-ok"></span>
-                        Signup</a></li>
+                        <c:out value="${requestScope.Signup}"/></a></li>
                 </c:if>
 
                 <c:if test="${not empty requestScope.user}">
                     <li <c:if test="${activePage.equals('profile')}"> class="active" </c:if>><a href="<c:url value="/root/profile"/>">
                         <span class="glyphicon glyphicon-user"></span>
-                        My profile</a></li>
+                        <c:out value="${requestScope.My_profile}"/></a></li>
 
                     <li <c:if test="${activePage.equals('logout')}"> class="active" </c:if>><a href="<c:url value="/root/logout"/>">
                         <span class="glyphicon glyphicon-log-out"></span>
-                        Logout</a></li>
+                        <c:out value="${requestScope.Logout}"/></a></li>
                 </c:if>
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <span class="glyphicon glyphicon-shopping-cart"></span>My cart<b class="caret"></b></a>
+                        <span class="glyphicon glyphicon-shopping-cart"></span><c:out value="${requestScope.My_cart}"/><b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <c:if test="${empty requestScope.user}">
-                            <li><a href="/root/login">You are not authorised, please login!</a></li>
+                            <li style="width: 300px"><a href="/root/login"><c:out value="${requestScope.message_L}"/></a></li>
                         </c:if>
                         <c:if test="${not empty requestScope.user}">
-                            <li><a href="#">Welcome ${requestScope.user.getUserName()}!</a></li>
+                            <li style="width: 300px"><a href="#"><c:out value="${requestScope.Welcome}"/> ${requestScope.user.getUserName()}!</a></li>
                         </c:if>
                         <c:if test="${not empty requestScope.cart.getProductInCarts()}">
                             <li class="divider"></li>
                             <c:forEach items="${requestScope.cart.getProductInCarts()}" var="cartItem">
-                                <li class="text-center">
+                                <li class="text-center" style="width: 300px">
                                     <form method="post">
                                         <div class="row center-block">
                                                 ${cartItem.getProduct().getName()} :
@@ -82,7 +82,7 @@
                                     <button type="submit"
                                             <c:if test="${not empty requestScope.user}"> formaction="/root/makeOder" class="btn btn-danger"</c:if>
                                             <c:if test="${empty requestScope.user}"> class="btn btn-default" disabled="disabled"</c:if>
-                                    > Confirm your order
+                                    > <c:out value="${requestScope.Confirm_your_order}"/>
                                     </button>
                                 </form>
                             </li>

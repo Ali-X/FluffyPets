@@ -2,7 +2,7 @@ package com.fluffypets.mvc.controller.post;
 
 import com.fluffypets.mvc.controller.Controller;
 import com.fluffypets.entities.User;
-import com.fluffypets.mvc.servlets.Command;
+import com.fluffypets.mvc.servlets.Action;
 import com.fluffypets.mvc.servlets.ViewModel;
 import com.fluffypets.factory.ContextFactory;
 import com.fluffypets.services.UserService;
@@ -20,10 +20,10 @@ public class PasswordUpdateController implements Controller{
     }
 
     @Override
-    public ViewModel process(Command command, ViewModel vm) {
+    public ViewModel process(Action action, ViewModel vm) {
         String email = (String) vm.getAttribute("email");
-        String pas1 = command.getAttribute("pas1");
-        String pas2 = command.getAttribute("pas2");
+        String pas1 = action.getAttribute("pas1");
+        String pas2 = action.getAttribute("pas2");
         if (pas1.equals(pas2)) {
             User user = userService.findByEmail(email);
             user.setPassword(ContextFactory.md5Custom(pas1, logger));

@@ -1,15 +1,16 @@
 package com.fluffypets.services.impl;
 
 import com.fluffypets.dao.CategoryDAO;
-import com.fluffypets.dao.impl.CategoryDAOImpl;
-import com.fluffypets.factory.ContextFactory;
 import com.fluffypets.entities.Category;
-import com.fluffypets.services.CategoryService;
 import com.fluffypets.exeptions.DAOException;
+import com.fluffypets.factory.ContextFactory;
+import com.fluffypets.services.CategoryService;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+
+import static com.fluffypets.dao.impl.DaoFactory.getCategoryDAO;
 
 public class CategoryServiceImpl implements CategoryService {
 
@@ -19,7 +20,7 @@ public class CategoryServiceImpl implements CategoryService {
         try {
             try {
                 connection.setAutoCommit(false);
-                CategoryDAO categoryDAO = new CategoryDAOImpl(connection);
+                CategoryDAO categoryDAO = getCategoryDAO(connection);
                 List<Category> categories = categoryDAO.getAll();
                 connection.commit();
                 return categories;
@@ -40,9 +41,9 @@ public class CategoryServiceImpl implements CategoryService {
         try {
             try {
                 connection.setAutoCommit(false);
-                CategoryDAO categoryDAO = new CategoryDAOImpl(connection);
+                CategoryDAO categoryDAO = getCategoryDAO(connection);
                 Category existing = categoryDAO.get(category);
-                if (existing == null) existing= categoryDAO.create(category);
+                if (existing == null) existing = categoryDAO.create(category);
                 connection.commit();
                 return existing;
             } catch (SQLException e) {
@@ -62,7 +63,7 @@ public class CategoryServiceImpl implements CategoryService {
         try {
             try {
                 connection.setAutoCommit(false);
-                CategoryDAO categoryDAO = new CategoryDAOImpl(connection);
+                CategoryDAO categoryDAO = getCategoryDAO(connection);
                 Category category = categoryDAO.findById(id);
                 connection.commit();
                 return category;

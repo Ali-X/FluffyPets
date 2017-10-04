@@ -1,15 +1,16 @@
 package com.fluffypets.services.impl;
 
 import com.fluffypets.dao.ProductDAO;
-import com.fluffypets.dao.impl.ProductDAOImpl;
-import com.fluffypets.factory.ContextFactory;
 import com.fluffypets.entities.Product;
-import com.fluffypets.services.ProductService;
 import com.fluffypets.exeptions.DAOException;
+import com.fluffypets.factory.ContextFactory;
+import com.fluffypets.services.ProductService;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+
+import static com.fluffypets.dao.impl.DaoFactory.getProductDAO;
 
 public class ProductServiceImpl implements ProductService {
 
@@ -24,7 +25,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             try {
                 connection.setAutoCommit(false);
-                ProductDAO productDAO = new ProductDAOImpl(connection);
+                ProductDAO productDAO = getProductDAO(connection);
                 List<Product> products = productDAO.selectByCategoryAndPrice(categIds, min, max);
                 connection.commit();
                 return products;
@@ -45,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             try {
                 connection.setAutoCommit(false);
-                ProductDAO productDAO = new ProductDAOImpl(connection);
+                ProductDAO productDAO = getProductDAO(connection);
                 Integer productsNum = productDAO.countSelected(categoryIds, min, max, paginationStep);
                 connection.commit();
                 return productsNum;
@@ -66,7 +67,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             try {
                 connection.setAutoCommit(false);
-                ProductDAO productDAO = new ProductDAOImpl(connection);
+                ProductDAO productDAO = getProductDAO(connection);
                 List<Product> products = productDAO.selectAndPagination(categoryIds, min, max, order, paginationStep, pagination);
                 connection.commit();
                 return products;
@@ -87,7 +88,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             try {
                 connection.setAutoCommit(false);
-                ProductDAO productDAO = new ProductDAOImpl(connection);
+                ProductDAO productDAO = getProductDAO(connection);
                 Product theProduct = productDAO.get(product);
                 connection.commit();
                 return theProduct;
@@ -108,7 +109,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             try {
                 connection.setAutoCommit(false);
-                ProductDAO productDAO = new ProductDAOImpl(connection);
+                ProductDAO productDAO = getProductDAO(connection);
                 Product product = productDAO.findById(id);
                 connection.commit();
                 return product;
@@ -129,7 +130,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             try {
                 connection.setAutoCommit(false);
-                ProductDAO productDAO = new ProductDAOImpl(connection);
+                ProductDAO productDAO = getProductDAO(connection);
                 Product existing = productDAO.get(product);
                 if (existing == null) existing = productDAO.create(product);
                 connection.commit();
@@ -151,7 +152,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             try {
                 connection.setAutoCommit(false);
-                ProductDAO productDAO = new ProductDAOImpl(connection);
+                ProductDAO productDAO = getProductDAO(connection);
                 Product product1 = productDAO.delete(product);
                 connection.commit();
                 return product1;
@@ -172,7 +173,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             try {
                 connection.setAutoCommit(false);
-                ProductDAO productDAO = new ProductDAOImpl(connection);
+                ProductDAO productDAO = getProductDAO(connection);
                 Product product1 = productDAO.update(product);
                 connection.commit();
                 return product1;
