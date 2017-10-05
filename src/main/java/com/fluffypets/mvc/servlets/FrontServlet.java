@@ -1,5 +1,6 @@
 package com.fluffypets.mvc.servlets;
 
+import com.fluffypets.exeptions.ServiciesException;
 import com.fluffypets.factory.ContextFactory;
 import com.fluffypets.factory.ControllersFactory;
 import com.fluffypets.mvc.controller.Controller;
@@ -83,6 +84,7 @@ public class FrontServlet extends HttpServlet {
             if (controller == null) {
                 logger.error("Can't handle " + action.getUri());
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                throw new ServiciesException("Can't handle " + action.getUri());
             }
 
             ifMultipart(httpRequest, response, action);

@@ -67,7 +67,7 @@
                                                     name="productId" value="${cartItem.getProduct().getId()}">
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </button>
-                                                ${cartItem.getNumber()}
+                                                <input class="input-sm" value="${cartItem.getNumber()}" name="number" style="width: 75px"/>
                                             <button class="btn-link" formaction="/root/addToCart"
                                                     name="productId" value="${cartItem.getProduct().getId()}">
                                                 <span class="glyphicon glyphicon-plus"></span>

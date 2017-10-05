@@ -4,6 +4,7 @@ import com.fluffypets.mvc.controller.Controller;
 import com.fluffypets.mvc.controller.UploadPhotoController;
 import com.fluffypets.mvc.controller.pages.*;
 import com.fluffypets.mvc.controller.post.*;
+import com.fluffypets.services.impl.ServicesFactory;
 
 public class ControllersFactory {
 
@@ -13,7 +14,7 @@ public class ControllersFactory {
     //---------------------                 get pages                ---------------------------------------------------
 
     public static Controller getHomeController() {
-        return new HomePageController(ServicesFactory.getProductService(), ServicesFactory.getCategoriesService());
+        return new HomePageController(ServicesFactory.getProductService(), ServicesFactory.getCategoryService());
     }
 
     public static Controller getLoginPageController() {
@@ -41,7 +42,7 @@ public class ControllersFactory {
     }
 
     public static Controller getProductController() {
-        return new ProductController(ServicesFactory.getCategoriesService());
+        return new ProductController(ServicesFactory.getCategoryService());
     }
 
     public static Controller getAdminPage() {
@@ -66,11 +67,11 @@ public class ControllersFactory {
     }
 
     public static Controller getCreateCategoryController() {
-        return new CreateCategoryController(ServicesFactory.getCategoriesService());
+        return new CreateCategoryController(ServicesFactory.getCategoryService());
     }
 
     public static Controller getCreateProductController() {
-        return new CreateProductController(ServicesFactory.getProductService(), ServicesFactory.getCategoriesService());
+        return new CreateProductController(ServicesFactory.getProductService(), ServicesFactory.getCategoryService());
     }
 
     public static Controller getSendForgotPassword() {
@@ -82,7 +83,7 @@ public class ControllersFactory {
     }
 
     public static Controller getSelectGoodsController() {
-        return new SelectGoodsController(ServicesFactory.getProductService(), ServicesFactory.getCategoriesService());
+        return new SelectGoodsController(ServicesFactory.getProductService(), ServicesFactory.getCategoryService());
     }
 
 
@@ -121,5 +122,4 @@ public class ControllersFactory {
     public static Controller getInternationalizationController() {
         return new LocaleController();
     }
-
 }

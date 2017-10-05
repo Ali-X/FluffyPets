@@ -20,6 +20,7 @@ import java.util.StringJoiner;
 
 public class HomePageController implements Controller {
     private static final Logger logger = LogManager.getLogger(HomePageController.class.getName());
+    private static final Integer defaultPaginationStep=6;
 
     private ProductService productService;
     private CategoryService categoryService;
@@ -38,7 +39,6 @@ public class HomePageController implements Controller {
             List<Category> categories = categoryService.getAll();
             StringJoiner categoryList = new StringJoiner(",");
             categories.forEach(category -> categoryList.add(category.getId().toString()));
-            int defaultPaginationStep = 8;
             Integer paginationMax = productService.countSelected(categoryList.toString(), 0, Integer.MAX_VALUE, defaultPaginationStep);
             List<Product> products = productService.selectAndPagination(categoryList.toString(), 0, Integer.MAX_VALUE, "asc", defaultPaginationStep, 1);
             homePagePref = new HomePagePref(categories, "all", products, "asc", paginationMax, defaultPaginationStep, 1);

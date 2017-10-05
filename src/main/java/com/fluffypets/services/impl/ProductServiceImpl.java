@@ -12,7 +12,7 @@ import java.util.List;
 
 import static com.fluffypets.dao.impl.DaoFactory.getProductDAO;
 
-public class ProductServiceImpl implements ProductService {
+class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getAll() {

@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 import static com.fluffypets.dao.impl.DaoFactory.getUserAddressDAO;
 
-public class OrderServiceImpl implements OrderService {
+class OrderServiceImpl implements OrderService {
 
     @Override
     public UserAddress updateAddress(Integer userId, String fullName, String district, String area, String street, String app, String phone) {

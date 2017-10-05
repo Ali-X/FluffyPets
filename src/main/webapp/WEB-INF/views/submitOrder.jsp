@@ -139,9 +139,9 @@
 
                             </div>
                             <input id="Phone number " name="PhoneNumber" type="text"
-                                   required placeholder="Primary Phone number " class="form-control input-md"
-                            <c:if test="${not empty requestScope.userAddress.getPrimaryNumber()}">
-                                   value="${requestScope.userAddress.getPrimaryNumber()}"</c:if>>
+                                   required placeholder="Phone number " class="form-control input-md"
+                            <c:if test="${not empty requestScope.userAddress.getPhone()}">
+                                   value="${requestScope.userAddress.getPhone()}"</c:if>>
                         </div>
                     </div>
                 </div>

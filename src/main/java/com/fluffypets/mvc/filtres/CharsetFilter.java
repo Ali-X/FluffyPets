@@ -1,6 +1,7 @@
 package com.fluffypets.mvc.filtres;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 public class CharsetFilter implements Filter {
@@ -16,13 +17,10 @@ public class CharsetFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain next)
             throws IOException, ServletException {
-        // Respect the client-specified character encoding
-        // (see HTTP specification section 3.4.1)
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         if (null == request.getCharacterEncoding()) {
             request.setCharacterEncoding(encoding);
         }
-
-        // Set the default response content type and encoding
         response.setContentType("text/html; charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
 

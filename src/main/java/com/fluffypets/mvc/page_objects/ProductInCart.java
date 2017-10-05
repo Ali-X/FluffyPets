@@ -29,12 +29,22 @@ public class ProductInCart {
     }
 
 
-    public void plus(){if (this.getNumber()>0)this.setNumber(this.getNumber()+1);else this.setNumber(1);}
+    void plus(Integer n) {
+        if (this.number.equals(n)){
+        if (this.getNumber() > 0) this.setNumber(this.getNumber() + 1);
+        else this.setNumber(1);}
+        else {this.number=n;}
+    }
 
-    public void minus(){if (this.getNumber()>1)this.setNumber(this.getNumber()-1);else this.setNumber(0);}
+    void minus(Integer n) {
+        if (this.number.equals(n)){
+            if (this.getNumber() > 1) this.setNumber(this.getNumber() - 1);
+        else this.setNumber(0);}
+        else {this.number=n;}
+    }
 
-    public OrderItem toOrderItem(){
-        return new OrderItem(this.product.getId(),number,this.getProduct().getPrice());
+    public OrderItem toOrderItem() {
+        return new OrderItem(this.product.getId(), number, this.getProduct().getPrice());
     }
 
 }

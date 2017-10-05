@@ -26,17 +26,26 @@ public class ContextFactory {
     private ContextFactory() {
     }
 
-    static String[] getEmailPassword() {
+    public static String getEmail() {
         try {
             Context ctx = new InitialContext();
             Context initCtx = (Context) ctx.lookup("java:/comp/env");
-            String userName = (String) initCtx.lookup("userName");
-            String password = (String) initCtx.lookup("password");
-            return new String[]{userName, password};
+            return  (String) initCtx.lookup("userName");
         } catch (NamingException e) {
             logger.error("error in getting email and password from context \n" + e);
-            return new String[0];
         }
+        return null;
+    }
+
+    public static String getPassword() {
+        try {
+            Context ctx = new InitialContext();
+            Context initCtx = (Context) ctx.lookup("java:/comp/env");
+            return (String) initCtx.lookup("password");
+        } catch (NamingException e) {
+            logger.error("error in getting email and password from context \n" + e);
+        }
+        return null;
     }
 
     public static Connection getContextConnection() {

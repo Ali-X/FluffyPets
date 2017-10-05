@@ -14,7 +14,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class SendEmailServiceImpl implements SendEmailService {
+class SendEmailServiceImpl implements SendEmailService {
     private static final Logger logger = LogManager.getLogger(SendEmailServiceImpl.class.getName());
 
 

@@ -28,7 +28,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="bg-info col-xs-12 col-sm-3 col-lg-2">
+        <div class="bg-info col-xs-12 col-sm-3">
             <form action="/root/selectGoods" method="post">
                 <input name="formN" value="1" hidden="hidden">
                 <div class="form-group">
@@ -72,11 +72,11 @@
                 </div>
             </form>
         </div>
-        <div class="col-xs-12 col-sm-9 col-lg-10">
+        <div class="col-xs-12 col-sm-9">
             <div class="row">
                 <c:forEach items="${homePagePref.getProducts()}" var="product">
 
-                    <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="col-sm-6 col-md-4">
                         <div class="thumbnail" style="height: 520px">
                             <img src="${initParam.get('localDir')}${product.getPictureURL()}"
                                  style="height: 320px">
@@ -85,10 +85,10 @@
                             </div>
                             </a>
                             <div class="container">
-                                <form class="form-horizontal" method="post">
+                                <form class="form-horizontal" method="post" action="<c:url value="/root/addToCart"/>">
                                     <h2><span class="glyphicon glyphicon-usd"></span> ${product.getPrice()} </h2>
-                                    <button class="btn btn-success btn-md" name="productId" value="${product.getId()}"
-                                            formaction="<c:url value="/root/addToCart"/>">
+                                    <input hidden name="number" value="1">
+                                    <button class="btn btn-success btn-md" name="productId" value="${product.getId()}">
                                             ${requestScope.Add_to_cart}
                                     </button>
                                 </form>

@@ -12,7 +12,7 @@ import java.util.List;
 
 import static com.fluffypets.dao.impl.DaoFactory.getCategoryDAO;
 
-public class CategoryServiceImpl implements CategoryService {
+class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> getAll() {

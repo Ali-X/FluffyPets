@@ -19,13 +19,19 @@ public class TakeProductFromCart implements Controller {
     public ViewModel process(Action action, ViewModel vm) {
         Cart cart = (Cart) vm.getAttribute("cart");
         User user = (User) vm.getAttribute("user");
-        if (cart == null) {
-            cart = new Cart(user);
-        } else {
-            Integer productId = Integer.valueOf(action.getAttribute("productId"));
-            cart.removeGood(productService.getProductById(productId));
+        Integer number = Integer.valueOf(action.getAttribute("number"));
+
+        if (number != null && number >= 0) {
+
+            if (cart == null) {
+                cart = new Cart(user);
+            } else {
+                Integer productId = Integer.valueOf(action.getAttribute("productId"));
+
+                cart.removeGood(number,productService.getProductById(productId));
+            }
+            vm.setAttribute("cart", cart);
         }
-        vm.setAttribute("cart", cart);
         return vm;
     }
 }

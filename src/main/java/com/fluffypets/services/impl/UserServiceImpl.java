@@ -12,7 +12,7 @@ import java.util.List;
 
 import static com.fluffypets.dao.impl.DaoFactory.getUserDAO;
 
-public class UserServiceImpl implements UserService {
+class UserServiceImpl implements UserService {
 
     @Override
     public User getUser(User user) {

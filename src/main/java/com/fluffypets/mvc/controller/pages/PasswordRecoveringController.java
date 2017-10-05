@@ -6,7 +6,7 @@ import com.fluffypets.mvc.servlets.Action;
 import com.fluffypets.mvc.servlets.ViewModel;
 import com.fluffypets.factory.ContextFactory;
 import com.fluffypets.services.UserService;
-import com.fluffypets.services.impl.UserServiceImpl;
+import com.fluffypets.services.impl.ServicesFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +17,7 @@ public class PasswordRecoveringController implements Controller {
     @Override
     public ViewModel process(Action action, ViewModel vm) {
         String email = action.getAttribute("email");
-        UserService userService=new UserServiceImpl();
+        UserService userService= ServicesFactory.getUserService();
         User user = userService.findByEmail(email);
         if (user != null) {
             String who = action.getAttribute("who");

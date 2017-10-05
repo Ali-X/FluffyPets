@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 import static com.fluffypets.dao.impl.DaoFactory.getUserAddressDAO;
 
-public class UserDataServiceImpl implements UserDataService {
+class UserDataServiceImpl implements UserDataService {
 
     @Override
     public UserAddress get(Integer userId) {

@@ -57,25 +57,25 @@ public class Cart {
                         reduce(new BigDecimal("0"), BigDecimal::add);
     }
 
-    public void addGood(Product product) {
+    public void addGood(Integer n,Product product) {
         boolean alreadyContained = productsInCart.stream()
                 .map(productInCart -> productInCart.getProduct().getId())
                 .anyMatch(item -> item.equals(product.getId()));
         if (!alreadyContained) productsInCart.add(new ProductInCart(product, 1));
         else {
             for (ProductInCart productInCart : productsInCart) {
-                if (Objects.equals(productInCart.getProduct().getId(), product.getId())) productInCart.plus();
+                if (Objects.equals(productInCart.getProduct().getId(), product.getId())) productInCart.plus(n);
             }
         }
     }
 
-    public void removeGood(Product product) {
+    public void removeGood(Integer n,Product product) {
         boolean alreadyContained = productsInCart.stream()
                 .map(productInCart -> productInCart.getProduct().getId())
                 .anyMatch(item -> item.equals(product.getId()));
         if (alreadyContained) {
             for (ProductInCart productInCart : productsInCart) {
-                if (Objects.equals(productInCart.getProduct().getId(), product.getId())) productInCart.minus();
+                if (Objects.equals(productInCart.getProduct().getId(), product.getId())) productInCart.minus(n);
             }
             Iterator iterator =productsInCart.iterator();
             while (iterator.hasNext()){
