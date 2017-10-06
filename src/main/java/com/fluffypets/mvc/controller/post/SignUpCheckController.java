@@ -1,5 +1,6 @@
 package com.fluffypets.mvc.controller.post;
 
+import com.fluffypets.factory.ContextFactory;
 import com.fluffypets.mvc.controller.Controller;
 import com.fluffypets.entities.User;
 import com.fluffypets.mvc.page_objects.SignUpPageInputs;
@@ -7,7 +8,7 @@ import com.fluffypets.mvc.page_objects.ValidationMessage;
 import com.fluffypets.mvc.servlets.Action;
 import com.fluffypets.mvc.servlets.ViewModel;
 import com.fluffypets.services.UserService;
-import com.fluffypets.validators.SignUpValidator;
+import com.fluffypets.validators.impl.SignUpValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -40,7 +41,7 @@ public class SignUpCheckController implements Controller {
 
         if (validation.getValidationMessage().equals("Ok") && (exists == null)) {
 
-            User user = new User(1, username, password, email, role);
+            User user = new User(1, username, ContextFactory.md5Custom(password, logger), email, role);
             user = userService.create(user);
             vm.setAttribute("user", user);
             vm.setView("home");

@@ -1,8 +1,9 @@
-package com.fluffypets.validators;
+package com.fluffypets.validators.impl;
 
 import com.fluffypets.mvc.page_objects.FieldStatus;
 import com.fluffypets.mvc.page_objects.SignUpPageInputs;
 import com.fluffypets.mvc.page_objects.ValidationMessage;
+import com.fluffypets.validators.Validator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +26,8 @@ public class SignUpValidator implements Validator<SignUpPageInputs> {
         String password2 = signUpPageInputs.getPassword2();
         String message;
         String emailRegexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-        String usernameRegexp = "^[a-zA-Zа-яА-Я0-9@]{5,32}$";
-        String passwordRegexp = "^[a-zA-Zа-яА-Я0-9@]{4,32}$";
+        String usernameRegexp = "^[a-zA-Zа-яА-Я0-9@.]{5,32}$";
+        String passwordRegexp = "^[a-zA-Zа-яА-Я0-9@.]{4,32}$";
         Pattern emailP = Pattern.compile(emailRegexp);
         Matcher emailM = emailP.matcher(email);
         Pattern usernameP = Pattern.compile(usernameRegexp);

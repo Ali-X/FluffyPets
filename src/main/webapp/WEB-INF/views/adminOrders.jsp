@@ -69,17 +69,17 @@
                                    class="text-success">
                         </td>
                         <td>
-                            <button class="btn-link" value="update" name="action"><span
+                            <button class="btn-link" value="update" name="command"><span
                                     class="glyphicon glyphicon-refresh"></span>
                                 update
                             </button>
 
                             <button formaction="/root/admin/users" formmethod="post" class="btn-link" value="blocked"
-                                    name="action"><span
+                                    name="command"><span
                                     class="glyphicon glyphicon-remove"></span> block
                             </button>
 
-                            <button formmethod="post" class="btn-link" value="delete" name="action"><span
+                            <button formmethod="post" class="btn-link" value="delete" name="command"><span
                                     class="glyphicon glyphicon-remove-sign"></span> delete
                             </button>
 

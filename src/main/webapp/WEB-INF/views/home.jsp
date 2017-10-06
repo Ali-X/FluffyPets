@@ -47,11 +47,6 @@
 
                     <h4>${requestScope.Select_price_range}</h4>
 
-                    <div class="radio">
-                        <label><input type="radio" name="selectedPrice" checked="checked"
-                                      value="all">${requestScope.All}</label>
-                    </div>
-
                     <c:forEach items="${prices}" var="price">
                         <div class="radio">
                             <label><input type="radio" name="selectedPrice"

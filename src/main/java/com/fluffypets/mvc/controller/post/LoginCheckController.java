@@ -10,7 +10,7 @@ import com.fluffypets.mvc.servlets.ViewModel;
 import com.fluffypets.factory.ContextFactory;
 import com.fluffypets.services.UserDataService;
 import com.fluffypets.services.UserService;
-import com.fluffypets.validators.SignInValidator;
+import com.fluffypets.validators.impl.SignInValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

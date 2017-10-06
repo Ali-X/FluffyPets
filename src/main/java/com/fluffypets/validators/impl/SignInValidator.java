@@ -1,8 +1,9 @@
-package com.fluffypets.validators;
+package com.fluffypets.validators.impl;
 
 import com.fluffypets.entities.User;
 import com.fluffypets.mvc.page_objects.FieldStatus;
 import com.fluffypets.mvc.page_objects.ValidationMessage;
+import com.fluffypets.validators.Validator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +21,8 @@ public class SignInValidator implements Validator<User> {
         String username = user.getUserName();
         String password = user.getPassword();
         String message;
-        String usernameRegexp = "^[a-zA-Zа-яА-Я0-9@]{5,32}$";
-        String passwordRegexp = "^[a-zA-Zа-яА-Я0-9@]{4,32}$";
+        String usernameRegexp = "^[a-zA-Zа-яА-Я0-9@.]{5,32}$";
+        String passwordRegexp = "^[a-zA-Zа-яА-Я0-9@.]{4,32}$";
         Pattern usernameP = Pattern.compile(usernameRegexp);
         Matcher usernameM = usernameP.matcher(username);
         Pattern passwordP = Pattern.compile(passwordRegexp);
