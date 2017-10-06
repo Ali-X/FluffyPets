@@ -35,6 +35,7 @@ public class CreateProductController implements Controller {
             BigDecimal price = new BigDecimal(action.getAttribute("price"));
             Integer categoryName = new Integer(action.getAttribute("categorySelId"));
             Category category = categoryService.get(categoryName);
+            vm.setAttribute("currentCategory",category);
 
             Product product = new Product(productName, producer, price, description, pictureURL, category);
 

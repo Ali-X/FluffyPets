@@ -36,8 +36,9 @@
 
                     <c:forEach items="${categories}" var="category">
                         <div class="checkbox">
-                            <label><input type="checkbox" checked="checked" name="${category.getName()}"
-                                          value="${category.getName()}">
+                            <label><input type="checkbox"
+                                <c:if test="${homePagePref.getCategoryList().contains(category)}">checked="checked"</c:if>
+                                          name="${category.getName()}" value="${category.getName()}">
                                 <c:if test="${isUa ne true}">${category.getName()}</c:if>
                                 <c:if test="${isUa eq true}">${category.getNameUa()}</c:if>
                             </label>
@@ -83,7 +84,6 @@
                             <div class="caption">
                                 <h4>${product.getName()}</h4>
                             </div>
-                            </a>
                             <div class="container">
                                 <form class="form-horizontal" method="post" action="<c:url value="/root/addToCart"/>">
                                     <h2><span class="glyphicon glyphicon-usd"></span> ${product.getPrice()} </h2>

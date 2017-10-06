@@ -77,7 +77,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-10 ">
-            <form onsubmit="return validateForm()" method="post"
+            <form id="main" onsubmit="return validateForm()" method="post"
                   action="/root/submitOder" class="form-horizontal">
 
                 <!-- Form Name -->
@@ -152,7 +152,7 @@
                         <textarea id="orderComment" required  name="orderComment"></textarea>
                     </div>
                 </div>
-
+            </form>
                 <br>
                 <legend>Your order contains products:</legend>
                 <br>
@@ -167,13 +167,17 @@
                         <c:forEach items="${requestScope.cart.getProductInCarts()}" var="orderItem">
                             <tr>
                                 <td>
-                                    <input value="${orderItem.getProduct().getName()}" readonly>
+                                    <input class="form-control" value="${orderItem.getProduct().getName()}" readonly disabled>
                                 </td>
                                 <td>
-                                    <input value="${orderItem.getNumber()}" readonly>
+                                    <form action="addToCart" method="post">
+                                    <input name="number" value="${orderItem.getNumber()}" style="width: 75px">
+                                    <button class="btn-link" name="productId" value="${orderItem.getProduct().getId()}">
+                                        <span class="glyphicon glyphicon-refresh"></span></button>
+                                    </form>
                                 </td>
                                 <td>
-                                    <input value="${orderItem.getProduct().getPrice()}" readonly>
+                                    <input class="form-control" value="${orderItem.getProduct().getPrice()}" readonly disabled>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -187,15 +191,14 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label"></label>
                     <div class="col-md-4">
-                        <button type="submit" class="btn btn-success"><span
+                        <button type="submit" class="btn btn-success" form="main"><span
                                 class="glyphicon glyphicon-thumbs-up"></span> Buy
                         </button>
-                        <button type="reset" class="btn btn-warning"><span
+                        <button type="reset" class="btn btn-warning" form="main"><span
                                 class="glyphicon glyphicon-remove-sign"></span> Cancel
                         </button>
                     </div>
                 </div>
-            </form>
         </div>
     </div>
 </div>

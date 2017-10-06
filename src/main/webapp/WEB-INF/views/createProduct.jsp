@@ -69,9 +69,13 @@
                                 <select class="form-control bg-warning" id="sel1" name="categorySelId"
                                         style="width: 250px">
                                     <c:forEach items="${requestScope.categories}" var="category">
-                                        <option style="width: 300px" value="${category.getId()}"><c:out
-                                                value="${category.getName()}"/></option>
+                                        <option style="width: 300px" value="${category.getId()}"
+                                                <c:if test="${not empty requestScope.currentCategory}">
+                                                    <c:if test="requestScope.currentCategory.equals(category)">selected="selected"</c:if>
+                                                </c:if>
+                                        ><c:out value="${category.getName()}"/></option>
                                     </c:forEach>
+
                                 </select>
                             </div>
                         </c:if>
