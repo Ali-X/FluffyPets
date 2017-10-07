@@ -25,19 +25,21 @@ import static com.fluffypets.dao.impl.DaoFactory.getUserAddressDAO;
 class OrderServiceImpl implements OrderService {
 
     @Override
-    public UserAddress updateAddress(Integer userId, String fullName, String district, String area, String street, String app, String phone) {
+    public UserAddress updateAddress(Integer userId, UserAddress userAddress) {
         Connection connection = ContextFactory.getContextConnection();
         try {
             try {
                 connection.setAutoCommit(false);
                 UserAddressDAO userAddressDAO = getUserAddressDAO(connection);
-                UserAddress userAddress = userAddressDAO.getByUserId(userId);
+                UserAddress userAddressOld = userAddressDAO.getByUserId(userId);
                 UserAddress userAddressUpdated;
-                if (userAddress == null) {
-                    userAddressUpdated = new UserAddress(userId, fullName, district, area, street, app, phone);
+                if (userAddressOld == null) {
+                    userAddressUpdated = new UserAddress(userId, userAddress.getFullName(), userAddress.getDistrict(),
+                            userAddress.getArea(),userAddress.getStreet(),userAddress.getApp(), userAddress.getPhone());
                     userAddressUpdated = userAddressDAO.create(userAddressUpdated);
                 } else {
-                    userAddressUpdated = new UserAddress(userAddress.getUserDataId(), userId, fullName, district, area, street, app, phone);
+                    userAddressUpdated = new UserAddress(userAddressOld.getUserDataId(), userId, userAddress.getFullName(), userAddress.getDistrict(),
+                            userAddress.getArea(),userAddress.getStreet(),userAddress.getApp(), userAddress.getPhone());
                     userAddressUpdated = userAddressDAO.update(userAddressUpdated);
                 }
                 connection.commit();

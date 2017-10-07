@@ -1,4 +1,4 @@
-package com.fluffypets.mvc.filtres;
+package com.fluffypets.filtres;
 
 import com.fluffypets.entities.User;
 import com.fluffypets.mvc.page_objects.FieldStatus;

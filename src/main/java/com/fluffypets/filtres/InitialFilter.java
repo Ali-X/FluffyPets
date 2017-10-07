@@ -1,4 +1,4 @@
-package com.fluffypets.mvc.filtres;
+package com.fluffypets.filtres;
 
 import com.fluffypets.mvc.servlets.ViewModel;
 
@@ -32,7 +32,7 @@ public class InitialFilter implements Filter {
             request.setCharacterEncoding(encoding);
         }
 
-        if(!uri.startsWith("/root")&&!uri.startsWith("/WEB-INF")&&!uri.startsWith("/upload") &&!uri.startsWith("/file")){
+        if(!uri.startsWith("/resources")&&!uri.startsWith("/root")&&!uri.startsWith("/WEB-INF")&&!uri.startsWith("/upload") &&!uri.startsWith("/file")){
             RequestDispatcher dispatcher=httpServletRequest.getRequestDispatcher("/root/home");
             dispatcher.forward(httpServletRequest,response);
         }

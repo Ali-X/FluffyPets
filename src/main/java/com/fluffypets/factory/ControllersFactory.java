@@ -63,7 +63,7 @@ public class ControllersFactory {
     }
 
     public static Controller getUserDataController() {
-        return new UserDataController(ServicesFactory.getUserDataService());
+        return new UserAddressController(ServicesFactory.getUserDataService());
     }
 
     public static Controller getCreateCategoryController() {

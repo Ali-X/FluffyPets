@@ -21,8 +21,8 @@ public class SignInValidator implements Validator<User> {
         String username = user.getUserName();
         String password = user.getPassword();
         String message;
-        String usernameRegexp = "^[a-zA-Zа-яА-Я0-9@.]{5,32}$";
-        String passwordRegexp = "^[a-zA-Zа-яА-Я0-9@.]{4,32}$";
+        String usernameRegexp = "^[a-zA-Zа-яА-Я0-9@.ЇїІіґҐ]{5,32}$";
+        String passwordRegexp = "^[a-zA-Zа-яА-Я0-9@.ЇїІіґҐ]{4,32}$";
         Pattern usernameP = Pattern.compile(usernameRegexp);
         Matcher usernameM = usernameP.matcher(username);
         Pattern passwordP = Pattern.compile(passwordRegexp);

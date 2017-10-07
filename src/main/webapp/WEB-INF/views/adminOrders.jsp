@@ -53,20 +53,29 @@
                 <form method="post" action="/root/admin/orders">
                     <tr>
                         <td>
-                            <input type="number" name="orderId" value="${concreteOrder.getOrderId()}" readonly>
+                            <input type="number" name="orderId" value="${concreteOrder.getOrderId()}" readonly style="width: 75px">
                         </td>
                         <td>
-                            <input type="number" name="userId" value="${concreteOrder.getUserId()}" readonly>
+                            <input type="number" name="userId" value="${concreteOrder.getUserId()}" readonly style="width: 75px">
                         </td>
                         <td>
-                            <input type="date" value="${concreteOrder.getOrderDate()}" readonly>
+                            <input type="date" value="${concreteOrder.getOrderDate()}" readonly disabled style="width: 150px">
                         </td>
                         <td>
-                            <input type="text" name="status" value="${concreteOrder.getStatus()}" class="text-success">
+                            <select class="form-control bg-warning" name="status"  style="width: 150px">
+                                <c:forEach items="${requestScope.statuses}" var="statusi">
+                                    <option value="${statusi.getValue()}"
+                                            <c:if test="${not empty requestScope.currentCategory}">
+                                                <c:if test="requestScope.concreteOrder.getStatus().equals(status)">selected="selected"</c:if>
+                                            </c:if>
+                                    ><c:out value="${statusi.getValue()}"/></option>
+                                </c:forEach>
+
+                            </select>
                         </td>
                         <td>
                             <input type="date" name="delivery" value="${concreteOrder.getDeliveryDate()}"
-                                   class="text-success">
+                                   class="text-success" style="width: 150px">
                         </td>
                         <td>
                             <button class="btn-link" value="update" name="command"><span

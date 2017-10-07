@@ -53,16 +53,16 @@
                 <form method="post" action="/root/admin/users">
                     <tr>
                         <td>
-                            <input type="number" name="userId" value="${userFromBase.getId()}" readonly>
+                            <input type="number" name="userId" value="${userFromBase.getId()}" readonly style="width: 75px">
                         </td>
                         <td>
-                            <input type="text" value="${userFromBase.getUserName()}" readonly>
+                            <input type="text" value="${userFromBase.getUserName()}" readonly disabled style="width: 150px">
                         </td>
                         <td>
-                            <input type="email" value="${userFromBase.getEmail()}" readonly>
+                            <input type="email" value="${userFromBase.getEmail()}" readonly disabled style="width: 225px">
                         </td>
                         <td>
-                            <input type="text" value="${userFromBase.getRoleString()}" readonly>
+                            <input type="text" value="${userFromBase.getRoleString()}" readonly disabled style="width: 75px">
                         </td>
                         <td>
                             <c:if test="${userFromBase.getRoleString() ne 'user'}">

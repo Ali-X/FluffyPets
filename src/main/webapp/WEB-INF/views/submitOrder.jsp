@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
@@ -77,9 +78,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-10 ">
-            <form id="main" onsubmit="return validateForm()" method="post"
-                  action="/root/submitOder" class="form-horizontal">
-
+            <form id="main" method="post" action="/root/submitOder" class="form-horizontal">
                 <!-- Form Name -->
                 <legend>Update your address</legend>
                 <br>
@@ -90,8 +89,8 @@
                             <div class="input-group-addon">
                                 <i class="glyphicon glyphicon-user"> </i>
                             </div>
-                            <input id="Fullname" name="Fullname" type="text" placeholder="Name (Full name)"
-                                   required class="form-control input-md"
+                            <input id="Fullname" name="Fullname" type="text" placeholder="Name (Full name)" required
+                            <t:formInputAlert validator="${requestScope.addressVal.getFieldStatuses().get(0)}"/>
                             <c:if test="${not empty requestScope.userAddress.getFullName()}">
                                    value="${requestScope.userAddress.getFullName()}"</c:if>>
                         </div>
@@ -102,13 +101,15 @@
                     <label class="col-md-4 control-label col-xs-12" for="District">Address</label>
                     <div class="col-md-2  col-xs-4">
                         <input id="District" type="text" name="District"
-                               required placeholder="District" class="form-control input-md "
+                               required placeholder="District"
+                        <t:formInputAlert validator="${requestScope.addressVal.getFieldStatuses().get(1)}" basic="input-md"/>
                         <c:if test="${not empty requestScope.userAddress.getDistrict()}">
                                value="${requestScope.userAddress.getDistrict()}"</c:if>>
                     </div>
                     <div class="col-md-2 col-xs-4">
                         <input id="Area" type="text" name="Area"
-                               placeholder="Area" class="form-control input-md "
+                               placeholder="Area"
+                        <t:formInputAlert validator="${requestScope.addressVal.getFieldStatuses().get(2)}" basic="input-md"/>
                         <c:if test="${not empty requestScope.userAddress.getArea()}">
                                value="${requestScope.userAddress.getArea()}"</c:if>>
                     </div>
@@ -118,13 +119,15 @@
                     <label class="col-md-4 invisible col-xs-12" for="Street">Address</label>
                     <div class="col-md-2  col-xs-4">
                         <input id="Street" type="text" name="Street"
-                               required placeholder="Street" class="form-control input-md "
+                               required placeholder="Street"
+                        <t:formInputAlert validator="${requestScope.addressVal.getFieldStatuses().get(3)}" basic="input-md"/>
                         <c:if test="${not empty requestScope.userAddress.getStreet()}">
                                value="${requestScope.userAddress.getStreet()}"</c:if>>
                     </div>
                     <div class="col-md-2  col-xs-4">
                         <input id="App" type="text" name="App"
-                               required placeholder="App. №" class="form-control input-md "
+                               required placeholder="App. №"
+                        <t:formInputAlert validator="${requestScope.addressVal.getFieldStatuses().get(4)}" basic="input-md"/>
                         <c:if test="${not empty requestScope.userAddress.getApp()}">
                                value="${requestScope.userAddress.getApp()}"</c:if>>
                     </div>
@@ -139,7 +142,8 @@
 
                             </div>
                             <input id="Phone number " name="PhoneNumber" type="text"
-                                   required placeholder="Phone number " class="form-control input-md"
+                                   required placeholder="Phone number "
+                            <t:formInputAlert validator="${requestScope.addressVal.getFieldStatuses().get(5)}" basic="input-md"/>
                             <c:if test="${not empty requestScope.userAddress.getPhone()}">
                                    value="${requestScope.userAddress.getPhone()}"</c:if>>
                         </div>
@@ -149,9 +153,15 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="orderComment">When should we deliver?</label>
                     <div class="col-md-4">
-                        <textarea id="orderComment" required  name="orderComment"></textarea>
+                        <textarea id="orderComment" name="orderComment"></textarea>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <c:if test="${not empty requestScope.addressVal}"><label
+                            class="text-danger">${requestScope.addressVal.getValidationMessage()}</label></c:if>
+                </div>
+
             </form>
                 <br>
                 <legend>Your order contains products:</legend>
@@ -187,7 +197,6 @@
                     <legend> Your order cost ${requestScope.cart.getTotalPrice()}$</legend>
                 </c:if>
 
-
                 <div class="form-group">
                     <label class="col-md-4 control-label"></label>
                     <div class="col-md-4">
@@ -206,15 +215,5 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 <!-- Latest compiled and minified JavaScript -->
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-<script>
-    function validateForm() {
-        var name = document.forms["formEditUser"]["Fullname"].value;
-
-        if (name.length < 5) {
-            alert("Your login should be longer");
-            return false;
-        }
-    }
-</script>
 </body>
 </html>

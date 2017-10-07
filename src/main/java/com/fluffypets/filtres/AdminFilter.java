@@ -1,4 +1,4 @@
-package com.fluffypets.mvc.filtres;
+package com.fluffypets.filtres;
 
 import com.fluffypets.entities.User;
 import com.fluffypets.mvc.servlets.ViewModel;
@@ -30,6 +30,7 @@ public class AdminFilter implements Filter {
         if (user != null) user = userService.getUser(user);
         if (user == null || !user.getRoleString().equals("admin")) {
             if (user != null) {
+                viewModel.setAttribute("user",user);
                 logger.error("Illegal access, by: " + user.getUserName());
             }
             throw new AccessException("forbidden url");

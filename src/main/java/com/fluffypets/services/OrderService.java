@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface OrderService {
 
-    UserAddress updateAddress(Integer userId, String fullName, String district, String area, String street, String app, String phone);
+    UserAddress updateAddress(Integer userId,UserAddress userAddress);
 
     Order makeOrder(User user, Cart cart, String comment);
 

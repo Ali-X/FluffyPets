@@ -5,10 +5,12 @@ import com.fluffypets.mvc.page_objects.Cart;
 import com.fluffypets.entities.Order;
 import com.fluffypets.entities.User;
 import com.fluffypets.entities.UserAddress;
+import com.fluffypets.mvc.page_objects.ValidationMessage;
 import com.fluffypets.mvc.servlets.Action;
 import com.fluffypets.mvc.servlets.ViewModel;
 import com.fluffypets.services.OrderService;
 import com.fluffypets.services.SendEmailService;
+import com.fluffypets.validators.impl.AddressValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,7 +29,6 @@ public class SubmitOrderController implements Controller {
     public ViewModel process(Action action, ViewModel vm) {
         User user = (User) vm.getAttribute("user");
         Cart cart = (Cart) vm.getAttribute("cart");
-        UserAddress userAddress;
 
         String comment = action.getAttribute("orderComment");
         String fullName = action.getAttribute("Fullname");
@@ -37,7 +38,16 @@ public class SubmitOrderController implements Controller {
         String app = action.getAttribute("App");
         String telephone = action.getAttribute("PhoneNumber");
 
-        userAddress = orderService.updateAddress(user.getId(), fullName, district, area, street, app, telephone);
+        UserAddress userAddress=new UserAddress(0,fullName,district,area,street,app,telephone);
+        AddressValidator addressValidator=new AddressValidator();
+        ValidationMessage<UserAddress> addressVal= addressValidator.validate(userAddress);
+        vm.setAttribute("addressVal", addressVal);
+
+        if (!addressVal.getValidationMessage().equals("Ok")) {
+            vm.setView("submitOrder");
+            vm.setAttribute("addressVal", addressVal);
+        } else {
+        userAddress = orderService.updateAddress(user.getId(), userAddress);
         Order order = orderService.makeOrder(user, cart, comment);
 
         String subject = "Your order №" + order.getOrderId() + " was acepted";
@@ -48,7 +58,7 @@ public class SubmitOrderController implements Controller {
             logger.error("letter to userId=" + user.getId() + " was not sent");
         vm.setAttribute("cart", new Cart(user));
         vm.setAttribute("userAddress", userAddress);
-        vm.setView("thankyou");
+        vm.setView("thankyou");}
         return vm;
     }
 }

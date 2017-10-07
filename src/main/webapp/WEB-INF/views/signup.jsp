@@ -19,13 +19,13 @@
                 <div class="panel-title">Sign up on Fluffy.pets.com</div>
             </div>
             <div class="panel-body">
-                <form id="signupform" class="form-horizontal" method="post"
-                      onsubmit="return validateForm()" action="<c:url value="/root/signup"/>">
+                <form id="signupform" class="form-horizontal" method="post" action="<c:url value="/root/signup"/>">
 
                     <div class="form-group">
                         <label for="form-email" class="col-md-3 control-label">Email</label>
                         <div class="col-md-9">
                             <input type="email" required
+                                   value="${requestScope.validationUser.getValidationObject().getEmail()}"
                             <t:formInputAlert validator="${requestScope.validationSignUp.getFieldStatuses().get(0)}"/>
                                    id="form-email" name="email" placeholder="Email Address">
                         </div>
@@ -35,6 +35,7 @@
                         <label for="form-userName" class="col-md-3 control-label">Login</label>
                         <div class="col-md-9">
                             <input type="text"
+                                   value="${requestScope.validationUser.getValidationObject().getUserName()}"
                             <t:formInputAlert validator="${requestScope.validationSignUp.getFieldStatuses().get(1)}"/>
                                    required id="form-userName" name="username" placeholder="Enter login">
                         </div>
