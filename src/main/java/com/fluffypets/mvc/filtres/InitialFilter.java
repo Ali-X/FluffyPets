@@ -1,10 +1,12 @@
 package com.fluffypets.mvc.filtres;
 
+import com.fluffypets.mvc.servlets.ViewModel;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-public class CharsetFilter implements Filter {
+public class InitialFilter implements Filter {
 
     private String encoding;
 
@@ -18,13 +20,27 @@ public class CharsetFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain next)
             throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        String uri = httpServletRequest.getRequestURI();
+
+        ViewModel vm = (ViewModel) httpServletRequest.getSession().getAttribute("vm");
+        if (vm == null) {
+            vm = new ViewModel();
+        }
+        httpServletRequest.getSession().setAttribute("vm",vm);
+
         if (null == request.getCharacterEncoding()) {
             request.setCharacterEncoding(encoding);
         }
+
+        if(!uri.startsWith("/root")&&!uri.startsWith("/WEB-INF")&&!uri.startsWith("/upload") &&!uri.startsWith("/file")){
+            RequestDispatcher dispatcher=httpServletRequest.getRequestDispatcher("/root/home");
+            dispatcher.forward(httpServletRequest,response);
+        }
+
         response.setContentType("text/html; charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
 
-        next.doFilter(request, response);
+        next.doFilter(httpServletRequest, response);
     }
 
     @Override

@@ -73,10 +73,6 @@ public class FrontServlet extends HttpServlet {
 
         try {
             ViewModel vm = (ViewModel) httpRequest.getSession().getAttribute("vm");
-            if (vm == null) {
-                vm = new ViewModel();
-                vm.setView("home");
-            }
 
             vm.setAttribute("hostPort", ContextFactory.getIp() + ":" + httpRequest.getLocalPort());
 

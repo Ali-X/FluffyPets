@@ -15,7 +15,7 @@ public class LogoutPageController implements Controller {
 
     @Override
     public ViewModel process(Action action, ViewModel vm) {
-        User user = new User(0, "SignOut", "", "", "user");
+        User user = new User(0, "Unknown", "", "", "user");
         Cart cart = new Cart(user);
 
         vm.setAttribute("user",user);
