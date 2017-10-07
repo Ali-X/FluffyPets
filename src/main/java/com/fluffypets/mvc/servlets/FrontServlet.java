@@ -36,6 +36,7 @@ public class FrontServlet extends HttpServlet {
         controllerMap.put(new Action("GET", "/root/recoverPassword"), ControllersFactory.getRecoverPassword());
         controllerMap.put(new Action("GET", "/root/admin/users"), ControllersFactory.getAdminPage());
         controllerMap.put(new Action("GET", "/root/admin/orders"), ControllersFactory.getAdminOrdersPage());
+        controllerMap.put(new Action("GET", "/root/admin/storage"), ControllersFactory.getAdminStorage());
         controllerMap.put(new Action("GET", "/root/editProfile"), ControllersFactory.getEditUserProfileController());
         controllerMap.put(new Action("GET", "/root/admin/createProduct"), ControllersFactory.getProductController());
 //      POST methods from pages
@@ -43,6 +44,7 @@ public class FrontServlet extends HttpServlet {
         controllerMap.put(new Action("POST", "/root/login"), ControllersFactory.getLoginCheckController());
         controllerMap.put(new Action("POST", "/root/admin/users"), ControllersFactory.getEditUserRole());
         controllerMap.put(new Action("POST", "/root/admin/orders"), ControllersFactory.getEditOrder());
+        controllerMap.put(new Action("POST", "/root/admin/storage"), ControllersFactory.getStorageEdit());
         controllerMap.put(new Action("POST", "/root/signup"), ControllersFactory.getSignUpCheckController());
         controllerMap.put(new Action("POST", "/root/editProfile"), ControllersFactory.getUserDataController());
         controllerMap.put(new Action("POST", "/root/admin/createCategory"), ControllersFactory.getCreateCategoryController());

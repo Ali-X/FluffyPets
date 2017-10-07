@@ -200,7 +200,6 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO, AutoCl
                 String comment = resultSet.getString("comment");
                 List<OrderItem> items = itemDAO.getAllItems(id);
                 orders.add(new Order(id, userId, dateOfOrder, dateOfDelivery, orderStatus, items, comment));
-                logger.info("getAllOrders query");
             }
         } catch (SQLException e) {
             throw new DAOException(e.getLocalizedMessage());

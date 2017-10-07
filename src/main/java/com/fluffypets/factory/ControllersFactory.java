@@ -49,6 +49,10 @@ public class ControllersFactory {
         return new AdminPageController(ServicesFactory.getUserService());
     }
 
+    public static Controller getAdminStorage() {
+        return new AdminStorageController();
+    }
+
     public static Controller getAdminOrdersPage() {
         return new AdminOrdersPageController(ServicesFactory.getOrderService());
     }
@@ -121,5 +125,9 @@ public class ControllersFactory {
 
     public static Controller getInternationalizationController() {
         return new LocaleController();
+    }
+
+    public static Controller getStorageEdit() {
+        return new StorageEditController();
     }
 }

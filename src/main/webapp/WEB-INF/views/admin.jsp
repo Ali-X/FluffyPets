@@ -25,9 +25,9 @@
                 <h1>Tools</h1>
             </span>
 
-            <a href="#" id="ordersStatistics" class="list-group-item">
+            <a href="/root/admin/storage" id="ordersStatistics" class="list-group-item">
                 <span class="glyphicon glyphicon-stats"></span>
-                Statistics <span class="badge">314</span> </a>
+                Statistics</a>
             <a href="/root/admin/orders" id="orderManagement" class="list-group-item">
                 <span class="glyphicon glyphicon-credit-card"></span>
                 Orders</a>

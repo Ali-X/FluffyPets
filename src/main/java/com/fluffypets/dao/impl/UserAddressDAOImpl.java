@@ -174,7 +174,6 @@ public class UserAddressDAOImpl extends AbstractDAO<UserAddress> implements User
 
                 userAddressList.add(new UserAddress(userDataId, userId, fullName, district, area,
                         street, app, phone));
-                logger.info("UserAddress findById query");
             }
         } catch (SQLException e) {
             throw new DAOException(e.getLocalizedMessage());

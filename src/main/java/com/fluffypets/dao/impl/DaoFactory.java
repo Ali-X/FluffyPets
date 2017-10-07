@@ -17,6 +17,8 @@ import java.sql.SQLException;
 public class DaoFactory {
     private static final Logger logger = LogManager.getLogger(DaoFactory.class.getName());
 
+    private static final StorageDAO storageDao=new StorageDAOImpl(ContextFactory.getContextConnection());
+
     public DaoFactory() {
         Connection connection = ContextFactory.getContextConnection();
         try {
@@ -65,4 +67,6 @@ public class DaoFactory {
     public static UserAddressDAO getUserAddressDAO(Connection connection) {
         return new UserAddressDAOImpl(connection);
     }
+
+    public static StorageDAO getStorageDao(){return storageDao;}
 }
