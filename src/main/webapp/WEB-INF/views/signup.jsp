@@ -19,7 +19,7 @@
                 <div class="panel-title">Sign up on Fluffy.pets.com</div>
             </div>
             <div class="panel-body">
-                <form id="signupform" class="form-horizontal" method="post" action="<c:url value="/root/signup"/>">
+                <form id="signupform" class="form-horizontal" method="post" action="/root/signup">
 
                     <div class="form-group">
                         <label for="form-email" class="col-md-3 control-label">Email</label>

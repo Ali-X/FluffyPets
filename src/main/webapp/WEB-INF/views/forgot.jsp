@@ -19,7 +19,7 @@
                 <div class="panel-title">Let's recover your password</div>
             </div>
             <div class="panel-body">
-                <form id="forgotForm" class="form-horizontal" method="post" action="<c:url value="/root/forgot"/>">
+                <form id="forgotForm" class="form-horizontal" method="post" action="/root/forgot">
 
                     <div class="form-group">
                         <label for="email" class="col-md-3 control-label">Email</label>

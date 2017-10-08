@@ -18,13 +18,13 @@
             <div class="panel-heading">
                 <div class="panel-title">Sign In</div>
                 <div style="float:right; font-size: 80%; position: relative; top:-20px"><a
-                        href="<c:url value="/root/forgot"/>">Forgot password?</a></div>
+                        href="/root/forgot">Forgot password?</a></div>
             </div>
 
             <div style="padding-top:30px" class="panel-body">
 
                 <form id="loginform" class="form-horizontal" method="post"
-                      action="<c:url value="/root/login"/>">
+                      action="/root/login">
 
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>

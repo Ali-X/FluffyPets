@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-md-10 ">
             <form id="formEditUser" method="post"
-                  action="<c:url value="/root/editProfile"/>" class="form-horizontal">
+                  action="/root/editProfile" class="form-horizontal">
 
                 <!-- Form Name -->
                 <legend>Fill your profile</legend>

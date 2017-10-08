@@ -16,11 +16,11 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3 col-sm-4 visible-md visible-sm visible-lg"><img
-                src="<c:url value="/resources/img/pooh.jpg"/>" height="250"></div>
-        <div class="col-md-6 col-sm-5 col-xs-12 text-center"><img src="<c:url value="/resources/img/toys.jpg"/>"
+                src="/resources/img/pooh.jpg" height="250"></div>
+        <div class="col-md-6 col-sm-5 col-xs-12 text-center"><img src="/resources/img/toys.jpg"
                                                                   height="250"></div>
         <div class="col-md-3 col-sm-3 visible-md visible-sm visible-lg"><img
-                src="<c:url value="/resources/img/redman.jpg"/>" height="250"></div>
+                src="/resources/img/redman.jpg" height="250"></div>
     </div>
 </div>
 
@@ -80,7 +80,7 @@
                                 <h4>${product.getName()}</h4>
                             </div>
                             <div class="container">
-                                <form class="form-horizontal" method="post" action="<c:url value="/root/addToCart"/>">
+                                <form class="form-horizontal" method="post" action="/root/addToCart">
                                     <h2><span class="glyphicon glyphicon-usd"></span> ${product.getPrice()} </h2>
                                     <input hidden name="number" value="1">
                                     <button class="btn btn-success btn-md" name="productId" value="${product.getId()}">

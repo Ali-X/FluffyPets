@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-md-10 panel-body">
             <form class="form-horizontal" method="get"
-                  action="<c:url value="/root/editProfile"/>">
+                  action="/root/editProfile">
 
                 <!-- Form Name -->
                 <legend>Welcome to your profile</legend>
