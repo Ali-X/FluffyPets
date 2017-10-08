@@ -16,8 +16,7 @@ public class User {
     }
 
     public User(String userName, String password) {
-        this.userName = userName;
-        this.password = password;
+this(userName,password,"default@mail.com");
     }
 
     public User(String userName, String password, String email) {

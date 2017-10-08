@@ -15,33 +15,33 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
 
-                <li <c:if test="${activePage.equals('products')}"> class="active" </c:if> ><a href="<c:url value="/root/home"/> "><c:out value="${requestScope.Products}"/></a></li>
+                <li <c:if test="${activePage.equals('products')}"> class="active" </c:if> ><a href="/root/home"><c:out value="${requestScope.Products}"/></a></li>
 
                 <c:if test="${not empty requestScope.user}">
                     <c:if test="${requestScope.user.getRoleString().equals('admin')}">
-                        <li <c:if test="${activePage.equals('create')}"> class="active" </c:if>><a href="<c:url value="/root/admin/createProduct"/>">
+                        <li <c:if test="${activePage.equals('create')}"> class="active" </c:if>><a href="/root/admin/createProduct">
                             <span class="glyphicon glyphicon-edit"></span>
                             <c:out value="${requestScope.Create_product}"/></a></li>
-                        <li <c:if test="${activePage.equals('admin')}"> class="active" </c:if>><a href="<c:url value="/root/admin/users"/>">
+                        <li <c:if test="${activePage.equals('admin')}"> class="active" </c:if>><a href="/root/admin/users">
                             <span class="glyphicon glyphicon-wrench"></span>
                             <c:out value="${requestScope.Admin_page}"/></a></li>
                     </c:if></c:if>
 
                 <c:if test="${empty requestScope.user}">
-                    <li <c:if test="${activePage.equals('signin')}"> class="active" </c:if>><a href="<c:url value="/root/login"/>">
+                    <li <c:if test="${activePage.equals('signin')}"> class="active" </c:if>><a href="/root/login">
                         <span class="glyphicon glyphicon-log-in"></span>
                         <c:out value="${requestScope.Signin}"/></a></li>
-                    <li <c:if test="${activePage.equals('signup')}"> class="active" </c:if>><a href="<c:url value="/root/signup"/>">
+                    <li <c:if test="${activePage.equals('signup')}"> class="active" </c:if>><a href="/root/signup">
                         <span class="glyphicon glyphicon-ok"></span>
                         <c:out value="${requestScope.Signup}"/></a></li>
                 </c:if>
 
                 <c:if test="${not empty requestScope.user}">
-                    <li <c:if test="${activePage.equals('profile')}"> class="active" </c:if>><a href="<c:url value="/root/profile"/>">
+                    <li <c:if test="${activePage.equals('profile')}"> class="active" </c:if>><a href="/root/profile">
                         <span class="glyphicon glyphicon-user"></span>
                         <c:out value="${requestScope.My_profile}"/></a></li>
 
-                    <li <c:if test="${activePage.equals('logout')}"> class="active" </c:if>><a href="<c:url value="/root/logout"/>">
+                    <li <c:if test="${activePage.equals('logout')}"> class="active" </c:if>><a href="/root/logout">
                         <span class="glyphicon glyphicon-log-out"></span>
                         <c:out value="${requestScope.Logout}"/></a></li>
                 </c:if>

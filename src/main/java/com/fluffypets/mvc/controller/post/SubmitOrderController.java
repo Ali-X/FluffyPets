@@ -30,7 +30,7 @@ public class SubmitOrderController implements Controller {
         User user = (User) vm.getAttribute("user");
         Cart cart = (Cart) vm.getAttribute("cart");
 
-        String comment = action.getAttribute("orderComment");
+        String comment = action.getAttribute("orderComment").substring(0,127);
         String fullName = action.getAttribute("Fullname");
         String district = action.getAttribute("District");
         String area = action.getAttribute("Area");

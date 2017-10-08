@@ -29,7 +29,7 @@ public class AddressValidator implements Validator<UserAddress> {
         String app = userAddress.getApp();
         String phone = userAddress.getPhone();
         String message;
-        String usernameRegexp = "^[a-zA-Zа-яА-Я0-9@.\\sЇїІіґҐ]{2,30}$";
+        String usernameRegexp = "^[a-zA-Zа-яА-Я0-9@.\\sЇїІіґҐ_]{2,30}$";
         String telephoneRegex = "^(\\+?\\d{1,3}\\s)?\\(?\\d{2,3}\\)?[\\s.-]\\d{2,3}[\\s.-]\\d{2,4}$";
         Pattern textP = Pattern.compile(usernameRegexp);
         Matcher fullNameM = textP.matcher(fullName);
@@ -95,13 +95,11 @@ public class AddressValidator implements Validator<UserAddress> {
         if (telephoneM.matches()) {
             telephoneStatus = new FieldStatus(true, "Phone number");
         } else {
-            telephoneStatus = new FieldStatus(false, "App");
+            telephoneStatus = new FieldStatus(false, "Phone number");
             if (message.equals("")) {
-                message = "telephone formats: 123-456-7890; (123) 456-7890;\n" +
-                        "123 456 78 90;  123.456.7890;  +91 (123) 456-7890";
+                message = "telephone formats: 123-456-7890; (123) 456-7890; 123 456 78 90;  123.456.7890;  +91 (123) 456-7890";
             } else {
-                message += "\ntelephone formats: 123-456-7890; (123) 456-7890;\n" +
-                        "123 456 78 90;  123.456.7890;  +91 (123) 456-7890;";
+                message += "\ntelephone formats: 123-456-7890; (123) 456-7890; 123 456 78 90;  123.456.7890;  +91 (123) 456-7890;";
             }
         }
 

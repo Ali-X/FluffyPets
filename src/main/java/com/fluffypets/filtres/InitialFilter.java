@@ -25,16 +25,17 @@ public class InitialFilter implements Filter {
         ViewModel vm = (ViewModel) httpServletRequest.getSession().getAttribute("vm");
         if (vm == null) {
             vm = new ViewModel();
+            httpServletRequest.getSession().setAttribute("vm", vm);
         }
-        httpServletRequest.getSession().setAttribute("vm",vm);
 
         if (null == request.getCharacterEncoding()) {
             request.setCharacterEncoding(encoding);
         }
 
-        if(!uri.startsWith("/resources")&&!uri.startsWith("/root")&&!uri.startsWith("/WEB-INF")&&!uri.startsWith("/upload") &&!uri.startsWith("/file")){
-            RequestDispatcher dispatcher=httpServletRequest.getRequestDispatcher("/root/home");
-            dispatcher.forward(httpServletRequest,response);
+        if (!uri.startsWith("/resources") && !uri.startsWith("/root") && !uri.startsWith("/WEB-INF") && !uri.startsWith("/upload") && !uri.startsWith("/file")) {
+            RequestDispatcher dispatcher = httpServletRequest.getRequestDispatcher("/root/home");
+            dispatcher.forward(httpServletRequest, response);
+            return;
         }
 
         response.setContentType("text/html; charset=UTF-8");

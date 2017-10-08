@@ -26,8 +26,8 @@ public class SignUpValidator implements Validator<SignUpPageInputs> {
         String password2 = signUpPageInputs.getPassword2();
         String message;
         String emailRegexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-        String usernameRegexp = "^[a-zA-Zа-яА-Я0-9@.ЇїІіґҐ]{5,32}$";
-        String passwordRegexp = "^[a-zA-Zа-яА-Я0-9@.ЇїІіґҐ]{4,32}$";
+        String usernameRegexp = "^[a-zA-Zа-яА-Я0-9@.ЇїІіґҐ_]{5,32}$";
+        String passwordRegexp = "^[a-zA-Zа-яА-Я0-9@.ЇїІіґҐ_]{4,32}$";
         Pattern emailP = Pattern.compile(emailRegexp);
         Matcher emailM = emailP.matcher(email);
         Pattern usernameP = Pattern.compile(usernameRegexp);

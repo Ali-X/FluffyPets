@@ -36,4 +36,30 @@ public class ValidationMessage<T> {
     public void setFieldStatuses(List<FieldStatus> fieldStatuses) {
         this.fieldStatuses = fieldStatuses;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ValidationMessage)) return false;
+
+        ValidationMessage<?> that = (ValidationMessage<?>) o;
+
+        if (!getValidationObject().equals(that.getValidationObject())) return false;
+        if (!getValidationMessage().equals(that.getValidationMessage())) return false;
+
+        if (that.getFieldStatuses().size()!=this.getFieldStatuses().size())return false;
+        for (int i=0;i<this.getFieldStatuses().size();i++) {
+            if (!this.getFieldStatuses().get(i).equals(that.getFieldStatuses().get(i)))return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getValidationObject().hashCode();
+        result = 31 * result + getValidationMessage().hashCode();
+        result = 31 * result + getFieldStatuses().hashCode();
+        return result;
+    }
 }
