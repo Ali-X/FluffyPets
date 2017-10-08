@@ -30,7 +30,7 @@ public class AddressValidator implements Validator<UserAddress> {
         String phone = userAddress.getPhone();
         String message;
         String usernameRegexp = "^[a-zA-Zа-яА-Я0-9@.\\sЇїІіґҐ_]{2,30}$";
-        String telephoneRegex = "^(\\+?)[\\d\\(\\-\\)\\s]{3,14}$";
+        String telephoneRegex = "^(\\+?)([\\d\\(\\-\\)\\s]{3,18})$";
         Pattern textP = Pattern.compile(usernameRegexp);
         Matcher fullNameM = textP.matcher(fullName);
         Matcher districtM = textP.matcher(district);

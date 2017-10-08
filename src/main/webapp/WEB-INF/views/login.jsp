@@ -29,7 +29,8 @@
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                         <input id="login-username" type="text" name="userName"
-                               value="${requestScope.validationUser.getValidationObject().getUserName()}"
+                               <c:if test="${not empty requestScope.validationUser.getValidationObject().getUserName()}">
+                               value="${requestScope.validationUser.getValidationObject().getUserName()}"</c:if>
                         <t:formInputAlert validator="${requestScope.validationUser.getFieldStatuses().get(0)}"/>
                                required placeholder="login" class="form-control">
                     </div>
