@@ -42,6 +42,7 @@ public class SelectGoodsController implements Controller {
 
             if (sj.toString().equals("")) categories.forEach(category -> sj.add(category.getId().toString()));
             String priceLabel = action.getAttribute("selectedPrice");
+            homePagePref.setPrice(priceLabel);
 
             Optional<Prices> priceSel = Arrays.stream(Prices.values()).filter(value -> value.getLabel().equals(priceLabel)).findAny();
 

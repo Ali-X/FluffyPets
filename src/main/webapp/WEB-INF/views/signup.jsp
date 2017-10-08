@@ -25,7 +25,8 @@
                         <label for="form-email" class="col-md-3 control-label">Email</label>
                         <div class="col-md-9">
                             <input type="email" required
-                                   value="${requestScope.validationUser.getValidationObject().getEmail()}"
+                            <c:if test="${not empty requestScope.validationSignUp.getValidationObject().getEmail()}">
+                                   value="${requestScope.validationSignUp.getValidationObject().getEmail()}"</c:if>
                             <t:formInputAlert validator="${requestScope.validationSignUp.getFieldStatuses().get(0)}"/>
                                    id="form-email" name="email" placeholder="Email Address">
                         </div>
@@ -34,8 +35,9 @@
                     <div class="form-group">
                         <label for="form-userName" class="col-md-3 control-label">Login</label>
                         <div class="col-md-9">
-                            <input type="text"
-                                   value="${requestScope.validationUser.getValidationObject().getUserName()}"
+                            <input type="text" required
+                            <c:if test="${not empty requestScope.validationSignUp.getValidationObject().getUsername()}">
+                                   value="${requestScope.validationSignUp.getValidationObject().getUsername()}" </c:if>
                             <t:formInputAlert validator="${requestScope.validationSignUp.getFieldStatuses().get(1)}"/>
                                    required id="form-userName" name="username" placeholder="Enter login">
                         </div>
@@ -55,7 +57,6 @@
                         <div class="col-md-9">
                             <input type="password"
                             <t:formInputAlert validator="${requestScope.validationSignUp.getFieldStatuses().get(3)}"/>
-
                                    required id="form-password2" name="password2" placeholder="repeat it">
                         </div>
                     </div>

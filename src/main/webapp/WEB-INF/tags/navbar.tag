@@ -47,7 +47,8 @@
                 </c:if>
 
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <a href="#" class="dropdown-toggle
+                    <c:if test="${not empty requestScope.cart.getProductInCarts()}">alert-success</c:if>" data-toggle="dropdown">
                         <span class="glyphicon glyphicon-shopping-cart"></span><c:out value="${requestScope.My_cart}"/><b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <c:if test="${empty requestScope.user}">

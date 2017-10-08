@@ -31,6 +31,7 @@ public class MakeOrderController implements Controller {
         }
         UserAddress userAddress = userDataService.get(user.getId());
         vm.setAttribute("userAddress", userAddress);
+        vm.setAttribute("addressVal", null);
         vm.setView("submitOrder");
         return vm;
     }

@@ -49,8 +49,8 @@
 
                     <c:forEach items="${prices}" var="price">
                         <div class="radio">
-                            <label><input type="radio" name="selectedPrice"
-                                          value="${price.getLabel()}">
+                            <label><input type="radio" name="selectedPrice"  value="${price.getLabel()}"
+                                <c:if test="${homePagePref.getPrice().equals(price.getLabel())}">checked="checked"</c:if>>
                                 <c:if test="${isUa eq true}">${price.getLabelUa()}</c:if>
                                 <c:if test="${isUa ne true}">${price.getLabel()}</c:if>
                             </label>

@@ -12,6 +12,7 @@ public class ProfilePageController implements Controller {
     @Override
     public ViewModel process(Action action, ViewModel vm) {
         vm.setView("profile");
+        vm.setAttribute("addressVal", null);
         logger.info("profile page selected");
         return vm;
     }

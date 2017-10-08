@@ -92,7 +92,9 @@
                             <input id="Fullname" name="Fullname" type="text" placeholder="Name (Full name)" required
                             <t:formInputAlert validator="${requestScope.addressVal.getFieldStatuses().get(0)}"/>
                             <c:if test="${not empty requestScope.userAddress.getFullName()}">
-                                   value="${requestScope.userAddress.getFullName()}"</c:if>>
+                                   value="${requestScope.userAddress.getFullName()}"</c:if>
+                            <c:if test="${not empty requestScope.addressVal.getValidationObject().getFullName()}">
+                                   value="${requestScope.addressVal.getValidationObject().getFullName()}"</c:if>>
                         </div>
                     </div>
                 </div>
@@ -104,14 +106,18 @@
                                required placeholder="District"
                         <t:formInputAlert validator="${requestScope.addressVal.getFieldStatuses().get(1)}" basic="input-md"/>
                         <c:if test="${not empty requestScope.userAddress.getDistrict()}">
-                               value="${requestScope.userAddress.getDistrict()}"</c:if>>
+                               value="${requestScope.userAddress.getDistrict()}"</c:if>
+                        <c:if test="${not empty requestScope.addressVal.getValidationObject().getDistrict()}">
+                               value="${requestScope.addressVal.getValidationObject().getDistrict()}"</c:if>>
                     </div>
                     <div class="col-md-2 col-xs-4">
                         <input id="Area" type="text" name="Area"
                                placeholder="Area"
                         <t:formInputAlert validator="${requestScope.addressVal.getFieldStatuses().get(2)}" basic="input-md"/>
                         <c:if test="${not empty requestScope.userAddress.getArea()}">
-                               value="${requestScope.userAddress.getArea()}"</c:if>>
+                               value="${requestScope.userAddress.getArea()}"</c:if>
+                        <c:if test="${not empty requestScope.addressVal.getValidationObject().getArea()}">
+                               value="${requestScope.addressVal.getValidationObject().getArea()}"</c:if>>
                     </div>
                 </div>
 
@@ -122,14 +128,18 @@
                                required placeholder="Street"
                         <t:formInputAlert validator="${requestScope.addressVal.getFieldStatuses().get(3)}" basic="input-md"/>
                         <c:if test="${not empty requestScope.userAddress.getStreet()}">
-                               value="${requestScope.userAddress.getStreet()}"</c:if>>
+                               value="${requestScope.userAddress.getStreet()}"</c:if>
+                        <c:if test="${not empty requestScope.addressVal.getValidationObject().getStreet()}">
+                               value="${requestScope.addressVal.getValidationObject().getStreet()}"</c:if>>
                     </div>
                     <div class="col-md-2  col-xs-4">
                         <input id="App" type="text" name="App"
                                required placeholder="App. №"
                         <t:formInputAlert validator="${requestScope.addressVal.getFieldStatuses().get(4)}" basic="input-md"/>
                         <c:if test="${not empty requestScope.userAddress.getApp()}">
-                               value="${requestScope.userAddress.getApp()}"</c:if>>
+                               value="${requestScope.userAddress.getApp()}"</c:if>
+                        <c:if test="${not empty requestScope.addressVal.getValidationObject().getApp()}">
+                               value="${requestScope.addressVal.getValidationObject().getApp()}"</c:if>>
                     </div>
                 </div>
 
@@ -145,7 +155,9 @@
                                    required placeholder="Phone number "
                             <t:formInputAlert validator="${requestScope.addressVal.getFieldStatuses().get(5)}" basic="input-md"/>
                             <c:if test="${not empty requestScope.userAddress.getPhone()}">
-                                   value="${requestScope.userAddress.getPhone()}"</c:if>>
+                                   value="${requestScope.userAddress.getPhone()}"</c:if>
+                            <c:if test="${not empty requestScope.addressVal.getValidationObject().getPhone()}">
+                                   value="${requestScope.addressVal.getValidationObject().getPhone()}"</c:if>>
                         </div>
                     </div>
                 </div>

@@ -19,8 +19,7 @@ public class ViewModel implements Serializable {
 
     public ViewModel() {
         localisation();
-        User user = new User(0, "Unknown", "", "", "user");
-        Cart cart = new Cart(user);
+        Cart cart = new Cart(null);
         this.setAttribute("cart", cart);
     }
 

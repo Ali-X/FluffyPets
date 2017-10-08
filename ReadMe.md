@@ -16,13 +16,3 @@
 9. В страницах JSP применять библиотеку JSTL и разработать собственные теги.
 10. При разработке бизнес логики использовать сессии и фильтih и событиях в системе обрабатывать с помощью Log4j.
 11. Код должен содержать комментарии.
-
-Особливості реалізації
----
-Магазин мягких іграшок FluffyPets.com.
-3 tiered architecture:
-* Presentational Layer(MVC, WEB-INF.views, factory)
-* Business Logic Layer(model, Services)
-* Data Acess Layer(DAO)
-
-При вирішенні задачі застосовував:
