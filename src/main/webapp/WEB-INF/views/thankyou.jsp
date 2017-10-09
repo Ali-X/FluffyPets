@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
@@ -8,6 +9,7 @@
     <link href="${pageContext.request.contextPath}/resources/css/bootstrap-theme.min.css" rel="stylesheet">
 </head>
 <body>
+<t:navbar activePage="none"/>
 <div class="container">
     <div class="row text-center">
         <div class="col-sm-6 col-sm-offset-3">

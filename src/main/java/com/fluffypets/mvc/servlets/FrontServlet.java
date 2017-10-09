@@ -85,7 +85,7 @@ public class FrontServlet extends HttpServlet {
                 throw new ServiciesException("Can't handle " + action.getUri());
             }
 
-            ifMultipart(httpRequest, response, action);
+            ifMultipart(httpRequest, response, action,vm);
             vm = controller.process(action, vm);
 
             forward(httpRequest, response, vm);
@@ -94,10 +94,11 @@ public class FrontServlet extends HttpServlet {
         }
     }
 
-    private synchronized void ifMultipart(HttpServletRequest httpRequest, HttpServletResponse response, Action action) throws IOException {
+    private synchronized void ifMultipart(HttpServletRequest httpRequest, HttpServletResponse response, Action action,ViewModel vm) throws IOException {
         if (ServletFileUpload.isMultipartContent(httpRequest)) {
             try {
                 action.setItemsForUpload(new ServletFileUpload(new DiskFileItemFactory()).parseRequest(httpRequest));
+                vm.setView("createProduct");
             } catch (FileUploadException e) {
                 logger.error("error with getting multipart content" + e);
                 response.sendError(HttpServletResponse.SC_PARTIAL_CONTENT);

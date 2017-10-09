@@ -4,6 +4,7 @@ import com.fluffypets.mvc.controller.Controller;
 import com.fluffypets.entities.Category;
 import com.fluffypets.entities.Product;
 import com.fluffypets.entities.User;
+import com.fluffypets.mvc.page_objects.CreateProductPref;
 import com.fluffypets.mvc.servlets.Action;
 import com.fluffypets.mvc.servlets.ViewModel;
 import com.fluffypets.services.CategoryService;
@@ -28,14 +29,23 @@ public class CreateProductController implements Controller {
         if (user == null) {
             vm.setView("login");
         } else {
-            String productName = action.getAttribute("productName");
-            String producer = action.getAttribute("producer");
-            String description = action.getAttribute("description");
-            String pictureURL = action.getAttribute("pictureURL");
-            BigDecimal price = new BigDecimal(action.getAttribute("price"));
-            Integer categoryName = new Integer(action.getAttribute("categorySelId"));
+            CreateProductPref createProductPref=new CreateProductPref(action.getAttribute("productName"),
+                    action.getAttribute("producer"),
+                    action.getAttribute("description"),
+                    action.getAttribute("pictureURL"),
+                    action.getAttribute("price"),
+                    action.getAttribute("categorySelId"));
+
+            String productName = createProductPref.getProductName();
+            String producer = createProductPref.getProducer();
+            String description = createProductPref.getDescription();
+            String pictureURL = createProductPref.getPictureURL();
+            BigDecimal price = new BigDecimal(createProductPref.getPrice());
+            Integer categoryName = new Integer(createProductPref.getCategorySelId());
             Category category = categoryService.get(categoryName);
             vm.setAttribute("currentCategory",category);
+            vm.setAttribute("createProductPref",createProductPref);
+            vm.setView("createProduct");
 
             Product product = new Product(productName, producer, price, description, pictureURL, category);
 

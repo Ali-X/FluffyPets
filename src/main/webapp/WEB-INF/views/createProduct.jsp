@@ -15,6 +15,7 @@
 
 <div class="container-fluid center-block">
     <div class="row">
+
         <div class="col-md-4 center-block hidden-sm hidden-xs">
             <div class="thumbnail">
                 <img
@@ -27,20 +28,40 @@
             <div class="container center-block col-md-9">
                 <div class="caption">
                     <h3>Create new product description</h3>
+                    <br>
+                    <h4>Upload picture first of all</h4>
                 </div>
                 <form class="form-horizontal" method="post">
+
+                    <div class="row">
+                        <form method="post" action="upload" enctype="multipart/form-data" class="form-group">
+                            <div class="row">
+                                <div class="col-md-4"><input type="file" name="file" class="label-info"/></div>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4"><input type="submit" value="upload" class="btn-info"/></div>
+                            </div>
+                        </form>
+                    </div>
+
                     <label for="productName">Product name</label><br>
 
                     <input id="productName" type="text" name="productName"
+                    <c:if test="${not empty requestScope.createProductPref.getProductName()}">
+                           value="${requestScope.createProductPref.getProductName()}"</c:if>
                            placeholder="productName" class="form-control" required>
 
                     <label for="producer">Producer</label><br>
 
                     <input id="producer" type="text" name="producer"
+                    <c:if test="${not empty requestScope.createProductPref.getProducer()}">
+                           value="${requestScope.createProductPref.getProducer()}"</c:if>
                            placeholder="producer" class="form-control" required>
 
                     <label for="comment">Insert product description</label>
-                    <textarea class="form-control" name="description" rows="3" id="comment" required></textarea>
+                    <textarea class="form-control" name="description" rows="3" id="comment"
+                            <c:if test="${not empty requestScope.createProductPref.getDescription()}">
+                                content="${requestScope.createProductPref.getDescription()}"</c:if>
+                              required></textarea>
 
                     <label for="pictureURL">Picture URL (auto set value for uploaded)</label><br>
 
@@ -48,50 +69,39 @@
                            placeholder="upload photo using button below"
                     <c:if test="${not empty requestScope.uploadedFile}"> value="${requestScope.uploadedFile}"</c:if> >
 
-                    <label for="price">Picture URL (auto set value for uploaded)</label><br>
+                    <c:if test="${not empty requestScope.categories}">
+                        <c:if test="${empty requestScope.categories}"><h1>Create Category First</h1></c:if>
+                        <label for="sel1"> Select the category</label>
+                        <select class="form-control bg-warning" id="sel1" name="categorySelId"
+                                style="width: 250px">
+                            <c:forEach items="${requestScope.categories}" var="category">
+                                <option style="width: 300px" value="${category.getId()}"
+                                        <c:if test="${not empty requestScope.currentCategory}">
+                                            <c:if test="requestScope.currentCategory.equals(category)">selected="selected"</c:if>
+                                        </c:if>
+                                ><c:out value="${category.getName()}"/></option>
+                            </c:forEach>
+                        </select>
+                    </c:if>
+
+                    <label for="price">Price</label><br>
                     <div class="form-group">
                         <div class="col-md-1"><span class="glyphicon glyphicon-usd"></span></div>
                         <div class="col-md-2"><input id="price" type="number" step="0.01" min="0" name="price"
-                                                     placeholder="?" required
-                                                     class="form-control"></div>
+                        <c:if test="${not empty requestScope.createProductPref.getPrice()}">
+                                                     value="${requestScope.createProductPref.getPrice()}"</c:if>
+                                                     placeholder="?" required class="form-control"></div>
                     </div>
-
-                    <div class="row">
-                        <div class="col-md-3">
-                            <button id="submitProduct" class="btn btn-success btn-md"
-                                    formaction="/root/admin/createProduct">Create good
-                            </button>
-                        </div>
-                        <c:if test="${not empty requestScope.categories}">
-                            <div class="col-md-3">
-                                <c:if test="${empty requestScope.categories}"><h1>Create Category First</h1></c:if>
-                                <label for="sel1"> Select the category</label>
-                                <select class="form-control bg-warning" id="sel1" name="categorySelId"
-                                        style="width: 250px">
-                                    <c:forEach items="${requestScope.categories}" var="category">
-                                        <option style="width: 300px" value="${category.getId()}"
-                                                <c:if test="${not empty requestScope.currentCategory}">
-                                                    <c:if test="requestScope.currentCategory.equals(category)">selected="selected"</c:if>
-                                                </c:if>
-                                        ><c:out value="${category.getName()}"/></option>
-                                    </c:forEach>
-
-                                </select>
-                            </div>
-                        </c:if>
+                    <br>
+                    <br>
+                    <div class="form-group">
+                    <button id="submitProduct" class="btn btn-success btn-md"
+                            formaction="/root/admin/createProduct">Create good
+                    </button>
                     </div>
                 </form>
                 <br>
-                <div class="row">
-                    <form method="post" action="upload" enctype="multipart/form-data" class="form-group">
-                        <div class="row">
-                            <div class="col-md-4"><input type="file" name="file" class="label-info"/></div>
-                            <div class="col-md-4"></div>
-                            <div class="col-md-4"><input type="submit" value="upload" class="btn-info"/></div>
-                        </div>
-                    </form>
-                </div>
-                <br>
+
                 <div class="row">
 
                     <div class="caption">
