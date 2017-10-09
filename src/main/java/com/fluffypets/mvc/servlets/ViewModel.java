@@ -48,7 +48,7 @@ public class ViewModel implements Serializable {
         localisation();
     }
 
-    String getView() {
+    public String getView() {
         return view;
     }
 
