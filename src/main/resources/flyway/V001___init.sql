@@ -1,10 +1,14 @@
+SET NAMES 'utf8';
+SET CHARACTER SET 'utf8';
+SET SESSION collation_connection = 'utf8_general_ci';
+
 CREATE TABLE IF NOT EXISTS `Pets`.`categories` (
   `id`             INT         NOT NULL AUTO_INCREMENT,
   `categoryName`   VARCHAR(32) NOT NULL UNIQUE,
   `categoryNameUa` VARCHAR(32),
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC)
-);
+)CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `Pets`.`users` (
   `id`         INT          NOT NULL AUTO_INCREMENT,
@@ -14,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `Pets`.`users` (
   `roleString` VARCHAR(32)  NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC)
-);
+)CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `Pets`.`products` (
   `id`          INT          NOT NULL AUTO_INCREMENT,
@@ -27,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `Pets`.`products` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),
   CONSTRAINT FOREIGN KEY (categoryId) REFERENCES categories (id)
-);
+)CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `Pets`.`orders` (
   `id`             INT         NOT NULL AUTO_INCREMENT,
@@ -39,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `Pets`.`orders` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),
   CONSTRAINT FOREIGN KEY (userId) REFERENCES users (id)
-);
+)CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `Pets`.`ordersItems` (
   `id`        INT         NOT NULL AUTO_INCREMENT,
@@ -51,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `Pets`.`ordersItems` (
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),
   CONSTRAINT FOREIGN KEY (orderId) REFERENCES orders (id),
   CONSTRAINT FOREIGN KEY (productId) REFERENCES products (id)
-);
+)CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `Pets`.`userAdress` (
   `id`       INT          NOT NULL AUTO_INCREMENT,
@@ -65,14 +69,14 @@ CREATE TABLE IF NOT EXISTS `Pets`.`userAdress` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),
   CONSTRAINT FOREIGN KEY (userId) REFERENCES users (id)
-);
+)CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `Pets`.`courier` (
   id             INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   name           VARCHAR(45)     NOT NULL,
   surname        VARCHAR(45)     NOT NULL,
   passportNumber VARCHAR(45)     NOT NULL
-);
+)CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `Pets`.`storage` (
   id            INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -81,7 +85,8 @@ CREATE TABLE IF NOT EXISTS `Pets`.`storage` (
   reservedHere  INT             NOT NULL DEFAULT 0,
   status        VARCHAR(45),
   CONSTRAINT storage_products_id_fk FOREIGN KEY (productId) REFERENCES products (id)
-);
+)CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
 
 CREATE TABLE IF NOT EXISTS `Pets`.`delivery`
 (
@@ -93,4 +98,4 @@ CREATE TABLE IF NOT EXISTS `Pets`.`delivery`
   finish    DATE,
   CONSTRAINT delivery_courier_id_fk FOREIGN KEY (courierId) REFERENCES courier (id),
   CONSTRAINT delivery_orders_id_fk FOREIGN KEY (orderId) REFERENCES orders (id)
-);
+)CHARACTER SET utf8 COLLATE utf8_unicode_ci;

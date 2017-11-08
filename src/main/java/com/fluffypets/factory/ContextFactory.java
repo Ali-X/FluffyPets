@@ -2,6 +2,7 @@ package com.fluffypets.factory;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.flywaydb.core.Flyway;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -30,7 +31,7 @@ public class ContextFactory {
         try {
             Context ctx = new InitialContext();
             Context initCtx = (Context) ctx.lookup("java:/comp/env");
-            return  (String) initCtx.lookup("userName");
+            return (String) initCtx.lookup("userName");
         } catch (NamingException e) {
             logger.error("error in getting email and password from context \n" + e);
         }
@@ -55,6 +56,24 @@ public class ContextFactory {
             DataSource ds = (DataSource) initCtx.lookup("jdbc/Pets");
             return ds.getConnection();
         } catch (NamingException | SQLException e) {
+            logger.error("get connection from TomCat error\n" + e);
+            throw new RuntimeException("get connection from TomCat error");
+        }
+    }
+
+    public static void migrate() {
+        try {
+            Context ctx = new InitialContext();
+            Context initCtx = (Context) ctx.lookup("java:/comp/env");
+            DataSource ds = (DataSource) initCtx.lookup("jdbc/Pets");
+            Flyway flyway = new Flyway();
+            flyway.setDataSource(ds);
+            flyway.setLocations("/flyway");
+//            flyway.setBaseDir("src/main/flyway");
+            flyway.setEncoding("UTF-8");
+//            flyway.validate();
+            flyway.migrate();
+        } catch (NamingException e) {
             logger.error("get connection from TomCat error\n" + e);
             throw new RuntimeException("get connection from TomCat error");
         }

@@ -26,6 +26,7 @@ public class FrontServlet extends HttpServlet {
 
     @Override
     public void init() {
+        ContextFactory.migrate();
 //      pages GET links
         controllerMap.put(new Action("GET", "/root/home"), ControllersFactory.getHomeController());
         controllerMap.put(new Action("GET", "/root/login"), ControllersFactory.getLoginPageController());
