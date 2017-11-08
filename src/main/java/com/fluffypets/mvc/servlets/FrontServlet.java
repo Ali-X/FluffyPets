@@ -74,28 +74,26 @@ public class FrontServlet extends HttpServlet {
 
         Action action = new Action(httpRequest.getMethod(), httpRequest.getRequestURI(), httpRequest.getParameterMap());
 
-        try {
-            ViewModel vm = (ViewModel) httpRequest.getSession().getAttribute("vm");
 
-            vm.setAttribute("hostPort", ContextFactory.getIp() + ":" + httpRequest.getLocalPort());
+        ViewModel vm = (ViewModel) httpRequest.getSession().getAttribute("vm");
 
-            Controller controller = controllerMap.get(action);
-            if (controller == null) {
-                logger.error("Can't handle " + action.getUri());
-                response.sendError(HttpServletResponse.SC_NOT_FOUND);
-                throw new ServiciesException("Can't handle " + action.getUri());
-            }
+        vm.setAttribute("hostPort", ContextFactory.getIp() + ":" + httpRequest.getLocalPort());
 
-            ifMultipart(httpRequest, response, action,vm);
-            vm = controller.process(action, vm);
-
-            forward(httpRequest, response, vm);
-        } catch (Exception e) {
-            logger.error("Error in action handeling" + e);
+        Controller controller = controllerMap.get(action);
+        if (controller == null) {
+            logger.error("Can't handle " + action.getUri());
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            throw new ServiciesException("Can't handle " + action.getUri());
         }
+
+        ifMultipart(httpRequest, response, action, vm);
+        vm = controller.process(action, vm);
+
+        forward(httpRequest, response, vm);
+
     }
 
-    private synchronized void ifMultipart(HttpServletRequest httpRequest, HttpServletResponse response, Action action,ViewModel vm) throws IOException {
+    private synchronized void ifMultipart(HttpServletRequest httpRequest, HttpServletResponse response, Action action, ViewModel vm) throws IOException {
         if (ServletFileUpload.isMultipartContent(httpRequest)) {
             try {
                 action.setItemsForUpload(new ServletFileUpload(new DiskFileItemFactory()).parseRequest(httpRequest));

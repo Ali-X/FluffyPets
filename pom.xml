@@ -89,6 +89,11 @@
             <artifactId>flyway-core</artifactId>
             <version>4.2.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>RELEASE</version>
+        </dependency>
 
     </dependencies>
 

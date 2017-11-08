@@ -31,7 +31,6 @@
                     <br>
                     <h4>Upload picture first of all</h4>
                 </div>
-                <form class="form-horizontal" method="post">
 
                     <div class="row">
                         <form method="post" action="upload" enctype="multipart/form-data" class="form-group">
@@ -43,6 +42,7 @@
                         </form>
                     </div>
 
+                <form class="form-horizontal" method="post">
                     <label for="productName">Product name</label><br>
 
                     <input id="productName" type="text" name="productName"

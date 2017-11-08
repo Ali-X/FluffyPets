@@ -8,6 +8,9 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -16,6 +19,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Enumeration;
+import java.util.Properties;
 
 public class ContextFactory {
     private static final Logger logger = LogManager.getLogger(ContextFactory.class.getName());
@@ -24,8 +28,6 @@ public class ContextFactory {
         return getContextConnection();
     }
 
-    private ContextFactory() {
-    }
 
     public static String getEmail() {
         try {
@@ -69,9 +71,7 @@ public class ContextFactory {
             Flyway flyway = new Flyway();
             flyway.setDataSource(ds);
             flyway.setLocations("/flyway");
-//            flyway.setBaseDir("src/main/flyway");
             flyway.setEncoding("UTF-8");
-//            flyway.validate();
             flyway.migrate();
         } catch (NamingException e) {
             logger.error("get connection from TomCat error\n" + e);
