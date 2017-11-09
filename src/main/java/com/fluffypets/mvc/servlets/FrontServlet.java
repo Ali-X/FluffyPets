@@ -82,7 +82,7 @@ public class FrontServlet extends HttpServlet {
 
         ViewModel vm = (ViewModel) httpRequest.getSession().getAttribute("vm");
 
-        vm.setAttribute("hostPort", myIp + ":" + httpRequest.getLocalPort());
+        vm.setAttribute("hostPort", myIp );
 
         Controller controller = controllerMap.get(action);
         if (controller == null) {
@@ -132,7 +132,7 @@ public class FrontServlet extends HttpServlet {
         try {
             property.load(getClass().getResourceAsStream("/config.properties"));
             myIp = property.getProperty("host.ip");
-            if (myIp.equals("localhost"))myIp= ContextFactory.getIp();
+            if (myIp.equals("localhost:8080")) myIp= ContextFactory.getIp()+":8080";
         } catch (IOException e) {
             throw new AccessException(e.getMessage());
         }
