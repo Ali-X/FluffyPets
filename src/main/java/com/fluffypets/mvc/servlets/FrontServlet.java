@@ -1,5 +1,6 @@
 package com.fluffypets.mvc.servlets;
 
+import com.fluffypets.exeptions.AccessException;
 import com.fluffypets.exeptions.ServiciesException;
 import com.fluffypets.factory.ContextFactory;
 import com.fluffypets.factory.ControllersFactory;
@@ -15,18 +16,22 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 public class FrontServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(FrontServlet.class.getName());
 
     private static Map<Action, Controller> controllerMap = new HashMap<>();
+    private static String myIp;
 
     @Override
     public void init() {
         ContextFactory.migrate();
+        getMyIP();
 //      pages GET links
         controllerMap.put(new Action("GET", "/root/home"), ControllersFactory.getHomeController());
         controllerMap.put(new Action("GET", "/root/login"), ControllersFactory.getLoginPageController());
@@ -77,7 +82,7 @@ public class FrontServlet extends HttpServlet {
 
         ViewModel vm = (ViewModel) httpRequest.getSession().getAttribute("vm");
 
-        vm.setAttribute("hostPort", ContextFactory.getIp() + ":" + httpRequest.getLocalPort());
+        vm.setAttribute("hostPort", myIp + ":" + httpRequest.getLocalPort());
 
         Controller controller = controllerMap.get(action);
         if (controller == null) {
@@ -120,5 +125,16 @@ public class FrontServlet extends HttpServlet {
         String prefix = "/WEB-INF/views/";
         String suffix = ".jsp";
         return prefix + vm.getView() + suffix;
+    }
+
+    private void getMyIP() {
+        Properties property = new Properties();
+        try {
+            property.load(getClass().getResourceAsStream("/config.properties"));
+            myIp = property.getProperty("host.ip");
+            if (myIp.equals("localhost"))myIp= ContextFactory.getIp();
+        } catch (IOException e) {
+            throw new AccessException(e.getMessage());
+        }
     }
 }
